@@ -1,4 +1,5 @@
 $font-stack-ubuntu: Ubuntu, "Trebuchet MS", Helvetica, Arial, sans-serif;
+$font-stack-ubuntu-condensed: "Ubuntu Condensed", "Trebuchet MS", Helvetica, Arial, sans-serif;
 
 @mixin ubuntuLight {
   font-family: $font-stack-ubuntu;

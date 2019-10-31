@@ -75,6 +75,9 @@ function scripts() {
 function watch() {
   gulp.watch(paths.styles.src, styles);
   gulp.watch(paths.scripts.src, scripts);
+  for(let k in paths.html.src) {
+      gulp.watch(paths.html.src[k], html);
+  }
 }
 
 const build = gulp.parallel(html, styles, scripts);
