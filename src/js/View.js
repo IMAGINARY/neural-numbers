@@ -1,3 +1,8 @@
+import {
+  Paint
+} from './Paint.js';
+
+
 export class View {
   constructor() {
     this.createEvents();
@@ -18,9 +23,9 @@ export class View {
   enterSlideByURL() {
     let hash = window.location.hash.substring(1);
     if (hash === "") {
-      hash = 0;
+      hash = 1;
     } else {
-      hash = (hash | 0) - 1;
+      hash = (hash | 0);
     }
     this.enterSlide(hash);
   }
@@ -36,8 +41,18 @@ export class View {
       setTimeout(() => {
         this.slides[id].classList.add('entering');
       }, 0);
-      if(this.slides[id].onEnter)
-        this.slides[id].onEnter();
+      if(this.slides[id].onEnter) {
+        this.slides[id].onEnter(this);
+      }
     }
+  }
+
+  initIntroPaint(el) {
+    el.innerHTML = "Hello from View";
+    //TODO
+    console.log("A");
+    //const model = await tf.loadLayersModel('assets/models/my-model.json');
+    console.log("B");
+    //new Paint(el, model);
   }
 }

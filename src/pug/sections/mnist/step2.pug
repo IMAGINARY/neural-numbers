@@ -7,3 +7,6 @@
       document.scripts[document.scripts.length - 1].parentNode.onEnter = () => {
         document.querySelector('.background').style.filter = 'blur(0px)';
       };
+      document.scripts[document.scripts.length - 1].parentNode.onExit = () => {
+        document.querySelector('.background').style.filter = 'blur(10px)';
+      };

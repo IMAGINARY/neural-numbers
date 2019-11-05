@@ -10,7 +10,7 @@
     <meta name="description" content="My Site Description">
     <meta property="og:description" content="My Site Description">
     <link rel="icon" type="image/png" href="assets/img/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,700" rel="stylesheet">
+    <!--link(href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,700", rel="stylesheet")-->
     <!--link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")-->
     <link rel="stylesheet" href="assets/css/default.css" media="all" type="text/css">
     <title>My Site Name
@@ -19,17 +19,19 @@
   <body>
     <div class="main">
       <div class="background"></div>
+      <div class="slide">//invisible slide with index 0</div>
       <div class="slide">
         <div class="box header">
           <h1>Can the computer read your handwriting?</h1>
         </div>
         <div class="box middle">
           <h2>Draw a number here</h2>
+          <div id="introPaint"></div>
         </div>
         <div class="box navigation">   <a href="index.html#2">find out how it works</a></div>
         <script>
-          document.scripts[document.scripts.length - 1].parentNode.onEnter = () => {
-            //TODO
+          document.scripts[document.scripts.length - 1].parentNode.onEnter = async (view) => {
+            view.initIntroPaint(document.querySelector("#introPaint"))
           };
         </script>
       </div>
@@ -40,6 +42,9 @@
           document.scripts[document.scripts.length - 1].parentNode.onEnter = () => {
             document.querySelector('.background').style.filter = 'blur(0px)';
           };
+          document.scripts[document.scripts.length - 1].parentNode.onExit = () => {
+            document.querySelector('.background').style.filter = 'blur(10px)';
+          };
         </script>
       </div>
       <div class="slide">
@@ -49,7 +54,10 @@
         <div class="box navigation">   <a href="index.html#4">apply selection and continue</a></div>
         <script>
           document.scripts[document.scripts.length - 1].parentNode.onEnter = () => {
-            document.querySelector('.background').style.filter = 'blur(5px)';
+            document.querySelector('.background').style.filter = 'blur(0px)';
+          };
+          document.scripts[document.scripts.length - 1].parentNode.onExit = () => {
+            document.querySelector('.background').style.filter = 'blur(10px)';
           };
         </script>
       </div>
@@ -66,6 +74,7 @@
     <!--script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js", integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo", crossorigin="anonymous")-->
     <!--script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js", integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1", crossorigin="anonymous")-->
     <!--script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js", integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM", crossorigin="anonymous")-->
+    <script type="text/javascript" src="assets/js/tf.min.js"></script>
     <script type="text/javascript" src="assets/js/bundle.min.js"></script>
   </body>
 </html>

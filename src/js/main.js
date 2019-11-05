@@ -6,4 +6,6 @@ import {
   View
 } from './View.js';
 
+
+
 var view = new View();

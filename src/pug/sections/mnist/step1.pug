@@ -3,10 +3,11 @@
     h1 Can the computer read your handwriting?
   .box.middle
       h2 Draw a number here
+      #introPaint
   .box.navigation    
     a(href="index.html#2") find out how it works
   script.   
-      document.scripts[document.scripts.length - 1].parentNode.onEnter = () => {
-        //TODO
+      document.scripts[document.scripts.length - 1].parentNode.onEnter = async (view) => {
+        view.initIntroPaint(document.querySelector("#introPaint"))
       };
       

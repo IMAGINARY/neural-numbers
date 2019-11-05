@@ -44,7 +44,9 @@ function html() {
 }
 
 function styles() {
-  return gulp.src(paths.styles.src, { sourcemaps: true })
+  return gulp.src(paths.styles.src, {
+      sourcemaps: true
+    })
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.write('.'))
@@ -53,10 +55,24 @@ function styles() {
 
 function scripts() {
   return browserify({
-    extensions: ['.js', '.jsx'],
-    entries: './js/main.js',
-  })
-    .transform('babelify', { presets: ['@babel/env'] })
+      extensions: ['.js', '.jsx'],
+      entries: './js/main.js',
+    })
+    .transform('babelify', {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            //"exclude": "@babel/plugin-transform-regenerator"
+            //"useBuiltIns": "entry",
+            //"plugins": [
+            //  "transform-runtime",
+            //  "transform-async-to-generator"
+            //]
+          }
+        ]
+      ]
+    })
     .on('error', (msg) => {
       // eslint-disable-next-line no-console
       console.error(msg);
@@ -75,8 +91,8 @@ function scripts() {
 function watch() {
   gulp.watch(paths.styles.src, styles);
   gulp.watch(paths.scripts.src, scripts);
-  for(let k in paths.html.src) {
-      gulp.watch(paths.html.src[k], html);
+  for (let k in paths.html.src) {
+    gulp.watch(paths.html.src[k], html);
   }
 }
 
