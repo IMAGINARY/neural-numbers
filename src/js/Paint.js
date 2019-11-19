@@ -1,5 +1,5 @@
 const SCALE_FACTOR = 10;
-
+const LINEWIDTH = 2 * SCALE_FACTOR;
 
 export class Paint {
   constructor(element, model) {
@@ -10,116 +10,54 @@ export class Paint {
   }
 
   createUI() {
-    console.log("Creating Paint");
-    const canvas = this.canvas = document.createElement("canvas");
-    const inputcanvas = this.inputcanvas = document.createElement("canvas");
-    canvas.width = canvas.height = 28;
-    inputcanvas.width = inputcanvas.height = 28 * SCALE_FACTOR;
-    canvas.style.border = '1px solid blue';
-    const inputctx = this.inputctx = this.inputcanvas.getContext('2d');
-    const ctx = this.ctx = this.canvas.getContext('2d');
+    const normalizecanvas = this.normalizecanvas = document.createElement("canvas");
+    const drawcanvas = this.drawcanvas = document.createElement("canvas");
+    normalizecanvas.width = normalizecanvas.height = 28;
+    drawcanvas.width = drawcanvas.height = 28 * SCALE_FACTOR;
+    const drawcontext = this.drawcontext = this.drawcanvas.getContext('2d');
+    const normalizecontext = this.normalizecontext = this.normalizecanvas.getContext('2d');
 
-    inputctx.fillStyle = "black";
-    inputctx.fillRect(0, 0, inputcanvas.width, inputcanvas.height);
+    this.drawcontext.fillStyle = "black";
+    this.drawcontext.fillRect(0, 0, drawcanvas.width, drawcanvas.height);
 
-    canvas.style.width = 28 * SCALE_FACTOR + 'px';
-    canvas.style.height = 28 * SCALE_FACTOR + 'px';
-    canvas.style.imageRendering = 'pixelated';
-
+    normalizecanvas.style.width = 28 * SCALE_FACTOR + 'px';
+    normalizecanvas.style.height = 28 * SCALE_FACTOR + 'px';
+    normalizecanvas.style.imageRendering = 'pixelated';
 
     // last known position
-    var pos = {
+    this.pos = {
       x: 0,
       y: 0
     };
 
-    var top = 1000,
-      bottom = -1000,
-      left = 1000,
-      right = -1000;
-
-    const LINEWIDTH = 2 * SCALE_FACTOR;
-
-    function setPosition(e) {
-      pos.x = (e.clientX - inputcanvas.offsetLeft);
-      pos.y = (e.clientY - inputcanvas.offsetTop);
-      top = Math.min(top, pos.y - LINEWIDTH / 2);
-      bottom = Math.max(bottom, pos.y + LINEWIDTH / 2);
-      left = Math.min(left, pos.x - LINEWIDTH / 2);
-      right = Math.max(right, pos.x + LINEWIDTH / 2);
-    }
-
-    inputcanvas.addEventListener('mousemove', draw);
-    inputcanvas.addEventListener('mousedown', setPosition);
-    inputcanvas.addEventListener('mouseenter', setPosition);
-
-    function draw(e) {
-      // mouse left button must be pressed
-      if (e.buttons !== 1) return;
-
-      inputctx.beginPath(); // begin
-
-      inputctx.lineWidth = LINEWIDTH;
-      inputctx.lineCap = 'round';
-      inputctx.strokeStyle = 'white';
-
-      inputctx.moveTo(pos.x, pos.y); // from
-      setPosition(e);
-      inputctx.lineTo(pos.x, pos.y); // to
-
-      inputctx.stroke(); // draw it!
+    this.top = 1000;
+    this.bottom = -1000;
+    this.left = 1000;
+    this.right = -1000;
 
 
-      ctx.fillStyle = "black";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      let centerx = 0;
-      let centery = 0;
-      var imgData = inputctx.getImageData(0, 0, inputcanvas.width, inputcanvas.height);
-      var data = imgData.data;
-      var totalweight = 0;
-      const SKIPFACTOR = LINEWIDTH;
-      for (var i = 0; i < data.length; i += 4 * SKIPFACTOR) {
-        const x = (i / 4) % inputcanvas.width;
-        const y = ((i / 4) / (inputcanvas.width)) | 0;
-        totalweight += data[i];
-        centerx += (data[i]) * x;
-        centery += (data[i]) * y;
-      }
-      centerx /= totalweight;
-      centery /= totalweight;
-      //console.log(`computed center: ${centerx}, ${centery}`);
+    drawcanvas.addEventListener('mousemove', (e) => this.draw(e));
+    drawcanvas.addEventListener('mouseup', (e) => this.predict(e));
+    drawcanvas.addEventListener('mousedown', (e) => this.setPosition(e));
+    drawcanvas.addEventListener('mouseenter', (e) => this.setPosition(e));
 
-      let boxsize = Math.max(right - left, bottom - top);
-
-      //according to MNIST normalization:
-      /*
-      The original black and white (bilevel) images from NIST were size normalized
-      to fit in a 20x20 pixel box while preserving their aspect ratio. The
-      resulting images contain grey levels as a result of the anti-aliasing
-      technique used by the normalization algorithm. the images were centered
-      in a 28x28 image by computing the center of mass of the pixels, and
-      translating the image so as to position this point at the center of the 28x28 field.
-      */
-      ctx.drawImage(inputcanvas, left, top, boxsize, boxsize, 14 + (20 / boxsize) * (left - centerx), 14 + (20 / boxsize) * (top - centery), 20, 20);
-      this.drawingChanged = true;
-    }
 
     const resetbutton = document.createElement("button");
     resetbutton.innerHTML = "reset";
     resetbutton.addEventListener('click', () => {
-      top = 1000;
-      bottom = -1000;
-      left = 1000;
-      right = -1000;
-      inputctx.fillRect(0, 0, inputcanvas.width, inputcanvas.height);
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      this.top = 1000;
+      this.bottom = -1000;
+      this.left = 1000;
+      this.right = -1000;
+      this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
+      this.normalizecontext.fillRect(0, 0, this.normalizecanvas.width, this.normalizecanvas.height);
     });
 
 
-    this.element.appendChild(document.createTextNode("Paint here:"));
-    this.element.appendChild(inputcanvas);
-    this.element.appendChild(document.createTextNode("normalized image:"));
-    this.element.appendChild(canvas);
+    this.element.appendChild(document.createTextNode("Paint here:"));//TODO
+    this.element.appendChild(drawcanvas);
+    this.element.appendChild(document.createTextNode("what the network sees:"));//TODO
+    this.element.appendChild(normalizecanvas);
     this.element.appendChild(resetbutton);
 
     this.bars = [];
@@ -140,18 +78,82 @@ export class Paint {
     this.element.appendChild(this.output);
   }
 
+
+  setPosition(e) {
+    const rect = this.drawcanvas.getBoundingClientRect();
+    this.pos.x = (e.clientX - rect.left);
+    this.pos.y = (e.clientY - rect.top);
+    this.top = Math.min(this.top, this.pos.y - LINEWIDTH / 2);
+    this.bottom = Math.max(this.bottom, this.pos.y + LINEWIDTH / 2);
+    this.left = Math.min(this.left, this.pos.x - LINEWIDTH / 2);
+    this.right = Math.max(this.right, this.pos.x + LINEWIDTH / 2);
+  }
+
+  draw(e) {
+    // mouse left button must be pressed
+    if (e.buttons !== 1) return;
+    this.drawcontext.beginPath(); // begin
+
+    this.drawcontext.lineWidth = LINEWIDTH;
+    console.log("set lineWidth to " + this.drawcontext.linewidth);
+    this.drawcontext.lineCap = 'round';
+    this.drawcontext.strokeStyle = 'white';
+
+    this.drawcontext.moveTo(this.pos.x, this.pos.y); // from
+    this.setPosition(e);
+    this.drawcontext.lineTo(this.pos.x, this.pos.y); // to
+
+    this.drawcontext.stroke(); // draw it!
+
+
+    this.normalizecontext.fillStyle = "black";
+    this.normalizecontext.fillRect(0, 0, this.normalizecanvas.width, this.normalizecanvas.height);
+    let centerx = 0;
+    let centery = 0;
+    var imgData = this.drawcontext.getImageData(0, 0, this.drawcanvas.width, this.drawcanvas.height);
+    var data = imgData.data;
+    var totalweight = 0;
+    const SKIPFACTOR = LINEWIDTH;
+    for (var i = 0; i < data.length; i += 4 * SKIPFACTOR) {
+      const x = (i / 4) % this.drawcanvas.width;
+      const y = ((i / 4) / (this.drawcanvas.width)) | 0;
+      totalweight += data[i];
+      centerx += (data[i]) * x;
+      centery += (data[i]) * y;
+    }
+    centerx /= totalweight;
+    centery /= totalweight;
+    //console.log(`computed center: ${centerx}, ${centery}`);
+
+    let boxsize = Math.max(this.right - this.left, this.bottom - this.top);
+
+    //according to MNIST normalization:
+    /*
+    The original black and white (bilevel) images from NIST were size normalized
+    to fit in a 20x20 pixel box while preserving their aspect ratio. The
+    resulting images contain grey levels as a result of the anti-aliasing
+    technique used by the normalization algorithm. the images were centered
+    in a 28x28 image by computing the center of mass of the pixels, and
+    translating the image so as to position this point at the center of the 28x28 field.
+    */
+    this.normalizecontext.drawImage(this.drawcanvas, this.left, this.top, boxsize, boxsize, 14 + (20 / boxsize) * (this.left - centerx), 14 + (20 / boxsize) * (this.top - centery), 20, 20);
+    this.drawingChanged = true;
+    this.predict();
+  }
+
   createNNoutput() {
     //TODO
   }
 
   predict() {
-    if (this.model && this.canvas && this.drawingChanged) {
-      const imageTensor = tf.browser.fromPixels(this.canvas, 1).toFloat().mul(tf.scalar(1 / 255)).clipByValue(0, 1).reshape([1, 28, 28, 1]);
-      //tf.browser.fromPixels(this.canvas, 1).print();
+    if (this.model && this.normalizecanvas && this.drawingChanged) {
+      const imageTensor = tf.browser.fromPixels(this.normalizecanvas, 1).toFloat().mul(tf.scalar(1 / 255)).clipByValue(0, 1).reshape([1, 28, 28, 1]);
+      //tf.browser.fromPixels(this.normalizecanvas, 1).print();
 
       const result = this.model.predict(imageTensor);
       const probabilities = result.dataSync();
       const predicted = result.argMax([-1]).dataSync();
+
 
       for (let i = 0; i < 10; i++) {
         this.bars[i].style.width = (probabilities[i] * 100) + '%';

@@ -1,3 +1,6 @@
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 import {
   Paint
 } from './Paint.js';
@@ -47,12 +50,8 @@ export class View {
     }
   }
 
-  initIntroPaint(el) {
-    el.innerHTML = "Hello from View";
-    //TODO
-    console.log("A");
-    //const model = await tf.loadLayersModel('assets/models/my-model.json');
-    console.log("B");
-    //new Paint(el, model);
+  async initIntroPaint(el) {
+    const model = await tf.loadLayersModel('assets/models/my-model.json');
+    new Paint(el, model);
   }
 }

@@ -1,5 +1,5 @@
 {
-  "siteName": "My Site Name",
-  "siteDescription": "My Site Description",
+  "siteName": "Can the computer read your handwriting?",
+  "siteDescription": "Train a neural network with the MNIST-data set",
   "siteURL": ""
 }
