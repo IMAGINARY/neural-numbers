@@ -24,8 +24,7 @@ body::after {
   height: 100%;
   background-image: url("../img/background0.png");
   filter: blur(10px);
-  transition: 1s filter linear;
-  transition: background-image 1s ease-in-out;
+  transition: all 1s linear;
 }
 
 .main {}

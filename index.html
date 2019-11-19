@@ -69,7 +69,7 @@
           currentSlide().onEnter = () => {
             document.querySelector('.background').style.filter = 'blur(0px)';
             changingbackground = true;
-            backgroundanimation();
+            window.setTimeout(backgroundanimation, 2000);
           };
           currentSlide().onExit = () => {
             document.querySelector('.background').style.filter = 'blur(10px)';
@@ -109,10 +109,9 @@
         <div class="box header">
           <h1>Select network topology</h1>
         </div>
-        <div class="box middle">
-          We will use a 2-layer network as depicted here:
-          TODO
-          You can select another topology here.
+        <div class="box middle">We will use a 2-layer network as depicted here:
+          <p>TODO</p>
+          <p>You can select another topology <a href="index.html#3?expert">here.</a></p>
         </div>
         <div class="box navigation">   <a href="index.html#5">start training</a></div>
       </div>

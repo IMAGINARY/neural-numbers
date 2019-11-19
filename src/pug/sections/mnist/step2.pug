@@ -17,7 +17,7 @@
       currentSlide().onEnter = () => {
         document.querySelector('.background').style.filter = 'blur(0px)';
         changingbackground = true;
-        backgroundanimation();
+        window.setTimeout(backgroundanimation, 2000);
       };
       currentSlide().onExit = () => {
         document.querySelector('.background').style.filter = 'blur(10px)';
