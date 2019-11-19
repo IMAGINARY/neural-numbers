@@ -10,7 +10,7 @@ body::after {
   width: 0;
   height: 0;
   overflow: hidden;
-  z-index: -1; // hide images
+  z-index: -10; // hide images
   content: url("../img/background0.png") url("../img/background1.png") url("../img/background2.png") url("../img/background3.png")  url("../img/background4.png"); // load images
 
 }
@@ -45,6 +45,7 @@ body::after {
 }
 
 .box {
+  z-index: 10;
   color: black;
   background-color: rgba(255,255,255, 0.6);
   backdrop-filter: blur(3px);

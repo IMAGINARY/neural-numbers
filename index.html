@@ -28,7 +28,7 @@
         <div class="box middle">
           <div class="paint">
             <div>
-              <p>Draw a digit here:</p>
+              <p><b>Draw</b> a digit here:</p>
               <canvas id="intopaint-drawcanvas"></canvas>
             </div>
             <div>
@@ -86,7 +86,14 @@
           We consider the training process as succesful if it generalizes to images outside of the training set.
           Therefore, we are using the remaining part of the images, that have not
           been used for training, for validation.
-          <p>select the fraction of validation images in <a href="index.html#3?expert">expert mode</a>.</p>
+          <p>Select the fraction of validation images in <a href="index.html#3?expert">expert mode (TODO)</a>.</p>
+        </div>
+        <!--TODO: transfer this into CSS etc.-->
+        <div style="position: absolute; left: 0; top: 0; bottom: 0; right: 20vw; background-color:rgba(150,150,255,.8); border:1px solid rgb(150,150,255);">
+          <div style="position: absolute; top: 80%; width:100%; text-align: center; font-size:1em; color: black;"><b>80%</b> of the images are used for <b>training</b></div>
+        </div>
+        <div style="position: absolute; left: 80vw; top: 0; bottom: 0; right: 0; background-color:rgba(150,255,150,.8); border:1px solid rgb(150,255,150s);">
+          <div style="position: absolute; top: 80%; width:100%; text-align: center; font-size:1em; color: black;"><b>20%</b> of the images are used for validation</div>
         </div>
         <div class="box navigation">   <a href="index.html#4">apply selection and continue</a></div>
         <script>
