@@ -70,3 +70,11 @@ a::before {
   content: "»";
   display: inline-block;
 }
+
+
+.paint {
+  display: flex;
+}
+.paint div {
+  margin: .2em;
+}

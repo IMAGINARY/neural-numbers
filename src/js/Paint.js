@@ -41,7 +41,6 @@ export class Paint {
     const resetbutton = document.createElement("button");
     resetbutton.innerHTML = "reset";
     resetbutton.addEventListener('click', () => {
-      console.log("clicked reset");
       this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
       this.normalize(100);
       this.predict();
@@ -149,10 +148,12 @@ export class Paint {
 
   predict() {
     if (this.model && this.normalizecanvas && this.drawingChanged) { // && newFrame rendered TODO?
-      const imageTensor = tf.browser.fromPixels(this.normalizecanvas, 1).toFloat().mul(tf.scalar(1 / 255)).clipByValue(0, 1).reshape([1, 28, 28, 1]);
-      //tf.browser.fromPixels(this.normalizecanvas, 1).print();
+      const result = tf.tidy(() => {
+        const imageTensor = tf.browser.fromPixels(this.normalizecanvas, 1).toFloat().mul(tf.scalar(1 / 255)).clipByValue(0, 1).reshape([1, 28, 28, 1]);
+        //tf.browser.fromPixels(this.normalizecanvas, 1).print();
+        return this.model.predict(imageTensor);
+      });
 
-      const result = this.model.predict(imageTensor);
       const probabilities = result.dataSync();
       const predicted = result.argMax([-1]).dataSync();
       for (let i = 0; i < 10; i++) {
@@ -160,5 +161,12 @@ export class Paint {
         this.bars[i].style.backgroundColor = (i == predicted) ? 'blue' : 'gray';
       }
     }
+  }
+
+  cleanup() {
+    while (this.output.firstChild) {
+      this.output.removeChild(this.output.firstChild);
+    }
+    this.model.dispose();
   }
 }

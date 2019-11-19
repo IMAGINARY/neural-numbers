@@ -4,9 +4,9 @@
   .box.navigation    
     a(href="index.html#4") apply selection and continue
   script.   
-    document.scripts[document.scripts.length - 1].parentNode.onEnter = () => {
+    currentSlide().onEnter = () => {
       document.querySelector('.background').style.filter = 'blur(0px)';
     };
-    document.scripts[document.scripts.length - 1].parentNode.onExit = () => {
+    currentSlide().onExit = () => {
       document.querySelector('.background').style.filter = 'blur(10px)';
     };

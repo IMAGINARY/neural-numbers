@@ -1,13 +1,9 @@
 //import 'core-js/stable';
 //import 'regenerator-runtime/runtime';
 
-import {
-  Paint
-} from './Paint.js';
-
-
 export class View {
-  constructor() {
+  constructor(controller) {
+    this.controller = controller;
     this.createEvents();
   }
 
@@ -35,23 +31,20 @@ export class View {
 
   enterSlide(id) {
     this.slides.forEach(slide => {
-      if(slide.onExit)
-        slide.onExit();
+      if(slide.onExit && slide.open)
+        slide.onExit(this.controller);
+      slide.open = false;
       slide.className = 'slide';
     });
     if (this.slides[id]) {
+      this.slides[id].open = true;
       this.slides[id].classList.add('visible');
       setTimeout(() => {
         this.slides[id].classList.add('entering');
       }, 0);
       if(this.slides[id].onEnter) {
-        this.slides[id].onEnter(this);
+        this.slides[id].onEnter(this.controller);
       }
     }
-  }
-
-  async initIntroPaint(drawcanvas, normalizecanvas, output) {
-    const model = await tf.loadLayersModel('assets/models/my-model.json');
-    new Paint(drawcanvas, normalizecanvas, output, model);
   }
 }

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="assets/css/default.css" media="all" type="text/css">
     <title>Can the computer read your handwriting?
     </title>
+    <script src="src/js/site-helper.js" type="text/javascript"></script>
   </head>
   <body>
     <div class="main">
@@ -25,24 +26,29 @@
           <h1>Can the computer read your handwriting?</h1>
         </div>
         <div class="box middle">
-          <h2>Draw a number here</h2>
-          <!--#introPaint-->
           <div class="paint">
             <div>
-              <p>Paint here</p>
+              <p>Draw a number here</p>
               <canvas id="intopaint-drawcanvas"></canvas>
             </div>
             <div>
               <p>This is what the neural network sees</p>
               <canvas id="intopaint-normalizecanvas"></canvas>
             </div>
-            <div id="intopaint-output"></div>
+            <div> 
+              <p>This is what the neural network predicts</p>
+              <div id="intopaint-output"></div>
+            </div>
           </div>
         </div>
         <div class="box navigation">   <a href="index.html#2">find out how it works</a></div>
         <script>
-          document.scripts[document.scripts.length - 1].parentNode.onEnter = async (view) => {
-            view.initIntroPaint(document.querySelector("#intopaint-drawcanvas"), document.querySelector("#intopaint-normalizecanvas"), document.querySelector("#intopaint-output"))
+          currentSlide().onEnter = async (controller) => {
+            controller.initPaint(document.querySelector("#intopaint-drawcanvas"), document.querySelector("#intopaint-normalizecanvas"), document.querySelector("#intopaint-output"))
+          };
+          
+          currentSlide().onExit = async (controller) => {
+            controller.cleanupPaint();
           };
         </script>
       </div>
@@ -50,10 +56,10 @@
         <div class="box middle">We use a collection of 70 000 labeled images. We use to train a neural network that classifies images of the digits 0,1,2,3,4,5,6,7,8 and 9</div>
         <div class="box navigation"> <a href="index.html#3">continue</a></div>
         <script>
-          document.scripts[document.scripts.length - 1].parentNode.onEnter = () => {
+          currentSlide().onEnter = () => {
             document.querySelector('.background').style.filter = 'blur(0px)';
           };
-          document.scripts[document.scripts.length - 1].parentNode.onExit = () => {
+          currentSlide().onExit = () => {
             document.querySelector('.background').style.filter = 'blur(10px)';
           };
         </script>
@@ -64,10 +70,10 @@
         </div>
         <div class="box navigation">   <a href="index.html#4">apply selection and continue</a></div>
         <script>
-          document.scripts[document.scripts.length - 1].parentNode.onEnter = () => {
+          currentSlide().onEnter = () => {
             document.querySelector('.background').style.filter = 'blur(0px)';
           };
-          document.scripts[document.scripts.length - 1].parentNode.onExit = () => {
+          currentSlide().onExit = () => {
             document.querySelector('.background').style.filter = 'blur(10px)';
           };
         </script>

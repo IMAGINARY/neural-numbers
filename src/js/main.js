@@ -2,10 +2,9 @@
 // import 'core-js/stable'; // ES Polyfills, include only if needed... around 200k minimized!
 
 
+
 import {
-  View
-} from './View.js';
+  Controller
+} from './Controller.js';
 
-
-
-var view = new View();
+const controller = new Controller();
