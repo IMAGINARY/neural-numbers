@@ -2,12 +2,21 @@
   .box.header
     h1 Can the computer read your handwriting?
   .box.middle
-      h2 Draw a number here
-      #introPaint
+    h2 Draw a number here
+    //#introPaint
+    .paint
+      div
+        p Paint here
+        canvas#intopaint-drawcanvas
+      div
+        p This is what the neural network sees
+        canvas#intopaint-normalizecanvas
+      div#intopaint-output
+
+
   .box.navigation    
     a(href="index.html#2") find out how it works
-  script.   
-      document.scripts[document.scripts.length - 1].parentNode.onEnter = async (view) => {
-        view.initIntroPaint(document.querySelector("#introPaint"))
-      };
-      
+  script.
+    document.scripts[document.scripts.length - 1].parentNode.onEnter = async (view) => {
+      view.initIntroPaint(document.querySelector("#intopaint-drawcanvas"), document.querySelector("#intopaint-normalizecanvas"), document.querySelector("#intopaint-output"))
+    };

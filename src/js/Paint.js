@@ -1,18 +1,19 @@
-
 const SCALE_FACTOR = 10;
 const LINEWIDTH = 2 * SCALE_FACTOR;
 
 export class Paint {
-  constructor(element, model) {
+  constructor(drawcanvas, normalizecanvas, output, model) {
     this.drawingChanged = true;
-    this.element = element;
     this.model = model;
+    this.drawcanvas = drawcanvas;
+    this.normalizecanvas = normalizecanvas;
+    this.output = output;
     this.createUI();
   }
 
   createUI() {
-    const normalizecanvas = this.normalizecanvas = document.createElement("canvas");
-    const drawcanvas = this.drawcanvas = document.createElement("canvas");
+    const normalizecanvas = this.normalizecanvas;
+    const drawcanvas = this.drawcanvas;
     normalizecanvas.width = normalizecanvas.height = 28;
     drawcanvas.width = drawcanvas.height = 28 * SCALE_FACTOR;
     const drawcontext = this.drawcontext = this.drawcanvas.getContext('2d');
@@ -24,8 +25,6 @@ export class Paint {
     normalizecanvas.style.width = 28 * SCALE_FACTOR + 'px';
     normalizecanvas.style.height = 28 * SCALE_FACTOR + 'px';
     normalizecanvas.style.imageRendering = 'pixelated';
-    //this.normalize(1);
-    //this.predict();
 
     // last known position
     this.pos = {
@@ -44,15 +43,12 @@ export class Paint {
     resetbutton.addEventListener('click', () => {
       console.log("clicked reset");
       this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
-      this.normalizecontext.fillRect(0, 0, this.normalizecanvas.width, this.normalizecanvas.height);
+      this.normalize(100);
+      this.predict();
     });
 
-
-    this.element.appendChild(document.createTextNode("Paint here:")); //TODO
-    this.element.appendChild(drawcanvas);
-    this.element.appendChild(document.createTextNode("what the network sees:")); //TODO
-    this.element.appendChild(normalizecanvas);
-    this.element.appendChild(resetbutton);
+    this.drawcanvas.parentNode.insertBefore(resetbutton, this.drawcanvas);
+    resetbutton.style.position = "absolute";
 
     this.bars = [];
     for (let i = 0; i < 10; i++) {
@@ -65,11 +61,12 @@ export class Paint {
       this.bars[i].style.backgroundColor = 'red';
       this.bars[i].innerHTML = i;
       cbarcontainer.appendChild(this.bars[i]);
-      this.element.appendChild(cbarcontainer);
+      this.output.appendChild(cbarcontainer);
     }
-    this.output = document.createElement("div");
 
-    this.element.appendChild(this.output);
+
+    this.normalize(1);
+    this.predict();
   }
 
 
@@ -127,21 +124,26 @@ export class Paint {
         right = Math.max(right, x);
       }
     }
-    centerx /= totalweight;
-    centery /= totalweight;
+    if (totalweight > 0) {
+      centerx /= totalweight;
+      centery /= totalweight;
 
-    let boxsize = Math.max(right - left, bottom - top);
+      let boxsize = Math.max(right - left, bottom - top);
 
-    //according to MNIST normalization:
-    /*
-    The original black and white (bilevel) images from NIST were size normalized
-    to fit in a 20x20 pixel box while preserving their aspect ratio. The
-    resulting images contain grey levels as a result of the anti-aliasing
-    technique used by the normalization algorithm. the images were centered
-    in a 28x28 image by computing the center of mass of the pixels, and
-    translating the image so as to position this point at the center of the 28x28 field.
-    */
-    this.normalizecontext.drawImage(this.drawcanvas, left, top, boxsize, boxsize, 14 + (20 / boxsize) * (left - centerx), 14 + (20 / boxsize) * (top - centery), 20, 20);
+      //according to MNIST normalization:
+      /*
+      The original black and white (bilevel) images from NIST were size normalized
+      to fit in a 20x20 pixel box while preserving their aspect ratio. The
+      resulting images contain grey levels as a result of the anti-aliasing
+      technique used by the normalization algorithm. the images were centered
+      in a 28x28 image by computing the center of mass of the pixels, and
+      translating the image so as to position this point at the center of the 28x28 field.
+      */
+      this.normalizecontext.drawImage(this.drawcanvas, left, top, boxsize, boxsize, 14 + (20 / boxsize) * (left - centerx), 14 + (20 / boxsize) * (top - centery), 20, 20);
+    } else {
+      this.normalizecontext.fillRect(0, 0, this.normalizecanvas.width, this.normalizecanvas.height);
+    }
+
     return true;
   }
 

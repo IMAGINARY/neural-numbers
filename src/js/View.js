@@ -50,8 +50,8 @@ export class View {
     }
   }
 
-  async initIntroPaint(el) {
+  async initIntroPaint(drawcanvas, normalizecanvas, output) {
     const model = await tf.loadLayersModel('assets/models/my-model.json');
-    new Paint(el, model);
+    new Paint(drawcanvas, normalizecanvas, output, model);
   }
 }

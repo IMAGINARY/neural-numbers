@@ -26,12 +26,23 @@
         </div>
         <div class="box middle">
           <h2>Draw a number here</h2>
-          <div id="introPaint"></div>
+          <!--#introPaint-->
+          <div class="paint">
+            <div>
+              <p>Paint here</p>
+              <canvas id="intopaint-drawcanvas"></canvas>
+            </div>
+            <div>
+              <p>This is what the neural network sees</p>
+              <canvas id="intopaint-normalizecanvas"></canvas>
+            </div>
+            <div id="intopaint-output"></div>
+          </div>
         </div>
         <div class="box navigation">   <a href="index.html#2">find out how it works</a></div>
         <script>
           document.scripts[document.scripts.length - 1].parentNode.onEnter = async (view) => {
-            view.initIntroPaint(document.querySelector("#introPaint"))
+            view.initIntroPaint(document.querySelector("#intopaint-drawcanvas"), document.querySelector("#intopaint-normalizecanvas"), document.querySelector("#intopaint-output"))
           };
         </script>
       </div>
