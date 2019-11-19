@@ -172,9 +172,15 @@ export class Paint {
   }
 
   cleanup() {
+    this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
+    this.normalize(100);
+    this.predict();
+    this.resetbutton.style.visibility = 'hidden';
+
     while (this.output.firstChild) {
       this.output.removeChild(this.output.firstChild);
     }
+
     this.model.dispose();
   }
 }
