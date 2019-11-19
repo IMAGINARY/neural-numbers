@@ -41,15 +41,18 @@ export class Paint {
 
 
     const resetbutton = document.createElement("button");
+    this.resetbutton = resetbutton;
+    this.resetbutton.style.visibility = 'hidden';
     resetbutton.innerHTML = "reset";
     resetbutton.addEventListener('click', () => {
       this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
       this.normalize(100);
       this.predict();
+      this.resetbutton.style.visibility = 'hidden';
     });
 
     this.drawcanvas.parentNode.insertBefore(resetbutton, this.drawcanvas);
-    resetbutton.style.position = "absolute";
+    this.resetbutton.style.position = "absolute";
 
     this.bars = [];
     for (let i = 0; i < 10; i++) {
@@ -98,6 +101,7 @@ export class Paint {
     this.drawingChanged = true;
     this.normalize(17);
     this.predict();
+    this.resetbutton.style.visibility = 'visible';
   }
 
   //normalize image
