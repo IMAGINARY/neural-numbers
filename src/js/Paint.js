@@ -1,5 +1,5 @@
-const SCALE_FACTOR = 10;
-const LINEWIDTH = 2 * SCALE_FACTOR;
+let SCALE_FACTOR = 9;
+let LINEWIDTH = 2 * SCALE_FACTOR;
 
 export class Paint {
   constructor(drawcanvas, normalizecanvas, output, model) {
@@ -14,6 +14,8 @@ export class Paint {
   createUI() {
     const normalizecanvas = this.normalizecanvas;
     const drawcanvas = this.drawcanvas;
+    SCALE_FACTOR = Math.floor(this.drawcanvas.parentNode.clientWidth/28)-1;
+    LINEWIDTH = 2 * SCALE_FACTOR;
     normalizecanvas.width = normalizecanvas.height = 28;
     drawcanvas.width = drawcanvas.height = 28 * SCALE_FACTOR;
     const drawcontext = this.drawcontext = this.drawcanvas.getContext('2d');
@@ -52,19 +54,19 @@ export class Paint {
     this.bars = [];
     for (let i = 0; i < 10; i++) {
       const cbarcontainer = document.createElement("div");
-      cbarcontainer.style.width = '100px';
-      cbarcontainer.style.height = '1em';
+      cbarcontainer.className = "barcontainer";
       this.bars[i] = document.createElement("div");
-      this.bars[i].style.width = '0%';
-      this.bars[i].style.height = '95%';
-      this.bars[i].style.backgroundColor = 'red';
-      this.bars[i].innerHTML = i;
+      this.bars[i].className = "bar";
+      const cbartext = document.createElement("div");
+      cbartext.className = "bartxt";
+      cbartext.innerHTML = i;
       cbarcontainer.appendChild(this.bars[i]);
+      cbarcontainer.appendChild(cbartext);
       this.output.appendChild(cbarcontainer);
     }
 
 
-    this.normalize(1);
+    this.normalize(100);
     this.predict();
   }
 
@@ -94,7 +96,7 @@ export class Paint {
     this.normalizecontext.fillRect(0, 0, this.normalizecanvas.width, this.normalizecanvas.height);
 
     this.drawingChanged = true;
-    this.normalize(11);
+    this.normalize(17);
     this.predict();
   }
 
@@ -157,8 +159,10 @@ export class Paint {
       const probabilities = result.dataSync();
       const predicted = result.argMax([-1]).dataSync();
       for (let i = 0; i < 10; i++) {
-        this.bars[i].style.width = (probabilities[i] * 100) + '%';
-        this.bars[i].style.backgroundColor = (i == predicted) ? 'blue' : 'gray';
+        this.bars[i].style.top = (100 - probabilities[i] * 100) + '%';
+        this.bars[i].style.bottom = '0%';
+        this.bars[i].style.height = (probabilities[i] * 100) + '%';
+        this.bars[i].style.backgroundColor = (i == predicted) ? '#f60' : '#55b';
       }
     }
   }
