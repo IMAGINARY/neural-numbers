@@ -54,6 +54,7 @@ function styles() {
 }
 
 function scripts() {
+  return; //ignore
   return browserify({
       extensions: ['.js', '.jsx'],
       entries: './js/main.js',
