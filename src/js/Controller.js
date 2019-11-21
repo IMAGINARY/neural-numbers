@@ -22,7 +22,7 @@ export class Controller {
   constructor() {
     this.view = new View(this);
     this.data = new MnistData();
-
+    this.dataloaded = false;
 
   }
 
@@ -36,7 +36,10 @@ export class Controller {
   }
 
   async loadData() {
-    await this.data.load();
+    if(!this.dataloaded) {
+      await this.data.load();
+      this.dataloaded = true;
+    }
   }
 
   async initTraining(els) {
@@ -51,6 +54,23 @@ export class Controller {
   }
 
   toggleTraining() {
-    this.nn.toggleTraining(this.data);
+    if(this.nn)
+      this.nn.toggleTraining(this.data);
+  }
+
+  cleanupNetwork() {
+    if(this.nn) {
+      this.nn.cleanup();
+      delete this.nn;
+    }
+
+  }
+
+  cleanupValidationPreview() {
+    if(this.vp) {
+      this.vp.cleanup();
+      delete this.nn;
+    }
+
   }
 }

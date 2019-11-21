@@ -24,9 +24,7 @@ export class ValidationPreview {
 
       const canvas = document.createElement('canvas');
       this.digitcontainer[i] = document.createElement('div');
-      canvas.width = 28;
-      canvas.height = 28;
-      canvas.style = 'margin: 2px;';
+
       await tf.browser.toPixels(imageTensor, canvas);
       this.digitcontainer[i].appendChild(canvas);
       this.digittext[i] = document.createElement('div');
@@ -63,5 +61,13 @@ export class ValidationPreview {
       ];
     });
     this.els.validationAccuracy.innerHTML = `Accuracy on validation data (approx.): ${(await model.evaluate(testXs,testYs)[1].dataSync() * TEST_DATA_SIZE | 0)/TEST_DATA_SIZE*100}%`;
+    testXs.dispose();
+    testYs.dispose();
+  }
+
+  cleanup() {
+    while (this.els.validationImages.firstChild) {
+      this.els.validationImages.removeChild(this.els.validationImages.firstChild);
+    }
   }
 }

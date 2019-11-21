@@ -1,9 +1,5 @@
 /* jshint esversion: 8*/
 
-//import {
-//  updateLiveValidationImages
-//} from './script.js';
-
 export class NeuralNetwork {
   constructor(vp, els) {
     this.els = els;
@@ -22,7 +18,6 @@ export class NeuralNetwork {
   createModel() {
     //TODO: once UI is finished
     const modelid = "dense"; //TODO document.getElementById("modelid").value;
-    console.log(modelid);
     const model = this.model = tf.sequential();
 
     const IMAGE_WIDTH = 28;
@@ -105,7 +100,6 @@ export class NeuralNetwork {
       //TODO document.getElementById('optimizer').value == "adam" ? tf.train.adam(learningRate) : tf.train.sgd(learningRate);
       tf.train.adam(learningRate);
 
-    console.log(optimizer);
     model.compile({
       optimizer: optimizer,
       loss: 'categoricalCrossentropy',
@@ -125,7 +119,6 @@ export class NeuralNetwork {
       //const TRAIN_DATA_SIZE = 5500;
       const TRAIN_DATA_SIZE = BATCH_SIZE * 16;
 
-
       [trainXs, trainYs] = tf.tidy(() => {
         const d = data.nextTrainBatch(TRAIN_DATA_SIZE);
         return [
@@ -133,7 +126,6 @@ export class NeuralNetwork {
           d.labels
         ];
       });
-
 
       await model.fit(trainXs, trainYs, {
         batchSize: BATCH_SIZE,
@@ -153,5 +145,9 @@ export class NeuralNetwork {
       });
       trainingcallcnt++;
     }
+  }
+
+  cleanup() {
+    this.model.dispose();
   }
 }

@@ -27,5 +27,7 @@ currentSlide().onEnter = async (controller) => {
 
 
 currentSlide().onExit = (controller) => {
-  //TODO
+  controller.cleanupValidationPreview();
+  controller.cleanupNetwork();
+  trainingcontrolbutton.innerHTML = "start training";
 };
