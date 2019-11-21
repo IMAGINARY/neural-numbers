@@ -122,8 +122,8 @@ export class NeuralNetwork {
     while (this.training) {
       //start slower in beginning, increase step size with time
       //for some reasons I do not understand, BATCH_SIZE=1 kills the model
-      const BATCH_SIZE = 1<<Math.max(1,Math.min(6, trainingcallcnt/10 | 0)); //a sequence of increasing powers of two
-      const TRAIN_DATA_SIZE = BATCH_SIZE * Math.min(8, Math.max(1, trainingcallcnt / 20 | 0));
+      const BATCH_SIZE = 1<<Math.max(1,Math.min(6, this.trainedimages/20 | 0)); //a sequence of increasing powers of two
+      const TRAIN_DATA_SIZE = BATCH_SIZE * Math.min(8, Math.max(1, this.trainedimages / 40 | 0));
       [trainXs, trainYs] = tf.tidy(() => {
         const d = data.nextTrainBatch(TRAIN_DATA_SIZE);
         return [
@@ -148,7 +148,7 @@ export class NeuralNetwork {
           }
         }
       });
-      if ((this.trainedimages > this.lastrainedimages + 1000) || trainingcallcnt < 250) {
+      if ((this.trainedimages > this.lastrainedimages + 1000) || this.trainedimages < 250) {
         this.vp.updateValidationImages(this.model);
         this.vp.updateAccuracy(this.model);
         if ((this.trainedimages < 100)) {
