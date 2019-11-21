@@ -2,12 +2,12 @@ let SCALE_FACTOR = 9;
 let LINEWIDTH = 2 * SCALE_FACTOR;
 
 export class Paint {
-  constructor(drawcanvas, normalizecanvas, output, model) {
+  constructor(el, model) {
     this.drawingChanged = true;
     this.model = model;
-    this.drawcanvas = drawcanvas;
-    this.normalizecanvas = normalizecanvas;
-    this.output = output;
+    this.drawcanvas = el.querySelector(".drawcanvas");
+    this.normalizecanvas =  el.querySelector(".normalizecanvas");
+    this.output =  el.querySelector(".bars");
     this.createUI();
   }
 

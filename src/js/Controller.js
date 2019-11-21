@@ -26,9 +26,9 @@ export class Controller {
 
   }
 
-  async initIntroPaint(drawcanvas, normalizecanvas, output) {
+  async initIntroPaint(paintel) {
     const model = await tf.loadLayersModel('assets/models/my-model.json');
-    this.paint = new Paint(drawcanvas, normalizecanvas, output, model);
+    this.paint = new Paint(paintel, model);
   }
 
   cleanupPaint() {
@@ -45,7 +45,7 @@ export class Controller {
   async initTrainingEnvironment(els) {
     this.vp = new ValidationPreview(this.data, els);
     this.nn = new NeuralNetwork(this.vp, els);
-    this.paint = new Paint(els.paintDrawcanvas, els.paintNormalizecanvas, els.paintOutput, this.nn.model);
+    this.paint = new Paint(els.paint, this.nn.model);
     await this.vp.initValidationImages(els);
     this.vp.updateValidationImages(this.nn.model);
     this.vp.updateAccuracy(this.nn.model);

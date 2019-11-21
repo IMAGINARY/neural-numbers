@@ -17,7 +17,7 @@
     a(href="index.html#2") find out how it works
   script(type="text/javascript").
     currentSlide().onEnter = async (controller) => {
-      controller.initIntroPaint(document.querySelector("#intropaint .drawcanvas"), document.querySelector("#intropaint .normalizecanvas"), document.querySelector("#intropaint .bars"))
+      controller.initIntroPaint(document.querySelector("#intropaint"))
     };
     
     currentSlide().onExit = async (controller) => {

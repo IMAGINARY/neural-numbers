@@ -11,9 +11,7 @@ currentSlide().onEnter = async (controller) => {
       trainingProgress: document.querySelector('#training-progress'),
       validationImages: document.querySelector('#validation-images'),
       validationAccuracy: document.querySelector('#validation-accuracy'),
-      paintDrawcanvas: document.querySelector("#previewpaint .drawcanvas"),
-      paintNormalizecanvas: document.querySelector("#previewpaint .normalizecanvas"),
-      paintOutput: document.querySelector("#previewpaint .bars")
+      paint: document.querySelector("#previewpaint")
     });
     document.querySelector("#previewpaint").style.visibility = "visible";
   }, () => {});
