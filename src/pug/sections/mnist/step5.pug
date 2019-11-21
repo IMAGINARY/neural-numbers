@@ -7,12 +7,13 @@
     #training-progress
   .split.validation
     h3 Validation
-    div 100 randomly choosen images from the validation set:
+    div 50 random choosen images of the validation set:
       #validation-images
-      
-    #validation-accuracy
-
-    div history
+    p
+    div accuracy on entire validation set:
+      p
+        #validation-accuracy(style="--angle:360deg")
+          div 0%
   #previewpaint.box.bottomleft.paint
       div
         p <b>Draw</b> a digit here:

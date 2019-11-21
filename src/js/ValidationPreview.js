@@ -1,4 +1,4 @@
-const NUM_EXAMPLES = 100; //TODO
+const NUM_EXAMPLES = 50; //TODO
 
 export class ValidationPreview {
   constructor(data, els) {
@@ -60,7 +60,14 @@ export class ValidationPreview {
         d.labels
       ];
     });
-    this.els.validationAccuracy.innerHTML = `Accuracy on validation data (approx.): ${(await model.evaluate(testXs,testYs)[1].dataSync() * TEST_DATA_SIZE | 0)/TEST_DATA_SIZE*100}%`;
+    const acc = await model.evaluate(testXs, testYs)[1].dataSync();
+
+console.log(this.els.validationAccuracy);
+    this.els.validationAccuracy.style = `--angle: ${(1-acc)*360}deg;`;
+    this.els.validationAccuracy.firstElementChild.innerHTML = `${(acc * 1000 | 0)/10} %`;
+    //this.els.validationAccuracy.innerHTML = `Accuracy on validation data (approx.): ${(acc * 1000 | 0)/10} %`;
+
+
     testXs.dispose();
     testYs.dispose();
   }
