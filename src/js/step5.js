@@ -2,8 +2,13 @@ currentSlide().onEnter = async (controller) => {
   trainingcontrolbutton = document.querySelector("#training-controls");
   document.querySelector("#previewpaint").style.visibility = "hidden";
 
+  const updateTrainingUI = () => {
+    document.querySelector("#previewpaint").style.visibility = controller.nn.training ? "hidden" : "visible";
+    trainingcontrolbutton.innerHTML = controller.nn.training ? "pause training" : "resume training";
+  };
+
   controller.loadData().then(() => {
-    document.querySelector('#status').innerHTML = "MNIST data loaded.";
+    document.querySelector('#status').innerHTML = "MNIST data loaded. Training the neural network...";
     trainingcontrolbutton.style.visibility = "visible";
     controller.initTrainingEnvironment({
       status: document.querySelector('#status'),
@@ -13,13 +18,18 @@ currentSlide().onEnter = async (controller) => {
       validationAccuracy: document.querySelector('#validation-accuracy'),
       paint: document.querySelector("#previewpaint")
     });
-    document.querySelector("#previewpaint").style.visibility = "visible";
+    controller.startTraining();
+    setTimeout(() => {
+        controller.pauseTraining();
+        updateTrainingUI();
+      }, 5000 //5 seconds of training
+    );
+    //document.querySelector("#previewpaint").style.visibility = "visible";
   }, () => {});
 
   trainingcontrolbutton.onclick = async () => {
     controller.toggleTraining();
-    trainingcontrolbutton.innerHTML = controller.nn.training ? "pause training" : "resume training";
-    document.querySelector("#previewpaint").style.visibility = controller.nn.training ? "hidden" : "visible";
+    updateTrainingUI();
   };
 
 

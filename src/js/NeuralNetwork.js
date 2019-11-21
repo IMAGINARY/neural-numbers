@@ -151,9 +151,9 @@ export class NeuralNetwork {
       if ((this.trainedimages > this.lastrainedimages + 1000) || trainingcallcnt < 250) {
         this.vp.updateValidationImages(this.model);
         this.vp.updateAccuracy(this.model);
-        if ((trainingcallcnt < 60)) {
+        if ((this.trainedimages < 100)) {
           //sleep some time per image
-          await new Promise(resolve => setTimeout(resolve, (1000/(5+8*trainingcallcnt))*(this.trainedimages - this.lastrainedimages)));
+          await new Promise(resolve => setTimeout(resolve, (1000/(5+4*this.trainedimages))*(this.trainedimages - this.lastrainedimages)));
         }
         this.lastrainedimages = this.trainedimages;
       }
