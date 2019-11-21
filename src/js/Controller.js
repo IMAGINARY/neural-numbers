@@ -52,12 +52,28 @@ export class Controller {
     this.vp.updateAccuracy(this.nn.model);
   }
 
-  startTraining() {
-    this.nn.train(this.data);
+  async startTraining() {
+    await this.nn.train(this.data);
   }
 
   pauseTraining() {
-    this.nn.training = false;
+    return new Promise(resolve => {
+      if (this.nn.training) {
+        this.nn.addPauseCallback(resolve);
+        this.nn.training = false;
+      } else
+        resolve();
+    });
+  }
+
+  async resetTraining() {
+    await this.pauseTraining();
+    const els = this.nn.els;
+    this.cleanupValidationPreview();
+    this.cleanupNetwork();
+    this.cleanupPaint();
+    await this.initTrainingEnvironment(els);
+    this.startTraining();
   }
 
   toggleTraining() {

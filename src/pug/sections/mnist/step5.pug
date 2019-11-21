@@ -2,7 +2,9 @@
   .split.training
     h3 Training network
     #status loading data...
-    a#training-controls(href="#5", style="visibility:hidden;") pause training
+    #training-controls(style="visibility:hidden;")
+      a(href="#5").pause-resume pause training
+      a(href="#5").reset reset training
     #training-accuracy
     #training-progress
   .split.validation

@@ -8,6 +8,7 @@ export class NeuralNetwork {
     this.training = false;
     this.trainedimages = 0;
     this.lastrainedimages = 0;
+    this.pausecbs = [];
   }
 
   toggleTraining(data) {
@@ -16,6 +17,10 @@ export class NeuralNetwork {
       this.train(data);
     }
   }
+  addPauseCallback(cb) {
+    this.pausecbs.push(cb);
+  }
+
 
   createModel() {
     //TODO: once UI is finished
@@ -117,8 +122,6 @@ export class NeuralNetwork {
     let trainingcallcnt = 0;
     let trainXs, trainYs;
 
-
-
     while (this.training) {
       //start slower in beginning, increase step size with time
       //for some reasons I do not understand, BATCH_SIZE=1 kills the model
@@ -158,6 +161,11 @@ export class NeuralNetwork {
         this.lastrainedimages = this.trainedimages;
       }
       trainingcallcnt++;
+    }
+
+    while(this.pausecbs.length > 0) {
+      (this.pausecbs.pop())();
+      console.log("running pausecallback");
     }
   }
 
