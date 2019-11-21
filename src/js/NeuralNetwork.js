@@ -121,7 +121,7 @@ export class NeuralNetwork {
     let trainXs, trainYs;
 
     while (this.training) {
-      const BATCH_SIZE = 16; //document.getElementById("BATCH_SIZE").value | 0;
+      const BATCH_SIZE = 32; //document.getElementById("BATCH_SIZE").value | 0;
       //const TRAIN_DATA_SIZE = 5500;
       const TRAIN_DATA_SIZE = BATCH_SIZE * 16;
 
@@ -142,18 +142,12 @@ export class NeuralNetwork {
         //shuffle: true,
         callbacks: {
           onEpochEnd: async (epoch, logs) => {
-            //TODO connect with proper UI
-            //div[0].innerHTML = `Accuracy on validation data: ${logs.val_acc}`;
-            //div[1].innerHTML = `Accuracy on training data: ${logs.acc}`;
+            this.vp.updateValidationImages(this.model);
+            this.vp.updateAccuracy(this.model);
           },
           onBatchEnd: async (batch, logs) => {
             this.els.trainingAccuracy.innerHTML = `Accuracy on current training data: ${(logs.acc * 1000 | 0)/10}%`;
             this.els.trainingProgress.innerHTML = `${trainingcallcnt*TRAIN_DATA_SIZE +batch*BATCH_SIZE} images used for training.`;
-            if (batch % 20 == 0) {
-              this.vp.updateValidationImages(this.model);
-              this.vp.updateAccuracy(this.model);
-            }
-
           }
         }
       });

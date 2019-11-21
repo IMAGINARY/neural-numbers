@@ -145,9 +145,8 @@ canvas {
 
 .training {
   right: 50vw;
-  background-color: rgba(62, 96, 218, 0.84);
-  border: 1px solid #788cff;
-  }
+  background-color: rgba(120, 140, 255, 0.8);
+  border: 1px solid #788cff; }
 
 .validation {
   left: 50vw;
@@ -169,5 +168,17 @@ canvas {
   position: absolute;
   top: 80%;
   width: 100%; }
+
+#validation-images > div {
+  display: flex;
+  flex-wrap: wrap; }
+
+#validation-images > div > div {
+  transition: background-color 0.5s ease-out; }
+
+#validation-images > div > div > canvas {
+  width: 28px;
+  height: 28px;
+  margin: 2px; }
 
 /*# sourceMappingURL=default.css.map */

@@ -14,8 +14,6 @@ export class ValidationPreview {
     const examplelabels = this.examplelabels = await examples.labels.argMax([-1]).dataSync();
 
     const container = document.createElement('div');
-    container.style.display = 'flex';
-    container.style.flexWrap = 'wrap';
     for (let i = 0; i < NUM_EXAMPLES; i++) {
       const imageTensor = tf.tidy(() => {
         // Reshape the image to 28x28 px
@@ -55,7 +53,7 @@ export class ValidationPreview {
   }
 
   async updateAccuracy(model) {
-    const TEST_DATA_SIZE = 1000;
+    const TEST_DATA_SIZE = 100; //TODO: change based on demand
     let testXs, testYs;
     [testXs, testYs] = tf.tidy(() => {
       const d = this.data.nextTestBatch(TEST_DATA_SIZE);
@@ -64,6 +62,6 @@ export class ValidationPreview {
         d.labels
       ];
     });
-    this.els.validationAccuracy.innerHTML = `Accuracy on validation data: ${(await model.evaluate(testXs,testYs)[1].dataSync() * TEST_DATA_SIZE | 0)/TEST_DATA_SIZE*100}%`;
+    this.els.validationAccuracy.innerHTML = `Accuracy on validation data (approx.): ${(await model.evaluate(testXs,testYs)[1].dataSync() * TEST_DATA_SIZE | 0)/TEST_DATA_SIZE*100}%`;
   }
 }

@@ -172,3 +172,18 @@ canvas {
   top: 80%;
   width: 100%;
 }
+
+#validation-images > div {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#validation-images > div > div {
+  transition: background-color 0.5s ease-out;
+}
+
+#validation-images > div > div > canvas {
+  width: 28px;
+  height: 28px;
+  margin: 2px;
+}
