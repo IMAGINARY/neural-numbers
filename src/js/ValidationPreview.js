@@ -62,11 +62,9 @@ export class ValidationPreview {
     });
     const acc = await model.evaluate(testXs, testYs)[1].dataSync();
 
-console.log(this.els.validationAccuracy);
     this.els.validationAccuracy.style = `--angle: ${(1-acc)*360}deg;`;
-    this.els.validationAccuracy.firstElementChild.innerHTML = `${(acc * 1000 | 0)/10} %`;
+    this.els.validationAccuracy.firstElementChild.innerHTML = `${Math.round(acc * 1000)/10} %`;
     //this.els.validationAccuracy.innerHTML = `Accuracy on validation data (approx.): ${(acc * 1000 | 0)/10} %`;
-
 
     testXs.dispose();
     testYs.dispose();

@@ -6,6 +6,8 @@ export class NeuralNetwork {
     this.vp = vp;
     this.createModel();
     this.training = false;
+    this.trainedimages = 0;
+    this.lastrainedimages = 0;
   }
 
   toggleTraining(data) {
@@ -115,11 +117,13 @@ export class NeuralNetwork {
     let trainingcallcnt = 0;
     let trainXs, trainYs;
 
-    while (this.training) {
-      const BATCH_SIZE = 32; //document.getElementById("BATCH_SIZE").value | 0;
-      //const TRAIN_DATA_SIZE = 5500;
-      const TRAIN_DATA_SIZE = BATCH_SIZE * 16;
 
+
+    while (this.training) {
+      //start slower in beginning, increase step size with time
+      //for some reasons I do not understand, BATCH_SIZE=1 kills the model
+      const BATCH_SIZE = 1<<Math.max(1,Math.min(6, trainingcallcnt/10 | 0)); //a sequence of increasing powers of two
+      const TRAIN_DATA_SIZE = BATCH_SIZE * Math.min(8, Math.max(1, trainingcallcnt / 20 | 0));
       [trainXs, trainYs] = tf.tidy(() => {
         const d = data.nextTrainBatch(TRAIN_DATA_SIZE);
         return [
@@ -135,20 +139,31 @@ export class NeuralNetwork {
         //shuffle: true,
         callbacks: {
           onEpochEnd: async (epoch, logs) => {
-            this.vp.updateValidationImages(this.model);
-            this.vp.updateAccuracy(this.model);
+
           },
           onBatchEnd: async (batch, logs) => {
+            this.trainedimages += BATCH_SIZE;
             this.els.trainingAccuracy.innerHTML = `Accuracy on current training data: ${(logs.acc * 1000 | 0)/10}%`;
-            this.els.trainingProgress.innerHTML = `${trainingcallcnt*TRAIN_DATA_SIZE +batch*BATCH_SIZE} images used for training.`;
+            this.els.trainingProgress.innerHTML = `${this.trainedimages} images used for training.`;
           }
         }
       });
+      if ((this.trainedimages > this.lastrainedimages + 1000) || trainingcallcnt < 250) {
+        this.vp.updateValidationImages(this.model);
+        this.vp.updateAccuracy(this.model);
+        if ((trainingcallcnt < 60)) {
+          //sleep some time per image
+          await new Promise(resolve => setTimeout(resolve, (1000/(5+8*trainingcallcnt))*(this.trainedimages - this.lastrainedimages)));
+        }
+        this.lastrainedimages = this.trainedimages;
+      }
       trainingcallcnt++;
     }
   }
 
   cleanup() {
     this.model.dispose();
+    this.trainedimages = 0;
+    this.lastrainedimages = 0;
   }
 }
