@@ -1,11 +1,12 @@
 const NUM_EXAMPLES = 42; //TODO
 
 export class ValidationPreview {
-  constructor(data) {
+  constructor(data, els) {
     this.data = data;
+    this.els = els;
   }
 
-  async initValidationImages(els) {
+  async initValidationImages() {
     this.digittext = [];
     this.digitcontainer = [];
     // Get the examples
@@ -36,7 +37,7 @@ export class ValidationPreview {
       imageTensor.dispose();
     }
     //
-    els.validationImages.appendChild(container);
+    this.els.validationImages.appendChild(container);
     //document.body.appendChild(container);
   }
 
@@ -51,5 +52,18 @@ export class ValidationPreview {
       this.digittext[i].innerHTML = `${values[i]}`;
       this.digitcontainer[i].style.backgroundColor = (values[i] == this.examplelabels[i]) ? 'green' : 'red';
     }
+  }
+
+  async updateAccuracy(model) {
+    const TEST_DATA_SIZE = 1000;
+    let testXs, testYs;
+    [testXs, testYs] = tf.tidy(() => {
+      const d = this.data.nextTestBatch(TEST_DATA_SIZE);
+      return [
+        d.xs.reshape([TEST_DATA_SIZE, 28, 28, 1]),
+        d.labels
+      ];
+    });
+    this.els.validationAccuracy.innerHTML = `Accuracy on validation data: ${(await model.evaluate(testXs,testYs)[1].dataSync() * TEST_DATA_SIZE | 0)/TEST_DATA_SIZE*100}%`;
   }
 }

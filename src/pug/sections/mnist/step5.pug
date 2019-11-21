@@ -4,8 +4,8 @@
     #status loading data...
     a#training-controls(href="#5", style="visibility:hidden;") start training
 
-    div current epoch
-    div current batch
+    #training-accuracy
+    #training-progress
 
     div Here we do training
   .split.validation
@@ -13,7 +13,7 @@
     div comparision images for 42 images from the validation set.
 
     div accuracy on entire validation set
-    div#accuracy total accuracy 42.42%
+    #validation-accuracy total accuracy 42.42%
 
     div history
 
@@ -23,4 +23,4 @@
 
   .box.navigation    
     a(href="index.html#1") restart
-  script(type="text/javascript", src="src/js/slide5.js")
+  script(type="text/javascript", src="src/js/step5.js")

@@ -5,22 +5,18 @@
 //} from './script.js';
 
 export class NeuralNetwork {
-  constructor(vp) {
+  constructor(vp, els) {
+    this.els = els;
     this.vp = vp;
-    //for some output TODO: include this at appropiate place in HTML.
-    let div = this.div = [];
-    for (let i = 0; i < 4; i++) {
-      div[i] = document.createElement('div');
-      document.body.appendChild(div[i]);
-    }
-
     this.createModel();
-
     this.training = true;
   }
 
-  toggleTraining() {
+  toggleTraining(data) {
     this.training = !this.training;
+    if (this.training) {
+      this.train(data);
+    }
   }
 
   createModel() {
@@ -92,7 +88,6 @@ export class NeuralNetwork {
       );
     }
 
-
     // Our last layer is a dense layer which has 10 output units, one for each
     // output class (i.e. 0, 1, 2, 3, 4, 5, 6, 7, 8, 9).
     const NUM_OUTPUT_CLASSES = 10;
@@ -122,20 +117,8 @@ export class NeuralNetwork {
 
   async train(data) {
     const model = this.model;
-
     let trainingcallcnt = 0;
-
-    const TEST_DATA_SIZE = 1000;
-
-    let testXs, testYs, trainXs, trainYs;
-
-    [testXs, testYs] = tf.tidy(() => {
-      const d = data.nextTestBatch(TEST_DATA_SIZE);
-      return [
-        d.xs.reshape([TEST_DATA_SIZE, 28, 28, 1]),
-        d.labels
-      ];
-    });
+    let trainXs, trainYs;
 
     while (this.training) {
       const BATCH_SIZE = 16; //document.getElementById("BATCH_SIZE").value | 0;
@@ -152,10 +135,6 @@ export class NeuralNetwork {
       });
 
 
-
-      let div = this.div; //TODO replace with some proper UI
-
-
       await model.fit(trainXs, trainYs, {
         batchSize: BATCH_SIZE,
         //validationData: [testXs, testYs],
@@ -166,15 +145,15 @@ export class NeuralNetwork {
             //TODO connect with proper UI
             //div[0].innerHTML = `Accuracy on validation data: ${logs.val_acc}`;
             //div[1].innerHTML = `Accuracy on training data: ${logs.acc}`;
-
           },
           onBatchEnd: async (batch, logs) => {
-            div[1].innerHTML = `Accuracy on current training data: ${(logs.acc * 1000 | 0)/10}%`;
-            div[2].innerHTML = `${trainingcallcnt*TRAIN_DATA_SIZE +batch*BATCH_SIZE} images used for training.`;
-            div[3].innerHTML = `${trainingcallcnt}-th training call.`;
-            if (batch % 20 == 0)
-              div[0].innerHTML = `Accuracy on validation data: ${(await model.evaluate(testXs,testYs)[1].dataSync() * 1000 | 0)/10}%`;
-            this.vp.updateValidationImages(this.model);
+            this.els.trainingAccuracy.innerHTML = `Accuracy on current training data: ${(logs.acc * 1000 | 0)/10}%`;
+            this.els.trainingProgress.innerHTML = `${trainingcallcnt*TRAIN_DATA_SIZE +batch*BATCH_SIZE} images used for training.`;
+            if (batch % 20 == 0) {
+              this.vp.updateValidationImages(this.model);
+              this.vp.updateAccuracy(this.model);
+            }
+
           }
         }
       });

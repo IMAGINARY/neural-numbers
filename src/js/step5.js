@@ -9,7 +9,10 @@ currentSlide().onEnter = async (controller) => {
   trainingcontrolbutton.onclick = async () => {
     controller.initTraining({
       status: document.querySelector('#status'),
-      validationImages: document.querySelector('#validation-images')
+      trainingAccuracy: document.querySelector('#training-accuracy'),
+      trainingProgress: document.querySelector('#training-progress'),
+      validationImages: document.querySelector('#validation-images'),
+      validationAccuracy: document.querySelector('#validation-accuracy'),
     }).then(
       () => {
         trainingcontrolbutton.innerHTML = "pause training";
@@ -24,5 +27,5 @@ currentSlide().onEnter = async (controller) => {
 
 
 currentSlide().onExit = (controller) => {
-
+  //TODO
 };
