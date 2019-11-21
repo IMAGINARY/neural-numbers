@@ -53,7 +53,8 @@ function styles() {
     .pipe(gulp.dest(paths.styles.dest));
 }
 
-function scripts() {
+function scripts(cb) {
+  cb();
   return; //ignore
   return browserify({
       extensions: ['.js', '.jsx'],
