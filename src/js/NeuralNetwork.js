@@ -20,7 +20,7 @@ export class NeuralNetwork {
   }
 
   toggleTraining() {
-    this.training = !this.training();
+    this.training = !this.training;
   }
 
   createModel() {

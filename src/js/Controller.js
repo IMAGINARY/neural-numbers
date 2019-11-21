@@ -24,7 +24,6 @@ export class Controller {
     this.data = new MnistData();
     this.vp = new ValidationPreview(this.data);
     this.nn = new NeuralNetwork(this.vp);
-
   }
 
   async initPaint(drawcanvas, normalizecanvas, output) {
@@ -49,7 +48,9 @@ export class Controller {
     this.nn.training = false;
   }
 
-  toggleTraining() {
+  async toggleTraining() {
     this.nn.toggleTraining();
+    if (this.nn.training)
+      this.nn.train(this.data); //TODO offset
   }
 }
