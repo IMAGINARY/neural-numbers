@@ -11,8 +11,7 @@ body::after {
   height: 0;
   overflow: hidden;
   z-index: -10; // hide images
-  content: url("../img/background0.png") url("../img/background1.png") url("../img/background2.png") url("../img/background3.png")  url("../img/background4.png"); // load images
-
+  content: url("../img/background0.png") url("../img/background1.png") url("../img/background2.png") url("../img/background3.png") url("../img/background4.png"); // load images
 }
 
 .background {
@@ -132,4 +131,44 @@ a::before {
 
 canvas {
   border-radius: 5px;
+}
+
+.split {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.training {
+  right: 50vw;
+  background-color: rgba(120,140,255,.8);
+  border: 1px solid rgb(120,140,255);
+}
+
+.validation {
+  left: 50vw;
+  background-color: rgba(110,255,110,.8);
+  border: 1px solid rgb(110,255,110s);
+}
+
+.training.step3 {
+  right: 20vw;
+}
+
+.validation.step3 {
+  left: 80vw;
+}
+
+.split > div {
+  text-align: center;
+  font-size: 1em;
+  color: black;
+}
+
+.split.step3 > div {
+  position: absolute;
+  top: 80%;
+  width: 100%;
 }
