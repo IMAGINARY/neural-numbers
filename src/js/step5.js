@@ -1,33 +1,36 @@
 currentSlide().onEnter = async (controller) => {
   trainingcontrolbutton = document.querySelector("#training-controls");
+  document.querySelector("#previewpaint").style.visibility = "hidden";
 
   controller.loadData().then(() => {
     document.querySelector('#status').innerHTML = "MNIST data loaded.";
     trainingcontrolbutton.style.visibility = "visible";
-  }, () => {});
-
-  trainingcontrolbutton.onclick = async () => {
-    controller.initTraining({
+    controller.initTrainingEnvironment({
       status: document.querySelector('#status'),
       trainingAccuracy: document.querySelector('#training-accuracy'),
       trainingProgress: document.querySelector('#training-progress'),
       validationImages: document.querySelector('#validation-images'),
       validationAccuracy: document.querySelector('#validation-accuracy'),
-    }).then(
-      () => {
-        trainingcontrolbutton.innerHTML = "pause training";
-        trainingcontrolbutton.onclick = () => {
-          controller.toggleTraining();
-          trainingcontrolbutton.innerHTML = controller.nn.training ? "pause training" : "resume training";
-        };
-      }, () => {}
-    );
+      paintDrawcanvas: document.querySelector("#previewpaint .drawcanvas"),
+      paintNormalizecanvas: document.querySelector("#previewpaint .normalizecanvas"),
+      paintOutput: document.querySelector("#previewpaint .bars")
+    });
+    document.querySelector("#previewpaint").style.visibility = "visible";
+  }, () => {});
+
+  trainingcontrolbutton.onclick = async () => {
+    controller.toggleTraining();
+    trainingcontrolbutton.innerHTML = controller.nn.training ? "pause training" : "resume training";
+    document.querySelector("#previewpaint").style.visibility = controller.nn.training ? "hidden" : "visible";
   };
+
+
 };
 
 
 currentSlide().onExit = (controller) => {
   controller.cleanupValidationPreview();
   controller.cleanupNetwork();
+  controller.cleanupPaint();
   trainingcontrolbutton.innerHTML = "start training";
 };

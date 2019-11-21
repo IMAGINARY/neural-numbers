@@ -7,12 +7,22 @@
     #training-progress
   .split.validation
     h3 Validation
-    div comparision images for 42 images from the validation set.
-    #validation-images
+    div 100 randomly choosen images from the validation set:
+      #validation-images
       
     #validation-accuracy
 
     div history
+  #previewpaint.box.bottomleft.paint
+      div
+        p <b>Draw</b> a digit here:
+        canvas.drawcanvas
+      div
+        p The neural network sees...
+        canvas.normalizecanvas
+      div 
+        p ... and predicts
+        div.bars
   .box.navigation    
     a(href="index.html#1") restart
   script(type="text/javascript", src="src/js/step5.js")

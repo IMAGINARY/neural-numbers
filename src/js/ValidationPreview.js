@@ -1,4 +1,4 @@
-const NUM_EXAMPLES = 42; //TODO
+const NUM_EXAMPLES = 100; //TODO
 
 export class ValidationPreview {
   constructor(data, els) {

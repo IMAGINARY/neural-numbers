@@ -5,7 +5,7 @@ export class NeuralNetwork {
     this.els = els;
     this.vp = vp;
     this.createModel();
-    this.training = true;
+    this.training = false;
   }
 
   toggleTraining(data) {
@@ -110,6 +110,7 @@ export class NeuralNetwork {
   }
 
   async train(data) {
+    this.training = true;
     const model = this.model;
     let trainingcallcnt = 0;
     let trainXs, trainYs;

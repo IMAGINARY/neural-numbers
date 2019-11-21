@@ -68,6 +68,14 @@ body::after {
   right: 0;
 }
 
+.bottomleft {
+  width: 60vw;
+  border-top-right-radius: 40px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 .middle {
   border-radius: 40px;
   position: absolute;
@@ -86,14 +94,20 @@ a::before {
 }
 
 .paint > div {
-  margin: 0.2em;
-  width: 21vw;
   text-align: center;
   flex-flow: column;
+}
+#intropaint > div {
+  width: 21vw;
+}
+
+#previewpaint > div {
+  width: 30%;
 }
 
 .paint > div > p {
   height: 5%;
+  font-size: .7em;
 }
 
 .bars {

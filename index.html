@@ -25,26 +25,24 @@
         <div class="box header">
           <h1>Can the computer read your handwriting?</h1>
         </div>
-        <div class="box middle">
-          <div class="paint">
-            <div>
-              <p><b>Draw</b> a digit here:</p>
-              <canvas id="intopaint-drawcanvas"></canvas>
-            </div>
-            <div>
-              <p>The neural network sees...</p>
-              <canvas id="intopaint-normalizecanvas"></canvas>
-            </div>
-            <div> 
-              <p>... and predicts</p>
-              <div class="bars" id="intopaint-output"></div>
-            </div>
+        <div class="box middle paint" id="intropaint">
+          <div>
+            <p><b>Draw</b> a digit here:</p>
+            <canvas class="drawcanvas"></canvas>
+          </div>
+          <div>
+            <p>The neural network sees...</p>
+            <canvas class="normalizecanvas"></canvas>
+          </div>
+          <div> 
+            <p>... and predicts</p>
+            <div class="bars"></div>
           </div>
         </div>
         <div class="box navigation">   <a href="index.html#2">find out how it works</a></div>
         <script type="text/javascript">
           currentSlide().onEnter = async (controller) => {
-            controller.initPaint(document.querySelector("#intopaint-drawcanvas"), document.querySelector("#intopaint-normalizecanvas"), document.querySelector("#intopaint-output"))
+            controller.initIntroPaint(document.querySelector("#intropaint .drawcanvas"), document.querySelector("#intropaint .normalizecanvas"), document.querySelector("#intropaint .bars"))
           };
           
           currentSlide().onExit = async (controller) => {
@@ -124,10 +122,25 @@
         </div>
         <div class="split validation">
           <h3>Validation</h3>
-          <div>comparision images for 42 images from the validation set.</div>
-          <div id="validation-images"></div>
+          <div>100 randomly choosen images from the validation set:
+            <div id="validation-images"></div>
+          </div>
           <div id="validation-accuracy"></div>
           <div>history</div>
+        </div>
+        <div class="box bottomleft paint" id="previewpaint">
+          <div>
+            <p><b>Draw</b> a digit here:</p>
+            <canvas class="drawcanvas"></canvas>
+          </div>
+          <div>
+            <p>The neural network sees...</p>
+            <canvas class="normalizecanvas"></canvas>
+          </div>
+          <div> 
+            <p>... and predicts</p>
+            <div class="bars"></div>
+          </div>
         </div>
         <div class="box navigation">   <a href="index.html#1">restart</a></div>
         <script type="text/javascript" src="src/js/step5.js"></script>
