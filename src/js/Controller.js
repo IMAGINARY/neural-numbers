@@ -27,8 +27,9 @@ export class Controller {
   }
 
   async initIntroPaint(paintel) {
-    const model = await tf.loadLayersModel('assets/models/my-model.json');
-    this.paint = new Paint(paintel, model);
+    if (!this.trainedmodel)
+      this.trainedmodel = await tf.loadLayersModel('assets/models/my-model.json');
+    this.paint = new Paint(paintel, this.trainedmodel);
   }
 
   cleanupPaint() {
@@ -36,7 +37,7 @@ export class Controller {
   }
 
   async loadData() {
-    if(!this.dataloaded) {
+    if (!this.dataloaded) {
       await this.data.load();
       this.dataloaded = true;
     }
@@ -60,12 +61,12 @@ export class Controller {
   }
 
   toggleTraining() {
-    if(this.nn)
+    if (this.nn)
       this.nn.toggleTraining(this.data);
   }
 
   cleanupNetwork() {
-    if(this.nn) {
+    if (this.nn) {
       this.nn.cleanup();
       delete this.nn;
     }
@@ -73,7 +74,7 @@ export class Controller {
   }
 
   cleanupValidationPreview() {
-    if(this.vp) {
+    if (this.vp) {
       this.vp.cleanup();
       delete this.nn;
     }

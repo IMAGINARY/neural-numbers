@@ -180,7 +180,5 @@ export class Paint {
     while (this.output.firstChild) {
       this.output.removeChild(this.output.firstChild);
     }
-
-    this.model.dispose();
   }
 }
