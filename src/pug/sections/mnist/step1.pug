@@ -16,7 +16,7 @@
 
   .box.navigation    
     a(href="index.html#2") find out how it works
-  script.
+  script(type="text/javascript").
     currentSlide().onEnter = async (controller) => {
       controller.initPaint(document.querySelector("#intopaint-drawcanvas"), document.querySelector("#intopaint-normalizecanvas"), document.querySelector("#intopaint-output"))
     };

@@ -6,12 +6,25 @@ import {
   View
 } from './View.js';
 
+import {
+  MnistData
+} from './MnistData.js';
 
+import {
+  NeuralNetwork
+} from './NeuralNetwork.js';
 
+import {
+  ValidationPreview
+} from './ValidationPreview.js';
 
 export class Controller {
   constructor() {
-    var view = new View(this);
+    this.view = new View(this);
+    this.data = new MnistData();
+    this.vp = new ValidationPreview(this.data);
+    this.nn = new NeuralNetwork(this.vp);
+
   }
 
   async initPaint(drawcanvas, normalizecanvas, output) {
@@ -21,5 +34,22 @@ export class Controller {
 
   cleanupPaint() {
     this.paint.cleanup();
+  }
+
+  async loadData() {
+    await this.data.load();
+  }
+
+  async initTraining(els) {
+    await this.vp.initValidationImages(els);
+    this.nn.train(this.data);
+  }
+
+  pauseTraining() {
+    this.nn.training = false;
+  }
+
+  toggleTraining() {
+    this.nn.toggleTraining();
   }
 }

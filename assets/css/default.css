@@ -145,8 +145,9 @@ canvas {
 
 .training {
   right: 50vw;
-  background-color: rgba(120, 140, 255, 0.8);
-  border: 1px solid #788cff; }
+  background-color: rgba(62, 96, 218, 0.84);
+  border: 1px solid #788cff;
+  }
 
 .validation {
   left: 50vw;

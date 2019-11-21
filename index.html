@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="box navigation">   <a href="index.html#2">find out how it works</a></div>
-        <script>
+        <script type="text/javascript">
           currentSlide().onEnter = async (controller) => {
             controller.initPaint(document.querySelector("#intopaint-drawcanvas"), document.querySelector("#intopaint-normalizecanvas"), document.querySelector("#intopaint-output"))
           };
@@ -55,7 +55,7 @@
       <div class="slide">
         <div class="box middle">We use a collection of 70 000 labeled images. We use it to train a neural network that classifies images of the digits 0,1,2,3,4,5,6,7,8 and 9</div>
         <div class="box navigation"> <a href="index.html#3">continue</a></div>
-        <script>
+        <script type="text/javascript">
           let changingbackground = false;
           let curimgid = 0;
           backgroundanimation = () => {
@@ -96,7 +96,7 @@
           <div><b>20%</b> of the images are used for validation</div>
         </div>
         <div class="box navigation">   <a href="index.html#4">apply selection and continue</a></div>
-        <script>
+        <script type="text/javascript">
           currentSlide().onEnter = () => {
             document.querySelector('.background').style.filter = 'blur(0px)';
           };
@@ -117,12 +117,23 @@
       </div>
       <div class="slide">
         <div class="split training">
+          <h3>Training network</h3>
+          <div id="status">loading data...</div><a id="training-controls" href="javascript:starttraining()">start training</a>
+          <div>current epoch</div>
+          <div>current batch</div>
           <div>Here we do training</div>
         </div>
         <div class="split validation">
+          <h3>Validation</h3>
+          <div>comparision images for 42 images from the validation set.</div>
+          <div>accuracy on entire validation set</div>
+          <div id="accuracy">total accuracy 42.42%</div>
+          <div>history</div>
           <div>Here we depict validation.</div>
+          <div id="validation-images"></div>
         </div>
         <div class="box navigation">   <a href="index.html#1">restart</a></div>
+        <script type="text/javascript" src="src/js/slide5.js"></script>
       </div>
     </div>
     <!--script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js", integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo", crossorigin="anonymous")-->
