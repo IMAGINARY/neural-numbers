@@ -108,6 +108,7 @@ export class TrainingVisualization {
     this.drawnodes(784, this.currentDigit, 100, 10, HEIGHT, 1);
     this.drawnodes(10, this.currentProbabilities, 300, 10, HEIGHT, 5);
     this.drawnodes(10, this.currentTarget, 330, 10, HEIGHT, 5);
+    ctx.imageSmoothingEnabled = false; //no antialiasing
     ctx.drawImage(this.traindigit, 0, 0, 28, 28, 5, HEIGHT / 2 - 28 / 2, 28 * 3, 28 * 3);
   }
 }
