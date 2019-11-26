@@ -40,38 +40,45 @@ export class Controller {
   }
 
   async initTrainingEnvironment(els) {
+    await this.loadData();
     this.vp = new ValidationPreview(this.data, els);
     this.nn = new NeuralNetwork(this.vp, els);
     this.paint = new Paint(els.paint, this.nn.model);
     await this.vp.initValidationImages(els);
-    if(this.nn) { //this.nn might have been deleted because in the meanwhile the slide has been skipped
+    if (this.nn) { //this.nn might have been deleted because in the meanwhile the slide has been skipped
       this.vp.updateValidationImages(this.nn.model);
       this.vp.updateAccuracy(this.nn.model);
     }
   }
 
   async startTraining() {
-    if(this.nn)
+    if (this.nn)
       await this.nn.train(this.data);
   }
 
   async pauseTraining() {
-    if(this.nn)
+    if (this.nn) {
       await this.nn.pauseTraining();
+      if(this.paint) this.paint.predict();
+    }
   }
 
   async resetTraining(els) {
     await this.pauseTraining();
     this.cleanupValidationPreview();
-    this.cleanupNetwork();
     this.cleanupPaint();
+    this.cleanupNetwork();
     await this.initTrainingEnvironment(els);
     this.startTraining();
   }
 
   toggleTraining() {
-    if (this.nn)
+    if (this.nn) {
       this.nn.toggleTraining(this.data);
+      if (!this.nn.training) {
+        this.paint.predict();
+      }
+    }
   }
 
   cleanupNetwork() {
@@ -89,9 +96,9 @@ export class Controller {
   }
 
   cleanupPaint() {
-    if(this.paint) {
-        this.paint.cleanup();
-        delete this.paint;
+    if (this.paint) {
+      this.paint.cleanup();
+      delete this.paint;
     }
   }
 }
