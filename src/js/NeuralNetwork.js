@@ -11,17 +11,6 @@ export class NeuralNetwork {
     this.pausecbs = [];
   }
 
-  toggleTraining(data) {
-    this.training = !this.training;
-    if (this.training) {
-      this.train(data);
-    }
-  }
-  addPauseCallback(cb) {
-    this.pausecbs.push(cb);
-  }
-
-
   createModel() {
     //TODO: once UI is finished
     const modelid = "dense"; //TODO document.getElementById("modelid").value;
@@ -167,6 +156,29 @@ export class NeuralNetwork {
       (this.pausecbs.pop())();
       console.log("running pausecallback");
     }
+  }
+
+
+
+  addPauseCallback(cb) {
+    this.pausecbs.push(cb);
+  }
+
+  pauseTraining() {
+    return new Promise(resolve => {
+      if (this.training) {
+        this.addPauseCallback(resolve);
+        this.training = false;
+      } else
+        resolve();
+    });
+  }
+
+  async toggleTraining(data) {
+    if(this.training)
+      await this.pauseTraining();
+    else
+      this.train(data);
   }
 
   cleanup() {

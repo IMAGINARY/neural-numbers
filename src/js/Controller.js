@@ -48,27 +48,24 @@ export class Controller {
     this.nn = new NeuralNetwork(this.vp, els);
     this.paint = new Paint(els.paint, this.nn.model);
     await this.vp.initValidationImages(els);
-    this.vp.updateValidationImages(this.nn.model);
-    this.vp.updateAccuracy(this.nn.model);
+    if(this.nn) { //this.nn might have been deleted because in the meanwhile the slide has been skipped
+      this.vp.updateValidationImages(this.nn.model);
+      this.vp.updateAccuracy(this.nn.model);
+    }
   }
 
   async startTraining() {
-    await this.nn.train(this.data);
+    if(this.nn)
+      await this.nn.train(this.data);
   }
 
-  pauseTraining() {
-    return new Promise(resolve => {
-      if (this.nn.training) {
-        this.nn.addPauseCallback(resolve);
-        this.nn.training = false;
-      } else
-        resolve();
-    });
+  async pauseTraining() {
+    if(this.nn)
+      await this.nn.pauseTraining();
   }
 
-  async resetTraining() {
+  async resetTraining(els) {
     await this.pauseTraining();
-    const els = this.nn.els;
     this.cleanupValidationPreview();
     this.cleanupNetwork();
     this.cleanupPaint();
@@ -86,14 +83,11 @@ export class Controller {
       this.nn.cleanup();
       delete this.nn;
     }
-
   }
 
   cleanupValidationPreview() {
     if (this.vp) {
       this.vp.cleanup();
-      delete this.nn;
     }
-
   }
 }

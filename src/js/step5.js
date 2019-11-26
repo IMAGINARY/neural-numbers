@@ -1,9 +1,19 @@
 currentSlide().onEnter = async (controller) => {
   document.querySelector("#previewpaint").style.visibility = "hidden";
+  const els = {
+    status: document.querySelector('#status'),
+    trainingAccuracy: document.querySelector('#training-accuracy'),
+    trainingProgress: document.querySelector('#training-progress'),
+    validationImages: document.querySelector('#validation-images'),
+    validationAccuracy: document.querySelector('#validation-accuracy'),
+    paint: document.querySelector("#previewpaint")
+  };
 
   const updateTrainingUI = () => {
-    document.querySelector("#previewpaint").style.visibility = controller.nn.training ? "hidden" : "visible";
-    document.querySelector("#training-controls .pause-resume").innerHTML = controller.nn.training ? "pause training" : "resume training";
+    if(controller.nn) {
+      document.querySelector("#previewpaint").style.visibility = controller.nn.training ? "hidden" : "visible";
+      document.querySelector("#training-controls .pause-resume").innerHTML = controller.nn.training ? "pause training" : "resume training";
+    }
   };
 
   document.querySelector("#training-controls .pause-resume").onclick = async () => {
@@ -15,7 +25,7 @@ currentSlide().onEnter = async (controller) => {
 
   document.querySelector("#training-controls .reset").onclick = async () => {
     document.querySelector("#training-controls").style.visibility = "hidden";
-    await controller.resetTraining();
+    await controller.resetTraining(els);
     updateTrainingUI();
     document.querySelector("#training-controls").style.visibility = "visible";
   };
@@ -24,14 +34,7 @@ currentSlide().onEnter = async (controller) => {
   await controller.loadData();
   document.querySelector('#status').innerHTML = "MNIST data loaded. Training the neural network...";
   document.querySelector("#training-controls").style.visibility = "visible";
-  await controller.initTrainingEnvironment({
-    status: document.querySelector('#status'),
-    trainingAccuracy: document.querySelector('#training-accuracy'),
-    trainingProgress: document.querySelector('#training-progress'),
-    validationImages: document.querySelector('#validation-images'),
-    validationAccuracy: document.querySelector('#validation-accuracy'),
-    paint: document.querySelector("#previewpaint")
-  });
+  await controller.initTrainingEnvironment(els);
 
   controller.startTraining();
   setTimeout(async () => {
