@@ -5,16 +5,45 @@ export class Paint {
   constructor(el, model) {
     this.drawingChanged = true;
     this.model = model;
-    this.drawcanvas = el.querySelector(".drawcanvas");
-    this.normalizecanvas =  el.querySelector(".normalizecanvas");
-    this.output =  el.querySelector(".bars");
-    this.createUI();
+
+    // last known position
+    this.pos = {
+      x: 0,
+      y: 0
+    };
+
+    this.createUI(el);
   }
 
-  createUI() {
+  addEventListeners() {
+    this.eventfunctions = {
+      'mousemove': ((e) => this.draw(e)),
+      'mouseup': ((e) => this.normalize(1) && this.predict()),
+      'mousedown': ((e) => this.setPosition(e)),
+      'mouseenter': ((e) => this.setPosition(e))
+    };
+
+    for (let eventname in this.eventfunctions) {
+      this.drawcanvas.addEventListener(eventname, this.eventfunctions[eventname]);
+    }
+  }
+
+  removeEventListeners() {
+    for (let eventname in this.eventfunctions) {
+      this.drawcanvas.removeEventListener(eventname, this.eventfunctions[eventname]);
+    }
+  }
+
+  createUI(el) {
+    this.drawcanvas = el.querySelector(".drawcanvas");
+    this.normalizecanvas = el.querySelector(".normalizecanvas");
+    this.output = el.querySelector(".bars");
+
+    this.addEventListeners();
+
     const normalizecanvas = this.normalizecanvas;
     const drawcanvas = this.drawcanvas;
-    SCALE_FACTOR = Math.floor(this.drawcanvas.parentNode.clientWidth/28)-1;
+    SCALE_FACTOR = Math.floor(this.drawcanvas.parentNode.clientWidth / 28) - 1;
     LINEWIDTH = 2 * SCALE_FACTOR;
     normalizecanvas.width = normalizecanvas.height = 28;
     drawcanvas.width = drawcanvas.height = 28 * SCALE_FACTOR;
@@ -27,17 +56,6 @@ export class Paint {
     normalizecanvas.style.width = 28 * SCALE_FACTOR + 'px';
     normalizecanvas.style.height = 28 * SCALE_FACTOR + 'px';
     normalizecanvas.style.imageRendering = 'pixelated';
-
-    // last known position
-    this.pos = {
-      x: 0,
-      y: 0
-    };
-
-    drawcanvas.addEventListener('mousemove', (e) => this.draw(e));
-    drawcanvas.addEventListener('mouseup', (e) => this.normalize(1) && this.predict());
-    drawcanvas.addEventListener('mousedown', (e) => this.setPosition(e));
-    drawcanvas.addEventListener('mouseenter', (e) => this.setPosition(e));
 
 
     const resetbutton = document.createElement("button");
@@ -154,8 +172,10 @@ export class Paint {
 
   predict() {
     if (this.model && this.normalizecanvas && this.drawingChanged) { // && newFrame rendered TODO?
-      const imageTensor = tf.tidy(() => tf.browser.fromPixels(this.normalizecanvas, 1).toFloat().mul(tf.scalar(1 / 255)).clipByValue(0, 1).reshape([1, 28, 28, 1]));
-      const result = this.model.predict(imageTensor);
+      const result = tf.tidy(() => {
+        const imageTensor = tf.browser.fromPixels(this.normalizecanvas, 1).toFloat().mul(tf.scalar(1 / 255)).clipByValue(0, 1).reshape([1, 28, 28, 1]);
+        return this.model.predict(imageTensor);
+      });
 
       const probabilities = result.dataSync();
       const predicted = result.argMax([-1]).dataSync();
@@ -169,9 +189,10 @@ export class Paint {
   }
 
   cleanup() {
+    this.removeEventListeners();
     this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
     this.normalize(100);
-    this.predict();
+    //this.predict();
     this.resetbutton.style.visibility = 'hidden';
 
     while (this.output.firstChild) {
