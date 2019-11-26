@@ -41,7 +41,7 @@ currentSlide().onEnter = async (controller) => {
         updateTrainingUI();
         document.querySelector("#training-controls").style.visibility = "visible";
       }
-    }, 5000 //5 seconds of training
+    }, 5000 //5 seconds of training until automatic pause
   );
 };
 
