@@ -1,5 +1,10 @@
 /* jshint esversion: 8*/
 
+import {
+  TrainingVisualization
+} from './TrainingVisualization.js';
+
+
 export class NeuralNetwork {
   constructor(vp, els) {
     this.els = els;
@@ -13,7 +18,7 @@ export class NeuralNetwork {
     this.els.trainingAccuracy.innerHTML = ``;
     this.els.trainingProgress.innerHTML = `${this.trainedimages} images used for training.`;
 
-    this.visualize();
+    this.visualization = new TrainingVisualization(this, els);
   }
 
   createModel() {
@@ -129,6 +134,8 @@ export class NeuralNetwork {
         ];
       });
 
+      this.visualization.setCurrentTraining(trainXs, trainYs);
+
       await model.fit(trainXs, trainYs, {
         batchSize: BATCH_SIZE,
         //validationData: [testXs, testYs],
@@ -162,8 +169,6 @@ export class NeuralNetwork {
     }
   }
 
-
-
   addPauseCallback(cb) {
     this.pausecbs.push(cb);
   }
@@ -187,88 +192,7 @@ export class NeuralNetwork {
 
   cleanup() {
     this.model.dispose();
-
     this.trainedimages = 0;
     this.lastrainedimages = 0;
-
-    while (this.els.network.firstChild) {
-      this.els.network.removeChild(this.els.network.firstChild);
-    }
-  }
-
-  animateVisualization(canvas, ctx) {
-    if (this.model && this.trainedimages > this.lastvisualization + Math.min(1000, 0.5 * this.trainedimages)) {
-      const HEIGHT = 350;
-
-      function findthreshold(arr, a, b, target) { //binary search to find good
-        const m = (a + b) / 2;
-        if (b - a < 0.001) {
-          return m;
-        } else if (arr.filter(x => x * x > m * m).length < target) { //to few elements for threshold=m -> threshold should be smaller than m
-          return findthreshold(arr, a, m, target);
-        } else { //to many elements
-          return findthreshold(arr, m, b, target);
-        }
-      }
-
-      function drawdenselayer(N, M, weights, x0, y0, width, height) {
-        let threshold = findthreshold(weights, 0, 1, 100);
-        for (let nodeA = 0; nodeA < N; nodeA++) {
-          for (let nodeB = 0; nodeB < M; nodeB++) {
-            const val = weights[nodeA * M + nodeB];
-            if (val * val > threshold * threshold) {
-              ctx.beginPath();
-              ctx.globalAlpha = Math.abs(val) * (0.3 / threshold);
-              ctx.moveTo(x0, y0 + nodeA * height / N);
-              ctx.lineTo(x0 + width, y0 + nodeB * height / M);
-              ctx.stroke();
-            }
-          }
-        }
-      }
-
-      const weights = this.model.getWeights().map(w => w.dataSync());
-      ctx.globalAlpha = 0.1;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      for (let nodeA = 0; nodeA < 784; nodeA++) {
-        ctx.fillStyle = (Math.random() > 0.8) ? 'white' : 'black';
-        ctx.beginPath();
-        ctx.arc(10, 10 + nodeA * HEIGHT / 784, 1, 0, 2 * Math.PI, false);
-        ctx.fill();
-      }
-      ctx.strokeStyle = "black";
-      drawdenselayer(784, 100, weights[0], 10, 10, 120, HEIGHT);
-      ctx.globalAlpha = 1;
-      for (let nodeA = 0; nodeA < 100; nodeA++) {
-        ctx.beginPath();
-        //ctx.globalAlpha = 10*Math.abs(weights[1][nodeA]);
-        ctx.arc(130, 10 + nodeA * HEIGHT / 100, 0.5, 0, 2 * Math.PI, false);
-        ctx.stroke();
-      }
-
-      drawdenselayer(100, 10, weights[2], 130, 10, 120, HEIGHT);
-
-      ctx.globalAlpha = 1;
-      for (let nodeA = 0; nodeA < 10; nodeA++) {
-        ctx.beginPath();
-        //ctx.globalAlpha = 10*Math.abs(weights[3][nodeA]);
-        ctx.arc(250, 10 + nodeA * HEIGHT / 10, 5, 0, 2 * Math.PI, false);
-        ctx.stroke();
-      }
-
-      this.lastvisualization = this.trainedimages;
-    }
-    requestAnimationFrame(() => this.animateVisualization(canvas, ctx));
-  }
-  visualize() {
-    const canvas = document.createElement("canvas");
-    canvas.height = 360;
-    canvas.width = 260;
-    const ctx = canvas.getContext('2d');
-    this.els.network.appendChild(canvas);
-    this.lastvisualization = -1;
-    this.animateVisualization(canvas, ctx);
-
   }
 }

@@ -146,7 +146,9 @@ a::before {
   border: 5px; }
 
 canvas {
-  border-radius: 5px; }
+  border-radius: 5px;
+  text-align: center;
+  }
 
 .split {
   padding: 1em;
@@ -222,5 +224,9 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center; }
+
+#traindigit {
+  width: 28px;
+  height: 28px; }
 
 /*# sourceMappingURL=default.css.map */
