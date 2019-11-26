@@ -117,7 +117,7 @@ export class NeuralNetwork {
     while (this.training) {
       //start slower in beginning, increase step size with time
       //for some reasons I do not understand, BATCH_SIZE=1 kills the model
-      const BATCH_SIZE = 1<<Math.max(1,Math.min(6, this.trainedimages/20 | 0)); //a sequence of increasing powers of two
+      const BATCH_SIZE = 1 << Math.max(1, Math.min(6, this.trainedimages / 20 | 0)); //a sequence of increasing powers of two
       const TRAIN_DATA_SIZE = BATCH_SIZE * Math.min(8, Math.max(1, this.trainedimages / 40 | 0));
       [trainXs, trainYs] = tf.tidy(() => {
         const d = data.nextTrainBatch(TRAIN_DATA_SIZE);
@@ -148,16 +148,15 @@ export class NeuralNetwork {
         this.vp.updateAccuracy(this.model);
         if ((this.trainedimages < 100)) {
           //sleep some time per image
-          await new Promise(resolve => setTimeout(resolve, (1000/(5+4*this.trainedimages))*(this.trainedimages - this.lastrainedimages)));
+          await new Promise(resolve => setTimeout(resolve, (1000 / (5 + 4 * this.trainedimages)) * (this.trainedimages - this.lastrainedimages)));
         }
         this.lastrainedimages = this.trainedimages;
       }
       trainingcallcnt++;
     }
 
-    while(this.pausecbs.length > 0) {
+    while (this.pausecbs.length > 0) {
       (this.pausecbs.pop())();
-      console.log("running pausecallback");
     }
   }
 
@@ -178,7 +177,7 @@ export class NeuralNetwork {
   }
 
   async toggleTraining(data) {
-    if(this.training)
+    if (this.training)
       await this.pauseTraining();
     else
       this.train(data);
