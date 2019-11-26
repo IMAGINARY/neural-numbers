@@ -32,10 +32,6 @@ export class Controller {
     this.paint = new Paint(paintel, this.trainedmodel);
   }
 
-  cleanupPaint() {
-    this.paint.cleanup();
-  }
-
   async loadData() {
     if (!this.dataloaded) {
       await this.data.load();
@@ -88,6 +84,14 @@ export class Controller {
   cleanupValidationPreview() {
     if (this.vp) {
       this.vp.cleanup();
+      delete this.vp;
+    }
+  }
+
+  cleanupPaint() {
+    if(this.paint) {
+        this.paint.cleanup();
+        delete this.paint;
     }
   }
 }

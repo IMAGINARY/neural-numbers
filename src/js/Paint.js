@@ -154,11 +154,8 @@ export class Paint {
 
   predict() {
     if (this.model && this.normalizecanvas && this.drawingChanged) { // && newFrame rendered TODO?
-      const result = tf.tidy(() => {
-        const imageTensor = tf.browser.fromPixels(this.normalizecanvas, 1).toFloat().mul(tf.scalar(1 / 255)).clipByValue(0, 1).reshape([1, 28, 28, 1]);
-        //tf.browser.fromPixels(this.normalizecanvas, 1).print();
-        return this.model.predict(imageTensor);
-      });
+      const imageTensor = tf.tidy(() => tf.browser.fromPixels(this.normalizecanvas, 1).toFloat().mul(tf.scalar(1 / 255)).clipByValue(0, 1).reshape([1, 28, 28, 1]));
+      const result = this.model.predict(imageTensor);
 
       const probabilities = result.dataSync();
       const predicted = result.argMax([-1]).dataSync();

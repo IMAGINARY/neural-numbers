@@ -30,7 +30,7 @@ export class ValidationPreview {
       this.digittext[i] = document.createElement('div');
       this.digitcontainer[i].appendChild(this.digittext[i]);
       container.appendChild(this.digitcontainer[i]);
-      imageTensor.dispose();
+      await imageTensor.dispose();
     }
     //
     this.els.validationImages.appendChild(container);
