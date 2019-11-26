@@ -48,9 +48,9 @@ currentSlide().onEnter = async (controller) => {
 
 currentSlide().onExit = async (controller) => {
   document.querySelector("#training-controls").style.visibility = "hidden";
+  controller.cleanupPaint();
   await controller.pauseTraining();
   controller.cleanupValidationPreview();
   controller.cleanupNetwork();
-  controller.cleanupPaint();
   document.querySelector("#training-controls .pause-resume").innerHTML = "start training";
 };
