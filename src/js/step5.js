@@ -6,6 +6,7 @@ currentSlide().onEnter = async (controller) => {
     trainingProgress: document.querySelector('#training-progress'),
     validationImages: document.querySelector('#validation-images'),
     validationAccuracy: document.querySelector('#validation-accuracy'),
+    network: document.querySelector('#network'),
     paint: document.querySelector("#previewpaint")
   };
 
