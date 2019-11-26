@@ -191,8 +191,8 @@ export class NeuralNetwork {
     this.trainedimages = 0;
     this.lastrainedimages = 0;
 
-    while (this.network.firstChild) {
-      this.network.removeChild(this.network.firstChild);
+    while (this.els.network.firstChild) {
+      this.els.network.removeChild(this.els.network.firstChild);
     }
   }
 
