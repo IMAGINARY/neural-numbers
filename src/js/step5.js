@@ -1,7 +1,7 @@
 currentSlide().onEnter = async (controller) => {
   document.querySelector("#previewpaint").style.visibility = "hidden";
+  let interaction = false;
   const els = {
-    status: document.querySelector('#status'),
     trainingAccuracy: document.querySelector('#training-accuracy'),
     trainingProgress: document.querySelector('#training-progress'),
     validationImages: document.querySelector('#validation-images'),
@@ -10,13 +10,12 @@ currentSlide().onEnter = async (controller) => {
   };
 
   const updateTrainingUI = () => {
-    if(controller.nn) {
-      document.querySelector("#previewpaint").style.visibility = controller.nn.training ? "hidden" : "visible";
-      document.querySelector("#training-controls .pause-resume").innerHTML = controller.nn.training ? "pause training" : "resume training";
-    }
+    document.querySelector("#previewpaint").style.visibility = (controller.nn && controller.nn.training) ? "hidden" : "visible";
+    document.querySelector("#training-controls .pause-resume").innerHTML = (controller.nn && controller.nn.training) ? "pause training" : "resume training";
   };
 
   document.querySelector("#training-controls .pause-resume").onclick = async () => {
+    interaction = true;
     document.querySelector("#training-controls").style.visibility = "hidden";
     await controller.toggleTraining();
     updateTrainingUI();
@@ -24,24 +23,24 @@ currentSlide().onEnter = async (controller) => {
   };
 
   document.querySelector("#training-controls .reset").onclick = async () => {
+    interaction = true;
     document.querySelector("#training-controls").style.visibility = "hidden";
     await controller.resetTraining(els);
     updateTrainingUI();
     document.querySelector("#training-controls").style.visibility = "visible";
   };
 
-
-  await controller.loadData();
-  document.querySelector('#status').innerHTML = "MNIST data loaded. Training the neural network...";
   document.querySelector("#training-controls").style.visibility = "visible";
-  await controller.initTrainingEnvironment(els);
 
+  await controller.initTrainingEnvironment(els);
   controller.startTraining();
   setTimeout(async () => {
-      document.querySelector("#training-controls").style.visibility = "hidden";
-      await controller.pauseTraining();
-      updateTrainingUI();
-      document.querySelector("#training-controls").style.visibility = "visible";
+      if (!interaction) {
+        document.querySelector("#training-controls").style.visibility = "hidden";
+        await controller.pauseTraining();
+        updateTrainingUI();
+        document.querySelector("#training-controls").style.visibility = "visible";
+      }
     }, 5000 //5 seconds of training
   );
 };
