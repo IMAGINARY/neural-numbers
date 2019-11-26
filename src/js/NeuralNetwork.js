@@ -9,6 +9,9 @@ export class NeuralNetwork {
     this.trainedimages = 0;
     this.lastrainedimages = 0;
     this.pausecbs = [];
+
+    this.els.trainingAccuracy.innerHTML = ``;
+    this.els.trainingProgress.innerHTML = `${this.trainedimages} images used for training.`;
   }
 
   createModel() {
