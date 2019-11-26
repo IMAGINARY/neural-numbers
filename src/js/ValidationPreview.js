@@ -4,6 +4,10 @@ export class ValidationPreview {
   constructor(data, els) {
     this.data = data;
     this.els = els;
+
+    this.accuracy = this.displayedAccuracy = 0;
+    this.isanimating = true;
+    this.animate();
   }
 
   async initValidationImages() {
@@ -60,19 +64,28 @@ export class ValidationPreview {
         d.labels
       ];
     });
-    const acc = await model.evaluate(testXs, testYs)[1].dataSync();
+    this.accuracy = await model.evaluate(testXs, testYs)[1].dataSync();
 
-    this.els.validationAccuracy.style = `--angle: ${(1-acc)*360}deg;`;
-    this.els.validationAccuracy.firstElementChild.innerHTML = `${Math.round(acc * 1000)/10} %`;
     //this.els.validationAccuracy.innerHTML = `Accuracy on validation data (approx.): ${(acc * 1000 | 0)/10} %`;
 
     testXs.dispose();
     testYs.dispose();
   }
 
+  animate() {
+    if (!this.isanimating)
+      return;
+    const alpha = 0.05;
+    this.displayedAccuracy = (1 - alpha) * this.displayedAccuracy + alpha * this.accuracy;
+    this.els.validationAccuracy.style = `--angle: ${(1-this.displayedAccuracy)*360}deg;`;
+    this.els.validationAccuracy.firstElementChild.innerHTML = `${(this.displayedAccuracy < 0.95) ? Math.round(this.displayedAccuracy * 100) : Math.round(this.displayedAccuracy * 1000) /10}%`;
+    window.requestAnimationFrame(() => this.animate());
+  }
+
   cleanup() {
     while (this.els.validationImages.firstChild) {
       this.els.validationImages.removeChild(this.els.validationImages.firstChild);
     }
+    this.isanimating = false;
   }
 }
