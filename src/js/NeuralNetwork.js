@@ -15,7 +15,7 @@ export class NeuralNetwork {
     this.lastrainedimages = 0;
     this.pausecbs = [];
 
-    this.els.trainingAccuracy.innerHTML = ``;
+    //this.els.trainingAccuracy.innerHTML = ``;
     this.els.trainingProgress.innerHTML = `${this.trainedimages} images used for training.`;
 
     this.visualization = new TrainingVisualization(this, els);
@@ -147,7 +147,7 @@ export class NeuralNetwork {
           },
           onBatchEnd: async (batch, logs) => {
             this.trainedimages += BATCH_SIZE;
-            this.els.trainingAccuracy.innerHTML = `Accuracy on current training data: ${(logs.acc * 1000 | 0)/10}%`;
+            //this.els.trainingAccuracy.innerHTML = `Accuracy on current training data: ${(logs.acc * 1000 | 0)/10}%`;
             this.els.trainingProgress.innerHTML = `${this.trainedimages} images used for training.`;
           }
         }
