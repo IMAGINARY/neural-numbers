@@ -7,6 +7,7 @@ export class ValidationPreview {
 
     this.accuracy = this.displayedAccuracy = 0;
     this.isanimating = true;
+    this.acccbs = [];
     this.animate();
   }
 
@@ -70,6 +71,11 @@ export class ValidationPreview {
 
     testXs.dispose();
     testYs.dispose();
+
+    //run all callbacks for a lower accuracy
+    this.acccbs.filter(p => p.acc <= this.accuracy).map(p => (p.cb)());
+    //delete all callbacks that have been run
+    this.acccbs = this.acccbs.filter(p => p.acc > this.accuracy);
   }
 
   animate() {
@@ -87,5 +93,12 @@ export class ValidationPreview {
       this.els.validationImages.removeChild(this.els.validationImages.firstChild);
     }
     this.isanimating = false;
+  }
+
+  addAccuracyCallback(acc, cb) {
+    this.acccbs.push({
+      cb: cb,
+      acc: acc
+    });
   }
 }

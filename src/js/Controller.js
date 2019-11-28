@@ -101,4 +101,8 @@ export class Controller {
       delete this.paint;
     }
   }
+
+  addAccuracyCallback(acc, cb) {
+    this.vp.addAccuracyCallback(acc, cb);
+  }
 }

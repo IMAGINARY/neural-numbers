@@ -2,7 +2,6 @@ currentSlide().onEnter = async (controller) => {
   document.querySelector("#previewpaint").style.visibility = "hidden";
   let interaction = false;
   const els = {
-    trainingAccuracy: document.querySelector('#training-accuracy'),
     trainingProgress: document.querySelector('#training-progress'),
     validationImages: document.querySelector('#validation-images'),
     validationAccuracy: document.querySelector('#validation-accuracy'),
@@ -35,15 +34,17 @@ currentSlide().onEnter = async (controller) => {
 
   await controller.initTrainingEnvironment(els);
   controller.startTraining();
-  setTimeout(async () => {
-      if (!interaction) {
-        document.querySelector("#training-controls").style.visibility = "hidden";
-        await controller.pauseTraining();
-        updateTrainingUI();
-        document.querySelector("#training-controls").style.visibility = "visible";
-      }
-    }, 5000 //5 seconds of training until automatic pause
-  );
+  const automaticstop = async () => {
+    if (!interaction) {
+      document.querySelector("#training-controls").style.visibility = "hidden";
+      await controller.pauseTraining();
+      updateTrainingUI();
+      document.querySelector("#training-controls").style.visibility = "visible";
+      interaction = true;
+    }
+  };
+  controller.addAccuracyCallback(0.8, automaticstop);
+  setTimeout(interaction, 60000); //automatic stop after one minute
 };
 
 
