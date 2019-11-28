@@ -72,8 +72,8 @@ export class TrainingVisualization {
         if (val * val > threshold * threshold) {
           ctx.beginPath();
           ctx.globalAlpha = Math.abs(val) * (0.3 / threshold);
-          ctx.moveTo(x0, y0 + nodeA * height / N);
-          ctx.lineTo(x0 + width, y0 + nodeB * height / M);
+          ctx.moveTo(x0, y0 + nodeA * height / (N - 1));
+          ctx.lineTo(x0 + width, y0 + nodeB * height / (M - 1));
           ctx.stroke();
         }
       }
@@ -88,7 +88,7 @@ export class TrainingVisualization {
       const cval = values[nodeA] * 255 | 0;
       ctx.fillStyle = `rgb(${cval}, ${cval}, ${cval})`;
       ctx.beginPath();
-      ctx.arc(x0, y0 + nodeA * height / N, radius, 0, 2 * Math.PI, false);
+      ctx.arc(x0, y0 + nodeA * height / (N - 1), radius, 0, 2 * Math.PI, false);
       //ctx.stroke();
       ctx.fill();
     }
@@ -100,16 +100,16 @@ export class TrainingVisualization {
     const ctx = this.ctx;
     const weights = this.nn.model.getWeights().map(w => w.dataSync());
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.lt1 = this.drawdenselayer(784, 100, weights[0], 100, 10, 100, SIZE, this.lt1);
-    this.drawnodes(100, new Float32Array(100), 200, 10, SIZE, 1);
-    this.lt2 = this.drawdenselayer(100, 10, weights[2], 200, 10, 100, SIZE, this.lt2);
+    this.lt1 = this.drawdenselayer(784, 100, weights[0], 100, 10, 100, (SIZE-20), this.lt1);
+    this.drawnodes(100, new Float32Array(100), 200, 10, (SIZE-20), 1);
+    this.lt2 = this.drawdenselayer(100, 10, weights[2], 200, 10, 100, (SIZE-20), this.lt2);
     this.renderCurrentTraining();
 
     //draw digits
     ctx.fillStyle = 'black';
     for (let k = 0; k < 10; k++) {
       const x0 = 340;
-      const y0 = 10 + SIZE * k / 10;
+      const y0 = 10 + (SIZE-20) * k / (10-1);
       ctx.font = "20px Ubuntu";
       ctx.fillText(k, x0, y0 + 8);
     }
@@ -149,9 +149,9 @@ export class TrainingVisualization {
 
   renderCurrentTraining() {
     const ctx = this.ctx;
-    this.drawnodes(784, this.currentDigit, 100, 10, SIZE, .5);
-    this.drawnodes(10, this.currentProbabilities, 300, 10, SIZE, 5);
-    this.drawnodes(10, this.currentTarget, 330, 10, SIZE, 5);
+    this.drawnodes(784, this.currentDigit, 100, 10, (SIZE-20), .5);
+    this.drawnodes(10, this.currentProbabilities, 300, 10, (SIZE-20), 5);
+    this.drawnodes(10, this.currentTarget, 330, 10, (SIZE-20), 5);
     ctx.imageSmoothingEnabled = false; //no antialiasing
     ctx.drawImage(this.traindigit, 0, 0, 28, 28, 5, SIZE / 2 - 3 * 28 / 2, 28 * 3, 28 * 3);
   }
