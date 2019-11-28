@@ -10,13 +10,14 @@
     canvas#network
   .split.validation
     h3 Validation
-    div 50 randomly choosen images of the validation set:
-      #validation-images
-    p
     div accuracy on entire validation set:
       p
         #validation-accuracy(style="--angle:360deg")
           div 0%
+    div 50 randomly choosen images of the validation set:
+      #validation-images
+    p
+  
   #previewpaint.box
     div Test the just trained network
     .paint
