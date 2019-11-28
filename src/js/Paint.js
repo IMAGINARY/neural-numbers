@@ -17,10 +17,13 @@ export class Paint {
 
   addEventListeners() {
     this.eventfunctions = {
-      'mousemove': ((e) => this.draw(e)),
+      'mousemove': ((e) => this.draw(e, e.buttons == 1)),
       'mouseup': ((e) => this.normalize(1) && this.predict()),
       'mousedown': ((e) => this.setPosition(e)),
-      'mouseenter': ((e) => this.setPosition(e))
+      'mouseenter': ((e) => this.setPosition(e)),
+      'touchstart': ((e) => this.setPosition(e.touches[0])),
+      'touchmove': ((e) => this.draw(e.touches[0], true)),
+      'touchend': ((e) => this.normalize(1) && this.predict())
     };
 
     for (let eventname in this.eventfunctions) {
@@ -98,9 +101,9 @@ export class Paint {
     this.pos.y = (e.clientY - rect.top);
   }
 
-  draw(e) {
+  draw(e, hasbeendown) {
     // mouse left button must be pressed
-    if (e.buttons !== 1) return;
+    if (!hasbeendown) return;
     this.drawcontext.beginPath(); // begin
 
     this.drawcontext.lineWidth = LINEWIDTH;
@@ -117,7 +120,7 @@ export class Paint {
     this.normalizecontext.fillRect(0, 0, this.normalizecanvas.width, this.normalizecanvas.height);
 
     this.drawingChanged = true;
-    this.normalize(17);
+    this.normalize(23 * LINEWIDTH);
     this.predict();
     this.resetbutton.style.visibility = 'visible';
   }
