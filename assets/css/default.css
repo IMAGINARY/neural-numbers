@@ -253,4 +253,9 @@ canvas {
   width: 28px;
   height: 28px; }
 
+#network {
+  position: relative;
+  width: 90%;
+  max-width: 60vh; }
+
 /*# sourceMappingURL=default.css.map */

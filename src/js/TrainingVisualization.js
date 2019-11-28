@@ -1,6 +1,6 @@
 /* jshint esversion: 8*/
 
-const HEIGHT = 350;
+const SIZE = 360;
 
 export class TrainingVisualization {
   constructor(nn, els) {
@@ -10,9 +10,12 @@ export class TrainingVisualization {
     this.currentProbabilities = this.currentTarget = new Float32Array(10);
 
     const canvas = this.canvas = this.els.network;
-    canvas.height = 360;
-    canvas.width = 350;
+    canvas.height = canvas.clientWidth;
+    canvas.width = canvas.clientWidth;
     const ctx = this.ctx = canvas.getContext('2d');
+
+    canvas.addEventListener("resize", (e) => this.updatescaling());
+    this.updatescaling();
     //this.lastvisualization = -1;
 
     this.traindigit = document.createElement("canvas");
@@ -21,6 +24,11 @@ export class TrainingVisualization {
     this.lt1 = 0.08;
     this.lt2 = 0.2;
     //this.animateNetwork();
+  }
+
+  updatescaling() {
+    const ratio = this.canvas.clientWidth/SIZE;
+    this.ctx.scale(ratio, ratio);
   }
 
   findthreshold(arr, a, b, target) { //binary search to find good
@@ -92,9 +100,9 @@ export class TrainingVisualization {
     const ctx = this.ctx;
     const weights = this.nn.model.getWeights().map(w => w.dataSync());
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.lt1 = this.drawdenselayer(784, 100, weights[0], 100, 10, 100, HEIGHT, this.lt1);
-    this.drawnodes(100, new Float32Array(100), 200, 10, HEIGHT, 1);
-    this.lt2 = this.drawdenselayer(100, 10, weights[2], 200, 10, 100, HEIGHT, this.lt2);
+    this.lt1 = this.drawdenselayer(784, 100, weights[0], 100, 10, 100, SIZE, this.lt1);
+    this.drawnodes(100, new Float32Array(100), 200, 10, SIZE, 1);
+    this.lt2 = this.drawdenselayer(100, 10, weights[2], 200, 10, 100, SIZE, this.lt2);
     this.renderCurrentTraining();
     //this.lastvisualization = this.nn.trainedimages;
   }
@@ -133,10 +141,10 @@ export class TrainingVisualization {
 
   renderCurrentTraining() {
     const ctx = this.ctx;
-    this.drawnodes(784, this.currentDigit, 100, 10, HEIGHT, 1);
-    this.drawnodes(10, this.currentProbabilities, 300, 10, HEIGHT, 5);
-    this.drawnodes(10, this.currentTarget, 330, 10, HEIGHT, 5);
+    this.drawnodes(784, this.currentDigit, 100, 10, SIZE, 1);
+    this.drawnodes(10, this.currentProbabilities, 300, 10, SIZE, 5);
+    this.drawnodes(10, this.currentTarget, 330, 10, SIZE, 5);
     ctx.imageSmoothingEnabled = false; //no antialiasing
-    ctx.drawImage(this.traindigit, 0, 0, 28, 28, 5, HEIGHT / 2 - 3 * 28 / 2, 28 * 3, 28 * 3);
+    ctx.drawImage(this.traindigit, 0, 0, 28, 28, 5, SIZE / 2 - 3 * 28 / 2, 28 * 3, 28 * 3);
   }
 }
