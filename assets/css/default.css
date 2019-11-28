@@ -97,11 +97,20 @@ body::after {
 
 #training-controls {
   border-radius: 50px;
-  width: 5vw; }
+  width: 10vw;
+  margin: auto; }
 
-.bottomleft > a::before {
-  content: "»";
+.navigation > a::before {
+  content: "» ";
   display: inline-block; }
+
+a {
+  text-decoration: none;
+  color: #1e1e1e;
+  font-weight: 700; }
+
+a:hover {
+  text-shadow: 0 0 2px #f80; }
 
 .paint {
   display: flex; }
@@ -113,8 +122,16 @@ body::after {
 #intropaint > div {
   width: 21vw; }
 
-#previewpaint > div {
-  width: 30%; }
+#previewpaint {
+  width: 60vw;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  position: absolute;
+  bottom: 10vh;
+  right: 0; }
+
+.paint > div {
+  width: 32%; }
 
 .paint > div > p {
   height: 5%;
@@ -155,6 +172,7 @@ canvas {
 .split {
   padding: 1em;
   position: absolute;
+  text-align: center;
   left: 0;
   top: 0;
   bottom: 0;
@@ -182,9 +200,13 @@ canvas {
   color: black; }
 
 .split.step3 > div {
-  position: absolute;
   top: 80%;
   width: 100%; }
+
+.split.step3 > div::before {
+  display: inline-block;
+  content: "";
+  height: 70vh; }
 
 #validation-images > div {
   display: flex;

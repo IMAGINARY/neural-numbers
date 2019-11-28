@@ -1,9 +1,11 @@
 .slide
   .split.training
     h3 Training network
+    div Let us train a network with the MNIST data-set...
     #training-controls(style="visibility:hidden;").box
-      a(href="#5").pause-resume ▮▮
-      a(href="#5").reset ⟲
+      a(href="#4").pause-resume ▮▮
+      |  | 
+      a(href="#4").reset ⟲
     #training-progress
     #training-accuracy
     canvas#network
@@ -16,7 +18,9 @@
       p
         #validation-accuracy(style="--angle:360deg")
           div 0%
-  #previewpaint.box.bottomleft.paint
+  #previewpaint.box
+    div Test the just trained network
+    .paint
       div
         p <b>Draw</b> a digit here:
         canvas.drawcanvas
