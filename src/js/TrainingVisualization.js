@@ -99,14 +99,14 @@ export class TrainingVisualization {
     //this.lastvisualization = this.nn.trainedimages;
   }
 
-/*
-  animateNetwork() {
-    if (this.nn.trainedimages > this.lastvisualization + Math.min(512, 0.1 * this.nn.trainedimages)) {
-      this.renderNetwork();
+  /*
+    animateNetwork() {
+      if (this.nn.trainedimages > this.lastvisualization + Math.min(512, 0.1 * this.nn.trainedimages)) {
+        this.renderNetwork();
+      }
+      requestAnimationFrame(() => this.animateNetwork());
     }
-    requestAnimationFrame(() => this.animateNetwork());
-  }
-*/
+  */
   async setCurrentTraining(trainXs, trainYs) {
     const trainX1 = trainXs.slice([0, 0, 0, 0], [1, 28, 28, 1]); //only the first
     const imageTensor = trainX1.reshape([28, 28, 1]); //first as image
@@ -137,6 +137,6 @@ export class TrainingVisualization {
     this.drawnodes(10, this.currentProbabilities, 300, 10, HEIGHT, 5);
     this.drawnodes(10, this.currentTarget, 330, 10, HEIGHT, 5);
     ctx.imageSmoothingEnabled = false; //no antialiasing
-    ctx.drawImage(this.traindigit, 0, 0, 28, 28, 5, HEIGHT / 2 - 28 / 2, 28 * 3, 28 * 3);
+    ctx.drawImage(this.traindigit, 0, 0, 28, 28, 5, HEIGHT / 2 - 3 * 28 / 2, 28 * 3, 28 * 3);
   }
 }
