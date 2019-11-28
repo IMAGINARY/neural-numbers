@@ -1,7 +1,6 @@
 //import 'core-js/stable';
 //import 'regenerator-runtime/runtime';
 
-const NUMBER_OF_SLIDES = 5;
 
 export class View {
   constructor(controller) {
@@ -12,6 +11,7 @@ export class View {
   createEvents() {
     window.addEventListener('DOMContentLoaded', (event) => {
       this.slides = document.querySelectorAll('.slide');
+      this.NUMBER_OF_SLIDES = this.slides.length - 1;
       this.showSlideByURL();
     });
 
@@ -25,10 +25,10 @@ export class View {
       const id = this.getCurrentSlideID();
       switch (event.key) {
         case "ArrowLeft":
-          this.setSlide((id - 2 + NUMBER_OF_SLIDES) % NUMBER_OF_SLIDES + 1);
+          this.setSlide((id - 2 + this.NUMBER_OF_SLIDES) % this.NUMBER_OF_SLIDES + 1);
           break;
         case "ArrowRight":
-          this.setSlide(id % NUMBER_OF_SLIDES + 1);
+          this.setSlide(id % this.NUMBER_OF_SLIDES + 1);
           break;
       }
     });

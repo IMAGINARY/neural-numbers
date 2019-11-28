@@ -12,7 +12,7 @@ currentSlide().onEnter = async (controller) => {
 
   const updateTrainingUI = () => {
     document.querySelector("#previewpaint").style.visibility = (controller.nn && controller.nn.training) ? "hidden" : "visible";
-    document.querySelector("#training-controls .pause-resume").innerHTML = (controller.nn && controller.nn.training) ? "pause training" : "resume training";
+    document.querySelector("#training-controls .pause-resume").innerHTML = (controller.nn && controller.nn.training) ? "▮▮" : "▶";
   };
 
   document.querySelector("#training-controls .pause-resume").onclick = async () => {
@@ -53,5 +53,5 @@ currentSlide().onExit = async (controller) => {
   await controller.pauseTraining();
   controller.cleanupValidationPreview();
   controller.cleanupNetwork();
-  document.querySelector("#training-controls .pause-resume").innerHTML = "start training";
+  document.querySelector("#training-controls .pause-resume").innerHTML = "▮▮";
 };

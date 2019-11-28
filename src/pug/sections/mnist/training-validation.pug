@@ -1,9 +1,9 @@
 .slide
   .split.training
     h3 Training network
-    #training-controls(style="visibility:hidden;")
-      a(href="#5").pause-resume pause training
-      a(href="#5").reset reset training
+    #training-controls(style="visibility:hidden;").box
+      a(href="#5").pause-resume ▮▮
+      a(href="#5").reset ⟲
     #training-progress
     #training-accuracy
     canvas#network
@@ -28,4 +28,4 @@
         div.bars
   .box.navigation    
     a(href="index.html#1") restart
-  script(type="text/javascript", src="src/js/step5.js")
+  script(type="text/javascript", src="src/js/training-validation.js")

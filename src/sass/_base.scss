@@ -84,7 +84,12 @@ body::after {
   transform: translate(-50%, -50%);
 }
 
-a::before {
+#training-controls {
+  border-radius: 50px;
+  width: 5vw;
+}
+
+.bottomleft > a::before {
   content: "»";
   display: inline-block;
 }
