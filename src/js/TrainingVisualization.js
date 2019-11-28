@@ -27,7 +27,7 @@ export class TrainingVisualization {
   }
 
   updatescaling() {
-    const ratio = this.canvas.clientWidth/SIZE;
+    const ratio = this.canvas.clientWidth / SIZE;
     this.ctx.scale(ratio, ratio);
   }
 
@@ -89,7 +89,7 @@ export class TrainingVisualization {
       ctx.fillStyle = `rgb(${cval}, ${cval}, ${cval})`;
       ctx.beginPath();
       ctx.arc(x0, y0 + nodeA * height / N, radius, 0, 2 * Math.PI, false);
-      ctx.stroke();
+      //ctx.stroke();
       ctx.fill();
     }
   }
@@ -104,6 +104,15 @@ export class TrainingVisualization {
     this.drawnodes(100, new Float32Array(100), 200, 10, SIZE, 1);
     this.lt2 = this.drawdenselayer(100, 10, weights[2], 200, 10, 100, SIZE, this.lt2);
     this.renderCurrentTraining();
+
+    //draw digits
+    ctx.fillStyle = 'black';
+    for (let k = 0; k < 10; k++) {
+      const x0 = 340;
+      const y0 = 10 + SIZE * k / 10;
+      ctx.font = "20px Ubuntu";
+      ctx.fillText(k, x0, y0 + 8);
+    }
     //this.lastvisualization = this.nn.trainedimages;
   }
 
@@ -128,7 +137,6 @@ export class TrainingVisualization {
     //const target = trainY1.reshape([10]);
     this.currentTarget = trainY1.dataSync();
 
-    this.renderCurrentTraining();
     this.renderNetwork();
 
     //clean up tensors
