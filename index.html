@@ -90,34 +90,50 @@
           been used for training, for validation.
         </div>
         <div class="split training step3">
-          <div><b>80%</b> of the images are used for <b>training</b></div>
+          <div class="space"> </div>
+          <div class="speech-bubble-anchor"><b>80%</b> of the images are used for <b>training</b>
+            <div class="bubble">These are 0.8*70 000 = 56 000 images!</div>
+          </div>
         </div>
         <div class="split validation step3">
+          <div class="space"> </div>
           <div><b>20%</b> of the images are used for <b>validation</b></div>
         </div>
         <div class="box navigation">   <a href="index.html#4">start training</a></div>
         <script type="text/javascript">
           currentSlide().onEnter = () => {
             document.querySelector('.background').style.filter = 'blur(0px)';
+            setTimeout(()=>{
+              document.querySelector('.step3 .bubble').classList.add('visible');
+            }, 3000);
           };
           currentSlide().onExit = () => {
             document.querySelector('.background').style.filter = 'blur(10px)';
+            document.querySelector('.step3 .bubble').classList.remove('visible');
           };
         </script>
       </div>
       <!--include mnist/network-topology-->
       <div class="slide">
         <div class="split training">
-          <h3>Training network</h3>
-          <div>Let us train a network with the MNIST data-set...</div>
+          <h3>Training network   </h3>
+          <div class="speech-bubble-anchor">
+            <div class="bubble whentrainingpaused">Click here to continue or restart training.</div>
+          </div>
           <div class="box" id="training-controls" style="visibility:hidden;"><a class="pause-resume" href="#4">▮▮</a> | <a class="reset" href="#4">⟲</a></div>
           <div id="training-progress"></div>
           <canvas id="network"></canvas>
+          <div class="speech-bubble-anchor" style="position:relative; left: -20vw;">
+            <div class="bubble visible" id="introbubble">We are using the MNIST data-set to train a neuronal network.</div>
+          </div>
         </div>
         <div class="split validation">
           <h3>Validation</h3>
           <div>accuracy on entire validation set:
             <p>
+              <div class="speech-bubble-anchor">
+                <div class="bubble whentrainingpaused">Further training might enhance this accuracy.</div>
+              </div>
               <div id="validation-accuracy" style="--angle:360deg">
                 <div>0%</div>
               </div>

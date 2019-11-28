@@ -1,17 +1,22 @@
 .slide
   .split.training
-    h3 Training network
-    div Let us train a network with the MNIST data-set...
+    h3 Training network   
+    .speech-bubble-anchor
+      .bubble.whentrainingpaused Click here to continue or restart training.
     #training-controls(style="visibility:hidden;").box
       a(href="#4").pause-resume ▮▮
       |  | 
       a(href="#4").reset ⟲
     #training-progress
     canvas#network
+    .speech-bubble-anchor(style="position:relative; left: -20vw;")
+      #introbubble.bubble.visible We are using the MNIST data-set to train a neuronal network.
   .split.validation
     h3 Validation
     div accuracy on entire validation set:
       p
+        .speech-bubble-anchor
+          .bubble.whentrainingpaused Further training might enhance this accuracy.
         #validation-accuracy(style="--angle:360deg")
           div 0%
     div 50 randomly choosen images of the validation set:

@@ -199,15 +199,6 @@ canvas {
   font-size: 1em;
   color: black; }
 
-.split.step3 > div {
-  top: 80%;
-  width: 100%; }
-
-.split.step3 > div::before {
-  display: inline-block;
-  content: "";
-  height: 70vh; }
-
 #validation-images > div {
   display: flex;
   flex-wrap: wrap; }
@@ -257,5 +248,95 @@ canvas {
   position: relative;
   width: 90%;
   max-width: 60vh; }
+
+.space {
+  display: block;
+  content: "";
+  height: 70vh; }
+
+.bubble {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s linear, opacity 0.3s linear;
+  z-index: 100;
+  display: block;
+  position: absolute;
+  padding: 0.5em;
+  text-align: center;
+  width: auto;
+  height: auto;
+  /*white-space: nowrap;*/
+  top: -50px;
+  left: 50%;
+  ttransform: translate(-50%, 0);
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  color: white;
+  font-size: 0.8em; }
+
+.bubble:after {
+  position: absolute;
+  display: block;
+  content: "";
+  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+  border-style: solid;
+  border-width: 10px;
+  height: 0;
+  width: 0;
+  position: absolute;
+  bottom: -20px;
+  left: 1em; }
+
+.speech-bubble-anchor {
+  position: relative; }
+
+.bubble.visible {
+  visibility: visible;
+  opacity: 1; }
+
+.space {
+  display: block;
+  content: "";
+  height: 70vh; }
+
+.bubble {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s linear, opacity 0.3s linear;
+  z-index: 100;
+  display: block;
+  position: absolute;
+  padding: 0.5em;
+  text-align: center;
+  width: auto;
+  height: auto;
+  /*white-space: nowrap;*/
+  top: -50px;
+  left: 50%;
+  ttransform: translate(-50%, 0);
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  color: white;
+  font-size: 0.8em; }
+
+.bubble:after {
+  position: absolute;
+  display: block;
+  content: "";
+  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+  border-style: solid;
+  border-width: 10px;
+  height: 0;
+  width: 0;
+  position: absolute;
+  bottom: -20px;
+  left: 1em; }
+
+.speech-bubble-anchor {
+  position: relative; }
+
+.bubble.visible {
+  visibility: visible;
+  opacity: 1; }
 
 /*# sourceMappingURL=default.css.map */

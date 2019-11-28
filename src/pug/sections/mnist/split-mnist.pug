@@ -7,15 +7,22 @@
     | Therefore, we are using the remaining part of the images, that have not
     | been used for training, for validation.
   .split.training.step3
-    div <b>80%</b> of the images are used for <b>training</b>
+    .space 
+    div.speech-bubble-anchor <b>80%</b> of the images are used for <b>training</b>
+        .bubble These are 0.8*70 000 = 56 000 images!
   .split.validation.step3
+    .space 
     div <b>20%</b> of the images are used for <b>validation</b>
   .box.navigation    
     a(href="index.html#4") start training
   script(type="text/javascript").
     currentSlide().onEnter = () => {
       document.querySelector('.background').style.filter = 'blur(0px)';
+      setTimeout(()=>{
+        document.querySelector('.step3 .bubble').classList.add('visible');
+      }, 3000);
     };
     currentSlide().onExit = () => {
       document.querySelector('.background').style.filter = 'blur(10px)';
+      document.querySelector('.step3 .bubble').classList.remove('visible');
     };

@@ -1,15 +1,61 @@
 @import "warning";
-
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/mixins/_breakpoints";
-
 @import "util";
 @import "util_exhibits";
-
 @import "colors";
 @import "fonts";
 @import "type";
 @import "z_index";
-
 @import "base";
+
+.space {
+  display: block;
+  content: "";
+  height: 70vh;
+}
+
+.bubble {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s linear, opacity 0.3s linear;
+  z-index: 100;
+  display: block;
+  position: absolute;
+  padding: 0.5em;
+  text-align: center;
+  width: auto;
+  height: auto;
+  /*white-space: nowrap;*/
+  top: -50px;
+  left: 50%;
+  ttransform: translate(-50%, 0);
+  background: rgba(0,0,0,.8);
+  border-radius: 10px;
+  color: white;
+  font-size: 0.8em;
+}
+
+.bubble:after {
+  position: absolute;
+  display: block;
+  content: "";
+  border-color: rgba(0,0,0,.8) transparent transparent transparent;
+  border-style: solid;
+  border-width: 10px;
+  height: 0;
+  width: 0;
+  position: absolute;
+  bottom: -20px;
+  left: 1em;
+}
+
+.speech-bubble-anchor {
+  position: relative;
+}
+
+.bubble.visible {
+  visibility: visible;
+  opacity: 1;
+}

@@ -100,16 +100,16 @@ export class TrainingVisualization {
     const ctx = this.ctx;
     const weights = this.nn.model.getWeights().map(w => w.dataSync());
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.lt1 = this.drawdenselayer(784, 100, weights[0], 100, 10, 100, (SIZE-20), this.lt1);
-    this.drawnodes(100, new Float32Array(100), 200, 10, (SIZE-20), 1);
-    this.lt2 = this.drawdenselayer(100, 10, weights[2], 200, 10, 100, (SIZE-20), this.lt2);
+    this.lt1 = this.drawdenselayer(784, 100, weights[0], 100, 10, 100, (SIZE - 20), this.lt1);
+    this.drawnodes(100, new Float32Array(100), 200, 10, (SIZE - 20), 1);
+    this.lt2 = this.drawdenselayer(100, 10, weights[2], 200, 10, 100, (SIZE - 20), this.lt2);
     this.renderCurrentTraining();
 
     //draw digits
     ctx.fillStyle = 'black';
     for (let k = 0; k < 10; k++) {
       const x0 = 340;
-      const y0 = 10 + (SIZE-20) * k / (10-1);
+      const y0 = 10 + (SIZE - 20) * k / (10 - 1);
       ctx.font = "20px Ubuntu";
       ctx.fillText(k, x0, y0 + 8);
     }
@@ -149,9 +149,9 @@ export class TrainingVisualization {
 
   renderCurrentTraining() {
     const ctx = this.ctx;
-    this.drawnodes(784, this.currentDigit, 100, 10, (SIZE-20), .5);
-    this.drawnodes(10, this.currentProbabilities, 300, 10, (SIZE-20), 5);
-    this.drawnodes(10, this.currentTarget, 330, 10, (SIZE-20), 5);
+    this.drawnodes(784, this.currentDigit, 100, 10, (SIZE - 20), .5);
+    this.drawnodes(10, this.currentProbabilities, 300, 10, (SIZE - 20), 5);
+    this.drawnodes(10, this.currentTarget, 330, 10, (SIZE - 20), 5);
     ctx.imageSmoothingEnabled = false; //no antialiasing
     ctx.drawImage(this.traindigit, 0, 0, 28, 28, 5, SIZE / 2 - 3 * 28 / 2, 28 * 3, 28 * 3);
   }

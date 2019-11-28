@@ -1,5 +1,8 @@
 currentSlide().onEnter = async (controller) => {
   document.querySelector("#previewpaint").style.visibility = "hidden";
+  document.querySelector("#training-controls").style.visibility = "hidden";
+  document.querySelector("#introbubble").classList.add('visible');
+
   let interaction = false;
   const els = {
     trainingProgress: document.querySelector('#training-progress'),
@@ -12,9 +15,18 @@ currentSlide().onEnter = async (controller) => {
   const updateTrainingUI = () => {
     document.querySelector("#previewpaint").style.visibility = (controller.nn && controller.nn.training) ? "hidden" : "visible";
     document.querySelector("#training-controls .pause-resume").innerHTML = (controller.nn && controller.nn.training) ? "▮▮" : "▶";
+    //speech-bubbles
+    document.querySelectorAll(".whentrainingpaused").forEach((item) => {
+      if (controller.nn && !controller.nn.training) {
+        item.classList.add('visible');
+      } else {
+        item.classList.remove('visible');
+      }
+    });
   };
 
   document.querySelector("#training-controls .pause-resume").onclick = async () => {
+    document.querySelector("#introbubble").classList.remove('visible');
     interaction = true;
     document.querySelector("#training-controls").style.visibility = "hidden";
     await controller.toggleTraining();
@@ -23,6 +35,7 @@ currentSlide().onEnter = async (controller) => {
   };
 
   document.querySelector("#training-controls .reset").onclick = async () => {
+    document.querySelector("#introbubble").classList.add('visible');
     interaction = true;
     document.querySelector("#training-controls").style.visibility = "hidden";
     await controller.resetTraining(els);
@@ -36,6 +49,7 @@ currentSlide().onEnter = async (controller) => {
   controller.startTraining();
   const automaticstop = async () => {
     if (!interaction) {
+      document.querySelector("#introbubble").classList.remove('visible');
       document.querySelector("#training-controls").style.visibility = "hidden";
       await controller.pauseTraining();
       updateTrainingUI();
@@ -49,10 +63,8 @@ currentSlide().onEnter = async (controller) => {
 
 
 currentSlide().onExit = async (controller) => {
-  document.querySelector("#training-controls").style.visibility = "hidden";
   controller.cleanupPaint();
   await controller.pauseTraining();
   controller.cleanupValidationPreview();
   controller.cleanupNetwork();
-  document.querySelector("#training-controls .pause-resume").innerHTML = "▮▮";
 };
