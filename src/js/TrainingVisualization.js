@@ -149,7 +149,7 @@ export class TrainingVisualization {
 
   renderCurrentTraining() {
     const ctx = this.ctx;
-    this.drawnodes(784, this.currentDigit, 100, 10, SIZE, 1);
+    this.drawnodes(784, this.currentDigit, 100, 10, SIZE, .5);
     this.drawnodes(10, this.currentProbabilities, 300, 10, SIZE, 5);
     this.drawnodes(10, this.currentTarget, 330, 10, SIZE, 5);
     ctx.imageSmoothingEnabled = false; //no antialiasing
