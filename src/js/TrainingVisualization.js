@@ -13,18 +13,20 @@ export class TrainingVisualization {
     canvas.height = 360;
     canvas.width = 350;
     const ctx = this.ctx = canvas.getContext('2d');
-    this.lastvisualization = -1;
+    //this.lastvisualization = -1;
 
     this.traindigit = document.createElement("canvas");
     this.traindigit.width = this.traindigit.height = 28;
 
-    this.animateNetwork();
+    this.lt1 = 0.08;
+    this.lt2 = 0.2;
+    //this.animateNetwork();
   }
 
   findthreshold(arr, a, b, target) { //binary search to find good
     const m = (a + b) / 2;
     const ccnt = arr.filter(x => x * x > m * m).length;
-    if (b - a < 0.001 || Math.abs(ccnt - target) < target * 0.02) { //correct up to 20%
+    if (b - a < 0.001 || Math.abs(ccnt - target) < target * 0.2) { //correct up to 20%
       return m;
     } else if (ccnt < target) { //to few elements for threshold=m -> threshold should be smaller than m
       return this.findthreshold(arr, a, m, target);
@@ -34,10 +36,28 @@ export class TrainingVisualization {
   }
 
 
-  drawdenselayer(N, M, weights, x0, y0, width, height) {
+  drawdenselayer(N, M, weights, x0, y0, width, height, lastthreshold) {
     const ctx = this.ctx;
     ctx.strokeStyle = "black";
-    let threshold = this.findthreshold(weights, 0, 1, 100);
+    /*
+    //takes about 120ms for 78400 weights
+
+    const topWeights = Array.from(weights).map((v, k) => [Math.abs(v), k]).sort((a, b) => (a[0] - b[0])).slice(Math.max(0, weights.length - 100));
+    const maxWeight = topWeights[topWeights.length - 1][0];
+    for (let k in topWeights) {
+      const nodeB = topWeights[k][1] % M;
+      const nodeA = topWeights[k][1] / M;
+      const val = topWeights[k][0];
+      ctx.beginPath();
+      ctx.globalAlpha = val / topWeights[0][0];
+      ctx.moveTo(x0, y0 + nodeA * height / N);
+      ctx.lineTo(x0 + width, y0 + nodeB * height / M);
+      ctx.stroke();
+    }
+    */
+
+    //takes about 40ms for 784 weights
+    let threshold = this.findthreshold(weights, lastthreshold * 0.8, lastthreshold * 1.2, 100);
     for (let nodeA = 0; nodeA < N; nodeA++) {
       for (let nodeB = 0; nodeB < M; nodeB++) {
         const val = weights[nodeA * M + nodeB];
@@ -51,6 +71,7 @@ export class TrainingVisualization {
       }
     }
     ctx.globalAlpha = 1;
+    return threshold;
   }
 
   drawnodes(N, values, x0, y0, height, radius) {
@@ -65,21 +86,27 @@ export class TrainingVisualization {
     }
   }
 
+
+  renderNetwork() {
+    const canvas = this.canvas;
+    const ctx = this.ctx;
+    const weights = this.nn.model.getWeights().map(w => w.dataSync());
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.lt1 = this.drawdenselayer(784, 100, weights[0], 100, 10, 100, HEIGHT, this.lt1);
+    this.drawnodes(100, new Float32Array(100), 200, 10, HEIGHT, 1);
+    this.lt2 = this.drawdenselayer(100, 10, weights[2], 200, 10, 100, HEIGHT, this.lt2);
+    this.renderCurrentTraining();
+    //this.lastvisualization = this.nn.trainedimages;
+  }
+
+/*
   animateNetwork() {
-    if (this.nn.trainedimages > this.lastvisualization + Math.min(1000, 0.1 * this.nn.trainedimages)) {
-      const canvas = this.canvas;
-      const ctx = this.ctx;
-      const weights = this.nn.model.getWeights().map(w => w.dataSync());
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      this.drawdenselayer(784, 100, weights[0], 100, 10, 100, HEIGHT);
-      this.drawnodes(100, new Float32Array(100), 200, 10, HEIGHT, 1);
-      this.drawdenselayer(100, 10, weights[2], 200, 10, 100, HEIGHT);
-      this.renderCurrentTraining();
-      this.lastvisualization = this.nn.trainedimages;
+    if (this.nn.trainedimages > this.lastvisualization + Math.min(512, 0.1 * this.nn.trainedimages)) {
+      this.renderNetwork();
     }
     requestAnimationFrame(() => this.animateNetwork());
   }
-
+*/
   async setCurrentTraining(trainXs, trainYs) {
     const trainX1 = trainXs.slice([0, 0, 0, 0], [1, 28, 28, 1]); //only the first
     const imageTensor = trainX1.reshape([28, 28, 1]); //first as image
@@ -94,6 +121,7 @@ export class TrainingVisualization {
     this.currentTarget = trainY1.dataSync();
 
     this.renderCurrentTraining();
+    this.renderNetwork();
 
     //clean up tensors
     trainX1.dispose();
