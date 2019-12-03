@@ -2,13 +2,13 @@
   .split.training
     h3 Training network   
     .speech-bubble-anchor
-      .bubble.whentrainingpaused Click here to continue or restart training.
+      .bubble.whentrainingpaused Click here to restart or continue training.
     #training-controls(style="visibility:hidden;").box
-      a(href="#4").reset ⟲
+      a(href="#4", title="reset training").reset ⟲
       |  | 
-      a(href="#4").pause-resume ▮▮
+      a(href="#4", title="pause/resume training").pause-resume ▮▮
       |  | 
-      a(href="#4").single-step ▮▶
+      a(href="#4", title="train a single step").single-step ▮▶
       
     #training-progress
     canvas#network
