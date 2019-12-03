@@ -34,6 +34,19 @@ currentSlide().onEnter = async (controller) => {
     document.querySelector("#training-controls").style.visibility = "visible";
   };
 
+  document.querySelector("#training-controls .single-step").onclick = async () => {
+    document.querySelector("#introbubble").classList.remove('visible');
+    interaction = true;
+    document.querySelector("#training-controls").style.visibility = "hidden";
+    if ((controller.nn && controller.nn.training)) {
+      await controller.pauseTraining();
+    } else {
+      await controller.singleStep();
+    }
+    updateTrainingUI();
+    document.querySelector("#training-controls").style.visibility = "visible";
+  };
+
   document.querySelector("#training-controls .reset").onclick = async () => {
     document.querySelector("#introbubble").classList.add('visible');
     interaction = true;

@@ -109,49 +109,60 @@ export class NeuralNetwork {
     model.compile({
       optimizer: optimizer,
       loss: 'categoricalCrossentropy',
+      //optimizer: 'sgd',
+      //loss: 'meanSquaredError',
       metrics: ['accuracy'],
     });
 
     return model;
   }
 
+  async trainByBatchFromData(data, TRAIN_DATA_SIZE, BATCH_SIZE) {
+    const model = this.model;
+    let trainXs, trainYs;
+    [trainXs, trainYs] = tf.tidy(() => {
+      const d = data.nextTrainBatch(TRAIN_DATA_SIZE);
+      return [
+        d.xs.reshape([TRAIN_DATA_SIZE, 28, 28, 1]),
+        d.labels
+      ];
+    });
+
+    this.visualization.setCurrentTraining(trainXs, trainYs);
+
+    await model.fit(trainXs, trainYs, {
+      batchSize: BATCH_SIZE,
+      callbacks: {
+        onEpochEnd: async (epoch, logs) => {},
+        onBatchEnd: async (batch, logs) => {
+          this.trainedimages += BATCH_SIZE;
+          //this.els.trainingAccuracy.innerHTML = `Accuracy on current training data: ${(logs.acc * 1000 | 0)/10}%`;
+          this.els.trainingProgress.innerHTML = `${this.trainedimages} images used for training.`;
+        }
+      }
+    });
+  }
+
+  async trainSingleStep(data) {
+    tf.setBackend('cpu');
+    await this.trainByBatchFromData(data, 1, 1); //results in NaNs when WebGL-backend is used for unknown reasons
+    tf.setBackend('webgl');
+    this.vp.updateValidationImages(this.model);
+    this.vp.updateAccuracy(this.model);
+  }
+
   async train(data) {
     this.training = true;
-    const model = this.model;
+
     let trainingcallcnt = 0;
-    let trainXs, trainYs;
 
     while (this.training) {
       //start slower in beginning, increase step size with time
       //for some reasons I do not understand, BATCH_SIZE=1 kills the model
       const BATCH_SIZE = 1 << Math.max(1, Math.min(6, this.trainedimages / 20 | 0)); //a sequence of increasing powers of two
       const TRAIN_DATA_SIZE = BATCH_SIZE * Math.min(8, Math.max(1, this.trainedimages / 40 | 0));
-      [trainXs, trainYs] = tf.tidy(() => {
-        const d = data.nextTrainBatch(TRAIN_DATA_SIZE);
-        return [
-          d.xs.reshape([TRAIN_DATA_SIZE, 28, 28, 1]),
-          d.labels
-        ];
-      });
+      await this.trainByBatchFromData(data, BATCH_SIZE, TRAIN_DATA_SIZE);
 
-      this.visualization.setCurrentTraining(trainXs, trainYs);
-
-      await model.fit(trainXs, trainYs, {
-        batchSize: BATCH_SIZE,
-        //validationData: [testXs, testYs],
-        //epochs: 1,
-        //shuffle: true,
-        callbacks: {
-          onEpochEnd: async (epoch, logs) => {
-
-          },
-          onBatchEnd: async (batch, logs) => {
-            this.trainedimages += BATCH_SIZE;
-            //this.els.trainingAccuracy.innerHTML = `Accuracy on current training data: ${(logs.acc * 1000 | 0)/10}%`;
-            this.els.trainingProgress.innerHTML = `${this.trainedimages} images used for training.`;
-          }
-        }
-      });
       if ((this.trainedimages > this.lastrainedimages + 1000) || this.trainedimages < 250) {
         this.vp.updateValidationImages(this.model);
         this.vp.updateAccuracy(this.model);

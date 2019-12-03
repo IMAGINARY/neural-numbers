@@ -4,9 +4,12 @@
     .speech-bubble-anchor
       .bubble.whentrainingpaused Click here to continue or restart training.
     #training-controls(style="visibility:hidden;").box
+      a(href="#4").reset ⟲
+      |  | 
       a(href="#4").pause-resume ▮▮
       |  | 
-      a(href="#4").reset ⟲
+      a(href="#4").single-step ▮▶
+      
     #training-progress
     canvas#network
     .speech-bubble-anchor(style="position:relative; left: -20vw;")

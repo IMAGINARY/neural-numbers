@@ -63,6 +63,13 @@ export class Controller {
     }
   }
 
+  async singleStep() {
+    if (this.nn) {
+      await this.nn.trainSingleStep(this.data);
+      if(this.paint) this.paint.predict();
+    }
+  }
+
   async resetTraining(els) {
     await this.pauseTraining();
     this.cleanupValidationPreview();
