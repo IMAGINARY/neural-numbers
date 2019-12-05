@@ -118,8 +118,8 @@ export class NeuralNetwork {
   }
 
   async trainByBatchFromData(data, TRAIN_DATA_SIZE, BATCH_SIZE) {
-    if(TRAIN_DATA_SIZE == 1) {
-      tf.setBackend('cpu');  //fitting with single training-data results in NaNs when WebGL-backend is used for unknown reasons
+    if (TRAIN_DATA_SIZE == 1 || BATCH_SIZE == 1) {
+      tf.setBackend('cpu'); //fitting with single training-data results in NaNs when WebGL-backend is used for unknown reasons
     }
     const model = this.model;
     let trainXs, trainYs;
@@ -144,9 +144,11 @@ export class NeuralNetwork {
         }
       }
     });
-    tf.dispose(trainXs); tf.dispose(trainYs);
-    if(TRAIN_DATA_SIZE == 1) {
-      tf.setBackend('webgl');  //fitting with single training-data results in NaNs when WebGL-backend is used for unknown reasons
+    tf.dispose(trainXs);
+    tf.dispose(trainYs);
+    
+    if (TRAIN_DATA_SIZE == 1 || BATCH_SIZE == 1) {
+      tf.setBackend('webgl'); //fitting with single training-data results in NaNs when WebGL-backend is used for unknown reasons
     }
   }
 
