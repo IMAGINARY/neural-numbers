@@ -120,6 +120,8 @@ export class NeuralNetwork {
   async trainByBatchFromData(data, TRAIN_DATA_SIZE, BATCH_SIZE) {
     if (TRAIN_DATA_SIZE == 1 || BATCH_SIZE == 1) {
       tf.setBackend('cpu'); //fitting with single training-data results in NaNs when WebGL-backend is used for unknown reasons
+      //unfortunately, mixing cpu ang webgl backend changes the training in some way: Way more input images are required to obtain
+      //same accuracy
     }
     const model = this.model;
     let trainXs, trainYs;
@@ -131,7 +133,9 @@ export class NeuralNetwork {
       ];
     });
 
+
     await this.visualization.setCurrentTraining(trainXs, trainYs);
+
 
     await model.fit(trainXs, trainYs, {
       batchSize: BATCH_SIZE,
@@ -146,7 +150,7 @@ export class NeuralNetwork {
     });
     tf.dispose(trainXs);
     tf.dispose(trainYs);
-    
+
     if (TRAIN_DATA_SIZE == 1 || BATCH_SIZE == 1) {
       tf.setBackend('webgl'); //fitting with single training-data results in NaNs when WebGL-backend is used for unknown reasons
     }
@@ -165,11 +169,15 @@ export class NeuralNetwork {
 
     while (this.training) {
       //start slower in beginning, increase step size with time
-      const BATCH_SIZE = 1 << (Math.max(0, Math.min(6, this.trainedimages / 20 | 0))); //a sequence of increasing powers of two
-      const TRAIN_DATA_SIZE = BATCH_SIZE * Math.min(8, Math.max(1, this.trainedimages / 40 | 0));
+      //const BATCH_SIZE = 1 << (Math.max(4, Math.min(8, this.trainedimages / 20 | 0))); //a sequence of increasing powers of two
+
+      //a constant BATCH_SIZE and TRAIN_DATA_SIZE increases the speed of convergence :/.
+      const BATCH_SIZE = 32;
+      const TRAIN_DATA_SIZE = BATCH_SIZE; //*Math.min(8, Math.max(1, this.trainedimages / 40 | 0));
+
       await this.trainByBatchFromData(data, BATCH_SIZE, TRAIN_DATA_SIZE);
 
-      if ((this.trainedimages > this.lastrainedimages + 1000) || this.trainedimages < 250) {
+      if (this.trainedimages > this.lastrainedimages + Math.min(1000, 0.3 * this.trainedimages) || this.trainedimages < 250) {
         this.vp.updateValidationImages(this.model);
         this.vp.updateAccuracy(this.model);
         if ((this.trainedimages < 100)) {
