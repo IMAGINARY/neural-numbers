@@ -492,6 +492,7 @@ canvas {
   height: 60vh; }
 
 .bubble {
+  pointer-events: none;
   visibility: hidden;
   opacity: 0;
   transition: visibility 0.3s linear, opacity 0.3s linear;
