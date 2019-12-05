@@ -118,6 +118,9 @@ export class NeuralNetwork {
   }
 
   async trainByBatchFromData(data, TRAIN_DATA_SIZE, BATCH_SIZE) {
+    if(TRAIN_DATA_SIZE == 1) {
+      tf.setBackend('cpu');  //fitting with single training-data results in NaNs when WebGL-backend is used for unknown reasons
+    }
     const model = this.model;
     let trainXs, trainYs;
     [trainXs, trainYs] = tf.tidy(() => {
@@ -128,7 +131,7 @@ export class NeuralNetwork {
       ];
     });
 
-    this.visualization.setCurrentTraining(trainXs, trainYs);
+    await this.visualization.setCurrentTraining(trainXs, trainYs);
 
     await model.fit(trainXs, trainYs, {
       batchSize: BATCH_SIZE,
@@ -141,12 +144,14 @@ export class NeuralNetwork {
         }
       }
     });
+    tf.dispose(trainXs); tf.dispose(trainYs);
+    if(TRAIN_DATA_SIZE == 1) {
+      tf.setBackend('webgl');  //fitting with single training-data results in NaNs when WebGL-backend is used for unknown reasons
+    }
   }
 
   async trainSingleStep(data) {
-    tf.setBackend('cpu');
-    await this.trainByBatchFromData(data, 1, 1); //results in NaNs when WebGL-backend is used for unknown reasons
-    tf.setBackend('webgl');
+    await this.trainByBatchFromData(data, 1, 1);
     this.vp.updateValidationImages(this.model);
     this.vp.updateAccuracy(this.model);
   }
@@ -158,8 +163,7 @@ export class NeuralNetwork {
 
     while (this.training) {
       //start slower in beginning, increase step size with time
-      //for some reasons I do not understand, BATCH_SIZE=1 kills the model
-      const BATCH_SIZE = 1 << Math.max(1, Math.min(6, this.trainedimages / 20 | 0)); //a sequence of increasing powers of two
+      const BATCH_SIZE = 1 << (Math.max(0, Math.min(6, this.trainedimages / 20 | 0))); //a sequence of increasing powers of two
       const TRAIN_DATA_SIZE = BATCH_SIZE * Math.min(8, Math.max(1, this.trainedimages / 40 | 0));
       await this.trainByBatchFromData(data, BATCH_SIZE, TRAIN_DATA_SIZE);
 
