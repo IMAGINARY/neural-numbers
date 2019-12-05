@@ -175,13 +175,15 @@ export class Paint {
 
   predict() {
     if (this.model && this.normalizecanvas && this.drawingChanged) { // && newFrame rendered TODO?
-      const result = tf.tidy(() => {
+      const [probabilities, predicted] = tf.tidy(() => {
         const imageTensor = tf.browser.fromPixels(this.normalizecanvas, 1).toFloat().mul(tf.scalar(1 / 255)).clipByValue(0, 1).reshape([1, 28, 28, 1]);
-        return this.model.predict(imageTensor);
+        const result = this.model.predict(imageTensor);
+        return [
+          result.dataSync(),
+          result.argMax([-1]).dataSync()
+        ];
       });
 
-      const probabilities = result.dataSync();
-      const predicted = result.argMax([-1]).dataSync();
       for (let i = 0; i < 10; i++) {
         this.bars[i].style.top = (100 - probabilities[i] * 100) + '%';
         this.bars[i].style.bottom = '0%';

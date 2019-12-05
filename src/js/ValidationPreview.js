@@ -43,11 +43,12 @@ export class ValidationPreview {
   }
 
   async updateValidationImages(model) {
-    const testxs = this.examples.xs.reshape([NUM_EXAMPLES, 28, 28, 1]);
-    const preds = model.predict(testxs).argMax([-1]);
+    const values = tf.tidy(()=> {
+      const testxs = this.examples.xs.reshape([NUM_EXAMPLES, 28, 28, 1]);
+      return model.predict(testxs).argMax([-1]).dataSync();
+    });
     //  console.log(preds);
 
-    const values = await preds.dataSync();
     for (let i = 0; i < NUM_EXAMPLES; i++) {
       //digittext[i].innerHTML = `${values[i]} (${examplelabels[i]})`;
       this.digittext[i].innerHTML = `${values[i]}`;
@@ -58,19 +59,14 @@ export class ValidationPreview {
   async updateAccuracy(model) {
     const TEST_DATA_SIZE = 100; //TODO: change based on demand
     let testXs, testYs;
-    [testXs, testYs] = tf.tidy(() => {
+    this.accuracy = tf.tidy(() => {
       const d = this.data.nextTestBatch(TEST_DATA_SIZE);
-      return [
-        d.xs.reshape([TEST_DATA_SIZE, 28, 28, 1]),
-        d.labels
-      ];
+      const testXs = d.xs.reshape([TEST_DATA_SIZE, 28, 28, 1]);
+      const testYs = d.labels;
+      return model.evaluate(testXs, testYs)[1].dataSync();
     });
-    this.accuracy = await model.evaluate(testXs, testYs)[1].dataSync();
-
     //this.els.validationAccuracy.innerHTML = `Accuracy on validation data (approx.): ${(acc * 1000 | 0)/10} %`;
 
-    testXs.dispose();
-    testYs.dispose();
 
     //run all callbacks for a lower accuracy
     this.acccbs.filter(p => p.acc <= this.accuracy).map(p => (p.cb)());
