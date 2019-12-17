@@ -65,7 +65,7 @@ export class TrainingVisualization {
     */
 
     //takes about 40ms for 784 weights
-    let threshold = this.findthreshold(weights, lastthreshold * 0.8, lastthreshold * 1.2, 100);
+    let threshold = this.findthreshold(weights, lastthreshold * 0.8, lastthreshold * 1.2, 200);
     for (let nodeA = 0; nodeA < N; nodeA++) {
       for (let nodeB = 0; nodeB < M; nodeB++) {
         const val = weights[nodeA * M + nodeB];
