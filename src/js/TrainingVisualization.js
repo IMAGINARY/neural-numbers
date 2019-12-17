@@ -105,7 +105,7 @@ export class TrainingVisualization {
     const weights = this.nn.model.getWeights().map(w => w.dataSync());
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     this.lt1 = this.drawdenselayer(784, 100, weights[0], 100, 10, 100, (SIZE - 20), this.lt1);
-    this.drawnodes(100, new Float32Array(100), 200, 10, (SIZE - 20), 1);
+    this.drawnodes(100, this.intermediateActivations, 200, 10, (SIZE - 20), 1);
     this.lt2 = this.drawdenselayer(100, 10, weights[2], 200, 10, 100, (SIZE - 20), this.lt2);
     this.renderCurrentTraining();
 
@@ -134,8 +134,14 @@ export class TrainingVisualization {
     await tf.browser.toPixels(imageTensor, this.traindigit);
     this.currentDigit = imageTensor.dataSync();
 
-    const prediction = this.nn.model.predict(trainX1);
-    this.currentProbabilities = prediction.dataSync();
+    const A1 = this.nn.model.layers[0].apply(trainX1);
+    const A2 = this.nn.model.layers[1].apply(A1);
+    const A3 = this.nn.model.layers[2].apply(A2);
+
+    this.intermediateActivations = A2.dataSync().map(x => Math.abs(x) / 2);
+
+
+    this.currentProbabilities = A3.dataSync();
 
     const trainY1 = trainYs.slice([0, 0], [1, 10]); //only the first
     //const target = trainY1.reshape([10]);
@@ -147,7 +153,9 @@ export class TrainingVisualization {
     trainX1.dispose();
     trainY1.dispose();
     imageTensor.dispose();
-    prediction.dispose();
+    A1.dispose();
+    A2.dispose();
+    A3.dispose();
     //target.dispose();
   }
 
