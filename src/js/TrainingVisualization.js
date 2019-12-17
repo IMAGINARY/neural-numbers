@@ -46,7 +46,7 @@ export class TrainingVisualization {
 
   drawdenselayer(N, M, weights, x0, y0, width, height, lastthreshold) {
     const ctx = this.ctx;
-    ctx.strokeStyle = "black";
+
     /*
     //takes about 120ms for 78400 weights
 
@@ -72,6 +72,7 @@ export class TrainingVisualization {
         if (val * val > threshold * threshold) {
           ctx.beginPath();
           ctx.globalAlpha = Math.abs(val) * (0.3 / threshold);
+          ctx.strokeStyle = val > 0 ? "blue" : "red";
           ctx.moveTo(x0, y0 + nodeA * height / (N - 1));
 
 
