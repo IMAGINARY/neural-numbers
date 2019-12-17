@@ -73,7 +73,10 @@ export class TrainingVisualization {
           ctx.beginPath();
           ctx.globalAlpha = Math.abs(val) * (0.3 / threshold);
           ctx.moveTo(x0, y0 + nodeA * height / (N - 1));
-          ctx.lineTo(x0 + width, y0 + nodeB * height / (M - 1));
+
+
+          //ctx.lineTo(x0 + width, y0 + nodeB * height / (M - 1));
+          ctx.bezierCurveTo(x0 + width / 2, y0 + nodeA * height / (N - 1), x0 + width / 2, y0 + nodeB * height / (M - 1), x0 + width, y0 + nodeB * height / (M - 1));
           ctx.stroke();
         }
       }
