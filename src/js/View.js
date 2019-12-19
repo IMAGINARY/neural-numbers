@@ -26,21 +26,21 @@ export class View {
       const key = event.key;
       switch (event.key) {
         case "ArrowLeft":
-          this.goNext();
+          this.goBack();
           break;
         case "ArrowRight":
-          this.goBack();
+          this.goNext();
           break;
       }
     });
   }
 
   goNext() {
-    this.setSlide((this.getCurrentSlideID() - 1 + this.NUMBER_OF_SLIDES) % this.NUMBER_OF_SLIDES);
+    this.setSlide((this.getCurrentSlideID() + 1) % this.NUMBER_OF_SLIDES);
   }
 
   goBack() {
-    this.setSlide((this.getCurrentSlideID() + 1) % this.NUMBER_OF_SLIDES);
+    this.setSlide((this.getCurrentSlideID() - 1 + this.NUMBER_OF_SLIDES) % this.NUMBER_OF_SLIDES);
   }
 
   getCurrentSlideID() {
@@ -54,7 +54,7 @@ export class View {
   }
 
   setSlide(id) {
-    window.location.hash = (id + 1);
+    window.location.hash = id + 1;
   }
 
   showSlideByURL() {
