@@ -26,7 +26,8 @@ body {
   background-color: white;
   color: black;
   font-family: "Roboto", "Franklin Gothic Medium", Tahoma, sans-serif;
-  font-size: 12px; }
+  font-size: 40px;
+  line-height: 48px; }
 
 .visible {
   visibility: visible !important;
@@ -35,6 +36,11 @@ body {
 .columns {
   display: flex;
   justify-content: space-around; }
+
+h1 {
+  font-weight: bold;
+  font-size: 60px;
+  line-height: 140%; }
 
 /*
 
@@ -345,9 +351,9 @@ left: 1em;
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  bottom: 0;
   background: #FFFFFF;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.25);
   display: flex;
   padding: 16px 22px;
   align-items: baseline; }
@@ -407,8 +413,8 @@ left: 1em;
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
-  top: 110px;
+  bottom: 110px;
+  top: 0;
   padding: 10px;
   text-align: center; }
 
@@ -420,10 +426,41 @@ left: 1em;
 .slide.visible.entering {
   opacity: 1; }
 
-.paint.input, .paint.output {
+.paint .box {
   border: 5px solid #000000;
   box-sizing: border-box;
-  border-radius: 20px; }
+  border-radius: 20px;
+  width: 300px;
+  height: 300px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle; }
+
+.paint .inputcontainer {
+  text-align: left;
+  width: 300px;
+  height: 300px;
+  position: relative; }
+
+.paint .output {
+  border-color: #C4C4C4; }
+
+.paint .output {
+  font-size: 100px;
+  font-style: normal;
+  font-weight: bold; }
+
+.paint .input > p {
+  opacity: 0.1;
+  pointer-events: none; }
+
+.paint .drawcanvas {
+  z-index: -1;
+  position: absolute;
+  border-radius: 20px;
+  background-color: rgba(255, 0, 0, 0.3);
+  width: 300px;
+  height: 300px; }
 
 /*
 .box {

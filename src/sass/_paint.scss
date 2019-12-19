@@ -1,5 +1,42 @@
-.paint.input, .paint.output {
+.paint .box, {
   border: 5px solid #000000;
   box-sizing: border-box;
   border-radius: 20px;
+  width: 300px;
+  height: 300px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+
 };
+
+.paint .inputcontainer {
+  text-align: left;
+  width: 300px;
+  height: 300px;
+  position: relative;
+}
+
+.paint .output {
+  border-color: #C4C4C4;
+}
+
+.paint .output {
+  font-size: 100px;
+  font-style: normal;
+  font-weight: bold;
+}
+
+.paint .input > p {
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.paint .drawcanvas {
+  z-index: -1;
+  position: absolute;
+  border-radius: 20px;
+  background-color: rgba(255,0,0,.3);
+  width: 300px;
+  height: 300px;
+}

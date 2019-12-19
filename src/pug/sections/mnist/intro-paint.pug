@@ -1,23 +1,24 @@
 .slide
   h1 Does the computer recognize the number you are drawing?
-    #intropaint.paint.columns
-      .column
-        .input
-          span Draw Here
-          canvas.drawcanvas
-        p You
-      .column
-        .output 3
-        p Computer
+  #intropaint.paint.columns
+    .column
+      .inputcontainer
+        canvas.drawcanvas
+        .input.box
+          p Draw Here
+      p You
+    .column
+      .output.box
+        p.digit 3
+      p Computer
   script(type="text/javascript").
     
     currentSlide().backbutton = false;
     currentSlide().nextbutton = "How does that work?";
     currentSlide().onEnter = async (controller) => {
-      console.log("hallo welt;")
-      //controller.initIntroPaint(document.querySelector("#intropaint"))
+      controller.initIntroPaint(document.querySelector("#intropaint"))
     };
     
     currentSlide().onExit = async (controller) => {
-      //controller.cleanupPaint();
+      controller.cleanupPaint();
     };

@@ -28,50 +28,52 @@
     <div class="main">
       <div class="background"></div>
       <div class="slide">
-        <h1>Does the computer recognize the number you are drawing?
-          <div class="paint columns" id="intropaint">
-            <div class="column">
-              <div class="input"><span>Draw Here</span>
-                <canvas class="drawcanvas"></canvas>
+        <h1>Does the computer recognize the number you are drawing?</h1>
+        <div class="paint columns" id="intropaint">
+          <div class="column">
+            <div class="inputcontainer">
+              <canvas class="drawcanvas"></canvas>
+              <div class="input box">
+                <p>Draw Here</p>
               </div>
-              <p>You</p>
             </div>
-            <div class="column">
-              <div class="output">3</div>
-              <p>Computer</p>
-            </div>
+            <p>You</p>
           </div>
-        </h1>
+          <div class="column">
+            <div class="output box">
+              <p class="digit">3</p>
+            </div>
+            <p>Computer</p>
+          </div>
+        </div>
         <script type="text/javascript">
           currentSlide().backbutton = false;
           currentSlide().nextbutton = "How does that work?";
           currentSlide().onEnter = async (controller) => {
-            console.log("hallo welt;")
-            //controller.initIntroPaint(document.querySelector("#intropaint"))
+            controller.initIntroPaint(document.querySelector("#intropaint"))
           };
           
           currentSlide().onExit = async (controller) => {
-            //controller.cleanupPaint();
+            controller.cleanupPaint();
           };
         </script>
       </div>
       <div class="slide">
-        <h1>How does it work?
-          <div class="columns">
-            <div class="box"><img>
-              <h3>What is a neural Network</h3>
-              <div>A Neural Network is a way to teach computer things.</div>
-            </div>
-            <div class="box"><img>
-              <h3>How does the network learn?</h3>
-              <div>By trying to get an answer right again and again. Each time we say if the answer was correct.</div>
-            </div>
-            <div class="box"><img>
-              <h3>What is Training Data?</h3>
-              <div>The training data tells the network when it was right or wrong.</div>
-            </div>
+        <h1>How does it work?</h1>
+        <div class="columns">
+          <div class="box"><img>
+            <h3>What is a neural Network</h3>
+            <div>A Neural Network is a way to teach computer things.</div>
           </div>
-        </h1>
+          <div class="box"><img>
+            <h3>How does the network learn?</h3>
+            <div>By trying to get an answer right again and again. Each time we say if the answer was correct.</div>
+          </div>
+          <div class="box"><img>
+            <h3>What is Training Data?</h3>
+            <div>The training data tells the network when it was right or wrong.</div>
+          </div>
+        </div>
         <script type="text/javascript">
           currentSlide().backbutton = "Back";
           currentSlide().nextbutton = "Train the Network!";
