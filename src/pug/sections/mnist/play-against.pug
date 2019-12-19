@@ -1,0 +1,25 @@
+.slide
+  h1 Play Against your Network!
+  #intropaint.paint.columns
+    .column
+      .inputcontainer
+        canvas.drawcanvas
+        .input.box
+          p Draw Here
+      p You
+    .column
+      .output.box
+        p.digit 3
+      p Computer
+  script(type="text/javascript").
+    
+    currentSlide().backbutton = "Back";
+    currentSlide().nextbutton = "Start from the Beginning";
+    currentSlide().onEnter = async (controller) => {
+      //TODO: use trained network here
+      controller.initIntroPaint(document.querySelector("#intropaint"))
+    };
+    
+    currentSlide().onExit = async (controller) => {
+      controller.cleanupPaint();
+    };
