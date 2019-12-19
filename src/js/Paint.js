@@ -39,8 +39,9 @@ export class Paint {
 
   createUI(el) {
     this.drawcanvas = el.querySelector(".drawcanvas");
-    this.normalizecanvas = el.querySelector(".normalizecanvas");
-    this.output = el.querySelector(".bars");
+    this.normalizecanvas = el.querySelector(".normalizecanvas") || document.createElement("canvas");
+    this.outputbars = el.querySelector(".bars");
+    this.outputdigit = el.querySelector(".digit");
 
     this.addEventListeners();
 
@@ -75,18 +76,21 @@ export class Paint {
     this.drawcanvas.parentNode.insertBefore(resetbutton, this.drawcanvas);
     this.resetbutton.style.position = "absolute";
 
-    this.bars = [];
-    for (let i = 0; i < 10; i++) {
-      const cbarcontainer = document.createElement("div");
-      cbarcontainer.className = "barcontainer";
-      this.bars[i] = document.createElement("div");
-      this.bars[i].className = "bar";
-      const cbartext = document.createElement("div");
-      cbartext.className = "bartxt";
-      cbartext.innerHTML = i;
-      cbarcontainer.appendChild(this.bars[i]);
-      cbarcontainer.appendChild(cbartext);
-      this.output.appendChild(cbarcontainer);
+    if (this.outputbars) {
+      this.bars = [];
+      for (let i = 0; i < 10; i++) {
+        const cbarcontainer = document.createElement("div");
+        cbarcontainer.className = "barcontainer";
+        this.bars[i] = document.createElement("div");
+        this.bars[i].className = "bar";
+        const cbartext = document.createElement("div");
+        cbartext.className = "bartxt";
+        cbartext.innerHTML = i;
+        cbarcontainer.appendChild(this.bars[i]);
+        cbarcontainer.appendChild(cbartext);
+        this.outputbars.appendChild(cbarcontainer);
+      }
+
     }
 
 
@@ -184,12 +188,19 @@ export class Paint {
         ];
       });
 
-      for (let i = 0; i < 10; i++) {
-        this.bars[i].style.top = (100 - probabilities[i] * 100) + '%';
-        this.bars[i].style.bottom = '0%';
-        this.bars[i].style.height = (probabilities[i] * 100) + '%';
-        this.bars[i].style.backgroundColor = (i == predicted) ? '#f60' : '#55b';
+      if (this.outputbars) {
+        for (let i = 0; i < 10; i++) {
+          this.bars[i].style.top = (100 - probabilities[i] * 100) + '%';
+          this.bars[i].style.bottom = '0%';
+          this.bars[i].style.height = (probabilities[i] * 100) + '%';
+          this.bars[i].style.backgroundColor = (i == predicted) ? '#f60' : '#55b';
+        }
       }
+
+      if(this.outputdigit ) {
+        this.outputdigit.innerHTML = predicted;
+      }
+
     }
   }
 
@@ -200,8 +211,10 @@ export class Paint {
     //this.predict();
     this.resetbutton.style.visibility = 'hidden';
 
-    while (this.output.firstChild) {
-      this.output.removeChild(this.output.firstChild);
+    if (this.outputbars) {
+      while (this.outputbars.firstChild) {
+        this.outputbars.removeChild(this.outputbars.firstChild);
+      }
     }
   }
 }

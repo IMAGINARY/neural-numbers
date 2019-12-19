@@ -452,13 +452,15 @@ left: 1em;
 
 .paint .input > p {
   opacity: 0.1;
-  pointer-events: none; }
+  pointer-events: none;
+  user-select: none; }
 
 .paint .drawcanvas {
-  z-index: -1;
+  z-index: .5;
+  filter: invert(1);
+  opacity: .5;
   position: absolute;
   border-radius: 20px;
-  background-color: rgba(255, 0, 0, 0.3);
   width: 300px;
   height: 300px; }
 
