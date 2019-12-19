@@ -47,24 +47,34 @@ export class Paint {
 
     const normalizecanvas = this.normalizecanvas;
     const drawcanvas = this.drawcanvas;
-    SCALE_FACTOR = Math.floor(this.drawcanvas.parentNode.clientWidth / 28) - 1;
-    LINEWIDTH = 2 * SCALE_FACTOR;
+
     normalizecanvas.width = normalizecanvas.height = 28;
-    drawcanvas.width = drawcanvas.height = 28 * SCALE_FACTOR;
+
+    const updateDimensions = () => {
+      SCALE_FACTOR = Math.floor(this.drawcanvas.clientWidth / 28) - 1;
+      LINEWIDTH = 2 * SCALE_FACTOR;
+      drawcanvas.width = drawcanvas.height = this.drawcanvas.clientWidth;
+    };
+    updateDimensions();
+    window.onresize = () => {
+      updateDimensions();
+    };
+
     const drawcontext = this.drawcontext = this.drawcanvas.getContext('2d');
     const normalizecontext = this.normalizecontext = this.normalizecanvas.getContext('2d');
 
     this.drawcontext.fillStyle = "black";
     this.drawcontext.fillRect(0, 0, drawcanvas.width, drawcanvas.height);
 
-    normalizecanvas.style.width = 28 * SCALE_FACTOR + 'px';
-    normalizecanvas.style.height = 28 * SCALE_FACTOR + 'px';
-    normalizecanvas.style.imageRendering = 'pixelated';
+    //  normalizecanvas.style.width = 28 * SCALE_FACTOR + 'px';
+    //  normalizecanvas.style.height = 28 * SCALE_FACTOR + 'px';
+    //  normalizecanvas.style.imageRendering = 'pixelated';
 
 
     const resetbutton = document.createElement("button");
     this.resetbutton = resetbutton;
     this.resetbutton.style.visibility = 'hidden';
+
     resetbutton.innerHTML = "reset";
     resetbutton.addEventListener('click', () => {
       this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
@@ -75,6 +85,7 @@ export class Paint {
 
     this.drawcanvas.parentNode.insertBefore(resetbutton, this.drawcanvas);
     this.resetbutton.style.position = "absolute";
+    this.resetbutton.style.zIndex = 10;
 
     if (this.outputbars) {
       this.bars = [];
@@ -197,7 +208,7 @@ export class Paint {
         }
       }
 
-      if(this.outputdigit ) {
+      if (this.outputdigit) {
         this.outputdigit.innerHTML = predicted;
       }
 

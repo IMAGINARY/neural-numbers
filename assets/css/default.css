@@ -434,7 +434,8 @@ left: 1em;
   height: 20vw;
   text-align: center;
   display: table-cell;
-  vertical-align: middle; }
+  vertical-align: middle;
+  }
 
 .paint .inputcontainer {
   text-align: left;
