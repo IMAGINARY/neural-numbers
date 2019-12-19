@@ -1,5 +1,5 @@
 {
-  "siteName": "Can the computer read your handwriting?",
+  "siteName": "Does the computer recognize the number you are drawing?",
   "siteDescription": "Train a neural network with the MNIST-data set",
   "siteURL": ""
 }

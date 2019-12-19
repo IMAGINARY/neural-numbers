@@ -1,4 +1,22 @@
 body {
+  background-color: white;
+  color: black;
+  font-family: $font-stack-roboto;
+  font-size: 12px;
+}
+
+.visible {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-around;
+}
+/*
+
+body {
   background-color: black;
   color: white;
   font-family: $font-stack-ubuntu-condensed;
@@ -27,20 +45,6 @@ body::after {
 }
 
 .main {}
-
-.slide {
-  display: none;
-}
-
-.slide.visible {
-  display: block;
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-
-.slide.visible.entering {
-  opacity: 1;
-}
 
 .box {
   z-index: 10;
@@ -231,10 +235,10 @@ canvas {
   height: 4.5em;
   border-radius: 50%;
   --angle: 360deg;
-  /* A little styling */
+
   border: 0.1em solid #fff;
   box-shadow: 0 0 4px rgba(0,0,0,.25);
-  /* fixes a minor clipping issue in Chrome */
+
   background-origin: border-box;
   width: attr(data-value px);
   background-image: conic-gradient(red var(--angle), green 0);
@@ -284,7 +288,6 @@ canvas {
   text-align: center;
   width: auto;
   height: auto;
-  /*white-space: nowrap;*/
   top: -50px;
   left: 50%;
   ttransform: translate(-50%, 0);
@@ -315,3 +318,4 @@ left: 1em;
   visibility: visible;
   opacity: 1;
 }
+*/

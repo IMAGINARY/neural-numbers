@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Can the computer read your handwriting?">
+    <meta property="og:title" content="Does the computer recognize the number you are drawing?">
     <meta property="og:image" content="">
     <meta name="description" content="Train a neural network with the MNIST-data set">
     <meta property="og:description" content="Train a neural network with the MNIST-data set">
@@ -13,157 +13,82 @@
     <!--link(href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,700", rel="stylesheet")-->
     <!--link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")-->
     <link rel="stylesheet" href="assets/css/default.css" media="all" type="text/css">
-    <title>Can the computer read your handwriting?
+    <title>Does the computer recognize the number you are drawing?
     </title>
     <script src="src/js/site-helper.js" type="text/javascript"></script>
   </head>
   <body>
+    <div class="header">
+      <div class="headerbox"><a class="navbutton" id="backbutton">&lt; Back</a></div>
+      <div class="headerbox">
+        <div class="circles" id="navcircles"><a class="circ selected" href="index.html#1"></a><a class="circ" href="index.html#2"></a><a class="circ" href="index.html#3"></a><a class="circ" href="index.html#4"></a></div>
+      </div>
+      <div class="headerbox"><a class="navbutton" id="nextbutton">How does that work? &gt;</a></div>
+    </div>
     <div class="main">
       <div class="background"></div>
-      <div class="slide">//invisible slide with index 0</div>
       <div class="slide">
-        <div class="box header">
-          <h1>Can the computer read your handwriting?</h1>
-        </div>
-        <div class="box middle paint" id="intropaint">
-          <div>
-            <p><b>Draw</b> a digit here:</p>
-            <canvas class="drawcanvas"></canvas>
+        <h1>Does the computer recognize the number you are drawing?
+          <div class="paint columns" id="intropaint">
+            <div class="column">
+              <div class="input"><span>Draw Here</span>
+                <canvas class="drawcanvas"></canvas>
+              </div>
+              <p>You</p>
+            </div>
+            <div class="column">
+              <div class="output">3</div>
+              <p>Computer</p>
+            </div>
           </div>
-          <div>
-            <p>The neural network sees...</p>
-            <canvas class="normalizecanvas"></canvas>
-          </div>
-          <div> 
-            <p>... and predicts</p>
-            <div class="bars"></div>
-          </div>
-        </div>
-        <div class="box navigation">   <a href="index.html#2">find out how it works</a></div>
+        </h1>
         <script type="text/javascript">
+          currentSlide().backbutton = false;
+          currentSlide().nextbutton = "How does that work?";
           currentSlide().onEnter = async (controller) => {
-            controller.initIntroPaint(document.querySelector("#intropaint"))
+            console.log("hallo welt;")
+            //controller.initIntroPaint(document.querySelector("#intropaint"))
           };
           
           currentSlide().onExit = async (controller) => {
-            controller.cleanupPaint();
+            //controller.cleanupPaint();
           };
         </script>
       </div>
       <div class="slide">
-        <div class="box middle">We use a collection of 70 000 labeled images. We use it to train a neural network that classifies images of the digits 0,1,2,3,4,5,6,7,8 and 9.
-          <div id="status">loading MNIST data...</div>
-        </div>
-        <div class="box navigation"> <a href="index.html#3">continue</a></div>
+        <h1>How does it work?
+          <div class="columns">
+            <div class="box"><img>
+              <h3>What is a neural Network</h3>
+              <div>A Neural Network is a way to teach computer things.</div>
+            </div>
+            <div class="box"><img>
+              <h3>How does the network learn?</h3>
+              <div>By trying to get an answer right again and again. Each time we say if the answer was correct.</div>
+            </div>
+            <div class="box"><img>
+              <h3>What is Training Data?</h3>
+              <div>The training data tells the network when it was right or wrong.</div>
+            </div>
+          </div>
+        </h1>
         <script type="text/javascript">
-          let changingbackground = false;
-          let curimgid = 0;
-          backgroundanimation = () => {
-            if(!changingbackground) return;
-            curimgid++;
-            curimgid %= 5;
-            document.querySelector('.background').style.backgroundImage = `url("assets/img/background${curimgid}.png")`;
-            window.setTimeout(backgroundanimation, 1500);
-          };
+          currentSlide().backbutton = "Back";
+          currentSlide().nextbutton = "Train the Network!";
           
           currentSlide().onEnter = async (controller) => {
-            document.querySelector('.background').style.filter = 'blur(0px)';
-            changingbackground = true;
-            window.setTimeout(backgroundanimation, 2000);
-            await controller.loadData();
-            document.querySelector('#status').innerHTML = "";
+            //controller.initIntroPaint(document.querySelector("#intropaint"))
           };
-          currentSlide().onExit = () => {
-            document.querySelector('.background').style.filter = 'blur(10px)';
-            changingbackground = false;
+          
+          currentSlide().onExit = async (controller) => {
+            //controller.cleanupPaint();
           };
         </script>
       </div>
-      <div class="slide">
-        <div class="box header">
-          <h1>Split the MNIST database into a training-set and a validation set.</h1>
-        </div>
-        <div class="box middle">
-          We will use a large fraction of the images for training a neural network.
-          We consider the training process as succesful if it generalizes to images outside of the training set.
-          Therefore, we are using the remaining part of the images, that have not
-          been used for training, for validation.
-        </div>
-        <div class="split training step3">
-          <div class="space"> </div>
-          <div class="speech-bubble-anchor"><b>80%</b> of the images are used for <b>training</b>
-            <div class="bubble">These are 0.8*70 000 = 56 000 images!</div>
-          </div>
-        </div>
-        <div class="split validation step3">
-          <div class="space"> </div>
-          <div><b>20%</b> of the images are used for <b>validation</b></div>
-        </div>
-        <div class="box navigation">   <a href="index.html#4">start training</a></div>
-        <script type="text/javascript">
-          currentSlide().onEnter = () => {
-            document.querySelector('.background').style.filter = 'blur(0px)';
-            setTimeout(()=>{
-              document.querySelector('.step3 .bubble').classList.add('visible');
-            }, 3000);
-          };
-          currentSlide().onExit = () => {
-            document.querySelector('.background').style.filter = 'blur(10px)';
-            document.querySelector('.step3 .bubble').classList.remove('visible');
-          };
-        </script>
-      </div>
+      <!--include mnist/mnist-->
+      <!--include mnist/split-mnist-->
       <!--include mnist/network-topology-->
-      <div class="slide">
-        <div class="split training">
-          <h3>Training network   </h3>
-          <div class="speech-bubble-anchor">
-            <div class="bubble whentrainingpaused">Click here to restart or continue training.</div>
-          </div>
-          <div class="box" id="training-controls" style="visibility:hidden;"><a class="reset" href="#4" title="reset training">⟲</a> | <a class="pause-resume" href="#4" title="pause/resume training">▮▮</a> | <a class="single-step" href="#4" title="train a single step">▮▶</a></div>
-          <div id="training-progress"></div>
-          <canvas id="network"></canvas>
-          <div class="speech-bubble-anchor" style="position:relative; left: -20vw;">
-            <div class="bubble visible" id="introbubble">We are using the MNIST data-set to train a neuronal network.</div>
-          </div>
-        </div>
-        <div class="split validation">
-          <h3>Validation</h3>
-          <div>Accuracy on entire validation set:
-            <p>
-              <div class="speech-bubble-anchor">
-                <div class="bubble whentrainingpaused">Further training might enhance this accuracy.</div>
-              </div>
-              <div id="validation-accuracy" style="--angle:360deg">
-                <div>0%</div>
-              </div>
-            </p>
-          </div>
-          <div>50 randomly choosen images of the validation set:
-            <div id="validation-images"></div>
-          </div>
-          <p></p>
-        </div>
-        <div class="box" id="previewpaint">
-          <div>Test the just trained network</div>
-          <div class="paint">
-            <div>
-              <p><b>Draw</b> a digit here:</p>
-              <canvas class="drawcanvas"></canvas>
-            </div>
-            <div>
-              <p>The neural network sees...</p>
-              <canvas class="normalizecanvas"></canvas>
-            </div>
-            <div> 
-              <p>... and predicts</p>
-              <div class="bars"></div>
-            </div>
-          </div>
-        </div>
-        <div class="box navigation">   <a href="index.html#1">restart</a></div>
-        <script type="text/javascript" src="src/js/training-validation.js"></script>
-      </div>
+      <!--include mnist/training-validation-->
     </div>
     <!--script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js", integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo", crossorigin="anonymous")-->
     <!--script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js", integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1", crossorigin="anonymous")-->

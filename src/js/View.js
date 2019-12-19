@@ -11,7 +11,9 @@ export class View {
   createEvents() {
     window.addEventListener('DOMContentLoaded', (event) => {
       this.slides = document.querySelectorAll('.slide');
-      this.NUMBER_OF_SLIDES = this.slides.length - 1;
+      this.NUMBER_OF_SLIDES = this.slides.length;
+      document.querySelector("#backbutton").onclick = (() => this.goBack());
+      document.querySelector("#nextbutton").onclick = (() => this.goNext());
       this.showSlideByURL();
     });
 
@@ -22,16 +24,23 @@ export class View {
 
     window.addEventListener('keydown', (event) => {
       const key = event.key;
-      const id = this.getCurrentSlideID();
       switch (event.key) {
         case "ArrowLeft":
-          this.setSlide((id - 2 + this.NUMBER_OF_SLIDES) % this.NUMBER_OF_SLIDES + 1);
+          this.goNext();
           break;
         case "ArrowRight":
-          this.setSlide(id % this.NUMBER_OF_SLIDES + 1);
+          this.goBack();
           break;
       }
     });
+  }
+
+  goNext() {
+    this.setSlide((this.getCurrentSlideID() - 1 + this.NUMBER_OF_SLIDES) % this.NUMBER_OF_SLIDES);
+  }
+
+  goBack() {
+    this.setSlide((this.getCurrentSlideID() + 1) % this.NUMBER_OF_SLIDES);
   }
 
   getCurrentSlideID() {
@@ -41,11 +50,11 @@ export class View {
     } else {
       hash = (hash | 0);
     }
-    return hash;
+    return hash - 1;
   }
 
   setSlide(id) {
-    window.location.hash = id;
+    window.location.hash = (id + 1);
   }
 
   showSlideByURL() {
@@ -53,6 +62,11 @@ export class View {
   }
 
   showSlide(id) {
+    document.querySelector('#navcircles').childNodes.forEach(circ => {
+      circ.classList.remove('selected');
+    });
+    document.querySelector('#navcircles').childNodes[id].classList.add('selected');
+
     this.slides.forEach(slide => {
       if (slide.onExit && slide.open)
         slide.onExit(this.controller);
@@ -68,6 +82,15 @@ export class View {
       if (this.slides[id].onEnter) {
         this.slides[id].onEnter(this.controller);
       }
+      ["backbutton", "nextbutton"].forEach(b => {
+        const el = document.querySelector("#" + b);
+        if (this.slides[id][b]) {
+          el.innerHTML = this.slides[id][b];
+          el.classList.add('visible');
+        } else {
+          el.classList.remove('visible');
+        }
+      });
     }
   }
 }

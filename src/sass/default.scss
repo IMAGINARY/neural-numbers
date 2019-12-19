@@ -9,7 +9,11 @@
 @import "type";
 @import "z_index";
 @import "base";
+@import "header";
+@import "slides";
+@import "paint";
 
+/*
 .box {
   z-index: 10;
   color: black;
@@ -205,10 +209,8 @@ canvas {
   height: 4.5em;
   border-radius: 50%;
   --angle: 360deg;
-  /* A little styling */
   border: 0.1em solid #fff;
   box-shadow: 0 0 4px rgba(0,0,0,.25);
-  /* fixes a minor clipping issue in Chrome */
   background-origin: border-box;
   width: attr(data-value px);
   background-image: conic-gradient(red var(--angle), green 0);
@@ -253,7 +255,6 @@ canvas {
   text-align: center;
   width: auto;
   height: auto;
-  /*white-space: nowrap;*/
   top: -50px;
   left: 50%;
   background: rgba(0,0,0,.8);
@@ -284,3 +285,4 @@ canvas {
   visibility: visible;
   opacity: 1;
 }
+*/

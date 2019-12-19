@@ -1,25 +1,23 @@
 .slide
-  .box.header
-    h1 Can the computer read your handwriting?
-  #intropaint.box.middle.paint
-      div
-        p <b>Draw</b> a digit here:
-        canvas.drawcanvas
-      div
-        p The neural network sees...
-        canvas.normalizecanvas
-      div 
-        p ... and predicts
-        div.bars
-
-
-  .box.navigation    
-    a(href="index.html#2") find out how it works
+  h1 Does the computer recognize the number you are drawing?
+    #intropaint.paint.columns
+      .column
+        .input
+          span Draw Here
+          canvas.drawcanvas
+        p You
+      .column
+        .output 3
+        p Computer
   script(type="text/javascript").
+    
+    currentSlide().backbutton = false;
+    currentSlide().nextbutton = "How does that work?";
     currentSlide().onEnter = async (controller) => {
-      controller.initIntroPaint(document.querySelector("#intropaint"))
+      console.log("hallo welt;")
+      //controller.initIntroPaint(document.querySelector("#intropaint"))
     };
     
     currentSlide().onExit = async (controller) => {
-      controller.cleanupPaint();
+      //controller.cleanupPaint();
     };
