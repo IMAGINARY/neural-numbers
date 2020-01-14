@@ -42,6 +42,7 @@ export class Paint {
     this.normalizecanvas = el.querySelector(".normalizecanvas") || document.createElement("canvas");
     this.outputbars = el.querySelector(".bars");
     this.outputdigit = el.querySelector(".digit");
+    this.inputbox = el.querySelector(".input.box");
 
     this.addEventListeners();
 
@@ -70,23 +71,23 @@ export class Paint {
     //  normalizecanvas.style.height = 28 * SCALE_FACTOR + 'px';
     //  normalizecanvas.style.imageRendering = 'pixelated';
 
+    /*
+        const resetbutton = document.createElement("button");
+        this.resetbutton = resetbutton;
+        this.resetbutton.style.visibility = 'hidden';
 
-    const resetbutton = document.createElement("button");
-    this.resetbutton = resetbutton;
-    this.resetbutton.style.visibility = 'hidden';
+        resetbutton.innerHTML = "reset";
+        resetbutton.addEventListener('click', () => {
+          this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
+          this.normalize(100);
+          this.predict();
+          this.resetbutton.style.visibility = 'hidden';
+        });
 
-    resetbutton.innerHTML = "reset";
-    resetbutton.addEventListener('click', () => {
-      this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
-      this.normalize(100);
-      this.predict();
-      this.resetbutton.style.visibility = 'hidden';
-    });
-
-    this.drawcanvas.parentNode.insertBefore(resetbutton, this.drawcanvas);
-    this.resetbutton.style.position = "absolute";
-    this.resetbutton.style.zIndex = 10;
-
+        this.drawcanvas.parentNode.insertBefore(resetbutton, this.drawcanvas);
+        this.resetbutton.style.position = "absolute";
+        this.resetbutton.style.zIndex = 10;
+    */
     if (this.outputbars) {
       this.bars = [];
       for (let i = 0; i < 10; i++) {
@@ -119,6 +120,18 @@ export class Paint {
   draw(e, hasbeendown) {
     // mouse left button must be pressed
     if (!hasbeendown) return;
+
+    this.inputbox.classList.remove('background');
+    if (this.deleteTimeout) {
+      clearTimeout(this.deleteTimeout);
+    }
+    //clean up everything in 1.5 seconds
+    this.deleteTimeout = setTimeout(() => {
+      this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
+      this.normalize(100);
+      this.predict();
+      this.inputbox.classList.add('background');
+    }, 1500);
     this.drawcontext.beginPath(); // begin
 
     this.drawcontext.lineWidth = LINEWIDTH;
@@ -137,7 +150,7 @@ export class Paint {
     this.drawingChanged = true;
     this.normalize(23 * LINEWIDTH);
     this.predict();
-    this.resetbutton.style.visibility = 'visible';
+    //this.resetbutton.style.visibility = 'visible';
   }
 
   //normalize image
@@ -221,7 +234,7 @@ export class Paint {
     this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
     this.normalize(100);
     //this.predict();
-    this.resetbutton.style.visibility = 'hidden';
+    //this.resetbutton.style.visibility = 'hidden';
 
     if (this.outputbars) {
       while (this.outputbars.firstChild) {
