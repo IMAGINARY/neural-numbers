@@ -1,12 +1,33 @@
 .slide
   h1 Train the Network!
-  div This has to be done
-  a.nextbutton(href="index.html#4") Test the network.
-  
+  .train
+    .preview
+      .simplenetwork.selected
+        
+      .advanced
+        
+      .testit
+    .menu
+      .controls
+        a(href="#2", title="reset training").reset
+        a(href="#2", title="pause/resume training").pause-resume
+        a(href="#2", title="train a single step").single-step
+      .box
+        .info
+          .imagesused
+            .number 0
+            div Images used
+          .accuracy
+            .number 10%
+            div Predicted Accuracy
+        .button
+          a Test the Network!
+        p Expert mode off
+          label.switch
+            input(type="checkbox")
+            span.slider.round
+      
   script(type="text/javascript").
-    currentSlide().backbutton = "Back";
-    currentSlide().nextbutton = false;
-
     currentSlide().onEnter = async (controller) => {
       
     };

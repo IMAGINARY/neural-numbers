@@ -10,9 +10,6 @@
         p.digit 3
       p Computer
   script(type="text/javascript").
-    
-    currentSlide().backbutton = false;
-    currentSlide().nextbutton = "How does that work?";
     currentSlide().onEnter = async (controller) => {
       controller.initIntroPaint(document.querySelector("#intropaint"))
     };
