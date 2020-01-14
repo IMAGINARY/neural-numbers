@@ -18,24 +18,15 @@
     <script src="src/js/site-helper.js" type="text/javascript"></script>
   </head>
   <body>
-    <div class="header">
-      <div class="headerbox"><a class="navbutton" id="backbutton">&lt; Back</a></div>
-      <div class="headerbox">
-        <div class="circles" id="navcircles"><a class="circ selected" href="index.html#1"></a><a class="circ" href="index.html#2"></a><a class="circ" href="index.html#3"></a><a class="circ" href="index.html#4"></a></div>
-      </div>
-      <div class="headerbox"><a class="navbutton" id="nextbutton">How does that work? &gt;</a></div>
-    </div>
     <div class="main">
       <!--.background-->
       <div class="slide">
-        <h1>Does the computer recognize the digit you are drawing?</h1>
+        <h1>Can I read your number?</h1>
         <div class="paint columns" id="intropaint">
           <div class="column">
             <div class="inputcontainer">
               <canvas class="drawcanvas"></canvas>
-              <div class="input box">
-                <p>Draw here</p>
-              </div>
+              <div class="input box">draw here</div>
             </div>
             <p>You</p>
           </div>
@@ -139,6 +130,10 @@
       <!--include mnist/split-mnist-->
       <!--include mnist/network-topology-->
       <!--include mnist/training-validation-->
+    </div>
+    <div class="footer">
+      <div class="navigation"><a class="navbutton" href="index.html#1">Draw!</a><a class="navbutton" href="index.html#2">Train!</a><a class="navbutton" href="index.html#3">How does it work?</a></div>
+      <div class="icons"><a class="international"></a><a class="info"></a></div>
     </div>
     <!--script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js", integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo", crossorigin="anonymous")-->
     <!--script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js", integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1", crossorigin="anonymous")-->

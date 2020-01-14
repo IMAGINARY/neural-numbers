@@ -12,8 +12,8 @@ export class View {
     window.addEventListener('DOMContentLoaded', (event) => {
       this.slides = document.querySelectorAll('.slide');
       this.NUMBER_OF_SLIDES = this.slides.length;
-      document.querySelector("#backbutton").onclick = (() => this.goBack());
-      document.querySelector("#nextbutton").onclick = (() => this.goNext());
+      //document.querySelector("#backbutton").onclick = (() => this.goBack());
+      //document.querySelector("#nextbutton").onclick = (() => this.goNext());
       this.showSlideByURL();
     });
 
@@ -62,10 +62,18 @@ export class View {
   }
 
   showSlide(id) {
+    /*
+    //For navigation circles
     document.querySelector('#navcircles').childNodes.forEach(circ => {
       circ.classList.remove('selected');
     });
     document.querySelector('#navcircles').childNodes[id].classList.add('selected');
+    */
+
+    document.querySelector('.footer .navigation').childNodes.forEach(btn => {
+      btn.classList.remove('selected');
+    });
+    document.querySelector('.footer .navigation').childNodes[id].classList.add('selected');
 
     this.slides.forEach(slide => {
       if (slide.onExit && slide.open)
@@ -82,6 +90,7 @@ export class View {
       if (this.slides[id].onEnter) {
         this.slides[id].onEnter(this.controller);
       }
+      /*
       ["backbutton", "nextbutton"].forEach(b => {
         const el = document.querySelector("#" + b);
         if (this.slides[id][b]) {
@@ -90,7 +99,7 @@ export class View {
         } else {
           el.classList.remove('visible');
         }
-      });
+      });*/
     }
   }
 }

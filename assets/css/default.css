@@ -40,7 +40,12 @@ body {
 h1 {
   font-weight: bold;
   font-size: 60px;
-  line-height: 140%; }
+  line-height: 140%;
+  margin-top: 140px; }
+
+a {
+  text-decoration: none;
+  color: black; }
 
 /*
 
@@ -398,16 +403,69 @@ left: 1em;
   margin: auto 15px;
   background: white; }
 
-.circ.selected {
+.header .circ.selected {
   background: #D3D3D3; }
 
 .header .circles {
   display: flex; }
 
 .header .circ:hover,
-.navbutton:hover {
+.header .navbutton:hover {
   background: #EEEEEE; }
 
+.footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #FFFFFF;
+  box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.25);
+  align-items: baseline;
+  display: flex;
+  padding: 26px; }
+
+.footer .navigation {
+  margin-right: auto;
+  margin-left: auto; }
+
+.footer .navbutton {
+  font-family: Roboto;
+  font-style: normal;
+  font-size: 32px;
+  line-height: 37px;
+  font-weight: normal;
+  padding: 14px 28px;
+  background: white;
+  border: 2px solid #000000;
+  box-sizing: border-box;
+  border-radius: 10px;
+  margin: 25px; }
+
+.footer .navbutton:hover {
+  background: #EEEEEE; }
+
+.footer .navbutton.selected {
+  font-weight: bold;
+  background: #E1E1E1; }
+
+.footer .international {
+  background-image: url("assets/img/international.svg"); }
+
+/*
+.footer #backbutton::before {
+  content: "< ";
+}
+
+.footer #nextbutton {
+  border: 2px solid #000000;
+  box-sizing: border-box;
+  border-radius: 20px;
+}
+
+.footer #nextbutton::after {
+  content: " >";
+}
+*/
 .slide {
   display: none;
   position: absolute;
@@ -430,12 +488,12 @@ left: 1em;
   border: 5px solid #000000;
   box-sizing: border-box;
   border-radius: 20px;
-  width: 20vw;
-  height: 20vw;
+  width: 287px;
+  height: 287px;
+  margin-top: 160px;
   text-align: center;
   display: table-cell;
-  vertical-align: middle;
-  }
+  vertical-align: middle; }
 
 .paint .inputcontainer {
   text-align: left;
@@ -453,6 +511,9 @@ left: 1em;
   opacity: 0.1;
   pointer-events: none;
   user-select: none; }
+
+.paint .input.box {
+  background-image: url("assets/img/pen.svg"); }
 
 .paint .drawcanvas {
   z-index: 1;

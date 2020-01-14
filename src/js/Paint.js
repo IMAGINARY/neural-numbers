@@ -210,6 +210,7 @@ export class Paint {
 
       if (this.outputdigit) {
         this.outputdigit.innerHTML = predicted;
+        this.outputdigit.style.opacity = Math.min(1, Math.max(0, probabilities[predicted]));
       }
 
     }

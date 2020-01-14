@@ -3,8 +3,9 @@
   border: 5px solid #000000;
   box-sizing: border-box;
   border-radius: 20px;
-  width: 20vw;
-  height: 20vw;
+  width: 287px;
+  height: 287px;
+  margin-top: 160px;
   text-align: center;
   display: table-cell;
   vertical-align: middle;
@@ -29,6 +30,10 @@
   opacity: 0.1;
   pointer-events: none;
   user-select: none;
+}
+
+.paint .input.box {
+  background-image: url('assets/img/pen.svg');
 }
 
 .paint .drawcanvas {

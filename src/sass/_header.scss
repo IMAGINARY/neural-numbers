@@ -58,7 +58,7 @@
   background: white;
 }
 
-.circ.selected {
+.header .circ.selected {
   background: #D3D3D3;
 }
 
@@ -67,6 +67,6 @@
 }
 
 .header .circ:hover,
-.navbutton:hover {
+.header .navbutton:hover {
   background: #EEEEEE;
 }
