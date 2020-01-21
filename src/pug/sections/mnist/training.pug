@@ -14,18 +14,20 @@
         a(href="#2", title="train a single step").single-step
       .box
         .info
-          .imagesused
+          .info-item.imagesused
             .number 0
             div Images used
-          .accuracy
+          .h-seperator
+          .info-item.accuracy
             .number 10%
             div Predicted Accuracy
+        .v-seperator
         .button
-          a Test the Network!
-        p Expert mode off
-          label.switch
-            input(type="checkbox")
-            span.slider.round
+          a -&gt; Test the Network!
+      p Expert mode off
+        label.switch
+          input(type="checkbox")
+          span.slider.round
       
   script(type="text/javascript").
     currentSlide().onEnter = async (controller) => {

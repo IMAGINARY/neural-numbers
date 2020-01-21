@@ -35,7 +35,7 @@ body {
 
 .columns {
   display: flex;
-  justify-content: space-around; }
+  justify-content: space-evenly; }
 
 h1 {
   font-weight: bold;
@@ -475,7 +475,7 @@ left: 1em;
   top: 0;
   padding: 10px;
   text-align: center;
-  pointer-events: none; }
+  /*pointer-events: none; TODO*/ }
 
 .slide.visible {
   display: block;
@@ -530,7 +530,8 @@ left: 1em;
   position: absolute; }
 
 .train {
-  display: flex; }
+  display: flex;
+  justify-content: center; }
 
 .train .preview {
   width: 900px;
@@ -538,14 +539,15 @@ left: 1em;
   background: #FFFFFF;
   border: 5px solid #C4C4C4;
   box-sizing: border-box;
-  border-radius: 10px; }
+  border-radius: 10px;
+  margin-right: 20px; }
 
 .train .menu {
   width: 400px;
-  height: 482px; }
+  height: 482px;
+  margin-left: 20px; }
 
 .train .menu .box {
-  width: 400px;
   height: 287px;
   background: #FFFFFF;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
@@ -556,23 +558,64 @@ left: 1em;
 .train .menu .controls {
   display: flex;
   flex-direction: row;
-  width: 265px;
-  height: 100px; }
+  width: 100%;
+  height: 100px;
+  justify-content: space-around; }
+
+.train .menu .controls > a {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 49px;
+  height: 55px; }
 
 .train .menu .controls .reset {
-  width: 39.49px;
-  height: 55px;
-  background-image: url("../../assets/img/reset.svg");
-  background-color: red; }
+  background-image: url("../../assets/img/reset.svg"); }
 
-.train .info {
+.train .menu .controls .pause-resume {
+  background-image: url("../../assets/img/play.svg"); }
+
+.train .menu .controls .single-step {
+  background-image: url("../../assets/img/step.svg"); }
+
+.train .box {
   display: flex;
-  flex-direction: row;
-  font-style: normal;
-  font-weight: normal;
+  flex-direction: column;
   font-size: 24px;
   line-height: 28px;
+  padding: 28px; }
+
+.train .box .info {
+  display: flex;
+  justify-content: space-around; }
+
+.train .box .info .h-seperator {
+  height: 100%;
+  border: 1px solid #C4C4C4;
+  margin: auto; }
+
+.train .box .v-seperator {
+  width: 100%;
+  border: 1px solid #C4C4C4;
+  margin: auto; }
+
+.train .info .number {
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 49px;
   text-align: center; }
+
+.train .box .button {
+  border: 2px solid #000000;
+  border-radius: 10px;
+  height: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
+
+.train .box .button a {
+  font-weight: 500;
+  font-size: 32px; }
 
 /* The switch - the box around the slider */
 .switch {
@@ -597,8 +640,8 @@ left: 1em;
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s; }
+  -webkit-transition: 0.4s;
+  transition: 0.4s; }
 
 .slider:before {
   position: absolute;
@@ -608,8 +651,8 @@ left: 1em;
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s; }
+  -webkit-transition: 0.4s;
+  transition: 0.4s; }
 
 input:checked + .slider {
   background-color: #2196F3; }
