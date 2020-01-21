@@ -16,7 +16,7 @@ export class NeuralNetwork {
     this.pausecbs = [];
 
     //this.els.trainingAccuracy.innerHTML = ``;
-    this.els.trainingProgress.innerHTML = `${this.trainedimages} images used for training.`;
+    this.els.trainingProgress.innerHTML = this.trainedimages;
 
     this.visualization = new TrainingVisualization(this, els);
   }

@@ -50,9 +50,32 @@
         <h1>Train the Network!</h1>
         <div class="train">
           <div class="preview">
-            <div class="simplenetwork selected"></div>
-            <div class="advanced"></div>
-            <div class="testit"></div>
+            <div class="simplenetwork visible">
+              <canvas></canvas>
+            </div>
+            <div class="advanced">
+              <div>Expert mode</div>
+            </div>
+            <div class="paint">
+              <div class="columns">
+                <div class="column">
+                  <div class="input box background">
+                    <canvas class="drawcanvas"></canvas>
+                  </div>
+                  <p>You</p>
+                </div>
+                <div class="column">
+                  <div class="bars"></div>
+                  <p>Confidence Levels</p>
+                </div>
+                <div class="column">
+                  <div class="output box">
+                    <p class="digit">3</p>
+                  </div>
+                  <p>Computer</p>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="menu">
             <div class="controls"><a class="reset" href="#2" title="reset training"></a><a class="pause-resume" href="#2" title="pause/resume training"></a><a class="single-step" href="#2" title="train a single step"></a></div>
@@ -69,7 +92,7 @@
                 </div>
               </div>
               <div class="v-seperator"></div>
-              <div class="button"><a>-&gt; Test the Network!</a></div>
+              <div class="button testit">-&gt; Test the Network!</div>
             </div>
             <p>Expert mode off
               <label class="switch">
@@ -78,15 +101,7 @@
             </p>
           </div>
         </div>
-        <script type="text/javascript">
-          currentSlide().onEnter = async (controller) => {
-            
-          };
-          
-          currentSlide().onExit = async (controller) => {
-            
-          };
-        </script>
+        <script type="text/javascript" src="src/js/training.js"></script>
       </div>
       <div class="slide">
         <h1>How does it work?</h1>

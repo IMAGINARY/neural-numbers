@@ -2,11 +2,23 @@
   h1 Train the Network!
   .train
     .preview
-      .simplenetwork.selected
-        
+      .simplenetwork.visible
+        canvas
       .advanced
-        
-      .testit
+        div Expert mode
+      .paint
+        .columns
+          .column
+            .input.box.background
+              canvas.drawcanvas
+            p You
+          .column
+            .bars
+            p Confidence Levels
+          .column
+            .output.box
+              p.digit 3
+            p Computer
     .menu
       .controls
         a(href="#2", title="reset training").reset
@@ -22,18 +34,10 @@
             .number 10%
             div Predicted Accuracy
         .v-seperator
-        .button
-          a -&gt; Test the Network!
+        .button.testit -&gt; Test the Network!
       p Expert mode off
         label.switch
           input(type="checkbox")
           span.slider.round
       
-  script(type="text/javascript").
-    currentSlide().onEnter = async (controller) => {
-      
-    };
-
-    currentSlide().onExit = async (controller) => {
-      
-    };
+  script(type="text/javascript" src="src/js/training.js")
