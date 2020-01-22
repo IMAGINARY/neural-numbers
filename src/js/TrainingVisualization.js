@@ -24,6 +24,8 @@ export class TrainingVisualization {
     this.lt1 = 0.08;
     this.lt2 = 0.2;
     //this.animateNetwork();
+
+    this.renderNetwork();
   }
 
   updatescaling() {
@@ -87,6 +89,7 @@ export class TrainingVisualization {
   }
 
   drawnodes(N, values, x0, y0, height, radius) {
+    values = values || new Array(N).fill(0);
     const ctx = this.ctx;
     for (let nodeA = 0; nodeA < N; nodeA++) {
       const cval = values[nodeA] * 255 | 0;
