@@ -1,7 +1,7 @@
 .slide
   h1 Train the Network!
   .train
-    .preview
+    .view
       .simplenetwork.visible
         canvas
       .advanced
@@ -22,7 +22,7 @@
     .menu
       .controls
         a(href="#2", title="reset training").reset
-        a(href="#2", title="pause/resume training").pause-resume
+        a(href="#2", title="pause/resume training").pause-resume.pause
         a(href="#2", title="train a single step").single-step
       .box
         .info
@@ -34,7 +34,7 @@
             .number 10%
             div Predicted Accuracy
         .v-seperator
-        .button.testit -&gt; Test the Network!
+        a.button.testit -&gt; Test the Network!
       p Expert mode off
         label.switch
           input(type="checkbox")

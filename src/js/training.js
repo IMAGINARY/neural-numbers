@@ -1,5 +1,6 @@
 currentSlide().onEnter = async (controller) => {
   var showpreviewpaint = false;
+  var istraining = true;
   const d = document.querySelector(".train");
 
   const els = {
@@ -11,29 +12,79 @@ currentSlide().onEnter = async (controller) => {
   };
 
   var updateUI = () => {
+    istraining = (controller.nn && controller.nn.training);
     if (showpreviewpaint) {
       d.querySelector(".simplenetwork").classList.remove("visible");
       d.querySelector(".advanced").classList.remove("visible");
       d.querySelector(".paint").classList.add("visible");
       d.querySelector(".testit").innerHTML = "-&gt; Continue Training!";
+
+      d.querySelector(".menu").classList.add("drawmode");
     } else {
       d.querySelector(".simplenetwork").classList.add("visible");
       d.querySelector(".advanced").classList.remove("visible");
       d.querySelector(".paint").classList.remove("visible");
       d.querySelector(".testit").innerHTML = "-&gt; Test the Network!";
+
+      d.querySelector(".menu").classList.remove("drawmode");
+    }
+
+    const pr = d.querySelector(".pause-resume");
+    if (istraining) {
+      pr.classList.remove("resume");
+      pr.classList.add("pause");
+    } else {
+      pr.classList.add("resume");
+      pr.classList.remove("pause");
     }
   };
 
-  d.querySelector(".testit").onclick = () => {
+  /* buttons */
+  d.querySelector(".testit").onclick = async () => {
     showpreviewpaint = !showpreviewpaint;
+    updateUI();
+    if (showpreviewpaint) {
+      await controller.pauseTraining();
+    } else {
+      await controller.startTraining();
+    }
+    updateUI();
+  };
+
+  d.querySelector(".pause-resume").onclick = async () => {
+    istraining = !istraining;
+    await controller.toggleTraining();
+    updateUI();
+  };
+
+  d.querySelector(".single-step").onclick = async () => {
+    if ((istraining)) {
+      await controller.pauseTraining();
+      istraining = false;
+    } else {
+      await controller.singleStep();
+    }
+    updateUI();
+  };
+
+  d.querySelector(".reset").onclick = async () => {
+    await controller.pauseTraining();
+    await controller.resetTraining(els);
+
     updateUI();
   };
 
 
+
+
   await controller.initTrainingEnvironment(els);
   controller.startTraining();
+  updateUI();
 };
 
 currentSlide().onExit = async (controller) => {
-
+  controller.cleanupPaint();
+  await controller.pauseTraining();
+  controller.cleanupValidationPreview();
+  controller.cleanupNetwork();
 };

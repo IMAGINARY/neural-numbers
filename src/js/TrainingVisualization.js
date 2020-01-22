@@ -10,7 +10,7 @@ export class TrainingVisualization {
     this.currentProbabilities = this.currentTarget = new Float32Array(10);
 
     const canvas = this.canvas = this.els.network;
-    canvas.height = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
     canvas.width = canvas.clientWidth;
     const ctx = this.ctx = canvas.getContext('2d');
 
@@ -27,7 +27,7 @@ export class TrainingVisualization {
   }
 
   updatescaling() {
-    const ratio = this.canvas.clientWidth / SIZE;
+    const ratio = this.canvas.clientHeight / SIZE;
     this.ctx.scale(ratio, ratio);
   }
 

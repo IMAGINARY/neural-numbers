@@ -2,9 +2,11 @@ let SCALE_FACTOR = 9;
 let LINEWIDTH = 2 * SCALE_FACTOR;
 
 export class Paint {
-  constructor(el, model) {
+  constructor(el, model, showprobability) {
     this.drawingChanged = true;
     this.model = model;
+
+    this.showprobability = showprobability;
 
     // last known position
     this.pos = {
@@ -222,7 +224,7 @@ export class Paint {
       }
 
       if (this.outputdigit) {
-        this.outputdigit.innerHTML = probabilities[predicted] > 0.8 ? predicted : "?";
+        this.outputdigit.innerHTML = probabilities[predicted] > this.showprobability ? predicted : "?";
       }
 
     }

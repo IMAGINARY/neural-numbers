@@ -144,7 +144,7 @@ export class NeuralNetwork {
         onBatchEnd: async (batch, logs) => {
           this.trainedimages += BATCH_SIZE;
           //this.els.trainingAccuracy.innerHTML = `Accuracy on current training data: ${(logs.acc * 1000 | 0)/10}%`;
-          this.els.trainingProgress.innerHTML = `${this.trainedimages} images used for training.`;
+          this.els.trainingProgress.innerHTML = this.trainedimages;
         }
       }
     });

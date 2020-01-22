@@ -40,22 +40,24 @@ export class ValidationPreview {
       }
       //
       this.els.validationImages.appendChild(container);
-      //document.body.appendChild(container);    
+      //document.body.appendChild(container);
     }
 
   }
 
   async updateValidationImages(model) {
-    const values = tf.tidy(() => {
-      const testxs = this.examples.xs.reshape([NUM_EXAMPLES, 28, 28, 1]);
-      return model.predict(testxs).argMax([-1]).dataSync();
-    });
-    //  console.log(preds);
+    if (this.els.validationImages) {
+      const values = tf.tidy(() => {
+        const testxs = this.examples.xs.reshape([NUM_EXAMPLES, 28, 28, 1]);
+        return model.predict(testxs).argMax([-1]).dataSync();
+      });
+      //  console.log(preds);
 
-    for (let i = 0; i < NUM_EXAMPLES; i++) {
-      //digittext[i].innerHTML = `${values[i]} (${examplelabels[i]})`;
-      this.digittext[i].innerHTML = `${values[i]}`;
-      this.digitcontainer[i].style.backgroundColor = (values[i] == this.examplelabels[i]) ? 'green' : 'red';
+      for (let i = 0; i < NUM_EXAMPLES; i++) {
+        //digittext[i].innerHTML = `${values[i]} (${examplelabels[i]})`;
+        this.digittext[i].innerHTML = `${values[i]}`;
+        this.digitcontainer[i].style.backgroundColor = (values[i] == this.examplelabels[i]) ? 'green' : 'red';
+      }
     }
   }
 
@@ -89,7 +91,7 @@ export class ValidationPreview {
   }
 
   cleanup() {
-    while (this.els.validationImages.firstChild) {
+    while (this.els.validationImages && this.els.validationImages.firstChild) {
       this.els.validationImages.removeChild(this.els.validationImages.firstChild);
     }
     this.isanimating = false;
