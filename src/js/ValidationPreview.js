@@ -8,7 +8,7 @@ export class ValidationPreview {
     this.accuracy = this.displayedAccuracy = 0;
     this.isanimating = true;
     this.acccbs = [];
-    this.animate();
+    //this.animate();
   }
 
   async initValidationImages() {
@@ -61,8 +61,7 @@ export class ValidationPreview {
     }
   }
 
-  async updateAccuracy(model) {
-    const TEST_DATA_SIZE = 100; //TODO: change based on demand
+  async updateAccuracy(model, TEST_DATA_SIZE = 100) {
     let testXs, testYs;
     this.accuracy = tf.tidy(() => {
       const d = this.data.nextTestBatch(TEST_DATA_SIZE);
@@ -70,8 +69,12 @@ export class ValidationPreview {
       const testYs = d.labels;
       return model.evaluate(testXs, testYs)[1].dataSync();
     });
+
+    if (TEST_DATA_SIZE < 1000 && this.accuracy > 0.9)
+      await this.updateAccuracy(model, 1000); //compute more exact accuracy if it is close to 100%
     //this.els.validationAccuracy.innerHTML = `Accuracy on validation data (approx.): ${(acc * 1000 | 0)/10} %`;
 
+    this.els.validationAccuracy.innerHTML = `${(this.accuracy < 0.9) ? Math.round(this.accuracy * 100) : Math.round(this.accuracy * 1000) /10}%`;
 
     //run all callbacks for a lower accuracy
     this.acccbs.filter(p => p.acc <= this.accuracy).map(p => (p.cb)());
@@ -79,6 +82,7 @@ export class ValidationPreview {
     this.acccbs = this.acccbs.filter(p => p.acc > this.accuracy);
   }
 
+  /* This function is not used anymore: smooth rendering of accuracy */
   animate() {
     if (!this.isanimating)
       return;

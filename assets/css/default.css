@@ -626,7 +626,8 @@ left: 1em;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  padding: 28px; }
 
 .train .menu .controls {
   display: flex;
@@ -654,32 +655,27 @@ left: 1em;
 .train .menu .controls .single-step {
   background-image: url("../../assets/img/step.svg"); }
 
-.train .box {
-  display: flex;
-  flex-direction: column;
-  padding: 28px; }
-
-.train .box .info {
+.train .menu .box .info {
   display: flex;
   justify-content: space-around; }
 
-.train .box .info .h-seperator {
+.train .menu .box .info .h-seperator {
   height: 100%;
   border: 1px solid #C4C4C4;
   margin: auto; }
 
-.train .box .v-seperator {
+.train .menu .box .v-seperator {
   width: 100%;
   border: 1px solid #C4C4C4;
   margin: auto; }
 
-.train .info .number {
+.train .menu .info .number {
   font-weight: 500;
   font-size: 42px;
   line-height: 49px;
   text-align: center; }
 
-.train .box .button {
+.train .menu .box .button {
   font-family: Roboto;
   font-style: normal;
   font-size: 32px;

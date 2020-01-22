@@ -1,6 +1,6 @@
 /* jshint esversion: 8*/
 
-const SIZE = 360;
+const HEIGHT = 500;
 
 export class TrainingVisualization {
   constructor(nn, els) {
@@ -27,7 +27,7 @@ export class TrainingVisualization {
   }
 
   updatescaling() {
-    const ratio = this.canvas.clientHeight / SIZE;
+    const ratio = this.canvas.clientHeight / HEIGHT;
     this.ctx.scale(ratio, ratio);
   }
 
@@ -104,17 +104,17 @@ export class TrainingVisualization {
     const ctx = this.ctx;
     const weights = this.nn.model.getWeights().map(w => w.dataSync());
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.lt1 = this.drawdenselayer(784, 100, weights[0], 100, 10, 100, (SIZE - 20), this.lt1);
-    this.drawnodes(100, this.intermediateActivations, 200, 10, (SIZE - 20), 1);
-    this.lt2 = this.drawdenselayer(100, 10, weights[2], 200, 10, 100, (SIZE - 20), this.lt2);
+    this.lt1 = this.drawdenselayer(784, 100, weights[0], 200, 50, 250, (HEIGHT - 100), this.lt1);
+    this.drawnodes(100, this.intermediateActivations, 450, 50, (HEIGHT - 100), 1);
+    this.lt2 = this.drawdenselayer(100, 10, weights[2], 450, 50, 250, (HEIGHT - 100), this.lt2);
     this.renderCurrentTraining();
 
     //draw digits
     ctx.fillStyle = 'black';
     for (let k = 0; k < 10; k++) {
-      const x0 = 340;
-      const y0 = 10 + (SIZE - 20) * k / (10 - 1);
-      ctx.font = "20px Ubuntu";
+      const x0 = 770;
+      const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
+      ctx.font = "20px Roboto";
       ctx.fillText(k, x0, y0 + 8);
     }
     //this.lastvisualization = this.nn.trainedimages;
@@ -161,10 +161,12 @@ export class TrainingVisualization {
 
   renderCurrentTraining() {
     const ctx = this.ctx;
-    this.drawnodes(784, this.currentDigit, 100, 10, (SIZE - 20), .5);
-    this.drawnodes(10, this.currentProbabilities, 300, 10, (SIZE - 20), 5);
-    this.drawnodes(10, this.currentTarget, 330, 10, (SIZE - 20), 5);
+    this.drawnodes(784, this.currentDigit, 200, 50, (HEIGHT - 100), 0.5);
+    this.drawnodes(10, this.currentProbabilities, 700, 50, (HEIGHT - 100), 5);
+    this.drawnodes(10, this.currentTarget, 750, 50, (HEIGHT - 100), 5);
     ctx.imageSmoothingEnabled = false; //no antialiasing
-    ctx.drawImage(this.traindigit, 0, 0, 28, 28, 5, SIZE / 2 - 3 * 28 / 2, 28 * 3, 28 * 3);
+    ctx.filter = "brightness(0.5) invert(1)";
+    ctx.drawImage(this.traindigit, 0, 0, 28, 28, 50, HEIGHT / 2 - 4 * 28 / 2, 28 * 4, 28 * 4);
+    ctx.filter = "none";
   }
 }
