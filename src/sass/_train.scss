@@ -58,15 +58,15 @@
   flex-direction: row;
   width: 100%;
   height: 100px;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .train .menu .controls > a {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  width: 49px;
-  height: 55px;
+  width: 30%;
+  height: 60%;
 }
 
 .train .menu .controls .reset {

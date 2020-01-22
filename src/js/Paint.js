@@ -91,6 +91,12 @@ export class Paint {
         this.resetbutton.style.zIndex = 10;
     */
     if (this.outputbars) {
+
+      //cleanup potentially previously existing bars
+      while (this.outputbars.firstChild) {
+        this.outputbars.removeChild(this.outputbars.firstChild);
+      }
+
       this.bars = [];
       for (let i = 0; i < 10; i++) {
         const cbarcontainer = document.createElement("div");
@@ -216,10 +222,12 @@ export class Paint {
 
       if (this.outputbars) {
         for (let i = 0; i < 10; i++) {
-          this.bars[i].style.top = (100 - probabilities[i] * 100) + '%';
+          /*this.bars[i].style.top = (100 - probabilities[i] * 100) + '%';
           this.bars[i].style.bottom = '0%';
-          this.bars[i].style.height = (probabilities[i] * 100) + '%';
-          this.bars[i].style.backgroundColor = (i == predicted) ? '#f60' : '#55b';
+          this.bars[i].style.height = (probabilities[i] * 100) + '%';*/
+          this.bars[i].dataset.probability = probabilities[i];
+          this.bars[i].style = `--probability: ${probabilities[i]}`;
+          //this.bars[i].style.backgroundColor = (i == predicted) ? '#f60' : '#55b';
         }
       }
 
