@@ -1,0 +1,45 @@
+.how.columns {
+  align-items: flex-start;
+  margin: 20px;
+}
+
+.how .h2 {
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 49px
+}
+
+.how .box {
+  display: flex;
+  flex-direction: column;
+  padding: 50px 20px;
+  width: 21vw;
+  background: #FFFFFF;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.how .box > img {
+  width:0px; height:0px; padding: 59px;
+  align-self: center;
+}
+
+.how .box:nth-child(1) > img {
+  background-image: url('../../assets/img/im1.svg');
+}
+
+.how .box:nth-child(2) > img {
+  background-image: url('../../assets/img/im2.svg');
+}
+
+.how .box:nth-child(3) > img {
+  background-image: url('../../assets/img/im3.svg');
+}
+
+.how .box > div {
+  font-size: 28px;
+  line-height: 33px;
+  text-align: center;
+  color: #7B7B7B;
+}
