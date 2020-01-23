@@ -67,9 +67,6 @@ currentSlide().onEnter = async (controller) => {
     updateUI();
   };
 
-  d.querySelector('.expertmode').onchange = () => {
-    updateUI();
-  }
 
   d.querySelector(".pause-resume").onclick = async () => {
     istraining = !istraining;
@@ -95,6 +92,45 @@ currentSlide().onEnter = async (controller) => {
     updateUI();
   };
 
+  /*expert mode */
+
+  var resetadvancednetwork = async () => {
+    await controller.pauseTraining();
+    const learningRate = Math.pow(10, d.querySelector(".learningrate").value);
+    d.querySelector(".learningratetxt").innerHTML = learningRate.toPrecision(1);
+    controller.resetNetwork(
+      d.querySelector(".modelid").value,
+      d.querySelector(".optimizerid").value,
+      learningRate,
+      d.querySelector(".activation").value
+    );
+    updateUI();
+  };
+
+  d.querySelector('.expertmode').onchange = () => {
+    if (d.querySelector(".modelid").selectedIndex != 0) {
+      d.querySelector(".modelid").selectedIndex = 0;
+      resetadvancednetwork();
+    }
+    updateUI();
+  };
+
+
+  d.querySelector('.modelid').onchange = async () => {
+    resetadvancednetwork();
+  };
+
+  d.querySelector('.optimizerid').onchange = async () => {
+    resetadvancednetwork();
+  };
+
+  d.querySelector('.learningrate').onchange = async () => {
+    resetadvancednetwork();
+  };
+
+  d.querySelector('.activation').onchange = async () => {
+    resetadvancednetwork();
+  };
 
 
 

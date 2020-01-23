@@ -110,23 +110,26 @@ export class TrainingVisualization {
 
 
   renderNetwork() {
-    const canvas = this.canvas;
-    const ctx = this.ctx;
-    const weights = this.nn.model.getWeights().map(w => w.dataSync());
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.lt1 = this.drawdenselayer(784, 100, weights[0], 200, 50, 250, (HEIGHT - 100), this.lt1);
-    this.drawnodes(100, this.intermediateActivations, 450, 50, (HEIGHT - 100), 1.5);
-    this.lt2 = this.drawdenselayer(100, 10, weights[2], 450, 50, 250, (HEIGHT - 100), this.lt2);
-    this.renderCurrentTraining();
+    if (this.nn.modelid == "dense") {
+      const canvas = this.canvas;
+      const ctx = this.ctx;
+      const weights = this.nn.model.getWeights().map(w => w.dataSync());
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      this.lt1 = this.drawdenselayer(784, 100, weights[0], 200, 50, 250, (HEIGHT - 100), this.lt1);
+      this.drawnodes(100, this.intermediateActivations, 450, 50, (HEIGHT - 100), 1.5);
+      this.lt2 = this.drawdenselayer(100, 10, weights[2], 450, 50, 250, (HEIGHT - 100), this.lt2);
+      this.renderCurrentTraining();
 
-    //draw digits
-    ctx.fillStyle = 'black';
-    for (let k = 0; k < 10; k++) {
-      const x0 = 770;
-      const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
-      ctx.font = "20px Roboto";
-      ctx.fillText(k, x0, y0 + 8);
+      //draw digits
+      ctx.fillStyle = 'black';
+      for (let k = 0; k < 10; k++) {
+        const x0 = 770;
+        const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
+        ctx.font = "20px Roboto";
+        ctx.fillText(k, x0, y0 + 8);
+      }
     }
+
     //this.lastvisualization = this.nn.trainedimages;
   }
 
@@ -139,33 +142,35 @@ export class TrainingVisualization {
     }
   */
   async setCurrentTraining(trainXs, trainYs) {
-    const trainX1 = trainXs.slice([0, 0, 0, 0], [1, 28, 28, 1]); //only the first
-    const imageTensor = trainX1.reshape([28, 28, 1]); //first as image
-    await tf.browser.toPixels(imageTensor, this.traindigit);
-    this.currentDigit = imageTensor.dataSync();
+    if (this.nn.modelid == "dense") {
+      const trainX1 = trainXs.slice([0, 0, 0, 0], [1, 28, 28, 1]); //only the first
+      const imageTensor = trainX1.reshape([28, 28, 1]); //first as image
+      await tf.browser.toPixels(imageTensor, this.traindigit);
+      this.currentDigit = imageTensor.dataSync();
 
-    const A1 = this.nn.model.layers[0].apply(trainX1);
-    const A2 = this.nn.model.layers[1].apply(A1);
-    const A3 = this.nn.model.layers[2].apply(A2);
+      const A1 = this.nn.model.layers[0].apply(trainX1);
+      const A2 = this.nn.model.layers[1].apply(A1);
+      const A3 = this.nn.model.layers[2].apply(A2);
 
-    this.intermediateActivations = A2.dataSync().map(x => Math.abs(x) / 2);
+      this.intermediateActivations = A2.dataSync().map(x => Math.abs(x) / 2);
 
 
-    this.currentProbabilities = A3.dataSync();
+      this.currentProbabilities = A3.dataSync();
 
-    const trainY1 = trainYs.slice([0, 0], [1, 10]); //only the first
-    //const target = trainY1.reshape([10]);
-    this.currentTarget = trainY1.dataSync();
+      const trainY1 = trainYs.slice([0, 0], [1, 10]); //only the first
+      //const target = trainY1.reshape([10]);
+      this.currentTarget = trainY1.dataSync();
 
-    this.renderNetwork();
+      this.renderNetwork();
 
-    //clean up tensors
-    trainX1.dispose();
-    trainY1.dispose();
-    imageTensor.dispose();
-    A1.dispose();
-    A2.dispose();
-    A3.dispose();
+      //clean up tensors
+      trainX1.dispose();
+      trainY1.dispose();
+      imageTensor.dispose();
+      A1.dispose();
+      A2.dispose();
+      A3.dispose();
+    }
     //target.dispose();
   }
 

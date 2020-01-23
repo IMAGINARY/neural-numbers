@@ -71,7 +71,37 @@
               <canvas></canvas>
             </div>
             <div class="advanced">
-              <div>Expert mode</div>
+              <!--canvas-->
+              <div class="columns">
+                <div class="column options">
+                  <div>Model architecture:<br>
+                    <select class="modelid">
+                      <option value="dense" selected>dense network, 784-100-10</option>
+                      <option value="cnn">convolutional network</option>
+                      <option value="nohidden">no hidden layers, dense network 784-10</option>
+                    </select>
+                  </div>
+                  <div>Activation function:<br>
+                    <select class="activation">
+                      <option value="relu" selected>ReLu</option>
+                      <option value="tanh">tanh</option>
+                      <option value="sigmoid">sigmoid</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="column options">
+                  <div>Optimizer:<br>
+                    <select class="optimizerid">
+                      <option value="adam" selected>adam</option>
+                      <option value="sgd">stochastic gradient descent</option>
+                    </select>
+                  </div>
+                  <div>Learning rate:<br>
+                    <input class="learningrate" type="range" min="-4" max="0" value="-3" step="any">
+                    <div class="learningratetxt">0.001</div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="paint">
               <div class="columns">

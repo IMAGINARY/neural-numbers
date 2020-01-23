@@ -1,4 +1,12 @@
 /* The slider */
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
 .slider {
   pointer-events: all;
   position: absolute;
@@ -44,4 +52,48 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+
+
+
+input[type=range]{
+  -webkit-appearance: none;
+  background: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  height: 34px;
+  background: #ccc;
+  border: none;
+  border-radius: 17px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  background: #fff;
+  margin-top: 4px;
+  position: relative;
+}
+
+
+input[type=range]:focus {
+  outline: none;
+  &::-webkit-slider-thumb:after {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #888;
+    border-radius: 5px;
+    padding: 5px 10px;
+  }
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #888;
 }

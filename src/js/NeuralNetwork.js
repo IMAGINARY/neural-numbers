@@ -9,7 +9,12 @@ export class NeuralNetwork {
   constructor(vp, els) {
     this.els = els;
     this.vp = vp;
-    this.createModel();
+    this.setup();
+    this.visualization = new TrainingVisualization(this, els);
+  }
+
+  setup(modelid = "dense", optimizerid = "adam", learningRate = 0.001, activation = "relu") {
+    this.modelid = modelid;
     this.training = false;
     this.trainedimages = 0;
     this.lastrainedimages = 0;
@@ -18,12 +23,13 @@ export class NeuralNetwork {
     //this.els.trainingAccuracy.innerHTML = ``;
     this.els.trainingProgress.innerHTML = this.trainedimages;
 
-    this.visualization = new TrainingVisualization(this, els);
-  }
-
-  createModel() {
-    //TODO: once UI is finished
-    const modelid = "dense"; //TODO document.getElementById("modelid").value;
+    /*
+    //delete old model if it has been existing
+    if(this.model) {
+      this.model.dispose();
+    }
+    */
+    //create model
     const model = this.model = tf.sequential();
 
     const IMAGE_WIDTH = 28;
@@ -40,7 +46,7 @@ export class NeuralNetwork {
         kernelSize: 5,
         filters: 8,
         strides: 1,
-        activation: 'relu',
+        activation: activation,
         kernelInitializer: 'varianceScaling'
       }));
 
@@ -57,7 +63,7 @@ export class NeuralNetwork {
         kernelSize: 5,
         filters: 16,
         strides: 1,
-        activation: 'relu',
+        activation: activation,
         kernelInitializer: 'varianceScaling'
       }));
       model.add(tf.layers.maxPooling2d({
@@ -78,7 +84,7 @@ export class NeuralNetwork {
 
       model.add(tf.layers.dense({
         units: 100,
-        activation: 'relu',
+        activation: activation,
         kernelInitializer: 'varianceScaling'
       }));
     } else if (modelid == "nohidden") {
@@ -98,13 +104,10 @@ export class NeuralNetwork {
       activation: 'softmax'
     }));
 
-    const learningRate = 0.001; //TODO Math.pow(10, document.getElementById('learningrate').value);
-
     // Choose an optimizer, loss function and accuracy metric,
     // then compile and return the model
-    const optimizer =
-      //TODO document.getElementById('optimizer').value == "adam" ? tf.train.adam(learningRate) : tf.train.sgd(learningRate);
-      tf.train.adam(learningRate);
+    const optimizer = (optimizerid == "adam") ? tf.train.adam(learningRate) : tf.train.sgd(learningRate);
+    tf.train.adam(learningRate);
 
     model.compile({
       optimizer: optimizer,
