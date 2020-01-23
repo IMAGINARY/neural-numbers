@@ -92,7 +92,7 @@ currentSlide().onEnter = async (controller) => {
 
 
   await controller.initTrainingEnvironment(els);
-  controller.startTraining();
+  //controller.startTraining();
   updateUI();
 };
 
