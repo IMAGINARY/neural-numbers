@@ -35,9 +35,10 @@
             div Predicted Accuracy
         .v-seperator
         a.button.testit -&gt; Test the Network!
-      p Expert mode off
+      p Expert mode 
+        span.expertmode-on-off off
         label.switch
-          input(type="checkbox")
+          input(type="checkbox").expertmode
           span.slider.round
       
   script(type="text/javascript" src="src/js/training.js")
