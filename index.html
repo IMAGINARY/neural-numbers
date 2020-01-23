@@ -20,25 +20,41 @@
   <body>
     <div class="main">
       <!--.background-->
-      <div class="slide">
+      <div class="slide" id="intropaint">
         <h1>Can I read your number?</h1>
-        <div class="paint columns" id="intropaint">
+        <div class="paint columns">
           <div class="column">
             <div class="input box background">
               <canvas class="drawcanvas"></canvas>
             </div>
             <p>You</p>
           </div>
+          <div class="column confidences">
+            <div class="bars"></div>
+            <p>Confidences</p>
+          </div>
           <div class="column">
             <div class="output box">
               <p class="digit">3</p>
             </div>
-            <p>Computer</p>
+            <p>AI</p>
           </div>
         </div>
+        <label class="switch">
+          <input class="showconfidences" type="checkbox"><span class="slider round"></span>
+        </label>
         <script type="text/javascript">
           currentSlide().onEnter = async (controller) => {
-            controller.initIntroPaint(document.querySelector("#intropaint"))
+            const d = document.querySelector("#intropaint");
+            controller.initIntroPaint(d);
+            d.querySelector(".showconfidences").onchange = () => {
+              if(d.querySelector(".showconfidences").checked) {
+                d.querySelector(".confidences").classList.add("visible");
+              } else {
+                d.querySelector(".confidences").classList.remove("visible");
+              }
+            }
+          
           };
           
           currentSlide().onExit = async (controller) => {
