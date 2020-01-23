@@ -27,7 +27,9 @@ body {
   color: black;
   font-family: "Roboto", "Franklin Gothic Medium", Tahoma, sans-serif;
   font-size: 40px;
-  line-height: 48px; }
+  line-height: 48px;
+  pointer-events: none;
+  user-select: none; }
 
 .visible {
   visibility: visible !important;
@@ -441,7 +443,8 @@ left: 1em;
   border: 2px solid #000000;
   box-sizing: border-box;
   border-radius: 10px;
-  margin: 25px; }
+  margin: 25px;
+  pointer-events: all; }
 
 .footer .navbutton:hover {
   background: #EEEEEE; }
@@ -476,8 +479,7 @@ left: 1em;
   bottom: 110px;
   top: 0;
   padding: 20px;
-  text-align: center;
-  pointer-events: none; }
+  text-align: center; }
 
 .slide.visible {
   display: block;

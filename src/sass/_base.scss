@@ -4,6 +4,8 @@ body {
   font-family: $font-stack-roboto;
   font-size: 40px;
   line-height: 48px;
+  pointer-events: none;
+  user-select: none; 
 }
 
 .visible {
