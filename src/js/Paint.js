@@ -15,6 +15,7 @@ export class Paint {
     };
 
     this.createUI(el);
+    this.empty = true;
   }
 
   addEventListeners() {
@@ -66,9 +67,6 @@ export class Paint {
     const drawcontext = this.drawcontext = this.drawcanvas.getContext('2d');
     const normalizecontext = this.normalizecontext = this.normalizecanvas.getContext('2d');
 
-    this.drawcontext.fillStyle = "black";
-    this.drawcontext.fillRect(0, 0, drawcanvas.width, drawcanvas.height);
-
     //  normalizecanvas.style.width = 28 * SCALE_FACTOR + 'px';
     //  normalizecanvas.style.height = 28 * SCALE_FACTOR + 'px';
     //  normalizecanvas.style.imageRendering = 'pixelated';
@@ -113,9 +111,7 @@ export class Paint {
 
     }
 
-
-    this.normalize(100);
-    this.predict();
+    this.clear();
   }
 
 
@@ -130,15 +126,13 @@ export class Paint {
     if (!hasbeendown) return;
 
     this.inputbox.classList.remove('background');
+    this.empty = false;
     if (this.deleteTimeout) {
       clearTimeout(this.deleteTimeout);
     }
     //clean up everything in 1.5 seconds
     this.deleteTimeout = setTimeout(() => {
-      this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
-      this.normalize(100);
-      this.predict();
-      this.inputbox.classList.add('background');
+      this.clear();
     }, 1500);
     this.drawcontext.beginPath(); // begin
 
@@ -232,16 +226,23 @@ export class Paint {
       }
 
       if (this.outputdigit) {
-        this.outputdigit.innerHTML = probabilities[predicted] > this.showprobability ? predicted : "?";
+        this.outputdigit.innerHTML = (!this.empty && probabilities[predicted] > this.showprobability) ? predicted : "?";
       }
 
     }
   }
 
-  cleanup() {
-    this.removeEventListeners();
+  clear() {
     this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
+    this.empty = true;
     this.normalize(100);
+    this.predict();
+    this.inputbox.classList.add('background');
+  }
+  cleanup() {
+    this.clear();
+    this.removeEventListeners();
+
     //this.predict();
     //this.resetbutton.style.visibility = 'hidden';
 

@@ -29,7 +29,7 @@ export class Controller {
   async initIntroPaint(paintel) {
     if (!this.trainedmodel)
       this.trainedmodel = await tf.loadLayersModel('assets/models/my-model.json');
-    this.paint = new Paint(paintel, this.trainedmodel, 0.8);
+    this.paint = new Paint(paintel, this.trainedmodel, 0.5);
   }
 
   async loadData() {
@@ -43,7 +43,7 @@ export class Controller {
     await this.loadData();
     this.vp = new ValidationPreview(this.data, els);
     this.nn = new NeuralNetwork(this.vp, els);
-    this.paint = new Paint(els.paint, this.nn.model, 0.5);
+    this.paint = new Paint(els.paint, this.nn.model, 0);
     await this.vp.initValidationImages(els);
     if (this.nn) { //this.nn might have been deleted because in the meanwhile the slide has been skipped
       this.vp.updateValidationImages(this.nn.model);
