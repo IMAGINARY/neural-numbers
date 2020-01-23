@@ -15,6 +15,11 @@ currentSlide().onEnter = async (controller) => {
   var updateUI = () => {
     istraining = (controller.nn && controller.nn.training);
     expertmode = d.querySelector('.expertmode').checked;
+    if (controller.nn.trainedimages > 0) {
+      d.querySelector(".reset").classList.add("visible");
+    } else {
+      d.querySelector(".reset").classList.remove("visible");
+    }
     if (showpreviewpaint) {
       d.querySelector(".simplenetwork").classList.remove("visible");
       d.querySelector(".advanced").classList.remove("visible");
@@ -23,7 +28,7 @@ currentSlide().onEnter = async (controller) => {
 
       d.querySelector(".menu").classList.add("drawmode");
     } else {
-      if(expertmode) {
+      if (expertmode) {
         d.querySelector(".simplenetwork").classList.remove("visible");
         d.querySelector(".advanced").classList.add("visible");
       } else {
@@ -40,6 +45,7 @@ currentSlide().onEnter = async (controller) => {
     d.querySelector(".expertmode-on-off").innerHTML = expertmode ? "on" : "off";
 
     const pr = d.querySelector(".pause-resume");
+
     if (istraining) {
       pr.classList.remove("resume");
       pr.classList.add("pause");
@@ -56,7 +62,7 @@ currentSlide().onEnter = async (controller) => {
     if (showpreviewpaint) {
       await controller.pauseTraining();
     } else {
-      await controller.startTraining();
+      await controller.toggleTraining();
     }
     updateUI();
   };
@@ -69,6 +75,7 @@ currentSlide().onEnter = async (controller) => {
     istraining = !istraining;
     await controller.toggleTraining();
     updateUI();
+    d.querySelector(".reset").classList.add("visible");
   };
 
   d.querySelector(".single-step").onclick = async () => {
