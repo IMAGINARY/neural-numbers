@@ -562,6 +562,7 @@ left: 1em;
   margin: 0;
   position: relative; }
 
+/*
 .paint .bars::after {
   content: '';
   position: absolute;
@@ -570,8 +571,9 @@ left: 1em;
   right: 0;
   background: #C4C4C4;
   height: 5px;
-  border-radius: 2.5px; }
-
+  border-radius: 2.5px;
+}
+*/
 .paint .barcontainer {
   position: relative;
   height: 100%;
