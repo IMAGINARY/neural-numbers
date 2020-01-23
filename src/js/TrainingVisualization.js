@@ -92,10 +92,17 @@ export class TrainingVisualization {
     values = values || new Array(N).fill(0);
     const ctx = this.ctx;
     for (let nodeA = 0; nodeA < N; nodeA++) {
-      const cval = values[nodeA] * 255 | 0;
+      var cval = Math.max(128, 255 - (values[nodeA] * 128 | 0));
+      if (radius <= 2) {
+        cval = (cval + 128) / 2 | 0;
+      }
       ctx.fillStyle = `rgb(${cval}, ${cval}, ${cval})`;
       ctx.beginPath();
       ctx.arc(x0, y0 + nodeA * height / (N - 1), radius, 0, 2 * Math.PI, false);
+      if (cval > 200 && radius > 2) {
+        ctx.strokeStyle = `rgb(128, 128, 128)`;
+        ctx.stroke();
+      }
       //ctx.stroke();
       ctx.fill();
     }
@@ -108,7 +115,7 @@ export class TrainingVisualization {
     const weights = this.nn.model.getWeights().map(w => w.dataSync());
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     this.lt1 = this.drawdenselayer(784, 100, weights[0], 200, 50, 250, (HEIGHT - 100), this.lt1);
-    this.drawnodes(100, this.intermediateActivations, 450, 50, (HEIGHT - 100), 1);
+    this.drawnodes(100, this.intermediateActivations, 450, 50, (HEIGHT - 100), 1.5);
     this.lt2 = this.drawdenselayer(100, 10, weights[2], 450, 50, 250, (HEIGHT - 100), this.lt2);
     this.renderCurrentTraining();
 
@@ -165,8 +172,8 @@ export class TrainingVisualization {
   renderCurrentTraining() {
     const ctx = this.ctx;
     this.drawnodes(784, this.currentDigit, 200, 50, (HEIGHT - 100), 0.5);
-    this.drawnodes(10, this.currentProbabilities, 700, 50, (HEIGHT - 100), 5);
-    this.drawnodes(10, this.currentTarget, 750, 50, (HEIGHT - 100), 5);
+    this.drawnodes(10, this.currentProbabilities, 700, 50, (HEIGHT - 100), 8);
+    this.drawnodes(10, this.currentTarget, 750, 50, (HEIGHT - 100), 8);
     ctx.imageSmoothingEnabled = false; //no antialiasing
     ctx.filter = "brightness(0.5) invert(1)";
     ctx.drawImage(this.traindigit, 0, 0, 28, 28, 50, HEIGHT / 2 - 4 * 28 / 2, 28 * 4, 28 * 4);
