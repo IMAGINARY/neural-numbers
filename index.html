@@ -178,35 +178,51 @@
               <p>In the case of this exhibit (Neural Numbers), we have 70 000 images of handwritten numbers (input) and the number it depicts:</p><img src="assets/img/mnist.png" style="width: 95%;">
               <!--TODO: add labels and make this images change-->
               <p>The training data is “unified or cleaned”, all pictures are 28 x 28 pixels and the image drawn is centered. Whenever you draw a number, your drawing will be transformed to such a sample image.</p>
-              <p>TODO Insert the transform sample from handwritten to to 28 x 28 pixels interactive element.</p>
+              <div class="paint columns" id="normalizepaint">
+                <div class="column">
+                  <div class="input box background">
+                    <canvas class="drawcanvas"></canvas>
+                  </div>
+                  <p>You</p>
+                </div>
+                <div class="column">
+                  <div class="box">
+                    <canvas class="normalizecanvas"></canvas>
+                  </div>
+                  <p>Normalized Image</p>
+                </div>
+              </div>
             </div><img>
             <h3>What is Training Data?</h3>
             <div>The training data tells the network when it was right or wrong.</div>
           </div>
         </div>
         <script type="text/javascript">
-          currentSlide().backbutton = "Back";
-          currentSlide().nextbutton = "Train the Network!";
+          const d = currentSlide();
           
           const resetOverlays = () => {
-            currentSlide().querySelectorAll(".overlay").forEach(o => o.classList.remove("visible"));
-            currentSlide().querySelector("#screenoverlay").classList.remove("visible");
+            d.querySelectorAll(".overlay").forEach(o => o.classList.remove("visible"));
+            d.querySelector("#screenoverlay").classList.remove("visible");
           };
           
           currentSlide().onEnter = async (controller) => {
             //controller.initIntroPaint(document.querySelector("#intropaint"))
-            currentSlide().querySelectorAll(".box").forEach(btn => {
+            d.querySelectorAll(".how > .box").forEach(btn => {
               btn.onclick = () => {
-                btn.querySelector(".overlay").classList.toggle("visible");
-                currentSlide().querySelector("#screenoverlay").classList.toggle("visible");
+                btn.querySelector(".overlay").classList.add("visible");
+                d.querySelector("#screenoverlay").classList.add("visible");
               };
             });
             
-            currentSlide().querySelector("#screenoverlay").onclick = resetOverlays;
+            d.querySelector("#screenoverlay").onclick = resetOverlays;
+            controller.initIntroPaint(document.querySelector("#normalizepaint"));
           };
+          
+          
           
           currentSlide().onExit = async (controller) => {
             resetOverlays();
+            controller.cleanupPaint();
             //controller.cleanupPaint();
           };
         </script>

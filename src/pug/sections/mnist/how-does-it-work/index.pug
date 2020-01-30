@@ -25,27 +25,30 @@
       div The training data tells the network when it was right or wrong.
 
   script(type="text/javascript").
-    currentSlide().backbutton = "Back";
-    currentSlide().nextbutton = "Train the Network!";
+    const d = currentSlide();
 
     const resetOverlays = () => {
-      currentSlide().querySelectorAll(".overlay").forEach(o => o.classList.remove("visible"));
-      currentSlide().querySelector("#screenoverlay").classList.remove("visible");
+      d.querySelectorAll(".overlay").forEach(o => o.classList.remove("visible"));
+      d.querySelector("#screenoverlay").classList.remove("visible");
     };
     
     currentSlide().onEnter = async (controller) => {
       //controller.initIntroPaint(document.querySelector("#intropaint"))
-      currentSlide().querySelectorAll(".box").forEach(btn => {
+      d.querySelectorAll(".how > .box").forEach(btn => {
         btn.onclick = () => {
-          btn.querySelector(".overlay").classList.toggle("visible");
-          currentSlide().querySelector("#screenoverlay").classList.toggle("visible");
+          btn.querySelector(".overlay").classList.add("visible");
+          d.querySelector("#screenoverlay").classList.add("visible");
         };
       });
       
-      currentSlide().querySelector("#screenoverlay").onclick = resetOverlays;
+      d.querySelector("#screenoverlay").onclick = resetOverlays;
+      controller.initIntroPaint(document.querySelector("#normalizepaint"));
     };
+    
+
 
     currentSlide().onExit = async (controller) => {
       resetOverlays();
+      controller.cleanupPaint();
       //controller.cleanupPaint();
     };
