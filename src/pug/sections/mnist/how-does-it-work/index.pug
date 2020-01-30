@@ -1,28 +1,51 @@
 .slide
+  #screenoverlay
   h1 How does it work?
   div By teaching a neural network how to see and classify the numbers.
   .how.columns
     .box
+      .overlay
+        include what-is-a-neural-network
       img
       h3 What is a Neural Network?
       div A Neural Network is a way to teach computer things.
+      
     .box
+      .overlay
+        include how-does-the-network-learn
       img
       h3 How Does the Network Learn?
       div By trying to get an answer right again and again. Each time we say if the answer was correct.
+      
     .box
+      .overlay
+        include how-does-the-network-learn
       img
       h3 What is Training Data?
       div The training data tells the network when it was right or wrong.
-  
+
   script(type="text/javascript").
     currentSlide().backbutton = "Back";
     currentSlide().nextbutton = "Train the Network!";
+
+    const resetOverlays = () => {
+      currentSlide().querySelectorAll(".overlay").forEach(o => o.classList.remove("visible"));
+      currentSlide().querySelector("#screenoverlay").classList.remove("visible");
+    };
     
     currentSlide().onEnter = async (controller) => {
       //controller.initIntroPaint(document.querySelector("#intropaint"))
+      currentSlide().querySelectorAll(".box").forEach(btn => {
+        btn.onclick = () => {
+          btn.querySelector(".overlay").classList.toggle("visible");
+          currentSlide().querySelector("#screenoverlay").classList.toggle("visible");
+        };
+      });
+      
+      currentSlide().querySelector("#screenoverlay").onclick = resetOverlays;
     };
-    
+
     currentSlide().onExit = async (controller) => {
+      resetOverlays();
       //controller.cleanupPaint();
     };

@@ -150,18 +150,32 @@
         <script type="text/javascript" src="src/js/training.js"></script>
       </div>
       <div class="slide">
+        <div id="screenoverlay"></div>
         <h1>How does it work?</h1>
         <div>By teaching a neural network how to see and classify the numbers.</div>
         <div class="how columns">
-          <div class="box"><img>
+          <div class="box">
+            <div class="overlay">
+              <h3>What is a neural network?</h3>
+              <p>Neural networks are mathematical structures which are motivated by how our human brain works. They work with <emph>input values</emph>, a series of artificial neurons in one or more layers, and output values. Inside an individual computational neuron you can find weights and biases, which are numbers that can change, and functions like sums and the so called activation functions:</p>
+              <p>In the case of this exhibit (Neural Numbers), we use an artificial network with 28 x 28 inputs, which are the colour pixel values for the input handwritten number, and one layer of 100 neurons. The output are 10 values, which are the confidence that the input matches one of the numbers from 0 to 9. The default activation function we use is the so called Rectified Linear Unit (ReLU): it just passes on the value of the input, if it is positive, and 0, if it is negative. (In Expert Mode you can choose different activation functions).</p>
+            </div><img>
             <h3>What is a Neural Network?</h3>
             <div>A Neural Network is a way to teach computer things.</div>
           </div>
-          <div class="box"><img>
+          <div class="box">
+            <div class="overlay">
+              <h3>How does the network learn?</h3>
+              <p>The neural networks learns by iteratively adjusting its weights and biases. For this, so called Training Data, is fed into the network. This is for example the picture of the number 8. Then the weights and biases of the network are adjusted, such that the output confidence of the number 8 is higher than the others. This adjustments are done gradually and depend on a learning rate. The default technique for this adjustment is called Gradient Descent. (In Expert Mode you can choose different learning methods).</p>
+            </div><img>
             <h3>How Does the Network Learn?</h3>
             <div>By trying to get an answer right again and again. Each time we say if the answer was correct.</div>
           </div>
-          <div class="box"><img>
+          <div class="box">
+            <div class="overlay">
+              <h3>How does the network learn?</h3>
+              <p>The neural networks learns by iteratively adjusting its weights and biases. For this, so called Training Data, is fed into the network. This is for example the picture of the number 8. Then the weights and biases of the network are adjusted, such that the output confidence of the number 8 is higher than the others. This adjustments are done gradually and depend on a learning rate. The default technique for this adjustment is called Gradient Descent. (In Expert Mode you can choose different learning methods).</p>
+            </div><img>
             <h3>What is Training Data?</h3>
             <div>The training data tells the network when it was right or wrong.</div>
           </div>
@@ -170,11 +184,25 @@
           currentSlide().backbutton = "Back";
           currentSlide().nextbutton = "Train the Network!";
           
+          const resetOverlays = () => {
+            currentSlide().querySelectorAll(".overlay").forEach(o => o.classList.remove("visible"));
+            currentSlide().querySelector("#screenoverlay").classList.remove("visible");
+          };
+          
           currentSlide().onEnter = async (controller) => {
             //controller.initIntroPaint(document.querySelector("#intropaint"))
+            currentSlide().querySelectorAll(".box").forEach(btn => {
+              btn.onclick = () => {
+                btn.querySelector(".overlay").classList.toggle("visible");
+                currentSlide().querySelector("#screenoverlay").classList.toggle("visible");
+              };
+            });
+            
+            currentSlide().querySelector("#screenoverlay").onclick = resetOverlays;
           };
           
           currentSlide().onExit = async (controller) => {
+            resetOverlays();
             //controller.cleanupPaint();
           };
         </script>
