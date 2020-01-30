@@ -26,12 +26,12 @@ export class Paint {
   addEventListeners() {
     this.eventfunctions = {
       'mousemove': ((e) => this.draw(e, e.buttons == 1)),
-      'mouseup': ((e) => this.normalize(1) && this.predict() && this.triggerClearTimeout()),
+      'mouseup': ((e) => this.normalize(LINEWIDTH) && this.predict() && this.triggerClearTimeout()),
       'mousedown': ((e) => this.setPosition(e)),
       'mouseenter': ((e) => this.setPosition(e)),
       'touchstart': ((e) => this.setPosition(e.touches[0])),
       'touchmove': ((e) => this.draw(e.touches[0], true)),
-      'touchend': ((e) => this.normalize(1) && this.predict() && this.triggerClearTimeout())
+      'touchend': ((e) => this.normalize(LINEWIDTH) && this.predict() && this.triggerClearTimeout())
     };
 
     for (let eventname in this.eventfunctions) {
@@ -158,7 +158,7 @@ export class Paint {
     this.normalizecontext.fillRect(0, 0, this.normalizecanvas.width, this.normalizecanvas.height);
 
     this.drawingChanged = true;
-    this.normalize(23 * LINEWIDTH);
+    this.normalize(LINEWIDTH);
     this.predict();
     //this.resetbutton.style.visibility = 'visible';
   }
