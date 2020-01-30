@@ -1,6 +1,11 @@
 let SCALE_FACTOR = 9;
 let LINEWIDTH = 2 * SCALE_FACTOR;
 
+import {
+  PAINT_CLEAR_TIMEOUT
+} from './constants.js';
+
+
 export class Paint {
   constructor(el, model, showprobability) {
     this.drawingChanged = true;
@@ -133,7 +138,7 @@ export class Paint {
     //clean up everything in 1.5 seconds
     this.deleteTimeout = setTimeout(() => {
       this.clear();
-    }, 1500);
+    }, PAINT_CLEAR_TIMEOUT * 1000);
     this.drawcontext.beginPath(); // begin
 
     this.drawcontext.lineWidth = LINEWIDTH;
