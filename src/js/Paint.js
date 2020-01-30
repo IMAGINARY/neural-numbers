@@ -26,12 +26,12 @@ export class Paint {
   addEventListeners() {
     this.eventfunctions = {
       'mousemove': ((e) => this.draw(e, e.buttons == 1)),
-      'mouseup': ((e) => this.normalize(1) && this.predict()),
+      'mouseup': ((e) => this.normalize(1) && this.predict() && this.triggerClearTimeout()),
       'mousedown': ((e) => this.setPosition(e)),
       'mouseenter': ((e) => this.setPosition(e)),
       'touchstart': ((e) => this.setPosition(e.touches[0])),
       'touchmove': ((e) => this.draw(e.touches[0], true)),
-      'touchend': ((e) => this.normalize(1) && this.predict())
+      'touchend': ((e) => this.normalize(1) && this.predict() && this.triggerClearTimeout())
     };
 
     for (let eventname in this.eventfunctions) {
@@ -126,19 +126,22 @@ export class Paint {
     this.pos.y = (e.clientY - rect.top);
   }
 
+  triggerClearTimeout() {
+    if (this.clearTimeout) {
+      clearTimeout(this.clearTimeout);
+    }
+    //clean up everything in 1.5 seconds
+    this.clearTimeout = setTimeout(() => {
+      this.clear();
+    }, PAINT_CLEAR_TIMEOUT * 1000);
+  }
+
   draw(e, hasbeendown) {
     // mouse left button must be pressed
     if (!hasbeendown) return;
 
     this.inputbox.classList.remove('background');
     this.empty = false;
-    if (this.deleteTimeout) {
-      clearTimeout(this.deleteTimeout);
-    }
-    //clean up everything in 1.5 seconds
-    this.deleteTimeout = setTimeout(() => {
-      this.clear();
-    }, PAINT_CLEAR_TIMEOUT * 1000);
     this.drawcontext.beginPath(); // begin
 
     this.drawcontext.lineWidth = LINEWIDTH;
@@ -235,6 +238,7 @@ export class Paint {
       }
 
     }
+    return true;
   }
 
   clear() {
