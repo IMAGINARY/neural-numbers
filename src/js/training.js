@@ -59,11 +59,7 @@ currentSlide().onEnter = async (controller) => {
   d.querySelector(".testit").onclick = async () => {
     showpreviewpaint = !showpreviewpaint;
     updateUI();
-    if (showpreviewpaint) {
-      await controller.pauseTraining();
-    } else {
-      await controller.toggleTraining();
-    }
+    await controller.pauseTraining();
     updateUI();
   };
 
@@ -107,11 +103,13 @@ currentSlide().onEnter = async (controller) => {
     updateUI();
   };
 
-  d.querySelector('.expertmode').onchange = () => {
+  d.querySelector('.expertmode').onchange = async () => {
     if (d.querySelector(".modelid").selectedIndex != 0) {
       d.querySelector(".modelid").selectedIndex = 0;
       resetadvancednetwork();
     }
+    updateUI();
+    await controller.pauseTraining();
     updateUI();
   };
 
