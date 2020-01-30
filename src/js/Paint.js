@@ -29,9 +29,11 @@ export class Paint {
       'mouseup': ((e) => this.normalize(LINEWIDTH) && this.predict() && this.triggerClearTimeout()),
       'mousedown': ((e) => this.setPosition(e)),
       'mouseenter': ((e) => this.setPosition(e)),
+      'mouseleave': ((e) => this.triggerClearTimeout()),
       'touchstart': ((e) => this.setPosition(e.touches[0])),
       'touchmove': ((e) => this.draw(e.touches[0], true)),
-      'touchend': ((e) => this.normalize(LINEWIDTH) && this.predict() && this.triggerClearTimeout())
+      'touchend': ((e) => this.normalize(LINEWIDTH) && this.predict() && this.triggerClearTimeout()),
+      'touchleave': ((e) => this.triggerClearTimeout()),
     };
 
     for (let eventname in this.eventfunctions) {
