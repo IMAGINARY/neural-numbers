@@ -35,7 +35,9 @@ export class Paint {
     };
 
     for (let eventname in this.eventfunctions) {
-      this.drawcanvas.addEventListener(eventname, this.eventfunctions[eventname]);
+      this.drawcanvas.addEventListener(eventname, this.eventfunctions[eventname], {
+        passive: true
+      });
     }
   }
 
