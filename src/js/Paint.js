@@ -7,9 +7,10 @@ import {
 
 
 export class Paint {
-  constructor(el, model, showprobability) {
+  constructor(el, model, showprobability, nwvis = false) {
     this.drawingChanged = true;
     this.model = model;
+    this.nwvis = nwvis;
 
     this.showprobability = showprobability;
 
@@ -254,9 +255,13 @@ export class Paint {
   }
 
   predict() {
+
     if (this.model && this.normalizecanvas && this.drawingChanged) { // && newFrame rendered TODO?
       const [probabilities, predicted] = tf.tidy(() => {
         const imageTensor = tf.browser.fromPixels(this.normalizecanvas, 1).toFloat().mul(tf.scalar(1 / 255)).clipByValue(0, 1).reshape([1, 28, 28, 1]);
+        if(this.nwvis) {
+            this.nwvis.show(imageTensor);
+        }
         const result = this.model.predict(imageTensor);
         return [
           result.dataSync(),

@@ -174,11 +174,48 @@ export class TrainingVisualization {
     //target.dispose();
   }
 
+  async show(imageTensor) {
+    if (this.nn.modelid == "dense") {
+      //const trainX1 = trainXs.slice([0, 0, 0, 0], [1, 28, 28, 1]); //only the first
+      const A1 = this.nn.model.layers[0].apply(imageTensor);
+
+      const A2 = this.nn.model.layers[1].apply(A1);
+      const A3 = this.nn.model.layers[2].apply(A2);
+
+      this.intermediateActivations = A2.dataSync().map(x => Math.abs(x) / 2);
+      this.currentProbabilities = A3.dataSync();
+
+
+      imageTensor = imageTensor.reshape([28, 28, 1]); //first as image
+      await tf.browser.toPixels(imageTensor, this.traindigit);
+      //const trainX1 = imageTensor.reshape([1, 28, 28, 1]);
+      this.currentDigit = imageTensor.dataSync();
+
+
+
+      this.currentTarget = false;
+
+      this.renderNetwork();
+
+      //clean up tensors
+      trainX1.dispose();
+      imageTensor.dispose();
+      A1.dispose();
+      A2.dispose();
+      A3.dispose();
+    }
+    //target.dispose();
+  }
+
+
+
   renderCurrentTraining() {
     const ctx = this.ctx;
     this.drawnodes(784, this.currentDigit, 200, 50, (HEIGHT - 100), 0.5);
     this.drawnodes(10, this.currentProbabilities, 700, 50, (HEIGHT - 100), 8);
-    this.drawnodes(10, this.currentTarget, 750, 50, (HEIGHT - 100), 8);
+
+    if (this.currentTarget)
+      this.drawnodes(10, this.currentTarget, 750, 50, (HEIGHT - 100), 8);
     ctx.imageSmoothingEnabled = false; //no antialiasing
     ctx.filter = "brightness(0.5) invert(1)";
     ctx.drawImage(this.traindigit, 0, 0, 28, 28, 50, HEIGHT / 2 - 4 * 28 / 2, 28 * 4, 28 * 4);

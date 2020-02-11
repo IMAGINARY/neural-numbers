@@ -1,5 +1,5 @@
 currentSlide().onEnter = async (controller) => {
-  var showpreviewpaint = false;
+  var showpreviewpaint = true;
   var expertmode = false;
   var istraining = true;
   const d = document.querySelector(".train");
@@ -28,12 +28,12 @@ currentSlide().onEnter = async (controller) => {
       d.querySelector(".reset").classList.remove("visible");
     }
     if (showpreviewpaint) {
-      d.querySelector(".simplenetwork").classList.remove("visible");
-      d.querySelector(".advanced").classList.remove("visible");
+      //d.querySelector(".simplenetwork").classList.remove("visible");
+      //d.querySelector(".advanced").classList.remove("visible");
       d.querySelector(".paint").classList.add("visible");
-      d.querySelector(".testit").innerHTML = "-&gt; Continue Training!";
+      document.querySelector("#title").innerHTML = "Test the Network!";
 
-      d.querySelector(".menu").classList.add("drawmode");
+      //d.querySelector(".menu").classList.add("drawmode");
     } else {
       if (expertmode) {
         d.querySelector(".simplenetwork").classList.remove("visible");
@@ -44,9 +44,9 @@ currentSlide().onEnter = async (controller) => {
       }
 
       d.querySelector(".paint").classList.remove("visible");
-      d.querySelector(".testit").innerHTML = "-&gt; Test the Network!";
+      document.querySelector("#title").innerHTML = "Train the Network!";
 
-      d.querySelector(".menu").classList.remove("drawmode");
+      //d.querySelector(".menu").classList.remove("drawmode");
     }
 
     d.querySelector(".expertmode-on-off").innerHTML = expertmode ? "on" : "off";
@@ -63,7 +63,7 @@ currentSlide().onEnter = async (controller) => {
   };
 
   /* buttons */
-  d.querySelector(".testit").onpointerdown = async () => {
+  if(d.querySelector(".testit")) d.querySelector(".testit").onpointerdown = async () => {
     showpreviewpaint = !showpreviewpaint;
     updateUI();
     await controller.pauseTraining();
@@ -73,6 +73,7 @@ currentSlide().onEnter = async (controller) => {
 
   d.querySelector(".pause-resume").onpointerdown = async () => {
     istraining = !istraining;
+    showpreviewpaint = !istraining;
     await controller.toggleTraining();
     updateUI();
     d.querySelector(".reset").classList.add("visible");

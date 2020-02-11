@@ -67,7 +67,7 @@
         </script>
       </div>
       <div class="slide">
-        <h1>Train the Network!</h1>
+        <h1 id="title">Train the Network!</h1>
         <div class="train">
           <div class="view">
             <div class="simplenetwork visible">
@@ -107,23 +107,21 @@
               </div>
             </div>
             <div class="paint">
-              <div class="columns">
-                <div class="column">
-                  <div class="input box background">
-                    <canvas class="drawcanvas"></canvas>
-                  </div>
-                  <p>You</p>
+              <div style="position:absolute;">
+                <div class="input box background">
+                  <canvas class="drawcanvas"></canvas>
                 </div>
-                <div class="column">
-                  <div class="bars"></div>
-                  <p>Confidences</p>
+                <p>You</p>
+              </div>
+              <div style="position:absolute;">
+                <div class="bars"></div>
+                <p>Confidences</p>
+              </div>
+              <div style="position:absolute;">
+                <div class="output box">
+                  <p class="digit">3</p>
                 </div>
-                <div class="column">
-                  <div class="output box">
-                    <p class="digit">3</p>
-                  </div>
-                  <p>Computer</p>
-                </div>
+                <p>Computer</p>
               </div>
             </div>
           </div>
@@ -141,7 +139,8 @@
                   <div>Predicted Accuracy</div>
                 </div>
               </div>
-              <div class="v-seperator"></div><a class="button testit">-&gt; Test the Network!</a>
+              <!--.v-seperator-->
+              <!--a.button.testit -&gt; Test the Network!-->
             </div>
             <p>Expert mode <span class="expertmode-on-off">off</span>
               <label class="switch">
