@@ -22,29 +22,40 @@ export class Paint {
     this.createUI(el);
     this.empty = true;
     this.isdown = false;
+    this.pointerId = -1;
   }
 
   addEventListeners() {
     this.eventfunctions = {
       'pointerdown': ((e) => {
-        this.removeClearTimeout();
-        this.setPosition(e);
-        this.isdown = true;
+        if (!this.isdown) {
+          this.removeClearTimeout();
+          this.setPosition(e);
+          this.isdown = true;
+          this.pointerId = e.pointerId;
+        }
+
       }),
       'pointermove': ((e) => {
-        if (this.isdown) this.draw(e);
+        if (this.isdown && (this.pointerId == e.pointerId)) this.draw(e);
       }),
       'pointerup': ((e) => {
-        this.setClearTimeout();
-        this.isdown = false;
+        if ((this.pointerId == e.pointerId)) {
+          this.setClearTimeout();
+          this.isdown = false;
+        }
       }),
       'pointerleave': ((e) => {
-        this.setClearTimeout();
-        (this.isdown = false);
+        if ((this.pointerId == e.pointerId)) {
+          this.setClearTimeout();
+          this.isdown = false;
+        }
       }),
       'pointercancel': ((e) => {
-        this.setClearTimeout();
-        (this.isdown = false);
+        if ((this.pointerId == e.pointerId)) {
+          this.setClearTimeout();
+          this.isdown = false;
+        }
       }),
     };
 
