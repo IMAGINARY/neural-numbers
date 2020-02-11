@@ -26,14 +26,14 @@ export class Paint {
   addEventListeners() {
     this.eventfunctions = {
       'mousemove': ((e) => this.draw(e, e.buttons == 1)),
-      'mouseup': ((e) => this.normalize(LINEWIDTH) && this.predict() && this.triggerClearTimeout()),
-      'mousedown': ((e) => this.setPosition(e)),
-      'mouseenter': ((e) => this.setPosition(e)),
-      'mouseleave': ((e) => this.triggerClearTimeout()),
-      'touchstart': ((e) => this.setPosition(e.touches[0])),
+      'mouseup': ((e) => this.normalize(LINEWIDTH) && this.predict() && this.setClearTimeout()),
+      'mousedown': ((e) => this.removeClearTimeout() && this.setPosition(e)),
+      'mouseenter': ((e) => this.removeClearTimeout() && this.setPosition(e)),
+      'mouseleave': ((e) => this.setClearTimeout()),
+      'touchstart': ((e) => this.removeClearTimeout() && this.setPosition(e.touches[0])),
       'touchmove': ((e) => this.draw(e.touches[0], true)),
-      'touchend': ((e) => this.normalize(LINEWIDTH) && this.predict() && this.triggerClearTimeout()),
-      'touchleave': ((e) => this.triggerClearTimeout()),
+      'touchend': ((e) => this.normalize(LINEWIDTH) && this.predict() && this.setClearTimeout()),
+      'touchleave': ((e) => this.setClearTimeout()),
     };
 
     for (let eventname in this.eventfunctions) {
@@ -130,19 +130,26 @@ export class Paint {
     this.pos.y = (e.clientY - rect.top);
   }
 
-  triggerClearTimeout() {
+  removeClearTimeout() {
     if (this.clearTimeout) {
       clearTimeout(this.clearTimeout);
     }
-    //clean up everything in 1.5 seconds
+    return true;
+  }
+
+  setClearTimeout() {
+    this.removeClearTimeout(); //remove previous clearTimeouts
+    //clean up everything after specified time
     this.clearTimeout = setTimeout(() => {
       this.clear();
     }, PAINT_CLEAR_TIMEOUT * 1000);
+    return true;
   }
 
   draw(e, hasbeendown) {
     // mouse left button must be pressed
     if (!hasbeendown) return;
+    this.removeClearTimeout();
 
     this.inputbox.classList.remove('background');
     this.empty = false;
