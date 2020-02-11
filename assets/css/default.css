@@ -30,6 +30,9 @@ body {
   pointer-events: none;
   user-select: none; }
 
+* {
+  touch-action: none; }
+
 .visible {
   visibility: visible !important;
   opacity: 1 !important; }

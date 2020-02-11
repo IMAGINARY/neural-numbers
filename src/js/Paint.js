@@ -21,19 +21,31 @@ export class Paint {
 
     this.createUI(el);
     this.empty = true;
+    this.isdown = false;
   }
 
   addEventListeners() {
     this.eventfunctions = {
-      'mousemove': ((e) => this.draw(e, e.buttons == 1)),
-      'mouseup': ((e) => this.normalize(LINEWIDTH) && this.predict() && this.setClearTimeout()),
-      'mousedown': ((e) => this.removeClearTimeout() && this.setPosition(e)),
-      'mouseenter': ((e) => this.removeClearTimeout() && this.setPosition(e)),
-      'mouseleave': ((e) => this.setClearTimeout()),
-      'touchstart': ((e) => this.removeClearTimeout() && this.setPosition(e.touches[0])),
-      'touchmove': ((e) => this.draw(e.touches[0], true)),
-      'touchend': ((e) => this.normalize(LINEWIDTH) && this.predict() && this.setClearTimeout()),
-      'touchleave': ((e) => this.setClearTimeout()),
+      'pointerdown': ((e) => {
+        this.removeClearTimeout();
+        this.setPosition(e);
+        this.isdown = true;
+      }),
+      'pointermove': ((e) => {
+        if (this.isdown) this.draw(e);
+      }),
+      'pointerup': ((e) => {
+        this.setClearTimeout();
+        this.isdown = false;
+      }),
+      'pointerleave': ((e) => {
+        this.setClearTimeout();
+        (this.isdown = false);
+      }),
+      'pointercancel': ((e) => {
+        this.setClearTimeout();
+        (this.isdown = false);
+      }),
     };
 
     for (let eventname in this.eventfunctions) {
@@ -128,6 +140,7 @@ export class Paint {
     const rect = this.drawcanvas.getBoundingClientRect();
     this.pos.x = (e.clientX - rect.left);
     this.pos.y = (e.clientY - rect.top);
+    return true;
   }
 
   removeClearTimeout() {
@@ -146,11 +159,18 @@ export class Paint {
     return true;
   }
 
-  draw(e, hasbeendown) {
-    // mouse left button must be pressed
-    if (!hasbeendown) return;
+  draw(e) {
     this.removeClearTimeout();
-
+    const ox = this.pos.x;
+    const oy = this.pos.y;
+    this.setPosition(e);
+    const nx = this.pos.x;
+    const ny = this.pos.y;
+    if (Math.abs(nx - ox) + Math.abs(ny - oy) < 3) {
+      this.pos.x = ox;
+      this.pos.y = oy;
+      return;
+    }
     this.inputbox.classList.remove('background');
     this.empty = false;
     this.drawcontext.beginPath(); // begin
@@ -159,9 +179,9 @@ export class Paint {
     this.drawcontext.lineCap = 'round';
     this.drawcontext.strokeStyle = 'white';
 
-    this.drawcontext.moveTo(this.pos.x, this.pos.y); // from
+    this.drawcontext.moveTo(ox, oy); // from
     this.setPosition(e);
-    this.drawcontext.lineTo(this.pos.x, this.pos.y); // to
+    this.drawcontext.lineTo(nx, ny); // to
 
     this.drawcontext.stroke(); // draw it!
 
