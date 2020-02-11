@@ -23,12 +23,12 @@ export class NeuralNetwork {
     //this.els.trainingAccuracy.innerHTML = ``;
     this.els.trainingProgress.innerHTML = this.trainedimages;
 
-    /*
+
     //delete old model if it has been existing
     if(this.model) {
       this.model.dispose();
     }
-    */
+
     //create model
     const model = this.model = tf.sequential();
 
@@ -107,7 +107,7 @@ export class NeuralNetwork {
     // Choose an optimizer, loss function and accuracy metric,
     // then compile and return the model
     const optimizer = (optimizerid == "adam") ? tf.train.adam(learningRate) : tf.train.sgd(learningRate);
-    tf.train.adam(learningRate);
+    //tf.train.adam(learningRate);
 
     model.compile({
       optimizer: optimizer,

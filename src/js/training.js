@@ -22,7 +22,7 @@ currentSlide().onEnter = async (controller) => {
   var updateUI = () => {
     istraining = (controller.nn && controller.nn.training);
     expertmode = d.querySelector('.expertmode').checked;
-    if (controller.nn.trainedimages > 0) {
+    if (controller.nn && controller.nn.trainedimages > 0) {
       d.querySelector(".reset").classList.add("visible");
     } else {
       d.querySelector(".reset").classList.remove("visible");
