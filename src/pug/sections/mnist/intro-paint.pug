@@ -19,6 +19,8 @@
   script(type="text/javascript").
     currentSlide().onEnter = async (controller) => {
       const d = document.querySelector("#intropaint");
+      d.querySelector(".showconfidences").checked = false;
+      d.querySelector(".confidences").classList.remove("visible");
       controller.initIntroPaint(d);
       d.querySelector(".showconfidences").onchange = () => {
         if(d.querySelector(".showconfidences").checked) {
