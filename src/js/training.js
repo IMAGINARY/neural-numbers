@@ -4,6 +4,13 @@ currentSlide().onEnter = async (controller) => {
   var istraining = true;
   const d = document.querySelector(".train");
 
+  d.querySelector('.expertmode').checked = false;
+  d.querySelector('.modelid').selectedIndex = 0;
+  d.querySelector('.activation').selectedIndex = 0;
+  d.querySelector('.optimizerid').selectedIndex = 0;
+  d.querySelector('.learningrate').value = -3;
+  d.querySelector('.learningratetxt').innerHTML = "0.001";
+
   const els = {
     trainingProgress: d.querySelector('.imagesused .number'),
     //validationImages: d.querySelector('#validation-images'),
