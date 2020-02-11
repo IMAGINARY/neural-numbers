@@ -1,8 +1,16 @@
 .slide
-  h1 Train the Network!
+  h1#title Train the Network!
   .train
     .view
+      .inputspace.visible
+        .paint
+          .input.box.background
+              canvas.drawcanvas  
+        canvas
       .simplenetwork.visible
+        canvas.network
+        canvas.activations
+      .output.visible
         canvas
       .advanced
         //canvas
@@ -30,20 +38,7 @@
               br
               input(type="range", min="-4" max="0" value="-3", step="any").learningrate
               .learningratetxt 0.001
-
-      .paint
-        .columns
-          .column
-            .input.box.background
-              canvas.drawcanvas
-            p You
-          .column
-            .bars
-            p Confidences
-          .column
-            .output.box
-              p.digit 3
-            p Computer
+      
     .menu
       .controls
         a(href="#2", title="reset training").reset
@@ -58,8 +53,8 @@
           .info-item.accuracy
             .number 10%
             div Predicted Accuracy
-        .v-seperator
-        a.button.testit -&gt; Test the Network!
+        //.v-seperator
+        //a.button.testit -&gt; Test the Network!
       p Expert mode 
         span.expertmode-on-off off
         label.switch

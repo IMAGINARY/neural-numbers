@@ -14,6 +14,22 @@ export class TrainingVisualization {
     canvas.width = canvas.clientWidth;
     const ctx = this.ctx = canvas.getContext('2d');
 
+    const acanvas = this.acanvas = this.els.activations;
+    acanvas.height = acanvas.clientHeight;
+    acanvas.width = acanvas.clientWidth;
+    const actx = this.actx = acanvas.getContext('2d');
+
+    const icanvas = this.icanvas = this.els.input;
+    icanvas.height = icanvas.clientHeight;
+    icanvas.width = icanvas.clientWidth;
+    const ictx = this.ictx = icanvas.getContext('2d');
+
+    const ocanvas = this.ocanvas = this.els.output;
+    ocanvas.height = ocanvas.clientHeight;
+    ocanvas.width = ocanvas.clientWidth;
+    const octx = this.octx = ocanvas.getContext('2d');
+
+
     canvas.addEventListener("resize", (e) => this.updatescaling());
     this.updatescaling();
     //this.lastvisualization = -1;
@@ -26,9 +42,11 @@ export class TrainingVisualization {
     //this.animateNetwork();
 
     this.renderNetwork();
+    this.renderActivations();
   }
 
   updatescaling() {
+    return;
     const ratio = this.canvas.clientHeight / HEIGHT;
     this.ctx.scale(ratio, ratio);
   }
@@ -88,9 +106,8 @@ export class TrainingVisualization {
     return threshold;
   }
 
-  drawnodes(N, values, x0, y0, height, radius) {
+  drawnodes(ctx, N, values, x0, y0, height, radius) {
     values = values || new Array(N).fill(0);
-    const ctx = this.ctx;
     for (let nodeA = 0; nodeA < N; nodeA++) {
       var cval = Math.max(128, 255 - (values[nodeA] * 128 | 0));
       if (radius <= 2) {
@@ -99,10 +116,11 @@ export class TrainingVisualization {
       ctx.fillStyle = `rgb(${cval}, ${cval}, ${cval})`;
       ctx.beginPath();
       ctx.arc(x0, y0 + nodeA * height / (N - 1), radius, 0, 2 * Math.PI, false);
-      if (cval > 200 && radius > 2) {
-        ctx.strokeStyle = `rgb(128, 128, 128)`;
-        ctx.stroke();
-      }
+      /*  if (cval > 200 && radius > 2) {
+          ctx.strokeStyle = `rgb(128, 128, 128)`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }*/
       //ctx.stroke();
       ctx.fill();
     }
@@ -115,22 +133,61 @@ export class TrainingVisualization {
       const ctx = this.ctx;
       const weights = this.nn.model.getWeights().map(w => w.dataSync());
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      this.lt1 = this.drawdenselayer(784, 100, weights[0], 200, 50, 250, (HEIGHT - 100), this.lt1);
-      this.drawnodes(100, this.intermediateActivations, 450, 50, (HEIGHT - 100), 1.5);
-      this.lt2 = this.drawdenselayer(100, 10, weights[2], 450, 50, 250, (HEIGHT - 100), this.lt2);
-      this.renderCurrentTraining();
-
-      //draw digits
-      ctx.fillStyle = 'black';
-      for (let k = 0; k < 10; k++) {
-        const x0 = 770;
-        const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
-        ctx.font = "20px Roboto";
-        ctx.fillText(k, x0, y0 + 8);
-      }
+      this.lt1 = this.drawdenselayer(784, 100, weights[0], 0, 50, 250, (HEIGHT - 100), this.lt1);
+      this.lt2 = this.drawdenselayer(100, 10, weights[2], 250, 50, 250, (HEIGHT - 100), this.lt2);
     }
 
     //this.lastvisualization = this.nn.trainedimages;
+  }
+
+  renderActivations() {
+    this.actx.clearRect(0, 0, this.acanvas.width, this.acanvas.height);
+    this.octx.clearRect(0, 0, this.ocanvas.width, this.ocanvas.height);
+    this.ictx.clearRect(0, 0, this.icanvas.width, this.icanvas.height);
+
+    if (this.traindigit.active) {
+      this.ictx.imageSmoothingEnabled = false; //no antialiasing
+      this.ictx.filter = "brightness(0.5) invert(1)";
+      this.ictx.drawImage(this.traindigit, 0, 0, 28, 28, 50, HEIGHT / 2 - 6 * 28 / 2, 28 * 6, 28 * 6);
+      this.ictx.filter = "none";
+    }
+
+
+    //draw bars for activations
+    this.octx.beginPath();
+    this.octx.strokeStyle = '#c4c4c4';
+    this.octx.lineWidth = 20;
+    this.octx.lineCap = "round";
+    for (let k = 0; k < 10; k++) {
+      const x0 = 10;
+      const x1 = 95;
+      const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
+      this.octx.moveTo(x0, y0);
+      this.octx.lineTo(this.currentProbabilities[k] * x1 + (1 - this.currentProbabilities[k]) * x0, y0);
+
+    }
+    this.octx.stroke();
+    this.octx.lineWidth = 1;
+    this.octx.lineCap = "butt";
+
+
+    this.drawnodes(this.ictx, 784, this.currentDigit, this.icanvas.width - 1, 50, (HEIGHT - 100), 0.5);
+    if (this.nn.modelid == "dense") {
+      this.drawnodes(this.actx, 100, this.intermediateActivations, 250, 50, (HEIGHT - 100), 1.5);
+    }
+    this.drawnodes(this.octx, 10, this.currentProbabilities, 8, 50, (HEIGHT - 100), 8);
+    if (this.currentTarget)
+      this.drawnodes(this.octx, 10, this.currentTarget, 95, 50, (HEIGHT - 100), 8);
+
+    //draw digits
+    this.octx.fillStyle = 'black';
+    for (let k = 0; k < 10; k++) {
+      const x0 = 105;
+      const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
+      this.octx.font = "20px Roboto";
+      this.octx.fillText(k, x0, y0 + 8);
+    }
+
   }
 
   /*
@@ -142,46 +199,48 @@ export class TrainingVisualization {
     }
   */
   async setCurrentTraining(trainXs, trainYs) {
-    if (this.nn.modelid == "dense") {
-      const trainX1 = trainXs.slice([0, 0, 0, 0], [1, 28, 28, 1]); //only the first
-      const imageTensor = trainX1.reshape([28, 28, 1]); //first as image
-      await tf.browser.toPixels(imageTensor, this.traindigit);
-      this.currentDigit = imageTensor.dataSync();
-
-      const A1 = this.nn.model.layers[0].apply(trainX1);
-      const A2 = this.nn.model.layers[1].apply(A1);
-      const A3 = this.nn.model.layers[2].apply(A2);
-
-      this.intermediateActivations = A2.dataSync().map(x => Math.abs(x) / 2);
-
-
-      this.currentProbabilities = A3.dataSync();
-
-      const trainY1 = trainYs.slice([0, 0], [1, 10]); //only the first
-      //const target = trainY1.reshape([10]);
-      this.currentTarget = trainY1.dataSync();
-
-      this.renderNetwork();
-
-      //clean up tensors
-      trainX1.dispose();
-      trainY1.dispose();
-      imageTensor.dispose();
-      A1.dispose();
-      A2.dispose();
-      A3.dispose();
-    }
+    const trainX1 = trainXs.slice([0, 0, 0, 0], [1, 28, 28, 1]); //only the first
+    const imageTensor = trainX1.reshape([28, 28, 1]); //first as image
+    await tf.browser.toPixels(imageTensor, this.traindigit);
+    this.traindigit.active = true;
+    this.currentDigit = imageTensor.dataSync();
+    this.computeActivations(trainX1);
+    const trainY1 = trainYs.slice([0, 0], [1, 10]); //only the first
+    //const target = trainY1.reshape([10]);
+    this.currentTarget = trainY1.dataSync();
+    this.renderNetwork();
+    this.renderActivations();
+    //clean up tensors
+    trainX1.dispose();
+    trainY1.dispose();
+    imageTensor.dispose();
     //target.dispose();
   }
 
-  renderCurrentTraining() {
-    const ctx = this.ctx;
-    this.drawnodes(784, this.currentDigit, 200, 50, (HEIGHT - 100), 0.5);
-    this.drawnodes(10, this.currentProbabilities, 700, 50, (HEIGHT - 100), 8);
-    this.drawnodes(10, this.currentTarget, 750, 50, (HEIGHT - 100), 8);
-    ctx.imageSmoothingEnabled = false; //no antialiasing
-    ctx.filter = "brightness(0.5) invert(1)";
-    ctx.drawImage(this.traindigit, 0, 0, 28, 28, 50, HEIGHT / 2 - 4 * 28 / 2, 28 * 4, 28 * 4);
-    ctx.filter = "none";
+  async show(imageTensor, pixels) {
+    this.computeActivations(imageTensor);
+    this.currentDigit = pixels;
+    this.currentTarget = false;
+    this.traindigit.active = false;
+    this.renderActivations();
   }
+
+  async computeActivations(input) {
+    if (this.nn.modelid == "dense") {
+      const A1 = this.nn.model.layers[0].apply(input);
+      const A2 = this.nn.model.layers[1].apply(A1);
+      const A3 = this.nn.model.layers[2].apply(A2);
+      this.intermediateActivations = A2.dataSync().map(x => Math.abs(x) / 2);
+      this.currentProbabilities = A3.dataSync();
+      A1.dispose();
+      A2.dispose();
+      A3.dispose();
+    } else {
+      const prediction = this.nn.model.predict(input);
+      this.currentProbabilities = prediction.dataSync();
+      prediction.dispose();
+    }
+  }
+
+
 }

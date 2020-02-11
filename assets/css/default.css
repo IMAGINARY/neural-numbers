@@ -35,7 +35,8 @@ body {
 
 .visible {
   visibility: visible !important;
-  opacity: 1 !important; }
+  opacity: 1 !important;
+  display: block !important; }
 
 .columns {
   display: flex;
@@ -322,23 +323,30 @@ a {
   justify-content: center; }
 
 .train .view {
-  width: 900px;
-  height: 500px;
+  height: 510px;
   margin-right: 40px;
-  position: relative; }
+  position: relative;
+  display: flex;
+  flex-direction: row; }
 
 .train .view > div {
   visibility: hidden;
-  width: 100%;
-  height: 100%;
-  position: absolute; }
+  display: none;
+  position: relative; }
 
-.train .view .advanced,
+.train .view .inputspace {
+  width: 300px; }
+
 .train .view .simplenetwork {
-  background: #FFFFFF;
-  border: 5px solid #C4C4C4;
-  box-sizing: border-box;
-  border-radius: 10px; }
+  width: 500px;
+  position: relative; }
+
+.train .view .output {
+  width: 120px; }
+
+.train .view .advanced {
+  width: 500px;
+  font-size: 24px; }
 
 .train .menu {
   width: 400px;
@@ -359,7 +367,7 @@ a {
   background-color: rgba(255, 255, 255, 0.9); }
 
 .train .menu .box {
-  height: 287px;
+  height: 100px;
   background: #FFFFFF;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
@@ -444,8 +452,21 @@ a {
   height: 34px; }
 
 .train .simplenetwork canvas {
+  position: absolute;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  left: 0;
+  top: 0; }
+
+.train .view > div > canvas {
+  height: 100%;
+  width: 100%; }
+
+.train .simplenetwork .network {
+  z-index: -12; }
+
+.train .simplenetwork .activations {
+  z-index: -10; }
 
 .train .advanced {
   pointer-events: all;
@@ -455,10 +476,6 @@ a {
 
 .train .advanced .columns {
   align-items: normal; }
-
-.train .advanced canvas {
-  height: 100%;
-  width: 30%; }
 
 .train .advanced .options {
   display: flex;
@@ -471,8 +488,8 @@ a {
 .train select {
   font-family: Roboto;
   font-style: normal;
-  font-size: 32px;
-  line-height: 37px;
+  font-size: 24px;
+  line-height: 28px;
   font-weight: normal;
   padding: 14px 2px;
   width: 100%;
@@ -487,6 +504,27 @@ a {
 .train input[type=range] {
   width: 100%; }
 
+.train .paint {
+  position: absolute;
+  visibility: hidden;
+  width: 100%;
+  height: 100%; }
+
+.train .paint .input {
+  position: absolute;
+  left: 0px;
+  top: 50px; }
+
+/*
+.train .paint .output {
+  position: absolute;
+  left: 860px;
+  width: 100px;
+  height: 100px;
+  top: 250px;
+  font-size: 30px;
+}
+*/
 .how.columns {
   align-items: flex-start;
   margin: 20px; }

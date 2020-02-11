@@ -1,5 +1,5 @@
 currentSlide().onEnter = async (controller) => {
-  var showpreviewpaint = false;
+  var showpreviewpaint = true;
   var expertmode = false;
   var istraining = true;
   const d = document.querySelector(".train");
@@ -15,7 +15,10 @@ currentSlide().onEnter = async (controller) => {
     trainingProgress: d.querySelector('.imagesused .number'),
     //validationImages: d.querySelector('#validation-images'),
     validationAccuracy: d.querySelector('.accuracy .number'),
-    network: d.querySelector('.simplenetwork > canvas'),
+    input: d.querySelector('.inputspace > canvas'),
+    network: d.querySelector('.simplenetwork > .network'),
+    activations: d.querySelector('.simplenetwork > .activations'),
+    output: d.querySelector('.output > canvas'),
     paint: d.querySelector(".paint")
   };
 
@@ -28,26 +31,25 @@ currentSlide().onEnter = async (controller) => {
       d.querySelector(".reset").classList.remove("visible");
     }
     if (showpreviewpaint) {
-      d.querySelector(".simplenetwork").classList.remove("visible");
-      d.querySelector(".advanced").classList.remove("visible");
+      //d.querySelector(".simplenetwork").classList.remove("visible");
+      //d.querySelector(".advanced").classList.remove("visible");
       d.querySelector(".paint").classList.add("visible");
-      d.querySelector(".testit").innerHTML = "-&gt; Continue Training!";
-
-      d.querySelector(".menu").classList.add("drawmode");
+      document.querySelector("#title").innerHTML = "Test the Network!";
+      //d.querySelector(".menu").classList.add("drawmode");
     } else {
-      if (expertmode) {
-        d.querySelector(".simplenetwork").classList.remove("visible");
-        d.querySelector(".advanced").classList.add("visible");
-      } else {
-        d.querySelector(".simplenetwork").classList.add("visible");
-        d.querySelector(".advanced").classList.remove("visible");
-      }
-
       d.querySelector(".paint").classList.remove("visible");
-      d.querySelector(".testit").innerHTML = "-&gt; Test the Network!";
-
-      d.querySelector(".menu").classList.remove("drawmode");
+      document.querySelector("#title").innerHTML = "Train the Network!";
+      //d.querySelector(".menu").classList.remove("drawmode");
     }
+
+    if (expertmode) {
+      d.querySelector(".simplenetwork").classList.remove("visible");
+      d.querySelector(".advanced").classList.add("visible");
+    } else {
+      d.querySelector(".simplenetwork").classList.add("visible");
+      d.querySelector(".advanced").classList.remove("visible");
+    }
+
 
     d.querySelector(".expertmode-on-off").innerHTML = expertmode ? "on" : "off";
 
@@ -63,8 +65,8 @@ currentSlide().onEnter = async (controller) => {
   };
 
   /* buttons */
-  d.querySelector(".testit").onpointerdown = async () => {
-    showpreviewpaint = !showpreviewpaint;
+  if (d.querySelector(".testit")) d.querySelector(".testit").onpointerdown = async () => {
+    showpreviewpaint = true;
     updateUI();
     await controller.pauseTraining();
     updateUI();
@@ -73,6 +75,7 @@ currentSlide().onEnter = async (controller) => {
 
   d.querySelector(".pause-resume").onpointerdown = async () => {
     istraining = !istraining;
+    showpreviewpaint = !istraining;
     await controller.toggleTraining();
     updateUI();
     d.querySelector(".reset").classList.add("visible");
@@ -85,13 +88,14 @@ currentSlide().onEnter = async (controller) => {
     } else {
       await controller.singleStep();
     }
+    showpreviewpaint = true;
     updateUI();
   };
 
   d.querySelector(".reset").onpointerdown = async () => {
     await controller.pauseTraining();
     await controller.resetTraining(els);
-
+    showpreviewpaint = true;
     updateUI();
   };
 
