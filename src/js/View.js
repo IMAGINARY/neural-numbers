@@ -12,8 +12,8 @@ export class View {
     window.addEventListener('DOMContentLoaded', (event) => {
       this.slides = document.querySelectorAll('.slide');
       this.NUMBER_OF_SLIDES = this.slides.length;
-      //document.querySelector("#backbutton").onclick = (() => this.goBack());
-      //document.querySelector("#nextbutton").onclick = (() => this.goNext());
+      //document.querySelector("#backbutton").onpointerdown = (() => this.goBack());
+      //document.querySelector("#nextbutton").onpointerdown = (() => this.goNext());
       this.showSlideByURL();
     });
 

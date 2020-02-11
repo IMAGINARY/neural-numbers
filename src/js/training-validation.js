@@ -25,7 +25,7 @@ currentSlide().onEnter = async (controller) => {
     });
   };
 
-  document.querySelector("#training-controls .pause-resume").onclick = async () => {
+  document.querySelector("#training-controls .pause-resume").onpointerdown = async () => {
     document.querySelector("#introbubble").classList.remove('visible');
     interaction = true;
     document.querySelector("#training-controls").style.visibility = "hidden";
@@ -34,7 +34,7 @@ currentSlide().onEnter = async (controller) => {
     document.querySelector("#training-controls").style.visibility = "visible";
   };
 
-  document.querySelector("#training-controls .single-step").onclick = async () => {
+  document.querySelector("#training-controls .single-step").onpointerdown = async () => {
     document.querySelector("#introbubble").classList.remove('visible');
     interaction = true;
     document.querySelector("#training-controls").style.visibility = "hidden";
@@ -47,7 +47,7 @@ currentSlide().onEnter = async (controller) => {
     document.querySelector("#training-controls").style.visibility = "visible";
   };
 
-  document.querySelector("#training-controls .reset").onclick = async () => {
+  document.querySelector("#training-controls .reset").onpointerdown = async () => {
     document.querySelector("#introbubble").classList.add('visible');
     interaction = true;
     document.querySelector("#training-controls").style.visibility = "hidden";

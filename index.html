@@ -211,13 +211,13 @@
           currentSlide().onEnter = async (controller) => {
             //controller.initIntroPaint(document.querySelector("#intropaint"))
             d.querySelectorAll(".how > .box").forEach(btn => {
-              btn.onclick = () => {
+              btn.onpointerdown = () => {
                 btn.querySelector(".overlay").classList.add("visible");
                 d.querySelector("#screenoverlay").classList.add("visible");
               };
             });
             
-            d.querySelector("#screenoverlay").onclick = resetOverlays;
+            d.querySelector("#screenoverlay").onpointerdown = resetOverlays;
             controller.initIntroPaint(document.querySelector("#normalizepaint"));
           };
           

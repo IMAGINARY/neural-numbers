@@ -63,7 +63,7 @@ currentSlide().onEnter = async (controller) => {
   };
 
   /* buttons */
-  d.querySelector(".testit").onclick = async () => {
+  d.querySelector(".testit").onpointerdown = async () => {
     showpreviewpaint = !showpreviewpaint;
     updateUI();
     await controller.pauseTraining();
@@ -71,14 +71,14 @@ currentSlide().onEnter = async (controller) => {
   };
 
 
-  d.querySelector(".pause-resume").onclick = async () => {
+  d.querySelector(".pause-resume").onpointerdown = async () => {
     istraining = !istraining;
     await controller.toggleTraining();
     updateUI();
     d.querySelector(".reset").classList.add("visible");
   };
 
-  d.querySelector(".single-step").onclick = async () => {
+  d.querySelector(".single-step").onpointerdown = async () => {
     if ((istraining)) {
       await controller.pauseTraining();
       istraining = false;
@@ -88,7 +88,7 @@ currentSlide().onEnter = async (controller) => {
     updateUI();
   };
 
-  d.querySelector(".reset").onclick = async () => {
+  d.querySelector(".reset").onpointerdown = async () => {
     await controller.pauseTraining();
     await controller.resetTraining(els);
 
