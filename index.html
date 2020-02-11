@@ -33,7 +33,6 @@
           </div>
           <div class="column confidences">
             <div class="bars"></div>
-            <p>Confidences</p>
           </div>
           <div class="column">
             <div class="output box">
@@ -42,16 +41,17 @@
             <p>AI</p>
           </div>
         </div>
-        <label class="switch">
-          <input class="showconfidences" type="checkbox"><span class="slider round"></span>
-        </label>
+        <!--label.switch-->
+        <!--  input(type="checkbox").showconfidences-->
+        <!--  span.slider.round-->
         <script type="text/javascript">
           currentSlide().onEnter = async (controller) => {
             const d = document.querySelector("#intropaint");
-            d.querySelector(".showconfidences").checked = false;
-            d.querySelector(".confidences").classList.remove("visible");
+            if(d.querySelector(".showconfidences"))
+              d.querySelector(".showconfidences").checked = true;
+            d.querySelector(".confidences").classList.add("visible");
             controller.initIntroPaint(d);
-            d.querySelector(".showconfidences").onchange = () => {
+            if(d.querySelector(".showconfidences")) d.querySelector(".showconfidences").onchange = () => {
               if(d.querySelector(".showconfidences").checked) {
                 d.querySelector(".confidences").classList.add("visible");
               } else {

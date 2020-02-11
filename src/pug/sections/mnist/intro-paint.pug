@@ -7,22 +7,22 @@
       p You
     .column.confidences
       .bars
-      p Confidences
     .column
       .output.box
         p.digit 3
       p AI
 
-  label.switch
-    input(type="checkbox").showconfidences
-    span.slider.round
+  //label.switch
+  //  input(type="checkbox").showconfidences
+  //  span.slider.round
   script(type="text/javascript").
     currentSlide().onEnter = async (controller) => {
       const d = document.querySelector("#intropaint");
-      d.querySelector(".showconfidences").checked = false;
-      d.querySelector(".confidences").classList.remove("visible");
+      if(d.querySelector(".showconfidences"))
+        d.querySelector(".showconfidences").checked = true;
+      d.querySelector(".confidences").classList.add("visible");
       controller.initIntroPaint(d);
-      d.querySelector(".showconfidences").onchange = () => {
+      if(d.querySelector(".showconfidences")) d.querySelector(".showconfidences").onchange = () => {
         if(d.querySelector(".showconfidences").checked) {
           d.querySelector(".confidences").classList.add("visible");
         } else {
