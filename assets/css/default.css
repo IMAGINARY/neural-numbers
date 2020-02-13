@@ -336,9 +336,10 @@ a {
 .train .view .advanced,
 .train .view .simplenetwork {
   background: #FFFFFF;
-  border: 5px solid #C4C4C4;
+  /*  border: 5px solid #C4C4C4;
   box-sizing: border-box;
-  border-radius: 10px; }
+  border-radius: 10px;*/
+  z-index: -10; }
 
 .train .menu {
   width: 400px;
@@ -444,8 +445,17 @@ a {
   height: 34px; }
 
 .train .simplenetwork canvas {
+  position: absolute;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  left: 0;
+  top: 0; }
+
+.train .simplenetwork .network {
+  z-index: -12; }
+
+.train .simplenetwork .activations {
+  z-index: -10; }
 
 .train .advanced {
   pointer-events: all;
@@ -494,22 +504,23 @@ a {
 
 .train .paint .input {
   position: absolute;
-  left: 20px;
-  width: 200px;
-  top: 150px;
-  height: 200px; }
+  left: -120px;
+  top: 50px; }
 
 .train .paint .bars {
   position: absolute;
   visibility: hidden; }
 
+/*
 .train .paint .output {
   position: absolute;
-  left: 600px;
-  width: 200px;
-  height: 200px;
-  top: 150px; }
-
+  left: 860px;
+  width: 100px;
+  height: 100px;
+  top: 250px;
+  font-size: 30px;
+}
+*/
 .how.columns {
   align-items: flex-start;
   margin: 20px; }

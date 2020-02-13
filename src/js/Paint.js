@@ -260,7 +260,7 @@ export class Paint {
       const [probabilities, predicted] = tf.tidy(() => {
         const imageTensor = tf.browser.fromPixels(this.normalizecanvas, 1).toFloat().mul(tf.scalar(1 / 255)).clipByValue(0, 1).reshape([1, 28, 28, 1]);
         if(this.nwvis) {
-            this.nwvis.show(imageTensor);
+            this.nwvis.show(imageTensor, this.normalizecontext.getImageData(0, 0, this.normalizecanvas.width, this.normalizecanvas.height).data.filter((d,k)=>(k%4==0)));
         }
         const result = this.model.predict(imageTensor);
         return [

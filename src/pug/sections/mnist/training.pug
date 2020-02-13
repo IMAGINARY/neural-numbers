@@ -3,7 +3,8 @@
   .train
     .view
       .simplenetwork.visible
-        canvas
+        canvas.network
+        canvas.activations
       .advanced
         //canvas
         .columns
@@ -34,12 +35,6 @@
       .paint
         .input.box.background
             canvas.drawcanvas
-          p You
-        .bars
-          p Confidences
-        .output.box
-            p.digit 3
-          p Computer
     .menu
       .controls
         a(href="#2", title="reset training").reset

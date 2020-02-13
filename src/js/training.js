@@ -15,7 +15,8 @@ currentSlide().onEnter = async (controller) => {
     trainingProgress: d.querySelector('.imagesused .number'),
     //validationImages: d.querySelector('#validation-images'),
     validationAccuracy: d.querySelector('.accuracy .number'),
-    network: d.querySelector('.simplenetwork > canvas'),
+    network: d.querySelector('.simplenetwork > .network'),
+    activations: d.querySelector('.simplenetwork > .activations'),
     paint: d.querySelector(".paint")
   };
 
