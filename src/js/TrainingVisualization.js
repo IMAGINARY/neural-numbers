@@ -201,7 +201,7 @@ export class TrainingVisualization {
     this.computeActivations(trainX1);
     const trainY1 = trainYs.slice([0, 0], [1, 10]); //only the first
     //const target = trainY1.reshape([10]);
-    this.currentTarget = trainY1.argMax([-1]).dataSync();
+    this.currentTarget = trainY1.argMax([-1]).dataSync()[0];
     this.renderNetwork();
     this.renderActivations();
     //clean up tensors
@@ -218,21 +218,21 @@ export class TrainingVisualization {
     this.renderActivations();
   }
 
-  async computeActivations(input) {
+  computeActivations(input) {
     if (this.nn.modelid == "dense") {
       const A1 = this.nn.model.layers[0].apply(input);
       const A2 = this.nn.model.layers[1].apply(A1);
       const A3 = this.nn.model.layers[2].apply(A2);
       this.intermediateActivations = A2.dataSync().map(x => Math.abs(x) / 2);
       this.currentProbabilities = A3.dataSync();
-      this.currentTarget = A3.argMax([-1]).dataSync();
+      this.currentTarget = A3.argMax([-1]).dataSync()[0];
       A1.dispose();
       A2.dispose();
       A3.dispose();
     } else {
       const prediction = this.nn.model.predict(input);
       this.currentProbabilities = prediction.dataSync();
-      this.currentTarget = prediction.argMax([-1]).dataSync();
+      this.currentTarget = prediction.argMax([-1]).dataSync()[0];
       prediction.dispose();
     }
   }

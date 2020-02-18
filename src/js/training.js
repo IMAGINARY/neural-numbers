@@ -1,5 +1,5 @@
 currentSlide().onEnter = async (controller) => {
-  var showpreviewpaint = true;
+  controller.testpaint = true;
   var expertmode = false;
   var istraining = true;
   const d = document.querySelector(".train");
@@ -31,9 +31,9 @@ currentSlide().onEnter = async (controller) => {
     } else {
       d.querySelector(".reset").classList.remove("visible");
     }
-    d.querySelector(".paint").classList.toggle("visible", showpreviewpaint);
-    d.querySelector(".training").classList.toggle("visible", !showpreviewpaint);
-    if (showpreviewpaint) {
+    d.querySelector(".paint").classList.toggle("visible", controller.testpaint);
+    d.querySelector(".training").classList.toggle("visible", !controller.testpaint);
+    if (controller.testpaint) {
       if (controller.paint) {
         controller.paint.clear();
       }
@@ -65,7 +65,7 @@ currentSlide().onEnter = async (controller) => {
   /* buttons */
   /*
   if (d.querySelector(".testit")) d.querySelector(".testit").onpointerdown = async () => {
-    showpreviewpaint = true;
+    controller.testpaint = true;
     updateUI();
     await controller.pauseTraining();
     updateUI();
@@ -74,27 +74,26 @@ currentSlide().onEnter = async (controller) => {
 
   d.querySelector(".pause-resume").onpointerdown = async () => {
     istraining = !istraining;
-    showpreviewpaint = !istraining;
-    await controller.toggleTraining();
+    await controller.toggleTraining(updateUI);
     updateUI();
     d.querySelector(".reset").classList.add("visible");
   };
 
   d.querySelector(".single-step").onpointerdown = async () => {
     if ((istraining)) {
-      await controller.pauseTraining();
+      await controller.pauseTraining(updateUI);
+      await controller.singleStep(updateUI);
       istraining = false;
     } else {
-      await controller.singleStep();
+      await controller.singleStep(updateUI);
     }
-    showpreviewpaint = true;
     updateUI();
   };
 
   d.querySelector(".reset").onpointerdown = async () => {
-    await controller.pauseTraining();
+    await controller.pauseTraining(updateUI);
     await controller.resetTraining(els);
-    showpreviewpaint = true;
+    controller.testpaint = true;
     updateUI();
   };
 
@@ -121,9 +120,7 @@ currentSlide().onEnter = async (controller) => {
       resetadvancednetwork();
     }
     updateUI();
-    await controller.pauseTraining();
-    showpreviewpaint = true;
-    updateUI();
+    await controller.pauseTraining(updateUI);
   };
 
 

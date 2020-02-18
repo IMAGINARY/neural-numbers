@@ -18,12 +18,17 @@ import {
   ValidationPreview
 } from './ValidationPreview.js';
 
+import {
+  LAST_TRAIN_STEP_TIMEOUT
+} from './constants.js';
+
+
 export class Controller {
   constructor() {
     this.view = new View(this);
     this.data = new MnistData();
     this.dataloaded = false;
-
+    this.testpaint = true;
   }
 
   async initIntroPaint(paintel) {
@@ -60,21 +65,23 @@ export class Controller {
   }
 
   async startTraining() {
+    this.testpaint = false;
     if (this.nn)
       await this.nn.train(this.data);
   }
 
-  async pauseTraining() {
+  async pauseTraining(cb) {
     if (this.nn) {
       await this.nn.pauseTraining();
-      if(this.paint) this.paint.predict();
+      this.delayedTrainStepPreview(cb);
     }
   }
 
-  async singleStep() {
+  async singleStep(cb) {
     if (this.nn) {
+      this.testpaint = false;
       await this.nn.trainSingleStep(this.data);
-      if(this.paint) this.paint.predict();
+      this.delayedTrainStepPreview(cb);
     }
   }
 
@@ -86,11 +93,21 @@ export class Controller {
     await this.initTrainingEnvironment(els);
   }
 
-  toggleTraining() {
+  delayedTrainStepPreview(cb) {
+    if(this.traintimeout) clearTimeout(this.traintimeout);
+    this.traintimeout = setTimeout(() => {
+      this.testpaint = true;
+      if (this.paint) this.paint.predict();
+      if (cb) cb();
+    }, LAST_TRAIN_STEP_TIMEOUT * 1000);
+  }
+
+  toggleTraining(cb) {
     if (this.nn) {
       this.nn.toggleTraining(this.data);
+      this.testpaint = false;
       if (!this.nn.training) {
-        this.paint.predict();
+        this.delayedTrainStepPreview(cb);
       }
     }
   }
