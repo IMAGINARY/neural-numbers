@@ -5,7 +5,7 @@
 
 .train .view {
   height: 510px;
-  margin-right: 40px;
+  margin-right: 5px;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -33,12 +33,12 @@
 }
 
 .train .view .simplenetwork {
-  width: 510px;
+  width: 620px;
   position: relative;
 }
 
 .train .view .bars {
-  width: 230px;
+  width: 200px;
   height: 87%;
   margin-top: 3%;
 }
@@ -206,12 +206,10 @@
 }
 
 .train .advanced {
-  width: 700px;
+  width: 620px;
   pointer-events: all;
   display: flex;
   flex-direction: row;
-  padding: 30px;
-  border: 2px $color-gray solid;
   border-radius: 50px;
   /*TODO*/
   .columns {

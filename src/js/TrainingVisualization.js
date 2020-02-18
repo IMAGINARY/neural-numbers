@@ -126,8 +126,8 @@ export class TrainingVisualization {
       const ctx = this.ctx;
       const weights = this.nn.model.getWeights().map(w => w.dataSync());
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      this.lt1 = this.drawdenselayer(784, 100, weights[0], 5, 50, 250, (HEIGHT - 100), this.lt1);
-      this.lt2 = this.drawdenselayer(100, 10, weights[2], 255, 50, 250, (HEIGHT - 100), this.lt2);
+      this.lt1 = this.drawdenselayer(784, 100, weights[0], 10, 50, 300, (HEIGHT - 100), this.lt1);
+      this.lt2 = this.drawdenselayer(100, 10, weights[2], 310, 50, 300, (HEIGHT - 100), this.lt2);
     }
 
     //this.lastvisualization = this.nn.trainedimages;
@@ -166,9 +166,9 @@ export class TrainingVisualization {
     this.barchart.update(this.currentProbabilities, this.currentTarget);
 
 
-    this.drawnodes(this.actx, 784, this.currentDigit, 5, 50, (HEIGHT - 100), 0.5);
+    this.drawnodes(this.actx, 784, this.currentDigit, 10, 50, (HEIGHT - 100), 0.5);
     if (this.nn.modelid == "dense") {
-      this.drawnodes(this.actx, 100, this.intermediateActivations, 255, 50, (HEIGHT - 100), 1.5);
+      this.drawnodes(this.actx, 100, this.intermediateActivations, 310, 50, (HEIGHT - 100), 1.5);
     }
     //  this.drawnodes(this.octx, 10, this.currentProbabilities, 8, 50, (HEIGHT - 100), 8);
 
