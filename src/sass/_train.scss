@@ -72,7 +72,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding: 28px;
   width: 400px;
   height: 358px;
   /* left: 1302px; */
@@ -143,7 +142,9 @@
 }
 
 .train .menu .box .v-seperator {
-  width: 100%;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
   border: 1px solid #C4C4C4;
   /* margin: auto; */
   height: 0;
@@ -270,3 +271,47 @@
   font-size: 30px;
 }
 */
+.train .modeswitch {
+  position: relative;
+  padding-top: 24px;
+}
+
+.train .modeswitch > a {
+  position: absolute;
+  visibility: hidden;
+  width: 400px;
+  background: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  box-sizing: border-box;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  height: 66px;
+  text-align: center;
+  font-style: normal;
+  font-size: 24px;
+  padding: 14px 28px;
+}
+
+.train .modeswitch > a::before {
+  content: "";
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  margin-right: 12px;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+}
+
+.train .modeswitch .activate::before {
+  background-image: url("../../assets/img/activate.svg");
+}
+
+.train .modeswitch .cancel::before {
+  background-image: url("../../assets/img/cancel.svg");
+}
+
+.train .modeswitch .cancel {
+  background-color: $color-yellow;
+  font-weight: bold;
+}

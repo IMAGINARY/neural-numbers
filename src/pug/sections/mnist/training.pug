@@ -58,10 +58,8 @@
           a(href="#2", title="pause/resume training").pause-resume.pause
           a(href="#2", title="train a single step").single-step
         //a.button.testit -&gt; Test the Network!
-      p Expert mode 
-        span.expertmode-on-off off
-        label.switch
-          input(type="checkbox").expertmode
-          span.slider.round
+      .modeswitch
+        a.activate Activate Advanced Mode
+        a.cancel Cancel Advanced Mode
 
   script(type="text/javascript" src="src/js/training.js")

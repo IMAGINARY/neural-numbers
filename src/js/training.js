@@ -4,7 +4,8 @@ currentSlide().onEnter = async (controller) => {
   var istraining = true;
   const d = document.querySelector(".train");
 
-  d.querySelector('.expertmode').checked = false;
+  d.querySelector('.activate').classList.add("visible");
+  d.querySelector('.cancel').classList.add("remove");
   d.querySelector('.modelid').selectedIndex = 0;
   d.querySelector('.activation').selectedIndex = 0;
   d.querySelector('.optimizerid').selectedIndex = 0;
@@ -24,7 +25,7 @@ currentSlide().onEnter = async (controller) => {
 
   var updateUI = () => {
     istraining = (controller.nn && controller.nn.training);
-    expertmode = d.querySelector('.expertmode').checked;
+    expertmode = d.querySelector('.cancel').classList.contains("visible");
     if (controller.nn && controller.nn.trainedimages > 0) {
       d.querySelector(".reset").classList.add("visible");
     } else {
@@ -33,9 +34,6 @@ currentSlide().onEnter = async (controller) => {
     d.querySelector(".paint").classList.toggle("visible", showpreviewpaint);
     d.querySelector(".training").classList.toggle("visible", !showpreviewpaint);
     if (showpreviewpaint) {
-      //d.querySelector(".simplenetwork").classList.remove("visible");
-      //d.querySelector(".advanced").classList.remove("visible");
-
       if (controller.paint) {
         controller.paint.clear();
       }
@@ -55,7 +53,7 @@ currentSlide().onEnter = async (controller) => {
     }
 
 
-    d.querySelector(".expertmode-on-off").innerHTML = expertmode ? "on" : "off";
+    //d.querySelector(".expertmode-on-off").innerHTML = expertmode ? "on" : "off";
 
     const pr = d.querySelector(".pause-resume");
 
@@ -118,13 +116,16 @@ currentSlide().onEnter = async (controller) => {
     updateUI();
   };
 
-  d.querySelector('.expertmode').onchange = async () => {
+  d.querySelector('.modeswitch').onpointerdown = async () => {
+    d.querySelector('.modeswitch .activate').classList.toggle("visible");
+    d.querySelector('.modeswitch .cancel').classList.toggle("visible");
     if (d.querySelector(".modelid").selectedIndex != 0) {
       d.querySelector(".modelid").selectedIndex = 0;
       resetadvancednetwork();
     }
     updateUI();
     await controller.pauseTraining();
+    showpreviewpaint = true;
     updateUI();
   };
 
