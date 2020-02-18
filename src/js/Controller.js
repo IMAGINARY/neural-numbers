@@ -33,11 +33,14 @@ export class Controller {
   }
 
   async loadData() {
+    if (!this.trainedmodel)
+      this.trainedmodel = await tf.loadLayersModel('assets/models/my-model.json');
     if (!this.dataloaded) {
       await this.data.load();
       this.dataloaded = true;
     }
   }
+
 
   async initTrainingEnvironment(els) {
     await this.loadData();

@@ -24,6 +24,7 @@ const id = new IdleDetector();
 id.setTimeout(() => {
     location.hash = '#1';
     location.reload();
+    controller.loadData();
   },
   1000 * IDLE_RELOAD
 );
