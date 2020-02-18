@@ -26,7 +26,7 @@ export class BarChart {
     }
   }
 
-  update(probabilities, highlighted) {
+  update(probabilities, highlighted = -1) {
     for (let i = 0; i < 10; i++) {
       this.bars[i].dataset.probability = probabilities[i];
       this.bars[i].style = `--probability: ${probabilities[i]}`;

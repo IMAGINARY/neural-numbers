@@ -27,8 +27,8 @@ body {
   font-family: "Exo 2", "Roboto", Arial, sans-serif;
   font-size: 40px;
   line-height: 48px;
-  pointer-events: none;
-  user-select: none; }
+  /*  pointer-events: none;
+  user-select: none;*/ }
 
 * {
   touch-action: none; }
@@ -384,8 +384,10 @@ a {
   width: 500px;
   position: relative; }
 
-.train .view .output {
-  width: 120px; }
+.train .view .bars {
+  width: 230px;
+  height: 87%;
+  margin-top: 3%; }
 
 .train .view .advanced {
   width: 500px;
@@ -747,7 +749,11 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   display: flex;
   padding: 0;
   margin: 0;
-  position: relative; }
+  position: relative;
+  flex-direction: row; }
+
+.bars.vertical {
+  flex-direction: column; }
 
 .barcontainer {
   position: relative;
@@ -757,6 +763,12 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   flex-direction: column;
   justify-content: flex-end; }
 
+.vertical .barcontainer {
+  height: 10%;
+  width: 100%;
+  flex-direction: row-reverse;
+  justify-content: flex-start; }
+
 .bartxt {
   font-weight: 500;
   font-size: 20px;
@@ -764,9 +776,12 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   text-align: center;
   /*bottom: 4px;*/
   /*position: absolute;*/
-  width: 100%;
   padding-bottom: 7px;
   padding-top: 7px; }
+
+.vertical .bartxt {
+  padding-right: 15px;
+  padding-left: 10px; }
 
 .bar {
   /*position: absolute;*/
@@ -778,7 +793,14 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   box-sizing: border-box;
   border-radius: 20px;
   /*top: calc(100% - var(--probability)*90%);*/
-  height: calc(var(--probability) * 90%); }
+  height: calc(var(--probability) * 90%);
+  min-height: 20px; }
+
+.vertical .bar {
+  margin: auto auto auto 0;
+  height: 20px;
+  width: calc(var(--probability) * 90%);
+  min-width: 20px; }
 
 .bar.highlighted {
   background: #FFEF58; }

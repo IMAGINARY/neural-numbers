@@ -18,7 +18,7 @@ currentSlide().onEnter = async (controller) => {
     input: d.querySelector('.inputspace > canvas'),
     network: d.querySelector('.simplenetwork > .network'),
     activations: d.querySelector('.simplenetwork > .activations'),
-    output: d.querySelector('.output > canvas'),
+    bars: d.querySelector('.bars'),
     paint: d.querySelector(".paint")
   };
 

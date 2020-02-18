@@ -1,5 +1,9 @@
 /* jshint esversion: 8*/
 
+import {
+  BarChart
+} from './BarChart.js';
+
 const HEIGHT = 500;
 
 export class TrainingVisualization {
@@ -7,7 +11,7 @@ export class TrainingVisualization {
     this.els = els;
     this.nn = nn;
     this.currentDigit = new Float32Array(784);
-    this.currentProbabilities = this.currentTarget = new Float32Array(10);
+    this.currentProbabilities = new Float32Array(10);
 
     const canvas = this.canvas = this.els.network;
     canvas.height = canvas.clientHeight;
@@ -24,10 +28,7 @@ export class TrainingVisualization {
     icanvas.width = icanvas.clientWidth;
     const ictx = this.ictx = icanvas.getContext('2d');
 
-    const ocanvas = this.ocanvas = this.els.output;
-    ocanvas.height = ocanvas.clientHeight;
-    ocanvas.width = ocanvas.clientWidth;
-    const octx = this.octx = ocanvas.getContext('2d');
+    this.barchart = new BarChart(this.els.bars);
 
     //this.lastvisualization = -1;
 
@@ -134,7 +135,6 @@ export class TrainingVisualization {
 
   renderActivations() {
     this.actx.clearRect(0, 0, this.acanvas.width, this.acanvas.height);
-    this.octx.clearRect(0, 0, this.ocanvas.width, this.ocanvas.height);
     this.ictx.clearRect(0, 0, this.icanvas.width, this.icanvas.height);
 
     if (this.traindigit.active) {
@@ -146,6 +146,7 @@ export class TrainingVisualization {
 
 
     //draw bars for activations
+    /*
     this.octx.beginPath();
     this.octx.strokeStyle = '#c4c4c4';
     this.octx.lineWidth = 20;
@@ -161,25 +162,26 @@ export class TrainingVisualization {
     this.octx.stroke();
     this.octx.lineWidth = 1;
     this.octx.lineCap = "butt";
+    */
+    this.barchart.update(this.currentProbabilities, this.currentTarget);
 
 
     this.drawnodes(this.ictx, 784, this.currentDigit, this.icanvas.width - 1, 50, (HEIGHT - 100), 0.5);
     if (this.nn.modelid == "dense") {
       this.drawnodes(this.actx, 100, this.intermediateActivations, 250, 50, (HEIGHT - 100), 1.5);
     }
-    this.drawnodes(this.octx, 10, this.currentProbabilities, 8, 50, (HEIGHT - 100), 8);
-    if (this.currentTarget)
-      this.drawnodes(this.octx, 10, this.currentTarget, 95, 50, (HEIGHT - 100), 8);
+    //  this.drawnodes(this.octx, 10, this.currentProbabilities, 8, 50, (HEIGHT - 100), 8);
 
-    //draw digits
-    this.octx.fillStyle = 'black';
-    for (let k = 0; k < 10; k++) {
-      const x0 = 105;
-      const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
-      this.octx.font = "20px 'Exo 2'";
-      this.octx.fillText(k, x0, y0 + 8);
-    }
-
+    /*
+        //draw digits
+        this.octx.fillStyle = 'black';
+        for (let k = 0; k < 10; k++) {
+          const x0 = 105;
+          const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
+          this.octx.font = "20px 'Exo 2'";
+          this.octx.fillText(k, x0, y0 + 8);
+        }
+    */
   }
 
   /*
@@ -199,7 +201,7 @@ export class TrainingVisualization {
     this.computeActivations(trainX1);
     const trainY1 = trainYs.slice([0, 0], [1, 10]); //only the first
     //const target = trainY1.reshape([10]);
-    this.currentTarget = trainY1.dataSync();
+    this.currentTarget = trainY1.argMax([-1]).dataSync();
     this.renderNetwork();
     this.renderActivations();
     //clean up tensors
@@ -212,7 +214,6 @@ export class TrainingVisualization {
   async show(imageTensor, pixels) {
     this.computeActivations(imageTensor);
     this.currentDigit = pixels;
-    this.currentTarget = false;
     this.traindigit.active = false;
     this.renderActivations();
   }
@@ -224,12 +225,14 @@ export class TrainingVisualization {
       const A3 = this.nn.model.layers[2].apply(A2);
       this.intermediateActivations = A2.dataSync().map(x => Math.abs(x) / 2);
       this.currentProbabilities = A3.dataSync();
+      this.currentTarget = A3.argMax([-1]).dataSync();
       A1.dispose();
       A2.dispose();
       A3.dispose();
     } else {
       const prediction = this.nn.model.predict(input);
       this.currentProbabilities = prediction.dataSync();
+      this.currentTarget = prediction.argMax([-1]).dataSync();
       prediction.dispose();
     }
   }

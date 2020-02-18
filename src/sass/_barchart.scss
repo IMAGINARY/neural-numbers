@@ -3,8 +3,12 @@
   padding: 0;
   margin: 0;
   position: relative;
+  flex-direction: row;
 }
 
+.bars.vertical {
+  flex-direction: column;
+}
 
 .barcontainer {
   position: relative;
@@ -15,6 +19,13 @@
   justify-content: flex-end;
 }
 
+.vertical .barcontainer {
+  height: 10%;
+  width: 100%;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
 .bartxt {
   font-weight: 500;
   font-size: 20px;
@@ -22,9 +33,13 @@
   text-align: center;
   /*bottom: 4px;*/
   /*position: absolute;*/
-  width: 100%;
   padding-bottom: 7px;
   padding-top: 7px;
+}
+
+.vertical .bartxt {
+  padding-right: 15px;
+  padding-left: 10px;
 }
 
 .bar {
@@ -38,6 +53,14 @@
   border-radius: 20px;
   /*top: calc(100% - var(--probability)*90%);*/
   height: calc(var(--probability) * 90%);
+  min-height: 20px;
+}
+
+.vertical .bar {
+  margin: auto auto auto 0;
+  height: 20px;
+  width: calc(var(--probability) * 90%);
+  min-width: 20px;
 }
 
 .bar.highlighted {
