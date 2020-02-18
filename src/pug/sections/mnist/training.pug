@@ -39,10 +39,6 @@
               .learningratetxt 0.001
       
     .menu
-      .controls
-        a(href="#2", title="reset training").reset
-        a(href="#2", title="pause/resume training").pause-resume.pause
-        a(href="#2", title="train a single step").single-step
       .box
         .info
           .info-item.imagesused
@@ -52,7 +48,11 @@
           .info-item.accuracy
             .number 10%
             div Predicted Accuracy
-        //.v-seperator
+        .v-seperator
+        .controls
+          a(href="#2", title="reset training").reset
+          a(href="#2", title="pause/resume training").pause-resume.pause
+          a(href="#2", title="train a single step").single-step
         //a.button.testit -&gt; Test the Network!
       p Expert mode 
         span.expertmode-on-off off

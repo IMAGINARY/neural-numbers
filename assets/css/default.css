@@ -309,11 +309,7 @@ a {
 
 .paint .bars {
   height: 287px;
-  width: 287px;
-  display: flex;
-  padding: 0;
-  margin: 0;
-  position: relative; }
+  width: 287px; }
 
 /*
 .paint .bars::after {
@@ -327,40 +323,6 @@ a {
   border-radius: 2.5px;
 }
 */
-.paint .barcontainer {
-  position: relative;
-  height: 100%;
-  width: 10%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end; }
-
-.paint .bartxt {
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 24px;
-  text-align: center;
-  /*bottom: 4px;*/
-  /*position: absolute;*/
-  width: 100%;
-  padding-bottom: 7px;
-  padding-top: 7px; }
-
-.paint .bar {
-  /*position: absolute;*/
-  margin-left: auto;
-  margin-right: auto;
-  /*bottom: 10%;*/
-  width: 20px;
-  background: #E6E6E6;
-  box-sizing: border-box;
-  border-radius: 20px;
-  /*top: calc(100% - var(--probability)*90%);*/
-  height: calc(var(--probability) * 90%); }
-
-.paint .bar.predicted {
-  background: #FFEF58; }
-
 .train {
   display: flex;
   justify-content: center; }
@@ -412,25 +374,30 @@ a {
   background-color: rgba(255, 255, 255, 0.9); }
 
 .train .menu .box {
-  height: 100px;
-  background: #FFFFFF;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  padding: 28px; }
+  justify-content: space-evenly;
+  padding: 28px;
+  width: 400px;
+  height: 358px;
+  /* left: 1302px; */
+  /* top: 347px; */
+  background: #F2F2F2;
+  border-radius: 10px; }
 
 .train .menu .controls {
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 100px;
-  justify-content: center; }
+  justify-content: center;
+  align-items: center; }
 
 .train .menu .controls > a {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 50px 50px;
   width: 30%;
   height: 60%; }
 
@@ -438,18 +405,31 @@ a {
   visibility: hidden;
   background-image: url("../../assets/img/reset.svg"); }
 
+.train .menu .controls .pause-resume {
+  background-color: white;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  border: 1px solid #CCCCCC;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25); }
+
 .train .menu .controls .pause-resume.resume {
-  background-image: url("../../assets/img/resume.svg"); }
+  background-image: url("../../assets/img/resume.svg");
+  background-position-x: 30px; }
 
 .train .menu .controls .pause-resume.pause {
-  background-image: url("../../assets/img/pause.svg"); }
+  background-image: url("../../assets/img/pause.svg");
+  background-color: #FFEF58; }
 
 .train .menu .controls .single-step {
   background-image: url("../../assets/img/step.svg"); }
 
 .train .menu .box .info {
   display: flex;
-  justify-content: space-around; }
+  justify-content: space-evenly; }
+
+.train .menu .box .info > div:first-child {
+  width: 50%; }
 
 .train .menu .box .info .h-seperator {
   height: 100%;
@@ -459,10 +439,11 @@ a {
 .train .menu .box .v-seperator {
   width: 100%;
   border: 1px solid #C4C4C4;
-  margin: auto; }
+  /* margin: auto; */
+  height: 0; }
 
 .train .menu .info .number {
-  font-weight: 500;
+  font-weight: bold;
   font-size: 42px;
   line-height: 49px;
   text-align: center; }
@@ -557,7 +538,7 @@ a {
 
 .train .paint .input {
   position: absolute;
-  left: 0px;
+  left: 0;
   top: 50px; }
 
 /*
