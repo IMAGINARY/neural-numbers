@@ -7,7 +7,7 @@ import {
 
 import {
   BarChart
-} from './BarChart.js'
+} from './BarChart.js';
 
 export class Paint {
   constructor(el, model, showprobability, nwvis = false) {
