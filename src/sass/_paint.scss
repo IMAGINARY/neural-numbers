@@ -1,23 +1,28 @@
 .paint .box {
-  border: 5px solid #000000;
   box-sizing: border-box;
-  border-radius: 20px;
   width: 287px;
   height: 287px;
   margin-top: 50px;
   text-align: center;
   display: table-cell;
   vertical-align: middle;
+  box-sizing: border-box;
+  border-radius: 50px;
 };
 
-.paint .output {
-  border-color: #C4C4C4;
+.paint .input.box {
+  border: 3px solid $color-yellow;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.paint .output.box {
+  background: $color-gray;
 }
 
 .paint .output {
   font-size: 100px;
   font-style: normal;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 #intropaint .columns {
@@ -25,12 +30,16 @@
 }
 
 #intropaint .column {
-  padding: 10px;
+  padding: 2vw;
 }
 
 #intropaint .confidences {
   visibility: hidden;
   opacity: 0;
+}
+
+#intropaint .paint {
+  padding-top: 9vh;
 }
 
 #intropaint input {
@@ -40,7 +49,6 @@
 #normalizepaint input {
   pointer-events: all;
 }
-
 
 #intropaint label::before {
   background-image: url("../../assets/img/bars.svg");
@@ -63,10 +71,21 @@
   position: relative;
 }
 
+.paint > .column > p {
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 41px;
+  color: #0D0D0D;
+}
+
+.paint > .column:first-child > p {
+  font-weight: bold;
+}
+
 .paint .input.box.background {
   background-image: url("../../assets/img/pen.svg");
   background-repeat: no-repeat;
-  background-size: 105px;
+  background-size: 80px;
   background-position: center;
 }
 
@@ -102,7 +121,6 @@
   margin: 0;
   position: relative;
 }
-
 /*
 .paint .bars::after {
   content: '';
@@ -115,7 +133,6 @@
   border-radius: 2.5px;
 }
 */
-
 .paint .barcontainer {
   position: relative;
   height: 100%;
@@ -126,14 +143,15 @@
 }
 
 .paint .bartxt {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 20px;
   line-height: 24px;
   text-align: center;
   /*bottom: 4px;*/
   /*position: absolute;*/
   width: 100%;
-  padding-bottom: 4px;
+  padding-bottom: 7px;
+  padding-top: 7px;
 }
 
 .paint .bar {
@@ -142,10 +160,13 @@
   margin-right: auto;
   /*bottom: 10%;*/
   width: 20px;
-  background: #C4C4C4;
-  border: 5px solid #C4C4C4;
+  background: #E6E6E6;
   box-sizing: border-box;
   border-radius: 20px;
   /*top: calc(100% - var(--probability)*90%);*/
   height: calc(var(--probability) * 90%);
+}
+
+.paint .bar.predicted {
+  background: $color-yellow;
 }

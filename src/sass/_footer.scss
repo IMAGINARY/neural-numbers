@@ -3,8 +3,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: #FFFFFF;
-  box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.25);
+  background: $color-gray;
   align-items: baseline;
   display: flex;
   padding: 26px;
@@ -22,12 +21,11 @@
   line-height: 37px;
   font-weight: normal;
   padding: 14px 28px;
-  background: white;
-  border: 2px solid #000000;
-  box-sizing: border-box;
-  border-radius: 10px;
   margin: 25px;
   pointer-events: all;
+  border: 1px solid #CCCCCC;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
 }
 
 .footer .navbutton:hover {
@@ -36,11 +34,35 @@
 
 .footer .navbutton.selected {
   font-weight: bold;
-  background: #E1E1E1;
+  background: $color-yellow;
+}
+
+.footer .navbutton::before {
+  content: "";
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  margin-right: 12px;
+  width: 30px;
+  height: 32px;
+  display: inline-block;
+}
+
+.footer .navbutton:nth-child(1)::before {
+  background-image: url("../../assets/img/pen.svg");
+}
+
+.footer .navbutton:nth-child(2)::before {
+  background-image: url("../../assets/img/train.svg");
+}
+
+.footer .navbutton:nth-child(3)::before {
+  background-image: url("../../assets/img/info.svg");
+  height: 25px;
 }
 
 .footer .international {
-  background-image: url("assets/img/international.svg");
+  background-image: url("../../assets/img/international.svg");
 }
 /*
 .footer #backbutton::before {

@@ -53,7 +53,9 @@ h1 {
   text-align: center;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  /*margin-top: 15vh;*/ }
+  /*margin-top: 15vh;*/
+  padding-top: 15.7vh;
+  /*170px on 1080p*/ }
 
 a {
   text-decoration: none;
@@ -125,8 +127,7 @@ a {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #FFFFFF;
-  box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.25);
+  background: #F2F2F2;
   align-items: baseline;
   display: flex;
   padding: 26px;
@@ -142,22 +143,42 @@ a {
   line-height: 37px;
   font-weight: normal;
   padding: 14px 28px;
-  background: white;
-  border: 2px solid #000000;
-  box-sizing: border-box;
-  border-radius: 10px;
   margin: 25px;
-  pointer-events: all; }
+  pointer-events: all;
+  border: 1px solid #CCCCCC;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  }
 
 .footer .navbutton:hover {
   background: #EEEEEE; }
 
 .footer .navbutton.selected {
   font-weight: bold;
-  background: #E1E1E1; }
+  background: #FFEF58; }
+
+.footer .navbutton::before {
+  content: "";
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  margin-right: 12px;
+  width: 30px;
+  height: 32px;
+  display: inline-block; }
+
+.footer .navbutton:nth-child(1)::before {
+  background-image: url("../../assets/img/pen.svg"); }
+
+.footer .navbutton:nth-child(2)::before {
+  background-image: url("../../assets/img/train.svg"); }
+
+.footer .navbutton:nth-child(3)::before {
+  background-image: url("../../assets/img/info.svg");
+  height: 25px; }
 
 .footer .international {
-  background-image: url("assets/img/international.svg"); }
+  background-image: url("../../assets/img/international.svg"); }
 
 /*
 .footer #backbutton::before {
@@ -181,7 +202,6 @@ a {
   right: 0;
   bottom: 110px;
   top: 0;
-  padding: 20px;
   text-align: center; }
 
 .slide.visible {
@@ -193,33 +213,40 @@ a {
   opacity: 1; }
 
 .paint .box {
-  border: 5px solid #000000;
   box-sizing: border-box;
-  border-radius: 20px;
   width: 287px;
   height: 287px;
   margin-top: 50px;
   text-align: center;
   display: table-cell;
-  vertical-align: middle; }
+  vertical-align: middle;
+  box-sizing: border-box;
+  border-radius: 50px; }
 
-.paint .output {
-  border-color: #C4C4C4; }
+.paint .input.box {
+  border: 3px solid #FFEF58;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25); }
+
+.paint .output.box {
+  background: #F2F2F2; }
 
 .paint .output {
   font-size: 100px;
   font-style: normal;
-  font-weight: bold; }
+  font-weight: 500; }
 
 #intropaint .columns {
   justify-content: center; }
 
 #intropaint .column {
-  padding: 10px; }
+  padding: 2vw; }
 
 #intropaint .confidences {
   visibility: hidden;
   opacity: 0; }
+
+#intropaint .paint {
+  padding-top: 9vh; }
 
 #intropaint input {
   pointer-events: all; }
@@ -245,10 +272,19 @@ a {
 .paint .input.box {
   position: relative; }
 
+.paint > .column > p {
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 41px;
+  color: #0D0D0D; }
+
+.paint > .column:first-child > p {
+  font-weight: bold; }
+
 .paint .input.box.background {
   background-image: url("../../assets/img/pen.svg");
   background-repeat: no-repeat;
-  background-size: 105px;
+  background-size: 80px;
   background-position: center; }
 
 .paint .drawcanvas {
@@ -301,14 +337,15 @@ a {
   justify-content: flex-end; }
 
 .paint .bartxt {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 20px;
   line-height: 24px;
   text-align: center;
   /*bottom: 4px;*/
   /*position: absolute;*/
   width: 100%;
-  padding-bottom: 4px; }
+  padding-bottom: 7px;
+  padding-top: 7px; }
 
 .paint .bar {
   /*position: absolute;*/
@@ -316,12 +353,14 @@ a {
   margin-right: auto;
   /*bottom: 10%;*/
   width: 20px;
-  background: #C4C4C4;
-  border: 5px solid #C4C4C4;
+  background: #E6E6E6;
   box-sizing: border-box;
   border-radius: 20px;
   /*top: calc(100% - var(--probability)*90%);*/
   height: calc(var(--probability) * 90%); }
+
+.paint .bar.predicted {
+  background: #FFEF58; }
 
 .train {
   display: flex;

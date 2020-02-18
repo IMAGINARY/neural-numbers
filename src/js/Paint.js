@@ -133,7 +133,7 @@ export class Paint {
         const cbarcontainer = document.createElement("div");
         cbarcontainer.className = "barcontainer";
         this.bars[i] = document.createElement("div");
-        this.bars[i].className = "bar";
+        this.bars[i].classList.add("bar");
         const cbartext = document.createElement("div");
         cbartext.className = "bartxt";
         cbartext.innerHTML = i;
@@ -259,8 +259,8 @@ export class Paint {
     if (this.model && this.normalizecanvas && this.drawingChanged) { // && newFrame rendered TODO?
       const [probabilities, predicted] = tf.tidy(() => {
         const imageTensor = tf.browser.fromPixels(this.normalizecanvas, 1).toFloat().mul(tf.scalar(1 / 255)).clipByValue(0, 1).reshape([1, 28, 28, 1]);
-        if(this.nwvis) {
-            this.nwvis.show(imageTensor, this.normalizecontext.getImageData(0, 0, this.normalizecanvas.width, this.normalizecanvas.height).data.filter((d,k)=>(k%4==0)));
+        if (this.nwvis) {
+          this.nwvis.show(imageTensor, this.normalizecontext.getImageData(0, 0, this.normalizecanvas.width, this.normalizecanvas.height).data.filter((d, k) => (k % 4 == 0)));
         }
         const result = this.model.predict(imageTensor);
         return [
@@ -277,6 +277,7 @@ export class Paint {
           this.bars[i].dataset.probability = probabilities[i];
           this.bars[i].style = `--probability: ${probabilities[i]}`;
           //this.bars[i].style.backgroundColor = (i == predicted) ? '#f60' : '#55b';
+          this.bars[i].classList.toggle("predicted", i == predicted);
         }
       }
 
