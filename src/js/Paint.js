@@ -5,6 +5,9 @@ import {
   PAINT_CLEAR_TIMEOUT
 } from './constants.js';
 
+import {
+  BarChart
+} from './BarChart.js'
 
 export class Paint {
   constructor(el, model, showprobability, nwvis = false) {
@@ -122,26 +125,7 @@ export class Paint {
         this.resetbutton.style.zIndex = 10;
     */
     if (this.outputbars) {
-
-      //cleanup potentially previously existing bars
-      while (this.outputbars.firstChild) {
-        this.outputbars.removeChild(this.outputbars.firstChild);
-      }
-
-      this.bars = [];
-      for (let i = 0; i < 10; i++) {
-        const cbarcontainer = document.createElement("div");
-        cbarcontainer.className = "barcontainer";
-        this.bars[i] = document.createElement("div");
-        this.bars[i].classList.add("bar");
-        const cbartext = document.createElement("div");
-        cbartext.className = "bartxt";
-        cbartext.innerHTML = i;
-        cbarcontainer.appendChild(this.bars[i]);
-        cbarcontainer.appendChild(cbartext);
-        this.outputbars.appendChild(cbarcontainer);
-      }
-
+      this.barchart = new BarChart(this.outputbars);
     }
 
     this.clear();
@@ -269,16 +253,8 @@ export class Paint {
         ];
       });
 
-      if (this.outputbars) {
-        for (let i = 0; i < 10; i++) {
-          /*this.bars[i].style.top = (100 - probabilities[i] * 100) + '%';
-          this.bars[i].style.bottom = '0%';
-          this.bars[i].style.height = (probabilities[i] * 100) + '%';*/
-          this.bars[i].dataset.probability = probabilities[i];
-          this.bars[i].style = `--probability: ${probabilities[i]}`;
-          //this.bars[i].style.backgroundColor = (i == predicted) ? '#f60' : '#55b';
-          this.bars[i].classList.toggle("predicted", i == predicted);
-        }
+      if (this.barchart) {
+        this.barchart.update(probabilities, predicted);
       }
 
       if (this.outputdigit) {
@@ -303,10 +279,8 @@ export class Paint {
     //this.predict();
     //this.resetbutton.style.visibility = 'hidden';
 
-    if (this.outputbars) {
-      while (this.outputbars.firstChild) {
-        this.outputbars.removeChild(this.outputbars.firstChild);
-      }
+    if (this.barchart) {
+      this.barchart.cleanup();
     }
   }
 }
