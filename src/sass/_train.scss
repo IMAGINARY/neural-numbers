@@ -18,11 +18,22 @@
 }
 
 .train .view .inputspace {
-  width: 300px;
+  margin: 20px;
+  width: 287px;
+}
+
+.train .view .inputspace > div {
+  position: absolute;
+  margin-top: 80px;
+  visibility: hidden;
+}
+
+.train .inputspace .paint > p {
+  font-weight: bold;
 }
 
 .train .view .simplenetwork {
-  width: 500px;
+  width: 510px;
   position: relative;
 }
 
@@ -33,7 +44,7 @@
 }
 
 .train .view .advanced {
-  width: 500px;
+  width: 510px;
   font-size: 24px;
 }
 
@@ -202,7 +213,6 @@
   pointer-events: all;
   display: flex;
   flex-direction: row;
-  padding: 30px;
 }
 
 .train .advanced .columns {
@@ -239,17 +249,16 @@
   width: 100%;
 }
 
-.train .paint {
-  position: absolute;
-  visibility: hidden;
-  width: 100%;
-  height: 100%;
+.train .training .box {
+  width: 287px;
+  height: 287px;
+  border-radius: 50px;
+  background: $color-gray;
 }
 
-.train .paint .input {
-  position: absolute;
-  left: 0;
-  top: 50px;
+.train .training .traininputcanvas {
+  width: 287px;
+  height: 287px;
 }
 /*
 .train .paint .output {

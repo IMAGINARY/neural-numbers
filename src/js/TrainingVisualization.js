@@ -126,8 +126,8 @@ export class TrainingVisualization {
       const ctx = this.ctx;
       const weights = this.nn.model.getWeights().map(w => w.dataSync());
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      this.lt1 = this.drawdenselayer(784, 100, weights[0], 0, 50, 250, (HEIGHT - 100), this.lt1);
-      this.lt2 = this.drawdenselayer(100, 10, weights[2], 250, 50, 250, (HEIGHT - 100), this.lt2);
+      this.lt1 = this.drawdenselayer(784, 100, weights[0], 5, 50, 250, (HEIGHT - 100), this.lt1);
+      this.lt2 = this.drawdenselayer(100, 10, weights[2], 255, 50, 250, (HEIGHT - 100), this.lt2);
     }
 
     //this.lastvisualization = this.nn.trainedimages;
@@ -138,9 +138,9 @@ export class TrainingVisualization {
     this.ictx.clearRect(0, 0, this.icanvas.width, this.icanvas.height);
 
     if (this.traindigit.active) {
-      this.ictx.imageSmoothingEnabled = false; //no antialiasing
-      this.ictx.filter = "brightness(0.5) invert(1)";
-      this.ictx.drawImage(this.traindigit, 0, 0, 28, 28, 50, HEIGHT / 2 - 6 * 28 / 2, 28 * 6, 28 * 6);
+      this.ictx.imageSmoothingEnabled = false; //no antialiasin
+      this.ictx.filter = "brightness(0.5) invert(1) brightness(0.95)";
+      this.ictx.drawImage(this.traindigit, 0, 0, 28, 28, 60, 60, 28 * 6, 28 * 6);
       this.ictx.filter = "none";
     }
 
@@ -166,9 +166,9 @@ export class TrainingVisualization {
     this.barchart.update(this.currentProbabilities, this.currentTarget);
 
 
-    this.drawnodes(this.ictx, 784, this.currentDigit, this.icanvas.width - 1, 50, (HEIGHT - 100), 0.5);
+    this.drawnodes(this.actx, 784, this.currentDigit, 5, 50, (HEIGHT - 100), 0.5);
     if (this.nn.modelid == "dense") {
-      this.drawnodes(this.actx, 100, this.intermediateActivations, 250, 50, (HEIGHT - 100), 1.5);
+      this.drawnodes(this.actx, 100, this.intermediateActivations, 255, 50, (HEIGHT - 100), 1.5);
     }
     //  this.drawnodes(this.octx, 10, this.currentProbabilities, 8, 50, (HEIGHT - 100), 8);
 

@@ -5,12 +5,15 @@
       .inputspace.visible
         .paint
           .input.box.background
-              canvas.drawcanvas  
-        canvas
+              canvas.drawcanvas
+          p You
+        .training
+          .box
+            canvas.traininputcanvas
+          p Training...
       .simplenetwork.visible
         canvas.network
         canvas.activations
-      .bars.vertical.visible
       .advanced
         //canvas
         .columns
@@ -37,6 +40,7 @@
               br
               input(type="range", min="-4" max="0" value="-3", step="any").learningrate
               .learningratetxt 0.001
+      .bars.vertical.visible
       
     .menu
       .box

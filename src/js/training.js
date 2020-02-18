@@ -15,7 +15,7 @@ currentSlide().onEnter = async (controller) => {
     trainingProgress: d.querySelector('.imagesused .number'),
     //validationImages: d.querySelector('#validation-images'),
     validationAccuracy: d.querySelector('.accuracy .number'),
-    input: d.querySelector('.inputspace > canvas'),
+    input: d.querySelector('.traininputcanvas'),
     network: d.querySelector('.simplenetwork > .network'),
     activations: d.querySelector('.simplenetwork > .activations'),
     bars: d.querySelector('.bars'),
@@ -30,17 +30,18 @@ currentSlide().onEnter = async (controller) => {
     } else {
       d.querySelector(".reset").classList.remove("visible");
     }
+    d.querySelector(".paint").classList.toggle("visible", showpreviewpaint);
+    d.querySelector(".training").classList.toggle("visible", !showpreviewpaint);
     if (showpreviewpaint) {
       //d.querySelector(".simplenetwork").classList.remove("visible");
       //d.querySelector(".advanced").classList.remove("visible");
-      d.querySelector(".paint").classList.add("visible");
+
       if (controller.paint) {
         controller.paint.clear();
       }
       document.querySelector("#title").innerHTML = "Test the Network!";
       //d.querySelector(".menu").classList.add("drawmode");
     } else {
-      d.querySelector(".paint").classList.remove("visible");
       document.querySelector("#title").innerHTML = "Train the Network!";
       //d.querySelector(".menu").classList.remove("drawmode");
     }
