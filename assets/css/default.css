@@ -45,8 +45,8 @@ body {
 
 h1 {
   font-weight: bold;
-  font-family: "gap_sansregular", "Gap Sans", "Exo 2", "Roboto", Arial, sans-serif;
-  font-weight: 900;
+  font-family: "gap_sansbold", "Gap Sans", "Exo 2", "Roboto", Arial, sans-serif;
+  font-weight: 500;
   font-size: 60px;
   line-height: 140%;
   /* identical to box height, or 84px */
@@ -147,8 +147,7 @@ a {
   pointer-events: all;
   border: 1px solid #CCCCCC;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  border-radius: 50px;
-  }
+  border-radius: 50px; }
 
 .footer .navbutton:hover {
   background: #EEEEEE; }
