@@ -29,9 +29,6 @@ export class TrainingVisualization {
     ocanvas.width = ocanvas.clientWidth;
     const octx = this.octx = ocanvas.getContext('2d');
 
-
-    canvas.addEventListener("resize", (e) => this.updatescaling());
-    this.updatescaling();
     //this.lastvisualization = -1;
 
     this.traindigit = document.createElement("canvas");
@@ -45,11 +42,6 @@ export class TrainingVisualization {
     this.renderActivations();
   }
 
-  updatescaling() {
-    return;
-    const ratio = this.canvas.clientHeight / HEIGHT;
-    this.ctx.scale(ratio, ratio);
-  }
 
   findthreshold(arr, a, b, target) { //binary search to find good
     const m = (a + b) / 2;
