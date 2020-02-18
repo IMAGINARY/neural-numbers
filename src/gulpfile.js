@@ -29,8 +29,8 @@ const paths = {
     dest: `${OUTPUT_DIR}/assets/js`,
   },
   fonts: {
-    src: './node_modules/typeface-roboto/**/*',
-    dest: `${OUTPUT_DIR}/assets/fonts/typeface-roboto`,
+    src: './node_modules/typeface-exo-2/**/*',
+    dest: `${OUTPUT_DIR}/assets/fonts/typeface-exo-2/`,
   }
 };
 

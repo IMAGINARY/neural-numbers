@@ -24,7 +24,7 @@ body.lock-position {
 body {
   background-color: white;
   color: black;
-  font-family: "Roboto", "Franklin Gothic Medium", Tahoma, sans-serif;
+  font-family: "Exo 2", "Roboto", Arial, sans-serif;
   font-size: 40px;
   line-height: 48px;
   pointer-events: none;
@@ -45,8 +45,14 @@ body {
 
 h1 {
   font-weight: bold;
+  font-family: "gap_sansregular", "Gap Sans", "Exo 2", "Roboto", Arial, sans-serif;
+  font-weight: 900;
   font-size: 60px;
-  line-height: 200%;
+  line-height: 140%;
+  /* identical to box height, or 84px */
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   /*margin-top: 15vh;*/ }
 
 a {
@@ -131,7 +137,6 @@ a {
   margin-left: auto; }
 
 .footer .navbutton {
-  font-family: Roboto;
   font-style: normal;
   font-size: 32px;
   line-height: 37px;

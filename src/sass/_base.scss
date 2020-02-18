@@ -1,7 +1,7 @@
 body {
   background-color: white;
   color: black;
-  font-family: $font-stack-roboto;
+  font-family: $font-stack-exo-2;
   font-size: 40px;
   line-height: 48px;
   pointer-events: none;
@@ -26,8 +26,14 @@ body {
 
 h1 {
   font-weight: bold;
+  font-family: $font-stack-gap-sans;
+  font-weight: 900;
   font-size: 60px;
-  line-height: 200%;
+  line-height: 140%;
+  /* identical to box height, or 84px */
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   /*margin-top: 15vh;*/
 }
 

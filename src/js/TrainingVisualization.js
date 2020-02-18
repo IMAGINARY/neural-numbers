@@ -176,7 +176,7 @@ export class TrainingVisualization {
     for (let k = 0; k < 10; k++) {
       const x0 = 105;
       const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
-      this.octx.font = "20px Roboto";
+      this.octx.font = "20px 'Exo 2'";
       this.octx.fillText(k, x0, y0 + 8);
     }
 
