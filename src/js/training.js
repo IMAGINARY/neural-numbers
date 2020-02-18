@@ -25,7 +25,7 @@ currentSlide().onEnter = async (controller) => {
 
   var updateUI = () => {
     istraining = (controller.nn && controller.nn.training);
-    expertmode = d.querySelector('.cancel').classList.contains("visible");
+    expertmode = d.querySelector('.modeswitch .cancel').classList.contains("visible");
     if (controller.nn && controller.nn.trainedimages > 0) {
       d.querySelector(".reset").classList.add("visible");
     } else {
@@ -44,13 +44,9 @@ currentSlide().onEnter = async (controller) => {
       //d.querySelector(".menu").classList.remove("drawmode");
     }
 
-    if (expertmode) {
-      d.querySelector(".simplenetwork").classList.remove("visible");
-      d.querySelector(".advanced").classList.add("visible");
-    } else {
-      d.querySelector(".simplenetwork").classList.add("visible");
-      d.querySelector(".advanced").classList.remove("visible");
-    }
+
+    d.querySelector(".simplenetwork").classList.toggle("visible", !expertmode);
+    d.querySelector(".advanced").classList.toggle("visible", expertmode);
 
 
     //d.querySelector(".expertmode-on-off").innerHTML = expertmode ? "on" : "off";
@@ -65,14 +61,15 @@ currentSlide().onEnter = async (controller) => {
       pr.classList.remove("pause");
     }
   };
-
+  updateUI();
   /* buttons */
+  /*
   if (d.querySelector(".testit")) d.querySelector(".testit").onpointerdown = async () => {
     showpreviewpaint = true;
     updateUI();
     await controller.pauseTraining();
     updateUI();
-  };
+  };*/
 
 
   d.querySelector(".pause-resume").onpointerdown = async () => {
