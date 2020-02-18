@@ -509,6 +509,10 @@ a {
   border: 2px #F2F2F2 solid;
   border-radius: 50px;
   /*TODO*/ }
+  .train .advanced .columns {
+    justify-content: space-between; }
+    .train .advanced .columns .column {
+      width: 45%; }
 
 .train .parameter .title {
   font-style: normal;
@@ -536,6 +540,7 @@ a {
     line-height: 24px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background: #FFFFFF;
     border: 1px solid #CCCCCC;
     box-sizing: border-box;
@@ -555,11 +560,13 @@ a {
       background-position: center;
       background-size: 80% 40px;
       width: 40%; }
+    .train .parameter .select .option::after {
+      content: ""; }
 
 .select.optimizerid {
-  justify-content: center; }
+  justify-content: space-around; }
   .select.optimizerid .option {
-    width: 110px !important; }
+    width: 100%; }
     .select.optimizerid .option:first-child {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0; }
@@ -568,7 +575,7 @@ a {
       border-bottom-left-radius: 0; }
     .select.optimizerid .option::before {
       visibility: hidden;
-      width: 0px !important; }
+      width: 0 !important; }
 
 .select.modelid > .option:nth-child(1)::before {
   background-image: url("../../assets/img/dense.svg"); }

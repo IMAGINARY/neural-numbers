@@ -214,6 +214,13 @@
   border: 2px $color-gray solid;
   border-radius: 50px;
   /*TODO*/
+  .columns {
+    justify-content: space-between;
+
+    .column {
+      width: 45%;
+    }
+  }
 }
 
 .train .parameter {
@@ -245,6 +252,7 @@
       line-height: 24px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       background: #FFFFFF;
       border: 1px solid #CCCCCC;
       box-sizing: border-box;
@@ -268,15 +276,20 @@
         background-size: 80% 40px;
         width: 40%;
       }
+
+      &::after {
+        content: "";
+      }
     }
   }
 }
 
 .select.optimizerid {
-  justify-content: center;
+  justify-content: space-around;
 
   .option {
-    width: 110px !important;
+    width: 100%;
+
     &:first-child {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
@@ -289,7 +302,7 @@
 
     &::before {
       visibility: hidden;
-      width: 0px !important;
+      width: 0 !important;
     }
   }
 }
