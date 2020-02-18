@@ -82,7 +82,7 @@ currentSlide().onEnter = async (controller) => {
   d.querySelector(".single-step").onpointerdown = async () => {
     if ((istraining)) {
       await controller.pauseTraining(updateUI);
-      await controller.singleStep(updateUI);
+      //await controller.singleStep(updateUI);
       istraining = false;
     } else {
       await controller.singleStep(updateUI);
@@ -93,7 +93,6 @@ currentSlide().onEnter = async (controller) => {
   d.querySelector(".reset").onpointerdown = async () => {
     await controller.pauseTraining(updateUI);
     await controller.resetTraining(els);
-    controller.testpaint = true;
     updateUI();
   };
 

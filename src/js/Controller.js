@@ -65,6 +65,7 @@ export class Controller {
   }
 
   async startTraining() {
+    this.clearDelayedTrainStepPreview();
     this.testpaint = false;
     if (this.nn)
       await this.nn.train(this.data);
@@ -91,10 +92,11 @@ export class Controller {
     this.cleanupPaint();
     this.cleanupNetwork();
     await this.initTrainingEnvironment(els);
+    this.testpaint = true;
   }
 
   delayedTrainStepPreview(cb) {
-    if(this.traintimeout) clearTimeout(this.traintimeout);
+    this.clearDelayedTrainStepPreview();
     this.traintimeout = setTimeout(() => {
       this.testpaint = true;
       if (this.paint) this.paint.predict();
@@ -102,7 +104,12 @@ export class Controller {
     }, LAST_TRAIN_STEP_TIMEOUT * 1000);
   }
 
+  clearDelayedTrainStepPreview(cb) {
+    if(this.traintimeout) clearTimeout(this.traintimeout);
+  }
+
   toggleTraining(cb) {
+    this.clearDelayedTrainStepPreview();
     if (this.nn) {
       this.nn.toggleTraining(this.data);
       this.testpaint = false;
