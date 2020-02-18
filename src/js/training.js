@@ -4,8 +4,8 @@ currentSlide().onEnter = async (controller) => {
   var istraining = true;
   const d = document.querySelector(".train");
 
-  d.querySelector('.activate').classList.add("visible");
-  d.querySelector('.cancel').classList.add("remove");
+  d.querySelector('.modeswitch .activate').classList.add("visible");
+  d.querySelector('.modeswitch .cancel').classList.remove("visible");
   d.querySelector('.modelid').selectedIndex = 0;
   d.querySelector('.activation').selectedIndex = 0;
   d.querySelector('.optimizerid').selectedIndex = 0;
