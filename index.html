@@ -90,34 +90,37 @@
               <canvas class="activations"></canvas>
             </div>
             <div class="advanced">
-              <!--canvas-->
-              <div class="columns">
-                <div class="column options">
-                  <div>Model architecture:<br>
-                    <select class="modelid">
-                      <option value="dense" selected>dense network, 784-100-10</option>
-                      <option value="cnn">convolutional network</option>
-                      <option value="nohidden">no hidden layers, dense network 784-10</option>
-                    </select>
-                  </div>
-                  <div>Activation function:<br>
-                    <select class="activation">
-                      <option value="relu" selected>ReLu</option>
-                      <option value="tanh">tanh</option>
-                      <option value="sigmoid">sigmoid</option>
-                    </select>
-                  </div>
+              <div class="parameter">
+                <div class="title">Model architecture</div>
+                <div class="select modelid">
+                  <div class="option selected" data-value="dense">1-Layer Dense Network</div>
+                  <div class="option" data-value="cnn">Convolutional Network</div>
+                  <div class="option" data-value="nohidden">No hidden layers</div>
                 </div>
-                <div class="column options">
-                  <div>Optimizer:<br>
-                    <select class="optimizerid">
-                      <option value="adam" selected>adam</option>
-                      <option value="sgd">stochastic gradient descent</option>
-                    </select>
-                  </div>
-                  <div>Learning rate:<br>
+              </div>
+              <div class="parameter">
+                <div class="title">Activation function</div>
+                <div class="select activation">
+                  <div class="option selected" data-value="relu">ReLu</div>
+                  <div class="option" data-value="tanh">tanh</div>
+                  <div class="option" data-value="sigmoid">sigmoid</div>
+                </div>
+              </div>
+              <div class="columns">
+                <div class="column">
+                  <div class="parameter">
+                    <div class="title">Learning rate</div>
                     <input class="learningrate" type="range" min="-4" max="0" value="-3" step="any">
                     <div class="learningratetxt">0.001</div>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="parameter">
+                    <div class="title">Optimizer</div>
+                    <div class="select optimizerid">
+                      <div class="option selected" data-value="adam">adam</div>
+                      <div class="option" data-value="sgd">Stochastic Gradient Descent</div>
+                    </div>
                   </div>
                 </div>
               </div>

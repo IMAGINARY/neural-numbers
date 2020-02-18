@@ -15,31 +15,30 @@
         canvas.network
         canvas.activations
       .advanced
-        //canvas
+        .parameter
+          .title Model architecture
+          .select.modelid
+            .option(data-value="dense").selected 1-Layer Dense Network
+            .option(data-value="cnn") Convolutional Network
+            .option(data-value="nohidden") No hidden layers
+        .parameter
+          .title Activation function
+          .select.activation
+            .option(data-value="relu").selected ReLu
+            .option(data-value="tanh") tanh
+            .option(data-value="sigmoid") sigmoid
         .columns
-          .column.options
-            div Model architecture:
-              br
-              select.modelid
-                option(value="dense", selected) dense network, 784-100-10
-                option(value="cnn") convolutional network
-                option(value="nohidden") no hidden layers, dense network 784-10
-            div Activation function:
-              br
-              select.activation
-                option(value="relu", selected) ReLu
-                option(value="tanh") tanh
-                option(value="sigmoid") sigmoid
-          .column.options
-            div Optimizer:
-              br
-              select.optimizerid
-                option(value="adam", selected) adam
-                option(value="sgd") stochastic gradient descent
-            div Learning rate:
-              br
+          .column
+            .parameter
+              .title Learning rate
               input(type="range", min="-4" max="0" value="-3", step="any").learningrate
               .learningratetxt 0.001
+          .column
+            .parameter
+              .title Optimizer
+              .select.optimizerid
+                .option(data-value="adam").selected adam
+                .option(data-value="sgd") Stochastic Gradient Descent
       .bars.vertical.visible
       
     .menu

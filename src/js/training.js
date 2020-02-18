@@ -4,8 +4,8 @@ currentSlide().onEnter = async (controller) => {
   var istraining = true;
   const d = document.querySelector(".train");
 
-  d.querySelector('.modeswitch .activate').classList.add("visible");
-  d.querySelector('.modeswitch .cancel').classList.remove("visible");
+  d.querySelector('.modeswitch .activate').classList.remove("visible");
+  d.querySelector('.modeswitch .cancel').classList.add("visible");
   d.querySelector('.modelid').selectedIndex = 0;
   d.querySelector('.activation').selectedIndex = 0;
   d.querySelector('.optimizerid').selectedIndex = 0;
@@ -60,6 +60,21 @@ currentSlide().onEnter = async (controller) => {
       pr.classList.add("resume");
       pr.classList.remove("pause");
     }
+
+    d.querySelectorAll(".parameter .select").forEach((select) => {
+      select.querySelectorAll(".option").forEach((option) => {
+        option.onpointerdown = () => {
+          select.querySelectorAll(".option").forEach((ooption) => {
+            ooption.classList.toggle("selected", ooption == option);
+
+          });
+          if (select.value !== option.dataset.value) {
+            select.value = option.dataset.value;
+            resetadvancednetwork();
+          }
+        };
+      });
+    });
   };
   updateUI();
   /* buttons */
@@ -122,22 +137,10 @@ currentSlide().onEnter = async (controller) => {
     await controller.pauseTraining(updateUI);
   };
 
-
-  d.querySelector('.modelid').onchange = async () => {
-    resetadvancednetwork();
-  };
-
-  d.querySelector('.optimizerid').onchange = async () => {
-    resetadvancednetwork();
-  };
-
   d.querySelector('.learningrate').onchange = async () => {
     resetadvancednetwork();
   };
 
-  d.querySelector('.activation').onchange = async () => {
-    resetadvancednetwork();
-  };
 
 
 

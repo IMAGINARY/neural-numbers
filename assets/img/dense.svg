@@ -1,0 +1,36 @@
+<svg width="35" height="38" viewBox="0 0 35 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.91089 4.00006L17.6887 14.3334" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M3.99976 4L17.9998 24" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M3.99976 4L17.9998 35" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M3.91089 14.3334L17.6887 24.6667" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M4 14L18 35" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M3.91089 24.6667L17.6887 35" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M4 25L18 4" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M17.6887 4L3.91094 14.3333" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M17.6887 14.3334L3.91094 24.6667" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M17.6887 24.6667L3.91094 35" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M17.9998 13L3.99976 35" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M18 4L4 35" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M3.91089 14.3334H17.6887" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M3.91089 4.00006H17.6887" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M3.91089 24.6667H17.6887" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M17.6887 24.6667H31.4665" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M3.91089 35H17.6887" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M31.4663 24.6667L17.6885 35" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M31.4663 14.3334L17.6885 24.6667" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M31.4663 14.3334L17.6885 35" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M31.4663 14.3334L17.6885 14.3334" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M31.4663 14.3334L17.6885 4.00004" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M31.4663 24.6667L17.6885 14.3334" stroke="#0D0D0D" stroke-width="0.5"/>
+<path d="M31.4663 24.6667L17.6885 4.00002" stroke="#0D0D0D" stroke-width="0.5"/>
+<circle cx="3.4668" cy="3.55554" r="3" fill="#0D0D0D"/>
+<circle cx="17.2444" cy="3.55554" r="3" fill="#0D0D0D"/>
+<circle cx="3.46655" cy="13.8889" r="3" fill="#0D0D0D"/>
+<circle cx="17.2444" cy="13.8889" r="3" fill="#0D0D0D"/>
+<circle cx="31.0222" cy="13.8889" r="3" fill="#0D0D0D"/>
+<circle cx="3.46655" cy="24.2222" r="3" fill="#0D0D0D"/>
+<circle cx="17.2444" cy="24.2222" r="3" fill="#0D0D0D"/>
+<circle cx="31.0222" cy="24.2222" r="3" fill="#0D0D0D"/>
+<circle cx="3.46655" cy="34.5555" r="3" fill="#0D0D0D"/>
+<circle cx="17.2444" cy="34.5555" r="3" fill="#0D0D0D"/>
+</svg>

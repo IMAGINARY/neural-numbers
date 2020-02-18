@@ -360,10 +360,6 @@ a {
   height: 87%;
   margin-top: 3%; }
 
-.train .view .advanced {
-  width: 510px;
-  font-size: 24px; }
-
 .train .menu {
   width: 400px;
   height: 482px;
@@ -492,8 +488,7 @@ a {
   width: 100%;
   height: 100%;
   left: 0;
-  top: 0;
-  }
+  top: 0; }
 
 .train .view > div > canvas {
   height: 100%;
@@ -506,36 +501,92 @@ a {
   z-index: -10; }
 
 .train .advanced {
+  width: 700px;
   pointer-events: all;
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+  padding: 30px;
+  border: 2px #F2F2F2 solid;
+  border-radius: 50px;
+  /*TODO*/ }
 
-.train .advanced .columns {
-  align-items: normal; }
-
-.train .advanced .options {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  /* align-items: flex-start; */
-  padding: 30px; }
-
-.train select {
-  font-family: Roboto;
+.train .parameter .title {
   font-style: normal;
+  font-weight: 500;
   font-size: 24px;
-  line-height: 28px;
-  font-weight: normal;
-  padding: 14px 2px;
+  line-height: 29px;
+  letter-spacing: 0.3em;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  text-align: left;
+  text-transform: uppercase; }
+
+.train .parameter .select {
   width: 100%;
-  background: white;
-  border: 2px solid #000000;
-  box-sizing: border-box;
-  border-radius: 10px;
-  /* overwrite if .menu is drawmode */
-  pointer-events: all;
-  z-index: 2; }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative; }
+  .train .parameter .select .option {
+    width: 200px;
+    height: 100px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 30px; }
+    .train .parameter .select .option.selected {
+      background-color: #FFEF58;
+      font-weight: bold; }
+    .train .parameter .select .option::before {
+      content: "";
+      height: 100%;
+      background: rgba(0, 0, 0, 0.05);
+      border-top-left-radius: 30px;
+      border-bottom-left-radius: 30px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 80% 40px;
+      width: 40%; }
+
+.select.optimizerid {
+  justify-content: center; }
+  .select.optimizerid .option {
+    width: 110px !important; }
+    .select.optimizerid .option:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0; }
+    .select.optimizerid .option:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0; }
+    .select.optimizerid .option::before {
+      visibility: hidden;
+      width: 0px !important; }
+
+.select.modelid > .option:nth-child(1)::before {
+  background-image: url("../../assets/img/dense.svg"); }
+
+.select.modelid > .option:nth-child(2)::before {
+  background-image: url("../../assets/img/cnn.svg"); }
+
+.select.modelid > .option:nth-child(3)::before {
+  background-image: url("../../assets/img/nohidden.svg"); }
+
+.select.activation > .option:nth-child(1)::before {
+  background-image: url("../../assets/img/relu.svg"); }
+
+.select.activation > .option:nth-child(2)::before {
+  background-image: url("../../assets/img/tanh.svg"); }
+
+.select.activation > .option:nth-child(3)::before {
+  background-image: url("../../assets/img/sigmoid.svg"); }
 
 .train input[type=range] {
   width: 100%; }

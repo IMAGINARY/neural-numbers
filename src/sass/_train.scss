@@ -43,11 +43,6 @@
   margin-top: 3%;
 }
 
-.train .view .advanced {
-  width: 510px;
-  font-size: 24px;
-}
-
 .train .menu {
   width: 400px;
   height: 482px;
@@ -211,39 +206,116 @@
 }
 
 .train .advanced {
+  width: 700px;
   pointer-events: all;
   display: flex;
   flex-direction: row;
-}
-
-.train .advanced .columns {
-  align-items: normal;
-}
-
-.train .advanced .options {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  /* align-items: flex-start; */
   padding: 30px;
+  border: 2px $color-gray solid;
+  border-radius: 50px;
+  /*TODO*/
 }
 
-.train select {
-  font-family: Roboto;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 28px;
-  font-weight: normal;
-  padding: 14px 2px;
-  width: 100%;
-  background: white;
-  border: 2px solid #000000;
-  box-sizing: border-box;
-  border-radius: 10px;
-  /* overwrite if .menu is drawmode */
-  pointer-events: all;
-  z-index: 2;
+.train .parameter {
+  .title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    letter-spacing: 0.3em;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .select {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+
+    .option {
+      width: 200px;
+      height: 100px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 24px;
+      display: flex;
+      align-items: center;
+      background: #FFFFFF;
+      border: 1px solid #CCCCCC;
+      box-sizing: border-box;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+      border-radius: 30px;
+
+      &.selected {
+        background-color: $color-yellow;
+        font-weight: bold;
+      }
+
+      &::before {
+        content: "";
+        height: 100%;
+        background: rgba(0, 0, 0, 0.05);
+        border-top-left-radius: 30px;
+        border-bottom-left-radius: 30px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 80% 40px;
+        width: 40%;
+      }
+    }
+  }
+}
+
+.select.optimizerid {
+  justify-content: center;
+
+  .option {
+    width: 110px !important;
+    &:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &::before {
+      visibility: hidden;
+      width: 0px !important;
+    }
+  }
+}
+
+.select.modelid > .option:nth-child(1)::before {
+  background-image: url("../../assets/img/dense.svg");
+}
+
+.select.modelid > .option:nth-child(2)::before {
+  background-image: url("../../assets/img/cnn.svg");
+}
+
+.select.modelid > .option:nth-child(3)::before {
+  background-image: url("../../assets/img/nohidden.svg");
+}
+
+.select.activation > .option:nth-child(1)::before {
+  background-image: url("../../assets/img/relu.svg");
+}
+
+.select.activation > .option:nth-child(2)::before {
+  background-image: url("../../assets/img/tanh.svg");
+}
+
+.select.activation > .option:nth-child(3)::before {
+  background-image: url("../../assets/img/sigmoid.svg");
 }
 
 .train input[type=range] {
