@@ -347,11 +347,10 @@ a {
 
 .train .view {
   height: 510px;
-  /* margin-right: 5px; */
+  margin-right: 5px;
   position: relative;
   display: flex;
-  flex-direction: row;
-  }
+  flex-direction: row; }
 
 .train .view > div {
   visibility: hidden;
@@ -667,8 +666,7 @@ a {
   font-style: normal;
   font-size: 24px;
   padding: 14px 28px;
-  left: 0;
-  }
+  left: 0; }
 
 .train .modeswitch > a::before {
   content: "";
@@ -703,7 +701,7 @@ a {
   display: flex;
   flex-direction: column;
   height: 25vw;
-  /* max-height: 38vh; */
+  max-height: 38vh;
   width: 21vw;
   padding: 10vw 2vw 0 2vw;
   margin-top: 1vh;
@@ -714,8 +712,7 @@ a {
   pointer-events: all;
   background-repeat: no-repeat;
   background-size: contain;
-  background-position: top;
-  }
+  background-position: top; }
 
 .how > .box:nth-child(1) {
   background-image: url("../../assets/img/im1.svg"); }
@@ -894,10 +891,8 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   background: #FFFFFF;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  font-size: 10px;
   padding: 28px;
-  z-index: 30;
-  }
+  z-index: 30; }
 
 .bars {
   display: flex;
