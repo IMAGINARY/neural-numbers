@@ -3,49 +3,45 @@
   margin: 20px;
 }
 
-.how .h2 {
-  font-weight: 500;
-  font-size: 42px;
-  line-height: 49px;
-}
-
 .how > .box {
   display: flex;
   flex-direction: column;
-  padding: 50px 20px;
+  height: 25vw;
+  max-height: 38vh;
   width: 21vw;
+  padding: 10vw 2vw 0 2vw;
+  margin-top: 1vh;
   background: #FFFFFF;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   text-align: center;
   pointer-events: all;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top;
 }
 
-.how > .box > img {
-  width: 0;
-  height: 0;
-  padding: 59px;
-  align-self: center;
-}
-
-.how > .box:nth-child(1) > img {
+.how > .box:nth-child(1) {
   background-image: url("../../assets/img/im1.svg");
 }
 
-.how > .box:nth-child(2) > img {
+.how > .box:nth-child(2) {
   background-image: url("../../assets/img/im2.svg");
 }
 
-.how > .box:nth-child(3) > img {
+.how > .box:nth-child(3) {
   background-image: url("../../assets/img/im3.svg");
+  image-rendering: optimizeSpeed;
 }
 
 .how > .box > .explain {
-  font-size: 28px;
-  line-height: 33px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 29px;
+  padding-bottom: 24px;
   text-align: center;
-  color: #7B7B7B;
-  padding: 10px;
+  color: #0D0D0D;
 }
 
 .how > .box:hover {

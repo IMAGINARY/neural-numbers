@@ -46,9 +46,17 @@ h1 {
   text-align: center;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  /*margin-top: 15vh;*/
-  padding-top: 15.7vh;
-  /*170px on 1080p*/
+  /* margin-top: 15vh; */
+  padding-top: 14vh;
+  margin: 0;
+}
+
+h3 {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 38px;
+  line-height: 46px;
+  text-align: center;
 }
 
 a {
