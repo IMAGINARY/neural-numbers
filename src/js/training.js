@@ -6,11 +6,23 @@ currentSlide().onEnter = async (controller) => {
 
   d.querySelector('.modeswitch .activate').classList.add("visible");
   d.querySelector('.modeswitch .cancel').classList.remove("visible");
-  d.querySelector('.modelid').selectedIndex = 0;
-  d.querySelector('.activation').selectedIndex = 0;
-  d.querySelector('.optimizerid').selectedIndex = 0;
-  d.querySelector('.learningrate').value = -3;
-  d.querySelector('.learningratetxt').innerHTML = "0.001";
+
+  var resetadvancedoptions = () => {
+    d.querySelectorAll(".parameter .select").forEach((select) => {
+      select.querySelectorAll(".option").forEach((option, k) => {
+        option.classList.toggle("selected", k == 0);
+        if (k == 0) {
+          select.value = option.dataset.value;
+        }
+      });
+    });
+    d.querySelector('.learningrate').value = -3;
+    d.querySelector('.learningratetxt').innerHTML = "0.001";
+  };
+
+  resetadvancedoptions();
+
+
 
   const els = {
     trainingProgress: d.querySelector('.imagesused .number'),
@@ -61,11 +73,10 @@ currentSlide().onEnter = async (controller) => {
     d.querySelectorAll(".parameter .select").forEach((select) => {
       select.querySelectorAll(".option").forEach((option) => {
         option.onpointerdown = () => {
-          select.querySelectorAll(".option").forEach((ooption) => {
-            ooption.classList.toggle("selected", ooption == option);
-
-          });
           if (select.value !== option.dataset.value) {
+            select.querySelectorAll(".option").forEach((ooption) => {
+              ooption.classList.toggle("selected", ooption == option);
+            });
             select.value = option.dataset.value;
             resetadvancednetwork();
           }
@@ -126,10 +137,8 @@ currentSlide().onEnter = async (controller) => {
   d.querySelector('.modeswitch').onpointerdown = async () => {
     d.querySelector('.modeswitch .activate').classList.toggle("visible");
     d.querySelector('.modeswitch .cancel').classList.toggle("visible");
-    if (d.querySelector(".modelid").selectedIndex != 0) {
-      d.querySelector(".modelid").selectedIndex = 0;
-      resetadvancednetwork();
-    }
+    resetadvancedoptions();
+    resetadvancednetwork();
     updateUI();
     await controller.pauseTraining(updateUI);
   };
