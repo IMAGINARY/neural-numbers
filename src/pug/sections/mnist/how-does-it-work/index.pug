@@ -1,27 +1,29 @@
 .slide
-  #screenoverlay
   h1 How does it work?
   .how.columns
     .box
       .overlay
-        .backbutton.button Back
-        include what-is-a-neural-network
+        .back.button Back
+        .content
+          include what-is-a-neural-network
       h3 What is a Neural Network?
       .explain A Neural Network is a way to teach computer things.
       .learnmore Learn more
-      
+
     .box
       .overlay
-        .backbutton.button Back
-        include how-does-the-network-learn
+        .back.button Back
+        .content
+          include how-does-the-network-learn
       h3 How Does the Network Learn?
       .explain By trying to get an answer right again and again. Each time we say if the answer was correct.
       .learnmore Learn more
-      
+
     .box
       .overlay
-        .backbutton.button Back
-        include what-is-training-data
+        .back.button Back
+        .content
+          include what-is-training-data
       h3 What is Training Data?
       .explain The training data tells the network when it was right or wrong.
       .learnmore Learn more
@@ -30,23 +32,27 @@
     const d = currentSlide();
 
     const resetOverlays = () => {
-      d.querySelectorAll(".overlay").forEach(o => o.classList.remove("visible"));
-      d.querySelector("#screenoverlay").classList.remove("visible");
+      d.querySelectorAll(".overlay").forEach(o => {
+        o.classList.remove("visible");
+      });
     };
-    
+
     currentSlide().onEnter = async (controller) => {
       //controller.initIntroPaint(document.querySelector("#intropaint"))
-      d.querySelectorAll(".how > .box").forEach(btn => {
-        btn.onpointerdown = () => {
-          btn.querySelector(".overlay").classList.add("visible");
-          d.querySelector("#screenoverlay").classList.add("visible");
+      d.querySelectorAll(".how > .box").forEach(box => {
+        box.querySelector(".learnmore").onpointerdown = () => {
+          box.querySelector(".overlay").classList.add("visible");
         };
       });
-      
-      d.querySelector("#screenoverlay").onpointerdown = resetOverlays;
+
+      d.querySelectorAll(".overlay > .back.button").forEach(btn => {
+        btn.onpointerdown = resetOverlays;
+      });
+
       controller.initIntroPaint(document.querySelector("#normalizepaint"));
+      document.querySelector("body > div.footer > div.navigation > a.button.selected").onpointerdown = resetOverlays;
     };
-    
+
 
 
     currentSlide().onExit = async (controller) => {

@@ -9,7 +9,7 @@
   height: 25vw;
   max-height: 38vh;
   width: 21vw;
-  padding: 10vw 2vw 0 2vw;
+  padding: 10vw 2vw 0;
   margin-top: 1vh;
   background: #FFFFFF;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
@@ -79,5 +79,70 @@
 
   &:hover {
     background: #DDD;
+  }
+}
+
+.how .overlay {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  text-align: justify !important;
+  background: #FFFFFF;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 28px;
+  z-index: 5;
+
+  .back.button {
+    position: absolute;
+    left: 5%;
+    top: 69%;
+    width: 200px;
+  }
+
+  .content {
+    padding: 22vh 30vw 0 22vw;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 29px;
+
+    h2 {
+      position: absolute;
+      top: 10vh;
+      text-align: center;
+      left: 0;
+      width: 100%;
+      font-weight: bold;
+      font-family: $font-stack-gap-sans;
+      font-weight: 500;
+      font-size: 60px;
+      line-height: 140%;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    img {
+      width: 25vw;
+      position: absolute;
+      right: 5vw;
+    }
+  }
+}
+
+/* Adjust font sizes to fit the screen */
+.how > .box:nth-child(3) {
+  .overlay {
+    .content {
+      font-size: 20px;
+      line-height: 24px;
+      .paint p {
+        font-size: 20px !important;
+        text-align: center;
+      }
+    }
   }
 }

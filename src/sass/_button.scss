@@ -31,3 +31,8 @@
   height: 32px;
   display: inline-block;
 }
+
+
+.back.button::before {
+  background-image: url("../../assets/img/backarrow.svg");
+}

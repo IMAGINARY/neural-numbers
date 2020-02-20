@@ -153,15 +153,16 @@
         <script type="text/javascript" src="src/js/training.js"></script>
       </div>
       <div class="slide">
-        <div id="screenoverlay"></div>
         <h1>How does it work?</h1>
         <div class="how columns">
           <div class="box">
             <div class="overlay">
-              <div class="backbutton button">Back</div>
-              <h3>What is a neural network?</h3>
-              <p>Neural networks are mathematical structures which are motivated by how our human brain works. They work with <b>input values</b>, a series of <b>artificial neurons</b> in one or more layers, and <b>output values</b>. Inside an individual computational neuron you can find weights and biases, which are numbers that can change, and functions like sums and the so called activation functions:</p><img src="assets/img/neuron.png" style="width: 95%;">
-              <p>In the case of this exhibit (Neural Numbers), we use an artificial network with 28 x 28 inputs, which are the colour pixel values for the input handwritten number, and one layer of 100 neurons. The output are 10 values, which are the confidence that the input matches one of the numbers from 0 to 9. The default activation function we use is the so called Rectified Linear Unit (ReLU): it just passes on the value of the input, if it is positive, and 0, if it is negative. <i>(In Expert Mode you can choose different activation functions)</i>.</p>
+              <div class="back button">Back</div>
+              <div class="content">
+                <h2>What is a neural network?</h2><img src="assets/img/neuron.png">
+                <p>Neural networks are mathematical structures which are motivated by how our human brain works. They work with <b>input values</b>, a series of <b>artificial neurons</b> in one or more layers, and <b>output values</b>. Inside an individual computational neuron you can find weights and biases, which are numbers that can change, and functions like sums and the so called activation functions:</p>
+                <p>In the case of this exhibit (Neural Numbers), we use an artificial network with 28 x 28 inputs, which are the colour pixel values for the input handwritten number, and one layer of 100 neurons. The output are 10 values, which are the confidence that the input matches one of the numbers from 0 to 9. The default activation function we use is the so called Rectified Linear Unit (ReLU): it just passes on the value of the input, if it is positive, and 0, if it is negative. <i>(In Expert Mode you can choose different activation functions)</i>.</p>
+              </div>
             </div>
             <h3>What is a Neural Network?</h3>
             <div class="explain">A Neural Network is a way to teach computer things.</div>
@@ -169,9 +170,11 @@
           </div>
           <div class="box">
             <div class="overlay">
-              <div class="backbutton button">Back</div>
-              <h3>How does the network learn?</h3>
-              <p>The neural networks learns by iteratively <b>adjusting its weights and biases</b>. For this, so called <b>Training Data</b>, is fed into the network. This is for example the picture of the number 8. Then the weights and biases of the network are adjusted, such that the output confidence of the number 8 is higher than the others. This adjustments are done gradually and depend on a learning rate. The default technique for this adjustment is called <b>Gradient Descent</b>. <i>(In Expert Mode you can choose different learning methods)</i>.</p>
+              <div class="back button">Back</div>
+              <div class="content">
+                <h2>How does the network learn?</h2>
+                <p>The neural networks learns by iteratively <b>adjusting its weights and biases</b>. For this, so called <b>Training Data</b>, is fed into the network. This is for example the picture of the number 8. Then the weights and biases of the network are adjusted, such that the output confidence of the number 8 is higher than the others. This adjustments are done gradually and depend on a learning rate. The default technique for this adjustment is called <b>Gradient Descent</b>. <i>(In Expert Mode you can choose different learning methods)</i>.</p>
+              </div>
             </div>
             <h3>How Does the Network Learn?</h3>
             <div class="explain">By trying to get an answer right again and again. Each time we say if the answer was correct.</div>
@@ -179,24 +182,26 @@
           </div>
           <div class="box">
             <div class="overlay">
-              <div class="backbutton button">Back</div>
-              <h3>What is training data?</h3>
-              <p>Training data is the basis to make a neural network do what you desire. It is usually a large set of sample <b>inputs combined with the desired outputs</b>. Often a big part of the training data (for example 80%) is used to <b>train the network</b>, while the remaining part (for example 20%) is used to <b>test the network</b> and see its performance / accuracy. Training data is very valuable, and fortunately there are open databases like the <b>MNIST database</b> we used for this exhibit.</p>
-              <p>In the case of this exhibit (Neural Numbers), we have 70 000 images of handwritten numbers (input) and the number it depicts:</p><img src="assets/img/mnist.png" style="width: 95%;">
-              <!--TODO: add labels and make this images change-->
-              <p>The training data is “unified or cleaned”, all pictures are 28 x 28 pixels and the image drawn is centered. Whenever you draw a number, your drawing will be transformed to such a sample image.</p>
-              <div class="paint columns" id="normalizepaint">
-                <div class="column">
-                  <div class="input box background">
-                    <canvas class="drawcanvas"></canvas>
+              <div class="back button">Back</div>
+              <div class="content">
+                <h2>What is training data?</h2><img src="assets/img/mnist.png">
+                <!--TODO: add labels and make this images change-->
+                <p>Training data is the basis to make a neural network do what you desire. It is usually a large set of sample <b>inputs combined with the desired outputs</b>. Often a big part of the training data (for example 80%) is used to <b>train the network</b>, while the remaining part (for example 20%) is used to <b>test the network</b> and see its performance / accuracy. Training data is very valuable, and fortunately there are open databases like the <b>MNIST database</b> we used for this exhibit.</p>
+                <p>In the case of this exhibit (Neural Numbers), we have 70 000 images of handwritten numbers (input) and the number it depicts.</p>
+                <p>The training data is “unified or cleaned”, all pictures are 28 x 28 pixels and the image drawn is centered. Whenever you draw a number, your drawing will be transformed to such a sample image.</p>
+                <div class="paint columns" id="normalizepaint">
+                  <div class="column">
+                    <div class="input box background">
+                      <canvas class="drawcanvas"></canvas>
+                    </div>
+                    <p>You</p>
                   </div>
-                  <p>You</p>
-                </div>
-                <div class="column">
-                  <div class="box">
-                    <canvas class="normalizecanvas"></canvas>
+                  <div class="column">
+                    <div class="box">
+                      <canvas class="normalizecanvas"></canvas>
+                    </div>
+                    <p>Normalized Image</p>
                   </div>
-                  <p>Normalized Image</p>
                 </div>
               </div>
             </div>
@@ -209,21 +214,25 @@
           const d = currentSlide();
           
           const resetOverlays = () => {
-            d.querySelectorAll(".overlay").forEach(o => o.classList.remove("visible"));
-            d.querySelector("#screenoverlay").classList.remove("visible");
+            d.querySelectorAll(".overlay").forEach(o => {
+              o.classList.remove("visible");
+            });
           };
           
           currentSlide().onEnter = async (controller) => {
             //controller.initIntroPaint(document.querySelector("#intropaint"))
-            d.querySelectorAll(".how > .box").forEach(btn => {
-              btn.onpointerdown = () => {
-                btn.querySelector(".overlay").classList.add("visible");
-                d.querySelector("#screenoverlay").classList.add("visible");
+            d.querySelectorAll(".how > .box").forEach(box => {
+              box.querySelector(".learnmore").onpointerdown = () => {
+                box.querySelector(".overlay").classList.add("visible");
               };
             });
-            
-            d.querySelector("#screenoverlay").onpointerdown = resetOverlays;
+          
+            d.querySelectorAll(".overlay > .back.button").forEach(btn => {
+              btn.onpointerdown = resetOverlays;
+            });
+          
             controller.initIntroPaint(document.querySelector("#normalizepaint"));
+            document.querySelector("body > div.footer > div.navigation > a.button.selected").onpointerdown = resetOverlays;
           };
           
           
