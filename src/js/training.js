@@ -122,7 +122,7 @@ currentSlide().onEnter = async (controller) => {
   /*expert mode */
 
   var resetadvancednetwork = async () => {
-    await controller.pauseTraining();
+    await controller.pauseTraining(updateUI);
     const learningRate = Math.pow(10, d.querySelector(".learningrate").value);
     d.querySelector(".learningratetxt").innerHTML = learningRate.toPrecision(1);
     controller.resetNetwork(
