@@ -43,6 +43,16 @@ body {
   justify-content: space-evenly;
   align-items: flex-start; }
 
+.alternatives {
+  position: relative;
+  height: 120px; }
+
+.alternatives > * {
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  right: 0; }
+
 h1 {
   font-weight: bold;
   font-family: "gap_sansbold", "Gap Sans", "Exo 2", "Roboto", Arial, sans-serif;

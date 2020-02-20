@@ -24,6 +24,18 @@ body {
   align-items: flex-start;
 }
 
+.alternatives {
+  position: relative;
+  height: 120px;
+}
+
+.alternatives > * {
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
 h1 {
   font-weight: bold;
   font-family: $font-stack-gap-sans;

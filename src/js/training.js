@@ -37,12 +37,9 @@ currentSlide().onEnter = async (controller) => {
       if (controller.paint) {
         controller.paint.clear();
       }
-      document.querySelector("#title").innerHTML = "Test the Network!";
-      //d.querySelector(".menu").classList.add("drawmode");
-    } else {
-      document.querySelector("#title").innerHTML = "Train the Network!";
-      //d.querySelector(".menu").classList.remove("drawmode");
     }
+    document.querySelector(".titletrain").classList.toggle("visible", !controller.testpaint);
+    document.querySelector(".titletest").classList.toggle("visible", controller.testpaint);
 
 
     d.querySelector(".simplenetwork").classList.toggle("visible", !expertmode);
