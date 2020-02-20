@@ -291,8 +291,8 @@ a {
 .paint .normalizecanvas {
   pointer-events: all !important;
   transform: scale(9);
-  image-rendering: pixelated;
-  filter: invert(1);
+  image-rendering: pixelated !important;
+  filter: brightness(0.5) invert(1) brightness(0.95);
   opacity: 0.5; }
 
 .paint .bars {

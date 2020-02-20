@@ -132,16 +132,18 @@
     }
   }
 }
-
 /* Adjust font sizes to fit the screen */
 .how > .box:nth-child(3) {
   .overlay {
     .content {
       font-size: 20px;
       line-height: 24px;
-      .paint p {
-        font-size: 20px !important;
-        text-align: center;
+
+      .paint {
+        p {
+          font-size: 20px !important;
+          text-align: center;
+        }
       }
     }
   }
