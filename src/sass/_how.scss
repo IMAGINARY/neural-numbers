@@ -40,18 +40,48 @@
   background-image: url("../../assets/img/im3.svg");
 }
 
-.how > .box > div {
+.how > .box > .explain {
   font-size: 28px;
   line-height: 33px;
   text-align: center;
   color: #7B7B7B;
+  padding: 10px;
 }
 
 .how > .box:hover {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
 }
 
-.how > .box::after {
-  content: "...";
-  color: #aaa;
+.how .learnmore {
+  align-self: center;
+  width: 250px;
+  height: 48px;
+  background: #F2F2F2;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  font-family: Exo 2;
+  font-style: normal;
+  font-color: #0D0D0D;
+  border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:before {
+    content: "";
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    margin-right: 12px;
+    width: 30px;
+    height: 32px;
+    display: inline-block;
+    background-image: url("../../assets/img/arrow.svg");
+  }
+
+  &:hover {
+    background: #DDD;
+  }
 }
