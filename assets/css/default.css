@@ -335,7 +335,8 @@ a {
 */
 .train {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  align-items: center; }
 
 .train .view {
   height: 510px;
@@ -362,13 +363,13 @@ a {
   font-weight: bold; }
 
 .train .view .simplenetwork {
-  width: 620px;
+  width: 800px;
   position: relative; }
 
 .train .view .bars {
   width: 200px;
   height: 87%;
-  margin-top: 3%; }
+  margin-top: 2%; }
 
 .train .menu {
   width: 400px;
@@ -511,16 +512,30 @@ a {
   z-index: -10; }
 
 .train .advanced {
-  width: 620px;
+  width: 640px;
+  padding-left: 80px;
+  padding-right: 80px;
+  padding-top: 15px;
   pointer-events: all;
   display: flex;
   flex-direction: row;
   border-radius: 50px;
-  /*TODO*/ }
+  /*TODO*/
+  position: relative; }
   .train .advanced .columns {
     justify-content: space-between; }
     .train .advanced .columns .column {
       width: 45%; }
+  .train .advanced::before {
+    background: url("../../assets/img/topcurve.svg") left top no-repeat, url("../../assets/img/bottomcurve.svg") left bottom no-repeat;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100%;
+    height: 108%;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -4%; }
 
 .train .parameter .title {
   font-style: normal;
