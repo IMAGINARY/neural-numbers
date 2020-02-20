@@ -154,42 +154,13 @@ a {
   margin-right: auto;
   margin-left: auto; }
 
-.footer .navbutton {
-  font-style: normal;
-  font-size: 32px;
-  line-height: 37px;
-  font-weight: normal;
-  padding: 14px 28px;
-  margin: 25px;
-  pointer-events: all;
-  border: 1px solid #CCCCCC;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  border-radius: 50px; }
-
-.footer .navbutton:hover {
-  background: #EEEEEE; }
-
-.footer .navbutton.selected {
-  font-weight: bold;
-  background: #FFEF58; }
-
-.footer .navbutton::before {
-  content: "";
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: bottom;
-  margin-right: 12px;
-  width: 30px;
-  height: 32px;
-  display: inline-block; }
-
-.footer .navbutton:nth-child(1)::before {
+.footer .navigation .button:nth-child(1)::before {
   background-image: url("../../assets/img/pen.svg"); }
 
-.footer .navbutton:nth-child(2)::before {
+.footer .navigation .button:nth-child(2)::before {
   background-image: url("../../assets/img/train.svg"); }
 
-.footer .navbutton:nth-child(3)::before {
+.footer .navigation .button:nth-child(3)::before {
   background-image: url("../../assets/img/info.svg");
   height: 25px; }
 
@@ -955,5 +926,34 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 
 .bar.highlighted {
   background: #FFEF58; }
+
+.button {
+  font-style: normal;
+  font-size: 32px;
+  line-height: 37px;
+  font-weight: normal;
+  padding: 14px 28px;
+  margin: 25px;
+  pointer-events: all;
+  border: 1px solid #CCCCCC;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 50px; }
+
+.button:hover {
+  background: #EEEEEE; }
+
+.button.selected {
+  font-weight: bold;
+  background: #FFEF58; }
+
+.button::before {
+  content: "";
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  margin-right: 12px;
+  width: 30px;
+  height: 32px;
+  display: inline-block; }
 
 /*# sourceMappingURL=default.css.map */
