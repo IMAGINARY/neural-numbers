@@ -2,7 +2,7 @@
 
 A widget that trains a neuronal network by the MNIST database.
 
-It is hosted on [https://imaginary.github.io/mnist-exhibit/](https://imaginary.github.io/mnist-exhibit/).
+Check out the [online demo](https://imaginary.github.io/neural-numbers/).
 
 ## Compilation
 
