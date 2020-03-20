@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle,no-param-reassign */
 /*
 written by Christian Stussak, licensed under the Apache License 2.0.
 copy from https://github.com/IMAGINARY/content-slider/blob/master/js/IdleDetector.js
@@ -6,21 +7,20 @@ copy from https://github.com/IMAGINARY/content-slider/blob/master/js/IdleDetecto
 const defaultConstructorParams = {
   eventTypes: [
     'pointerdown',
-    //'pointermove',
+    // 'pointermove',
     'pointerup',
     'pointercancel',
     'keydown',
     'keyup',
   ],
-  domElement: document
+  domElement: document,
 };
 
-class IdleDetector {
-
+export default class IdleDetector {
   constructor(params = {}) {
     const {
       eventTypes,
-      domElement
+      domElement,
     } = Object.assign(Object.assign({}, defaultConstructorParams), params);
     this._eventTypes = eventTypes;
     this._domElement = domElement;
@@ -33,44 +33,52 @@ class IdleDetector {
   }
 
   _init() {
-    this._eventTypes.forEach(type => this._domElement.addEventListener(type, this._nonIdleHandler, true));
+    this._eventTypes.forEach(type => this._domElement.addEventListener(
+      type, this._nonIdleHandler, true
+    ));
   }
 
   _deinit() {
-    this._eventTypes.forEach(type => this._domElement.removeEventListener(type, this._nonIdleHandler, true));
+    this._eventTypes.forEach(type => this._domElement.removeEventListener(
+      type, this._nonIdleHandler, true
+    ));
   }
 
   _setTimeoutInternal(repeat, func, timeoutDelay, ...args) {
     // event handlers should only be active if there are pending timeouts
-    if (Object.keys(this._timers).length === 0)
+    if (Object.keys(this._timers).length === 0) {
       this._init();
+    }
 
-    if (typeof timeoutDelay === 'undefined')
+    if (typeof timeoutDelay === 'undefined') {
       timeoutDelay = 0;
-    const id = this._maxId++;
+    }
+    this._maxId += 1;
+    const id = this._maxId;
     const timers = this._timers;
     const timer = {
-      id: id,
-      repeat: repeat,
-      timeoutDelay: timeoutDelay,
+      id,
+      repeat,
+      timeoutDelay,
       windowTimeoutId: 0,
-      callback: function() {
-        if (!repeat)
+      callback() {
+        if (!repeat) {
           this.delete();
+        }
         func(...args);
       },
-      reset: function() {
+      reset() {
         window.clearTimeout(this.windowTimeoutId);
         this.windowTimeoutId = window.setTimeout(this.callback.bind(this), this.timeoutDelay);
       },
-      clear: function() {
+      clear() {
         window.clearTimeout(this.windowTimeoutId);
         this.windowTimeoutId = 0;
       },
-      delete: function() {
+      delete() {
         this.clear();
         delete timers[id];
-      }
+      },
     };
     timers[id] = timer;
     timer.reset();
@@ -79,48 +87,55 @@ class IdleDetector {
 
   _setIntervalInternal(repeat, func, intervalDelay, timeoutDelay, ...args) {
     // event handlers should only be active if there are pending timeouts
-    if (Object.keys(this._timers).length === 0)
+    if (Object.keys(this._timers).length === 0) {
       this._init();
+    }
 
-    if (typeof intervalDelay === 'undefined')
+    if (typeof intervalDelay === 'undefined') {
       intervalDelay = 0;
-    if (typeof timeoutDelay === 'undefined')
+    }
+    if (typeof timeoutDelay === 'undefined') {
       timeoutDelay = intervalDelay;
-    const id = this._maxId++;
+    }
+    this._maxId += 1;
+    const id = this._maxId;
     const timers = this._timers;
     const timer = {
-      id: id,
-      repeat: repeat,
+      id,
+      repeat,
       hasFired: false,
-      timeoutDelay: timeoutDelay,
-      intervalDelay: intervalDelay,
+      timeoutDelay,
+      intervalDelay,
       windowTimeoutId: 0,
       windowIntervalId: 0,
-      callback: function() {
+      callback() {
         func(...args)
         this.hasFired = true;
       },
-      intervalCallback: function() {
+      intervalCallback() {
         this.windowIntervalId = window.setInterval(this.callback, this.intervalDelay);
         this.callback();
       },
-      reset: function() {
+      reset() {
         this.clear();
-        if (!this.repeat && this.hasFired)
+        if (!this.repeat && this.hasFired) {
           this.delete();
-        else
-          this.windowTimeoutId = window.setTimeout(this.intervalCallback.bind(this), this.timeoutDelay);
+        } else {
+          this.windowTimeoutId = window.setTimeout(
+            this.intervalCallback.bind(this), this.timeoutDelay
+          );
+        }
       },
-      clear: function() {
+      clear() {
         window.clearTimeout(this.windowTimeoutId);
         window.clearInterval(this.windowIntervalId);
         this.windowTimeoutId = 0;
         this.windowIntervalId = 0;
       },
-      delete: function() {
+      delete() {
         this.clear();
         delete timers[id];
-      }
+      },
     };
     timers[id] = timer;
     timer.reset();
@@ -144,19 +159,21 @@ class IdleDetector {
   }
 
   clearTimeout(id) {
-    if (typeof this._timers[id] !== 'undefined')
+    if (typeof this._timers[id] !== 'undefined') {
       this._timers[id].delete();
+    }
 
     // event handlers should only be active if there are pending timeouts
-    if (Object.keys(this._timers).length === 0)
+    if (Object.keys(this._timers).length === 0) {
       this._deinit();
+    }
   }
 
   clearInterval(id) {
     this.clearTimeout(id);
   }
 
-  /***
+  /**
    * Interrupt the idle state and restart the timeouts and intervals.
    */
   reset() {
@@ -164,7 +181,7 @@ class IdleDetector {
     Object.values(this._timers).forEach(timer => timer.reset());
   }
 
-  /***
+  /**
    * Clear all timeouts and intervals.
    */
   clear() {
@@ -172,20 +189,16 @@ class IdleDetector {
     this._deinit();
   }
 
-  /***
+  /**
    * Return the time in ms since the last interruption of the idle state
    * if there is at least one active (interval) timeout
    * registered. Otherwise returns -1;
    * @returns {number}
    */
   getIdleTime() {
-    if (Object.keys(this._timers).length === 0)
+    if (Object.keys(this._timers).length === 0) {
       return -1;
-    else
-      return performance.now() - this._timeOfLastEvent;
+    }
+    return performance.now() - this._timeOfLastEvent;
   }
 }
-
-export {
-  IdleDetector
-};

@@ -1,29 +1,12 @@
-import {
-  Paint
-} from './Paint.js';
+/* globals tf */
+import Paint from './Paint';
+import View from './View';
+import { MnistData } from './MnistData';
+import NeuralNetwork from './NeuralNetwork';
+import ValidationPreview from './ValidationPreview';
+import { LAST_TRAIN_STEP_TIMEOUT } from './constants';
 
-import {
-  View
-} from './View.js';
-
-import {
-  MnistData
-} from './MnistData.js';
-
-import {
-  NeuralNetwork
-} from './NeuralNetwork.js';
-
-import {
-  ValidationPreview
-} from './ValidationPreview.js';
-
-import {
-  LAST_TRAIN_STEP_TIMEOUT
-} from './constants.js';
-
-
-export class Controller {
+export default class Controller {
   constructor() {
     this.view = new View(this);
     this.data = new MnistData();
@@ -32,20 +15,21 @@ export class Controller {
   }
 
   async initIntroPaint(paintel) {
-    if (!this.trainedmodel)
+    if (!this.trainedmodel) {
       this.trainedmodel = await tf.loadLayersModel('assets/models/my-model.json');
+    }
     this.paint = new Paint(paintel, this.trainedmodel, 0.5);
   }
 
   async loadData() {
-    if (!this.trainedmodel)
+    if (!this.trainedmodel) {
       this.trainedmodel = await tf.loadLayersModel('assets/models/my-model.json');
+    }
     if (!this.dataloaded) {
       await this.data.load();
       this.dataloaded = true;
     }
   }
-
 
   async initTrainingEnvironment(els) {
     await this.loadData();
@@ -53,7 +37,8 @@ export class Controller {
     this.nn = new NeuralNetwork(this.vp, els);
     this.paint = new Paint(els.paint, this.nn.model, 0, this.nn.visualization);
     await this.vp.initValidationImages(els);
-    if (this.nn) { //this.nn might have been deleted because in the meanwhile the slide has been skipped
+    // this.nn might have been deleted because in the meanwhile the slide has been skipped
+    if (this.nn) {
       this.vp.updateValidationImages(this.nn.model);
       this.vp.updateAccuracy(this.nn.model);
     }
@@ -67,8 +52,9 @@ export class Controller {
   async startTraining() {
     this.clearDelayedTrainStepPreview();
     this.testpaint = false;
-    if (this.nn)
+    if (this.nn) {
       await this.nn.train(this.data);
+    }
   }
 
   async pauseTraining(cb) {
@@ -104,8 +90,10 @@ export class Controller {
     }, LAST_TRAIN_STEP_TIMEOUT * 1000);
   }
 
-  clearDelayedTrainStepPreview(cb) {
-    if(this.traintimeout) clearTimeout(this.traintimeout);
+  clearDelayedTrainStepPreview() {
+    if (this.traintimeout) {
+      clearTimeout(this.traintimeout);
+    }
   }
 
   toggleTraining(cb) {

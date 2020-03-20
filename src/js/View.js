@@ -1,35 +1,32 @@
-//import 'core-js/stable';
-//import 'regenerator-runtime/runtime';
-
-
-export class View {
+/* eslint-disable no-bitwise,class-methods-use-this,no-param-reassign */
+export default class View {
   constructor(controller) {
     this.controller = controller;
     this.createEvents();
   }
 
   createEvents() {
-    window.addEventListener('DOMContentLoaded', (event) => {
+    window.addEventListener('DOMContentLoaded', () => {
       this.slides = document.querySelectorAll('.slide');
       this.NUMBER_OF_SLIDES = this.slides.length;
-      //document.querySelector("#backbutton").onpointerdown = (() => this.goBack());
-      //document.querySelector("#nextbutton").onpointerdown = (() => this.goNext());
+      // document.querySelector("#backbutton").onpointerdown = (() => this.goBack());
+      // document.querySelector("#nextbutton").onpointerdown = (() => this.goNext());
       this.showSlideByURL();
     });
 
-
-    window.onhashchange = (event) => {
+    window.onhashchange = () => {
       this.showSlideByURL();
     };
 
     window.addEventListener('keydown', (event) => {
-      const key = event.key;
       switch (event.key) {
-        case "ArrowLeft":
+        case 'ArrowLeft':
           this.goBack();
           break;
-        case "ArrowRight":
+        case 'ArrowRight':
           this.goNext();
+          break;
+        default:
           break;
       }
     });
@@ -45,10 +42,10 @@ export class View {
 
   getCurrentSlideID() {
     let hash = window.location.hash.substring(1);
-    if (hash === "") {
+    if (hash === '') {
       hash = 1;
     } else {
-      hash = (hash | 0);
+      hash |= 0;
     }
     return hash - 1;
   }
@@ -70,17 +67,19 @@ export class View {
     document.querySelector('#navcircles').childNodes[id].classList.add('selected');
     */
 
-    document.querySelector('.footer .navigation').childNodes.forEach(btn => {
+    document.querySelector('.footer .navigation').childNodes.forEach((btn) => {
       btn.classList.remove('selected');
     });
     document.querySelector('.footer .navigation').childNodes[id].classList.add('selected');
 
-    this.slides.forEach(slide => {
-      if (slide.onExit && slide.open)
+    this.slides.forEach((slide) => {
+      if (slide.onExit && slide.open) {
         slide.onExit(this.controller);
+      }
       slide.open = false;
       slide.className = 'slide';
     });
+
     if (this.slides[id]) {
       this.slides[id].open = true;
       this.slides[id].classList.add('visible');
@@ -91,15 +90,16 @@ export class View {
         this.slides[id].onEnter(this.controller);
       }
       /*
-      ["backbutton", "nextbutton"].forEach(b => {
-        const el = document.querySelector("#" + b);
-        if (this.slides[id][b]) {
-          el.innerHTML = this.slides[id][b];
-          el.classList.add('visible');
-        } else {
-          el.classList.remove('visible');
-        }
-      });*/
+        ["backbutton", "nextbutton"].forEach(b => {
+          const el = document.querySelector("#" + b);
+          if (this.slides[id][b]) {
+            el.innerHTML = this.slides[id][b];
+            el.classList.add('visible');
+          } else {
+            el.classList.remove('visible');
+          }
+        });
+      */
     }
   }
 }

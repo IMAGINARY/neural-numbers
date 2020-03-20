@@ -1,14 +1,17 @@
-const NUM_EXAMPLES = 50; //TODO
+/* eslint-disable no-await-in-loop */
+/* globals tf */
+const NUM_EXAMPLES = 50; // TODO
 
-export class ValidationPreview {
+export default class ValidationPreview {
   constructor(data, els) {
     this.data = data;
     this.els = els;
 
-    this.accuracy = this.displayedAccuracy = 0;
+    this.displayedAccuracy = 0;
+    this.accuracy = this.displayedAccuracy;
     this.isanimating = true;
     this.acccbs = [];
-    //this.animate();
+    // this.animate();
   }
 
   async initValidationImages() {
@@ -16,17 +19,16 @@ export class ValidationPreview {
       this.digittext = [];
       this.digitcontainer = [];
       // Get the examples
-      const examples = this.examples = this.data.nextTestBatch(NUM_EXAMPLES);
-      const examplelabels = this.examplelabels = await examples.labels.argMax([-1]).dataSync();
+      this.examples = this.data.nextTestBatch(NUM_EXAMPLES);
+      const { examples } = this;
+      this.examplelabels = await examples.labels.argMax([-1]).dataSync();
 
       const container = document.createElement('div');
-      for (let i = 0; i < NUM_EXAMPLES; i++) {
-        const imageTensor = tf.tidy(() => {
-          // Reshape the image to 28x28 px
-          return examples.xs
-            .slice([i, 0], [1, examples.xs.shape[1]])
-            .reshape([28, 28, 1]);
-        });
+      for (let i = 0; i < NUM_EXAMPLES; i += 1) {
+        // Reshape the image to 28x28 px
+        const imageTensor = tf.tidy(() => examples.xs
+          .slice([i, 0], [1, examples.xs.shape[1]])
+          .reshape([28, 28, 1]));
 
         const canvas = document.createElement('canvas');
         this.digitcontainer[i] = document.createElement('div');
@@ -40,9 +42,8 @@ export class ValidationPreview {
       }
       //
       this.els.validationImages.appendChild(container);
-      //document.body.appendChild(container);
+      // document.body.appendChild(container);
     }
-
   }
 
   async updateValidationImages(model) {
@@ -53,16 +54,15 @@ export class ValidationPreview {
       });
       //  console.log(preds);
 
-      for (let i = 0; i < NUM_EXAMPLES; i++) {
-        //digittext[i].innerHTML = `${values[i]} (${examplelabels[i]})`;
+      for (let i = 0; i < NUM_EXAMPLES; i += 1) {
+        // digittext[i].innerHTML = `${values[i]} (${examplelabels[i]})`;
         this.digittext[i].innerHTML = `${values[i]}`;
-        this.digitcontainer[i].style.backgroundColor = (values[i] == this.examplelabels[i]) ? 'green' : 'red';
+        this.digitcontainer[i].style.backgroundColor = (values[i] === this.examplelabels[i]) ? 'green' : 'red';
       }
     }
   }
 
   async updateAccuracy(model, TEST_DATA_SIZE = 100) {
-    let testXs, testYs;
     this.accuracy = tf.tidy(() => {
       const d = this.data.nextTestBatch(TEST_DATA_SIZE);
       const testXs = d.xs.reshape([TEST_DATA_SIZE, 28, 28, 1]);
@@ -70,27 +70,38 @@ export class ValidationPreview {
       return model.evaluate(testXs, testYs)[1].dataSync();
     });
 
-    if (TEST_DATA_SIZE < 1000 && this.accuracy > 0.9)
-      await this.updateAccuracy(model, 1000); //compute more exact accuracy if it is close to 100%
-    //this.els.validationAccuracy.innerHTML = `Accuracy on validation data (approx.): ${(acc * 1000 | 0)/10} %`;
+    if (TEST_DATA_SIZE < 1000 && this.accuracy > 0.9) {
+      // compute more exact accuracy if it is close to 100%
+      await this.updateAccuracy(model, 1000);
+    }
+    // this.els.validationAccuracy.innerHTML =
+    // `Accuracy on validation data (approx.): ${(acc * 1000 | 0)/10} %`;
+    this.els.validationAccuracy.innerHTML = `${(this.accuracy < 0.9)
+      ? Math.round(this.accuracy * 100)
+      : Math.round(this.accuracy * 1000) / 10}%`;
 
-    this.els.validationAccuracy.innerHTML = `${(this.accuracy < 0.9) ? Math.round(this.accuracy * 100) : Math.round(this.accuracy * 1000) /10}%`;
-
-    //run all callbacks for a lower accuracy
+    // run all callbacks for a lower accuracy
     this.acccbs.filter(p => p.acc <= this.accuracy).map(p => (p.cb)());
-    //delete all callbacks that have been run
+    // delete all callbacks that have been run
     this.acccbs = this.acccbs.filter(p => p.acc > this.accuracy);
   }
 
   /* This function is not used anymore: smooth rendering of accuracy */
   animate() {
-    if (!this.isanimating)
+    if (!this.isanimating) {
       return;
+    }
     const alpha = 0.05;
     this.displayedAccuracy = (1 - alpha) * this.displayedAccuracy + alpha * this.accuracy;
-    //this.els.validationAccuracy.style = `--angle: ${(1-this.displayedAccuracy)*360}deg;`;
-    //this.els.validationAccuracy.firstElementChild.innerHTML = `${(this.displayedAccuracy < 0.95) ? Math.round(this.displayedAccuracy * 100) : Math.round(this.displayedAccuracy * 1000) /10}%`;
-    this.els.validationAccuracy.innerHTML = `${(this.displayedAccuracy < 0.95) ? Math.round(this.displayedAccuracy * 100) : Math.round(this.displayedAccuracy * 1000) /10}%`;
+    // this.els.validationAccuracy.style = `--angle: ${(1-this.displayedAccuracy)*360}deg;`;
+    // const accuracy = (this.displayedAccuracy < 0.95)
+    //  ? Math.round(this.displayedAccuracy * 100)
+    //  : Math.round(this.displayedAccuracy * 1000) /10;
+    // this.els.validationAccuracy.firstElementChild.innerHTML = `${accuracy}%`;
+    const accuracy = (this.displayedAccuracy < 0.95)
+      ? Math.round(this.displayedAccuracy * 100)
+      : Math.round(this.displayedAccuracy * 1000) / 10;
+    this.els.validationAccuracy.innerHTML = `${accuracy}%`;
     window.requestAnimationFrame(() => this.animate());
   }
 
@@ -103,8 +114,8 @@ export class ValidationPreview {
 
   addAccuracyCallback(acc, cb) {
     this.acccbs.push({
-      cb: cb,
-      acc: acc
+      cb,
+      acc,
     });
   }
 }
