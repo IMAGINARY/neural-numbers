@@ -1,0 +1,35 @@
+
+<div class="slide">
+  <div class="box header">
+    <h1>Split the MNIST database into a training-set and a validation set.</h1>
+  </div>
+  <div class="box middle">
+    We will use a large fraction of the images for training a neural network.
+    We consider the training process as succesful if it generalizes to images outside of the training set.
+    Therefore, we are using the remaining part of the images, that have not
+    been used for training, for validation.
+  </div>
+  <div class="split training step3">
+    <div class="space"> </div>
+    <div class="speech-bubble-anchor"><b>80%</b> of the images are used for <b>training</b>
+      <div class="bubble">These are 0.8*70 000 = 56 000 images!</div>
+    </div>
+  </div>
+  <div class="split validation step3">
+    <div class="space"> </div>
+    <div><b>20%</b> of the images are used for <b>validation</b></div>
+  </div>
+  <div class="box navigation">   <a href="index.html#4">start training</a></div>
+  <script type="text/javascript">
+    currentSlide().onEnter = () => {
+      document.querySelector('.background').style.filter = 'blur(0px)';
+      setTimeout(()=>{
+        document.querySelector('.step3 .bubble').classList.add('visible');
+      }, 3000);
+    };
+    currentSlide().onExit = () => {
+      document.querySelector('.background').style.filter = 'blur(10px)';
+      document.querySelector('.step3 .bubble').classList.remove('visible');
+    };
+  </script>
+</div>

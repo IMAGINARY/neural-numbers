@@ -1,6 +1,6 @@
 /* globals tf */
 /* eslint-disable no-bitwise */
-import { PAINT_CLEAR_TIMEOUT } from './constants';
+import { PAINT_CLEAR_TIMEOUT } from './config';
 import BarChart from './BarChart';
 
 let SCALE_FACTOR = 9;

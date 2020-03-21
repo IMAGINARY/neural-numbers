@@ -1,0 +1,33 @@
+
+<div class="slide">
+  <h1>Play Against your Network!</h1>
+  <div class="paint columns" id="intropaint">
+    <div class="column">
+      <div class="inputcontainer">
+        <canvas class="drawcanvas"></canvas>
+        <div class="input box">
+          <p>Draw Here</p>
+        </div>
+      </div>
+      <p>You</p>
+    </div>
+    <div class="column">
+      <div class="output box">
+        <p class="digit">3</p>
+      </div>
+      <p>Computer</p>
+    </div>
+  </div>
+  <script type="text/javascript">
+    currentSlide().backbutton = "Back";
+    currentSlide().nextbutton = "Start from the Beginning";
+    currentSlide().onEnter = async (controller) => {
+      //TODO: use trained network here
+      controller.initIntroPaint(document.querySelector("#intropaint"))
+    };
+    
+    currentSlide().onExit = async (controller) => {
+      controller.cleanupPaint();
+    };
+  </script>
+</div>

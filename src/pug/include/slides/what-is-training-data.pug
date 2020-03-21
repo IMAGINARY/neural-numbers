@@ -23,11 +23,3 @@
           p Normalized Image
 
       a.back.button(href='#how-does-it-work') Back
-  script(type="text/javascript").
-    currentSlide().onEnter = async (controller) => {
-      controller.initIntroPaint(document.querySelector("#normalizepaint"));
-    }
-
-    currentSlide().onExit = async (controller) => {
-      controller.cleanupPaint();
-    };

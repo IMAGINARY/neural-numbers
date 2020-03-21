@@ -1,0 +1,51 @@
+
+<div class="slide">
+  <div class="split training">
+    <h3>Training network   </h3>
+    <div class="speech-bubble-anchor">
+      <div class="bubble whentrainingpaused">Click here to restart or continue training.</div>
+    </div>
+    <div class="box" id="training-controls" style="visibility:hidden;"><a class="reset" href="#4" title="reset training">⟲</a> | <a class="pause-resume" href="#4" title="pause/resume training">▮▮</a> | <a class="single-step" href="#4" title="train a single step">▮▶</a></div>
+    <div id="training-progress"></div>
+    <canvas id="network"></canvas>
+    <div class="speech-bubble-anchor" style="position:relative; left: -20vw;">
+      <div class="bubble visible" id="introbubble">We are using the MNIST data-set to train a neuronal network.</div>
+    </div>
+  </div>
+  <div class="split validation">
+    <h3>Validation</h3>
+    <div>Accuracy on entire validation set:
+      <p>
+        <div class="speech-bubble-anchor">
+          <div class="bubble whentrainingpaused">Further training might enhance this accuracy.</div>
+        </div>
+        <div id="validation-accuracy" style="--angle:360deg">
+          <div>0%</div>
+        </div>
+      </p>
+    </div>
+    <div>50 randomly choosen images of the validation set:
+      <div id="validation-images"></div>
+    </div>
+    <p></p>
+  </div>
+  <div class="box" id="previewpaint">
+    <div>Test the just trained network</div>
+    <div class="paint">
+      <div>
+        <p><b>Draw</b> a digit here:</p>
+        <canvas class="drawcanvas"></canvas>
+      </div>
+      <div>
+        <p>The neural network sees...</p>
+        <canvas class="normalizecanvas"></canvas>
+      </div>
+      <div> 
+        <p>... and predicts</p>
+        <div class="bars"></div>
+      </div>
+    </div>
+  </div>
+  <div class="box navigation">   <a href="index.html#1">restart</a></div>
+  <script type="text/javascript" src="src/js/training-validation.js"></script>
+</div>

@@ -1,14 +1,12 @@
 /* globals tf */
 import Paint from './Paint';
-import View from './View';
 import { MnistData } from './MnistData';
 import NeuralNetwork from './NeuralNetwork';
 import ValidationPreview from './ValidationPreview';
-import { LAST_TRAIN_STEP_TIMEOUT } from './constants';
+import { LAST_TRAIN_STEP_TIMEOUT } from './config';
 
 export default class Controller {
   constructor() {
-    this.view = new View(this);
     this.data = new MnistData();
     this.dataloaded = false;
     this.testpaint = true;

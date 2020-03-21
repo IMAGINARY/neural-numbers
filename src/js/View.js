@@ -1,10 +1,13 @@
 /* eslint-disable no-bitwise,class-methods-use-this,no-param-reassign */
+import Slide from './slide';
+
 export default class View {
   constructor(controller) {
     this.controller = controller;
     this.slides = Array.from(document.querySelectorAll('[data-slide]'))
       .map(element => element.getAttribute('data-slide'));
     this.currentSlide = 0;
+    this.currentSlideController = null;
 
     window.onhashchange = () => {
       this.doSlideChange();
@@ -85,8 +88,12 @@ export default class View {
       element.classList.remove('entering');
     });
 
-    const element = document.querySelector(`[data-slide=${currentSlide}]`);
+    if (this.currentSlideController) {
+      this.currentSlideController.onExit();
+      this.currentSlideController = null;
+    }
 
+    const element = document.querySelector(`[data-slide=${currentSlide}]`);
     if (element) {
       const nav = element.getAttribute('data-slide-nav') || currentSlide;
       const menuItem = document.querySelector(`.footer .navigation [href='#${nav}']`);
@@ -101,6 +108,12 @@ export default class View {
       }, 0);
       if (element.onEnter) {
         element.onEnter(this.controller);
+      }
+
+      const SlideClass = Slide.getClass(currentSlide);
+      if (SlideClass) {
+        this.currentSlideController = new SlideClass(element, this.controller);
+        this.currentSlideController.onEnter();
       }
     }
   }

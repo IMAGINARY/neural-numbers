@@ -1,0 +1,30 @@
+
+<div class="slide">
+  <div class="box middle">We use a collection of 70 000 labeled images. We use it to train a neural network that classifies images of the digits 0,1,2,3,4,5,6,7,8 and 9.
+    <div id="status">loading MNIST data...</div>
+  </div>
+  <div class="box navigation"> <a href="index.html#3">continue</a></div>
+  <script type="text/javascript">
+    let changingbackground = false;
+    let curimgid = 0;
+    backgroundanimation = () => {
+      if(!changingbackground) return;
+      curimgid++;
+      curimgid %= 5;
+      document.querySelector('.background').style.backgroundImage = `url("assets/img/background${curimgid}.png")`;
+      window.setTimeout(backgroundanimation, 1500);
+    };
+    
+    currentSlide().onEnter = async (controller) => {
+      document.querySelector('.background').style.filter = 'blur(0px)';
+      changingbackground = true;
+      window.setTimeout(backgroundanimation, 2000);
+      await controller.loadData();
+      document.querySelector('#status').innerHTML = "";
+    };
+    currentSlide().onExit = () => {
+      document.querySelector('.background').style.filter = 'blur(10px)';
+      changingbackground = false;
+    };
+  </script>
+</div>
