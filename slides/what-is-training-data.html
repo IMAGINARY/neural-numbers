@@ -1,0 +1,35 @@
+
+<div class="slide" data-slide="what-is-training-data" data-slide-nav="how-does-it-work">
+  <div class="how">
+    <div class="content">
+      <h2>What is training data?</h2><img src="assets/img/mnist.png"/>
+      <!--TODO: add labels and make this images change-->
+      <p>Training data is the basis to make a neural network do what you desire. It is usually a large set of sample <b>inputs combined with the desired outputs</b>. Often a big part of the training data (for example 80%) is used to <b>train the network</b>, while the remaining part (for example 20%) is used to <b>test the network</b> and see its performance / accuracy. Training data is very valuable, and fortunately there are open databases like the <b>MNIST database</b> we used for this exhibit.</p>
+      <p>In the case of this exhibit (Neural Numbers), we have 70 000 images of handwritten numbers (input) and the number it depicts.</p>
+      <p>The training data is “unified or cleaned”, all pictures are 28 x 28 pixels and the image drawn is centered. Whenever you draw a number, your drawing will be transformed to such a sample image.</p>
+      <div class="paint columns" id="normalizepaint">
+        <div class="column">
+          <div class="input box background">
+            <canvas class="drawcanvas"></canvas>
+          </div>
+          <p>You</p>
+        </div>
+        <div class="column">
+          <div class="output box">
+            <canvas class="normalizecanvas"></canvas>
+          </div>
+          <p>Normalized Image</p>
+        </div>
+      </div><a class="back button" href="#how-does-it-work">Back</a>
+    </div>
+  </div>
+  <script type="text/javascript">
+    currentSlide().onEnter = async (controller) => {
+      controller.initIntroPaint(document.querySelector("#normalizepaint"));
+    }
+    
+    currentSlide().onExit = async (controller) => {
+      controller.cleanupPaint();
+    };
+  </script>
+</div>

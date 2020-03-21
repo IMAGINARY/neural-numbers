@@ -1,4 +1,4 @@
-.slide
+.slide(data-slide='training')
   h1.alternatives
     .titletrain.visible Train the Network!
     .titletest Test the Network!
@@ -42,7 +42,7 @@
                 .option(data-value="adam").selected adam
                 .option(data-value="sgd") Stochastic Gradient Descent
       .bars.vertical.visible
-      
+
     .menu
       .box
         .info
@@ -55,9 +55,9 @@
             div Predicted Accuracy
         .v-seperator
         .controls
-          a(href="#2", title="reset training").reset
-          a(href="#2", title="pause/resume training").pause-resume.pause
-          a(href="#2", title="train a single step").single-step
+          a(href="#training", title="reset training").reset
+          a(href="#training", title="pause/resume training").pause-resume.pause
+          a(href="#training", title="train a single step").single-step
         //a.button.testit -&gt; Test the Network!
       .modeswitch
         a.activate Activate Advanced Mode

@@ -82,19 +82,8 @@
   }
 }
 
-.how .overlay {
-  visibility: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+.how {
   text-align: justify !important;
-  background: #FFFFFF;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  padding: 0;
-  z-index: 5;
 
   .back.button {
     position: absolute;

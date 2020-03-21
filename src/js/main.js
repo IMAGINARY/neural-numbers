@@ -7,7 +7,7 @@ controller.loadData();
 
 const id = new IdleDetector();
 id.setTimeout(() => {
-  window.location.hash = '#1';
+  window.location.hash = '#intro';
   window.location.reload();
   controller.loadData();
 },

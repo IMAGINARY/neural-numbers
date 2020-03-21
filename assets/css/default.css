@@ -736,31 +736,20 @@ a {
   .how .learnmore:hover {
     background: #DDD; }
 
-.how .overlay {
-  visibility: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  text-align: justify !important;
-  background: #FFFFFF;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  padding: 0;
-  z-index: 5; }
-  .how .overlay .back.button {
+.how {
+  text-align: justify !important; }
+  .how .back.button {
     position: absolute;
     left: 5%;
     top: 69%;
     width: 200px; }
-  .how .overlay .content {
+  .how .content {
     padding: 22vh 30vw 0 22vw;
     font-style: normal;
     font-weight: normal;
     font-size: 24px;
     line-height: 29px; }
-    .how .overlay .content h2 {
+    .how .content h2 {
       position: absolute;
       top: 10vh;
       text-align: center;
@@ -773,7 +762,7 @@ a {
       line-height: 140%;
       letter-spacing: 0.05em;
       text-transform: uppercase; }
-    .how .overlay .content img {
+    .how .content img {
       width: 24vw;
       position: absolute;
       right: 3vw; }

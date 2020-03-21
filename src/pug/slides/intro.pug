@@ -1,0 +1,34 @@
+.slide#intropaint(data-slide='intro')
+  h1 Can I read your number?
+  .paint.columns
+    .column
+      .input.box.background
+        canvas.drawcanvas
+      p You
+    .column.confidences.visible
+      .bars
+    .column
+      .output.box
+        p.digit 3
+      p AI
+
+  script(type="text/javascript").
+    currentSlide().onEnter = async (controller) => {
+      const d = document.querySelector("#intropaint");
+      if(d.querySelector(".showconfidences"))
+        d.querySelector(".showconfidences").checked = true;
+      d.querySelector(".confidences").classList.add("visible");
+      controller.initIntroPaint(d);
+      if(d.querySelector(".showconfidences")) d.querySelector(".showconfidences").onchange = () => {
+        if(d.querySelector(".showconfidences").checked) {
+          d.querySelector(".confidences").classList.add("visible");
+        } else {
+          d.querySelector(".confidences").classList.remove("visible");
+        }
+      }
+
+    };
+
+    currentSlide().onExit = async (controller) => {
+      controller.cleanupPaint();
+    };

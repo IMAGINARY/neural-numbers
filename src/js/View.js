@@ -2,21 +2,14 @@
 export default class View {
   constructor(controller) {
     this.controller = controller;
-    this.createEvents();
-  }
-
-  createEvents() {
-    window.addEventListener('DOMContentLoaded', () => {
-      this.slides = document.querySelectorAll('.slide');
-      this.NUMBER_OF_SLIDES = this.slides.length;
-      // document.querySelector("#backbutton").onpointerdown = (() => this.goBack());
-      // document.querySelector("#nextbutton").onpointerdown = (() => this.goNext());
-      this.showSlideByURL();
-    });
+    this.slides = Array.from(document.querySelectorAll('[data-slide]'))
+      .map(element => element.getAttribute('data-slide'));
+    this.currentSlide = 0;
 
     window.onhashchange = () => {
-      this.showSlideByURL();
+      this.doSlideChange();
     };
+    this.doSlideChange();
 
     window.addEventListener('keydown', (event) => {
       switch (event.key) {
@@ -32,74 +25,83 @@ export default class View {
     });
   }
 
+  goFirst() {
+    if (this.slides.length > 0) {
+      this.goTo(this.slides[0]);
+    }
+  }
+
   goNext() {
-    this.setSlide((this.getCurrentSlideID() + 1) % this.NUMBER_OF_SLIDES);
+    const currentID = this.slides.indexOf(this.getCurrentSlide());
+    if (currentID < this.slides.length - 1) {
+      this.goTo(this.slides[currentID + 1]);
+    }
   }
 
   goBack() {
-    this.setSlide((this.getCurrentSlideID() - 1 + this.NUMBER_OF_SLIDES) % this.NUMBER_OF_SLIDES);
+    const currentID = this.slides.indexOf(this.getCurrentSlide());
+    if (currentID > 0) {
+      this.goTo(this.slides[currentID - 1]);
+    }
   }
 
-  getCurrentSlideID() {
-    let hash = window.location.hash.substring(1);
-    if (hash === '') {
-      hash = 1;
-    } else {
-      hash |= 0;
+  goTo(id) {
+    if (this.slides.includes(id)) {
+      window.location.hash = id;
     }
-    return hash - 1;
+  }
+
+  getCurrentSlide() {
+    const hash = window.location.hash.substring(1);
+    if (this.slides.length === 0) {
+      return null;
+    }
+
+    return (hash !== '' ? hash : this.slides[0]);
   }
 
   setSlide(id) {
-    window.location.hash = id + 1;
+    window.location.hash = this.slides[id];
   }
 
   showSlideByURL() {
     this.showSlide(this.getCurrentSlideID());
   }
 
-  showSlide(id) {
-    /*
-    //For navigation circles
-    document.querySelector('#navcircles').childNodes.forEach(circ => {
-      circ.classList.remove('selected');
-    });
-    document.querySelector('#navcircles').childNodes[id].classList.add('selected');
-    */
+  doSlideChange() {
+    const currentSlide = this.getCurrentSlide();
 
     document.querySelector('.footer .navigation').childNodes.forEach((btn) => {
       btn.classList.remove('selected');
     });
-    document.querySelector('.footer .navigation').childNodes[id].classList.add('selected');
 
     this.slides.forEach((slide) => {
-      if (slide.onExit && slide.open) {
-        slide.onExit(this.controller);
+      const element = document.querySelector(`[data-slide=${slide}]`);
+      if (element.onExit && element.open) {
+        element.onExit(this.controller);
       }
-      slide.open = false;
-      slide.className = 'slide';
+      element.open = false;
+      element.classList.remove('visible');
+      element.classList.remove('entering');
     });
 
-    if (this.slides[id]) {
-      this.slides[id].open = true;
-      this.slides[id].classList.add('visible');
-      setTimeout(() => {
-        this.slides[id].classList.add('entering');
-      }, 0);
-      if (this.slides[id].onEnter) {
-        this.slides[id].onEnter(this.controller);
+    const element = document.querySelector(`[data-slide=${currentSlide}]`);
+
+    if (element) {
+      const nav = element.getAttribute('data-slide-nav') || currentSlide;
+      const menuItem = document.querySelector(`.footer .navigation [href='#${nav}']`);
+      if (menuItem) {
+        menuItem.classList.add('selected');
       }
-      /*
-        ["backbutton", "nextbutton"].forEach(b => {
-          const el = document.querySelector("#" + b);
-          if (this.slides[id][b]) {
-            el.innerHTML = this.slides[id][b];
-            el.classList.add('visible');
-          } else {
-            el.classList.remove('visible');
-          }
-        });
-      */
+
+      element.open = true;
+      element.classList.add('visible');
+      setTimeout(() => {
+        element.classList.add('entering');
+      }, 0);
+      if (element.onEnter) {
+        element.onEnter(this.controller);
+      }
     }
   }
 }
