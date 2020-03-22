@@ -1,7 +1,7 @@
 /* eslint-disable no-bitwise,class-methods-use-this,no-param-reassign */
 import Slide from './slide';
 
-export default class View {
+export default class SlideShow {
   constructor(controller) {
     this.controller = controller;
     this.slides = Array.from(document.querySelectorAll('[data-slide]'))
@@ -9,15 +9,13 @@ export default class View {
     this.currentSlide = 0;
     this.currentSlideController = null;
 
-    window.onhashchange = () => {
-      this.doSlideChange();
-    };
+    window.onhashchange = () => { this.doSlideChange(); };
     this.doSlideChange();
 
     window.addEventListener('keydown', (event) => {
       switch (event.key) {
         case 'ArrowLeft':
-          this.goBack();
+          this.goPrevious();
           break;
         case 'ArrowRight':
           this.goNext();
@@ -28,12 +26,18 @@ export default class View {
     });
   }
 
+  /**
+   * Go to the first slide
+   */
   goFirst() {
     if (this.slides.length > 0) {
       this.goTo(this.slides[0]);
     }
   }
 
+  /**
+   * Go the net slide
+   */
   goNext() {
     const currentID = this.slides.indexOf(this.getCurrentSlide());
     if (currentID < this.slides.length - 1) {
@@ -41,19 +45,30 @@ export default class View {
     }
   }
 
-  goBack() {
+  /**
+   * Go to the previous slide
+   */
+  goPrevious() {
     const currentID = this.slides.indexOf(this.getCurrentSlide());
     if (currentID > 0) {
       this.goTo(this.slides[currentID - 1]);
     }
   }
 
+  /**
+   * Go to the requested slide
+   * @param {string} id
+   */
   goTo(id) {
     if (this.slides.includes(id)) {
       window.location.hash = id;
     }
   }
 
+  /**
+   * Returns the ID of the current slide
+   * @return {null|string}
+   */
   getCurrentSlide() {
     const hash = window.location.hash.substring(1);
     if (this.slides.length === 0) {
@@ -63,14 +78,11 @@ export default class View {
     return (hash !== '' ? hash : this.slides[0]);
   }
 
-  setSlide(id) {
-    window.location.hash = this.slides[id];
-  }
-
-  showSlideByURL() {
-    this.showSlide(this.getCurrentSlideID());
-  }
-
+  /**
+   * Handles a slide change by modifying the view and navigation
+   *
+   * @private
+   */
   doSlideChange() {
     const currentSlide = this.getCurrentSlide();
 
