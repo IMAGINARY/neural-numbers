@@ -1,8 +1,14 @@
 export default class LangSwitcher {
   constructor(container, config, langChangeCallback) {
+    this.menuVisible = false;
     this.container = container;
     this.config = config;
     this.langChangeCallback = langChangeCallback;
+
+    this.render();
+  }
+
+  render() {
     this.element = document.createElement('div');
     this.element.classList.add('lang-switcher');
 
@@ -19,7 +25,7 @@ export default class LangSwitcher {
     this.menu.classList.add('lang-switcher-menu');
     mask.appendChild(this.menu);
 
-    Object.entries(config.languages).forEach(([code, name]) => {
+    Object.entries(this.config.languages).forEach(([code, name]) => {
       const item = document.createElement(('li'));
       const link = document.createElement('button');
       link.setAttribute('type', 'button');
@@ -37,21 +43,25 @@ export default class LangSwitcher {
     this.menu.style.bottom = `${this.menu.clientHeight * -1 - 10}px`;
 
     window.document.addEventListener('pointerdown', (ev) => {
-      console.log("hiding");
-      this.hideMenu();
+      if (this.menuVisible) {
+        this.hideMenu();
+      }
     });
     this.trigger.addEventListener('pointerdown', (ev) => {
-      console.log("showing");
-      this.showMenu();
-      ev.stopPropagation();
+      if (!this.menuVisible) {
+        this.showMenu();
+        ev.stopPropagation();
+      }
     });
   }
 
   showMenu() {
+    this.menuVisible = true;
     this.menu.classList.add('visible');
   }
 
   hideMenu() {
+    this.menuVisible = false;
     this.menu.classList.remove('visible');
   }
 }

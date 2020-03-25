@@ -26,6 +26,7 @@
   "training-label-reset": "Reset training",
   "training-label-pause": "Pause/Resume training",
   "training-label-step": "Train a single step",
+  "training-label-adv": "Advanced Mode",
   "training-label-adv-activate": "Activate Advanced Mode",
   "training-label-adv-cancel": "Cancel Advanced Mode",
   "how-work-title": "How does it work?",

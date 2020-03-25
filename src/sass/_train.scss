@@ -274,9 +274,12 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
       border-radius: 30px;
 
+      .label {
+        padding: 10px;
+      }
+
       &.selected {
         background-color: $color-yellow;
-        font-weight: bold;
       }
 
       &::before {
@@ -414,7 +417,6 @@
 
 .train .modeswitch .cancel {
   background-color: $color-yellow;
-  font-weight: bold;
 }
 
 .train .learningratetxt {

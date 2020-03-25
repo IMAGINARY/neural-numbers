@@ -20,15 +20,21 @@
         .parameter
           .title(data-i18n-str='training-adv-model-title')
           .select.modelid
-            .option(data-value="dense", data-i18n-str='training-adv-model-dense').selected
-            .option(data-value="cnn", data-i18n-str='training-adv-model-cnn') Convolutional Network
-            .option(data-value="nohidden", data-i18n-str='training-adv-model-nohidden') No hidden layers
+            .option(data-value="dense").selected
+              span.label(data-i18n-str='training-adv-model-dense')
+            .option(data-value="cnn")
+              span.label(data-i18n-str='training-adv-model-cnn')
+            .option(data-value="nohidden")
+              span.label(data-i18n-str='training-adv-model-nohidden')
         .parameter
           .title(data-i18n-str='training-adv-activation-title')
           .select.activation
-            .option(data-value="relu", data-i18n-str='training-adv-activation-relu').selected
-            .option(data-value="tanh", data-i18n-str='training-adv-activation-tanh')
-            .option(data-value="sigmoid", data-i18n-str='training-adv-activation-sigmoid')
+            .option(data-value="relu").selected
+              span.label(data-i18n-str='training-adv-activation-relu')
+            .option(data-value="tanh")
+              span.label(data-i18n-str='training-adv-activation-tanh')
+            .option(data-value="sigmoid")
+              span.label(data-i18n-str='training-adv-activation-sigmoid')
         .columns
           .column
             .parameter
@@ -39,8 +45,10 @@
             .parameter
               .title(data-i18n-str='training-adv-optimizer-title')
               .select.optimizerid
-                .option(data-value="adam", data-i18n-str='training-adv-optimizer-adam').selected
-                .option(data-value="sgd", data-i18n-str='training-adv-optimizer-sgd')
+                .option(data-value="adam").selected
+                  span.label(data-i18n-str='training-adv-optimizer-adam')
+                .option(data-value="sgd")
+                  span.label(data-i18n-str='training-adv-optimizer-sgd')
       .bars.vertical.visible
 
     .menu
@@ -60,5 +68,5 @@
           a(href="#training", data-i18n-str-title="training-label-step").single-step
         //a.button.testit -&gt; Test the Network!
       .modeswitch
-        a.activate(data-i18n-str='training-label-adv-activate')
-        a.cancel(data-i18n-str='training-label-adv-cancel')
+        a.activate(data-i18n-str='training-label-adv')
+        a.cancel(data-i18n-str='training-label-adv')

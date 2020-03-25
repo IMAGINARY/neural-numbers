@@ -143,6 +143,13 @@ export default class TrainingSlide extends Slide {
       await this.controller.pauseTraining(updateUI);
     };
 
+    const rateSlider = d.querySelector('.learningrate');
+    const rateLabel = d.querySelector('.learningratetxt');
+    rateSlider.oninput = () => {
+      const rate = Math.pow(10, rateSlider.value);
+      rateLabel.innerText = rate.toPrecision(1);
+    };
+
     d.querySelector('.learningrate').onchange = async () => {
       resetadvancednetwork();
     };

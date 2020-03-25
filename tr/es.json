@@ -26,6 +26,7 @@
   "training-label-reset": "Reiniciar el entrenamiento",
   "training-label-pause": "Pausar/Reiniciar el entrenamiento",
   "training-label-step": "Entrenar un solo paso",
+  "training-label-adv": "Modo avanzado",
   "training-label-adv-activate": "Activar el modo avanzado",
   "training-label-adv-cancel": "Cancelar el modo avanzado",
   "how-work-title": "¿Cómo funciona?",

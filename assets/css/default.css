@@ -587,9 +587,10 @@ a {
     box-sizing: border-box;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
     border-radius: 30px; }
+    .train .parameter .select .option .label {
+      padding: 10px; }
     .train .parameter .select .option.selected {
-      background-color: #FFEF58;
-      font-weight: bold; }
+      background-color: #FFEF58; }
     .train .parameter .select .option::before {
       content: "";
       height: 100%;
@@ -696,8 +697,7 @@ a {
   background-image: url("../../assets/img/cancel.svg"); }
 
 .train .modeswitch .cancel {
-  background-color: #FFEF58;
-  font-weight: bold; }
+  background-color: #FFEF58; }
 
 .train .learningratetxt {
   font-weight: 500;
@@ -881,7 +881,7 @@ input[type=range]::-webkit-slider-thumb {
   border-radius: 50%;
   margin-top: -15px;
   position: relative;
-  background: #FFEF58;
+  background: #fff;
   border: 1px solid #CCCCCC;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25); }
 
