@@ -3,10 +3,10 @@ import Paint from './Paint';
 import { MnistData } from './MnistData';
 import NeuralNetwork from './NeuralNetwork';
 import ValidationPreview from './ValidationPreview';
-import { LAST_TRAIN_STEP_TIMEOUT } from './config';
 
 export default class Controller {
-  constructor() {
+  constructor(config) {
+    this.config = config;
     this.data = new MnistData();
     this.dataloaded = false;
     this.testpaint = true;
@@ -16,7 +16,12 @@ export default class Controller {
     if (!this.trainedmodel) {
       this.trainedmodel = await tf.loadLayersModel('assets/models/my-model.json');
     }
-    this.paint = new Paint(paintel, this.trainedmodel, 0.5);
+    this.paint = new Paint(
+      paintel,
+      this.trainedmodel,
+      0.5,
+      false,
+      this.config.paintClearTimeout);
   }
 
   async loadData() {
@@ -33,7 +38,13 @@ export default class Controller {
     await this.loadData();
     this.vp = new ValidationPreview(this.data, els);
     this.nn = new NeuralNetwork(this.vp, els);
-    this.paint = new Paint(els.paint, this.nn.model, 0, this.nn.visualization);
+    this.paint = new Paint(
+      els.paint,
+      this.nn.model,
+      0,
+      this.nn.visualization,
+      this.config.paintClearTimeout
+    );
     await this.vp.initValidationImages(els);
     // this.nn might have been deleted because in the meanwhile the slide has been skipped
     if (this.nn) {
@@ -85,7 +96,7 @@ export default class Controller {
       this.testpaint = true;
       if (this.paint) this.paint.predict();
       if (cb) cb();
-    }, LAST_TRAIN_STEP_TIMEOUT * 1000);
+    }, this.config.lastTrainStepTimeout * 1000);
   }
 
   clearDelayedTrainStepPreview() {

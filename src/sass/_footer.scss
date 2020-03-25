@@ -1,3 +1,5 @@
+$footer-height: 100px;
+
 .footer {
   position: absolute;
   left: 0;
@@ -28,21 +30,74 @@
   height: 25px;
 }
 
-.footer .international {
-  background-image: url("../../assets/img/international.svg");
-}
-/*
-.footer #backbutton::before {
-  content: "< ";
-}
+.footer .utility {
+  position: absolute;
+  bottom: 0;
+  right: 1em;
 
-.footer #nextbutton {
-  border: 2px solid #000000;
-  box-sizing: border-box;
-  border-radius: 20px;
-}
+  .lang-switcher {
+    display: inline-block;
 
-.footer #nextbutton::after {
-  content: " >";
+    .lang-switcher-trigger {
+      width: 2em;
+      height: 2em;
+      display: block;
+      font-size: 1em;
+      padding: 0;
+      border: none;
+      background-color: transparent;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url("../../assets/img/international.svg");
+      pointer-events: all;
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .lang-switcher-menu-mask {
+      position: absolute;
+      bottom: $footer-height;
+      right: -1em;
+      height: calc(100vh - #{$footer-height});
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    .lang-switcher-menu {
+      display: block;
+      position: absolute;
+      bottom: -100%;
+      right: 1em;
+      padding: 0.1em 0 0.2em 0;
+      margin: 0;
+      background-color: white;
+      border: 8px solid $color-gray;
+      border-bottom: none;
+      border-radius: 24px 24px 0 0;
+      transition: bottom 0.3s;
+      box-shadow: 0 15px 10px 4px rgba(0, 0, 0, 0.25);
+
+      &.visible {
+        bottom: 0 !important;
+      }
+      li {
+        display: block;
+        padding: 0;
+        margin: 0;
+        button {
+          display: block;
+          width: 100%;
+          border: 0;
+          background-color: transparent;
+          font-size: 2.2rem;
+          text-align: left;
+          padding: 0.4em 1.5em;
+          min-width: 4.5em;
+          cursor: pointer;
+          pointer-events: all;
+        }
+      }
+    }
+  }
 }
-*/

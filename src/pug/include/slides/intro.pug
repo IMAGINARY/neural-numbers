@@ -1,13 +1,13 @@
 .slide#intropaint(data-slide='intro')
-  h1 Can I read your number?
+  h1: span(data-i18n-str='intro-title')
   .paint.columns
     .column
       .input.box.background
         canvas.drawcanvas
-      p You
+      p(data-i18n-str='ui-label-input')
     .column.confidences.visible
       .bars
     .column
       .output.box
         p.digit 3
-      p AI
+      p(data-i18n-str='ui-label-output')

@@ -4,6 +4,23 @@ A widget that trains a neuronal network by the MNIST database.
 
 Check out the [online demo](https://imaginary.github.io/neural-numbers/).
 
+## Configuration
+
+The config.json file in the root directory has the following keys:
+
+- paintClearTimeout (Number, default: 2.2): 
+    Number of seconds after which the painting canvas is cleared if there's no interaction
+- idleReload (Number, default: 300): 
+    Number of seconds after which the app is reloaded if there's no interaction
+- lastTrainStepTimeout (Number, default: 1.5): 
+    Number of seconds waited to show the last step when the training is stoppped
+- languages (Object, default: `{"en": "English"}`)
+    List of languages to enable, as an object where each key is an ISO language code and
+    the value is the language name as it should be presented.
+- defaultLanguage (String, default: 'en')
+    Default language (the app starts and is restarted to this one) 
+
+
 ## Compilation
 
 This website is built using several compilable languages:

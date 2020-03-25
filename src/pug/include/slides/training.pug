@@ -1,46 +1,46 @@
 .slide(data-slide='training')
   h1.alternatives
-    .titletrain.visible Train the Network!
-    .titletest Test the Network!
+    .titletrain.visible: span(data-i18n-str='training-title-train')
+    .titletest: span(data-i18n-str='training-title-test')
   .train
     .view
       .inputspace.visible
         .paint
           .input.box.background
               canvas.drawcanvas
-          p You
+          p(data-i18n-str='ui-label-input')
         .training
           .box
             canvas.traininputcanvas
-          p Training...
+          p(data-i18n-str='training-label-training')
       .simplenetwork.visible
         canvas.network
         canvas.activations
       .advanced
         .parameter
-          .title Model architecture
+          .title(data-i18n-str='training-adv-model-title')
           .select.modelid
-            .option(data-value="dense").selected 3-Layer Dense Network
-            .option(data-value="cnn") Convolutional Network
-            .option(data-value="nohidden") No hidden layers
+            .option(data-value="dense", data-i18n-str='training-adv-model-dense').selected
+            .option(data-value="cnn", data-i18n-str='training-adv-model-cnn') Convolutional Network
+            .option(data-value="nohidden", data-i18n-str='training-adv-model-nohidden') No hidden layers
         .parameter
-          .title Activation function
+          .title(data-i18n-str='training-adv-activation-title')
           .select.activation
-            .option(data-value="relu").selected ReLu
-            .option(data-value="tanh") tanh
-            .option(data-value="sigmoid") sigmoid
+            .option(data-value="relu", data-i18n-str='training-adv-activation-relu').selected
+            .option(data-value="tanh", data-i18n-str='training-adv-activation-tanh')
+            .option(data-value="sigmoid", data-i18n-str='training-adv-activation-sigmoid')
         .columns
           .column
             .parameter
-              .title Learning rate
+              .title(data-i18n-str='training-adv-learning-rate')
               input(type="range", min="-4" max="0" value="-3", step="any").learningrate
               .learningratetxt 0.001
           .column
             .parameter
-              .title Optimizer
+              .title(data-i18n-str='training-adv-optimizer-title')
               .select.optimizerid
-                .option(data-value="adam").selected adam
-                .option(data-value="sgd") Stochastic Gradient Descent
+                .option(data-value="adam", data-i18n-str='training-adv-optimizer-adam').selected
+                .option(data-value="sgd", data-i18n-str='training-adv-optimizer-sgd')
       .bars.vertical.visible
 
     .menu
@@ -48,17 +48,17 @@
         .info
           .info-item.imagesused
             .number 0
-            div Images used
+            div(data-i18n-str='training-label-images-used')
           .h-seperator
           .info-item.accuracy
             .number 10%
-            div Predicted Accuracy
+            div(data-i18n-str='training-label-predicted-accuracy')
         .v-seperator
         .controls
-          a(href="#training", title="reset training").reset
-          a(href="#training", title="pause/resume training").pause-resume.pause
-          a(href="#training", title="train a single step").single-step
+          a(href="#training", data-i18n-str-title="training-label-reset").reset
+          a(href="#training", data-i18n-str-title="training-label-pause").pause-resume.pause
+          a(href="#training", data-i18n-str-title="training-label-step").single-step
         //a.button.testit -&gt; Test the Network!
       .modeswitch
-        a.activate Activate Advanced Mode
-        a.cancel Cancel Advanced Mode
+        a.activate(data-i18n-str='training-label-adv-activate')
+        a.cancel(data-i18n-str='training-label-adv-cancel')

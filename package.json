@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "fetch-ie8": "^1.5.0"
+  }
+}

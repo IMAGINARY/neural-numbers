@@ -1,13 +1,13 @@
 /* globals tf */
 /* eslint-disable no-bitwise */
-import { PAINT_CLEAR_TIMEOUT } from './config';
 import BarChart from './BarChart';
 
 let SCALE_FACTOR = 9;
 let LINEWIDTH = 2 * SCALE_FACTOR;
 
 export default class Paint {
-  constructor(el, model, showprobability, nwvis = false) {
+  constructor(el, model, showprobability, nwvis = false, clearTimeoutTime = 2.2) {
+    this.clearTimeoutTime = clearTimeoutTime;
     this.drawingChanged = true;
     this.model = model;
     this.nwvis = nwvis;
@@ -147,7 +147,7 @@ export default class Paint {
     // clean up everything after specified time
     this.clearTimeout = setTimeout(() => {
       this.clear();
-    }, PAINT_CLEAR_TIMEOUT * 1000);
+    }, this.clearTimeoutTime * 1000);
     return true;
   }
 

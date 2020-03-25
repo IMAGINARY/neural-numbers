@@ -22,13 +22,13 @@
   <body>
     <div class="main">
       <div class="slide" id="intropaint" data-slide="intro">
-        <h1>Can I read your number?</h1>
+        <h1><span data-i18n-str="intro-title"></span></h1>
         <div class="paint columns">
           <div class="column">
             <div class="input box background">
               <canvas class="drawcanvas"></canvas>
             </div>
-            <p>You</p>
+            <p data-i18n-str="ui-label-input"></p>
           </div>
           <div class="column confidences visible">
             <div class="bars"></div>
@@ -37,14 +37,14 @@
             <div class="output box">
               <p class="digit">3</p>
             </div>
-            <p>AI</p>
+            <p data-i18n-str="ui-label-output"></p>
           </div>
         </div>
       </div>
       <div class="slide" data-slide="training">
         <h1 class="alternatives">
-          <div class="titletrain visible">Train the Network!</div>
-          <div class="titletest">Test the Network!</div>
+          <div class="titletrain visible"><span data-i18n-str="training-title-train"></span></div>
+          <div class="titletest"><span data-i18n-str="training-title-test"></span></div>
         </h1>
         <div class="train">
           <div class="view">
@@ -53,13 +53,13 @@
                 <div class="input box background">
                   <canvas class="drawcanvas"></canvas>
                 </div>
-                <p>You</p>
+                <p data-i18n-str="ui-label-input"></p>
               </div>
               <div class="training">
                 <div class="box">
                   <canvas class="traininputcanvas"></canvas>
                 </div>
-                <p>Training...</p>
+                <p data-i18n-str="training-label-training"></p>
               </div>
             </div>
             <div class="simplenetwork visible">
@@ -68,35 +68,35 @@
             </div>
             <div class="advanced">
               <div class="parameter">
-                <div class="title">Model architecture</div>
+                <div class="title" data-i18n-str="training-adv-model-title"></div>
                 <div class="select modelid">
-                  <div class="option selected" data-value="dense">3-Layer Dense Network</div>
-                  <div class="option" data-value="cnn">Convolutional Network</div>
-                  <div class="option" data-value="nohidden">No hidden layers</div>
+                  <div class="option selected" data-value="dense" data-i18n-str="training-adv-model-dense"></div>
+                  <div class="option" data-value="cnn" data-i18n-str="training-adv-model-cnn">Convolutional Network</div>
+                  <div class="option" data-value="nohidden" data-i18n-str="training-adv-model-nohidden">No hidden layers</div>
                 </div>
               </div>
               <div class="parameter">
-                <div class="title">Activation function</div>
+                <div class="title" data-i18n-str="training-adv-activation-title"></div>
                 <div class="select activation">
-                  <div class="option selected" data-value="relu">ReLu</div>
-                  <div class="option" data-value="tanh">tanh</div>
-                  <div class="option" data-value="sigmoid">sigmoid</div>
+                  <div class="option selected" data-value="relu" data-i18n-str="training-adv-activation-relu"></div>
+                  <div class="option" data-value="tanh" data-i18n-str="training-adv-activation-tanh"></div>
+                  <div class="option" data-value="sigmoid" data-i18n-str="training-adv-activation-sigmoid"></div>
                 </div>
               </div>
               <div class="columns">
                 <div class="column">
                   <div class="parameter">
-                    <div class="title">Learning rate</div>
+                    <div class="title" data-i18n-str="training-adv-learning-rate"></div>
                     <input class="learningrate" type="range" min="-4" max="0" value="-3" step="any">
                     <div class="learningratetxt">0.001</div>
                   </div>
                 </div>
                 <div class="column">
                   <div class="parameter">
-                    <div class="title">Optimizer</div>
+                    <div class="title" data-i18n-str="training-adv-optimizer-title"></div>
                     <div class="select optimizerid">
-                      <div class="option selected" data-value="adam">adam</div>
-                      <div class="option" data-value="sgd">Stochastic Gradient Descent</div>
+                      <div class="option selected" data-value="adam" data-i18n-str="training-adv-optimizer-adam"></div>
+                      <div class="option" data-value="sgd" data-i18n-str="training-adv-optimizer-sgd"></div>
                     </div>
                   </div>
                 </div>
@@ -109,89 +109,90 @@
               <div class="info">
                 <div class="info-item imagesused">
                   <div class="number">0</div>
-                  <div>Images used</div>
+                  <div data-i18n-str="training-label-images-used"></div>
                 </div>
                 <div class="h-seperator"></div>
                 <div class="info-item accuracy">
                   <div class="number">10%</div>
-                  <div>Predicted Accuracy</div>
+                  <div data-i18n-str="training-label-predicted-accuracy"></div>
                 </div>
               </div>
               <div class="v-seperator"></div>
-              <div class="controls"><a class="reset" href="#training" title="reset training"></a><a class="pause-resume pause" href="#training" title="pause/resume training"></a><a class="single-step" href="#training" title="train a single step"></a></div>
+              <div class="controls"><a class="reset" href="#training" data-i18n-str-title="training-label-reset"></a><a class="pause-resume pause" href="#training" data-i18n-str-title="training-label-pause"></a><a class="single-step" href="#training" data-i18n-str-title="training-label-step"></a></div>
               <!--a.button.testit -&gt; Test the Network!-->
             </div>
-            <div class="modeswitch"><a class="activate">Activate Advanced Mode</a><a class="cancel">Cancel Advanced Mode</a></div>
+            <div class="modeswitch"><a class="activate" data-i18n-str="training-label-adv-activate"></a><a class="cancel" data-i18n-str="training-label-adv-cancel"></a></div>
           </div>
         </div>
       </div>
       <div class="slide" data-slide="how-does-it-work">
-        <h1>How does it work?</h1>
+        <h1 data-i18n-str="how-work-title"></h1>
         <div class="how columns">
           <div class="box">
-            <h3>What is a Neural Network?</h3>
-            <div class="explain">A Neural Network is a way to teach computer things.</div><a class="learnmore" href="#what-is-a-neural-network">Learn more</a>
+            <h3 data-i18n-str="how-work-what-is-nn-title"></h3>
+            <div class="explain" data-i18n-str="how-work-what-is-nn-teaser"></div><a class="learnmore" href="#what-is-a-neural-network" data-i18n-str="how-work-learn-more"></a>
           </div>
           <div class="box">
-            <h3>How Does the Network Learn?</h3>
-            <div class="explain">By trying to get an answer right again and again. Each time we say if the answer was correct.</div><a class="learnmore" href="#how-does-the-network-learn">Learn more</a>
+            <h3 data-i18n-str="how-work-how-learn-title"></h3>
+            <div class="explain" data-i18n-str="how-work-how-learn-teaser"></div><a class="learnmore" href="#how-does-the-network-learn" data-i18n-str="how-work-learn-more"></a>
           </div>
           <div class="box">
-            <h3>What is Training Data?</h3>
-            <div class="explain">The training data tells the network when it was right or wrong.</div><a class="learnmore" href="#what-is-training-data">Learn more</a>
+            <h3 data-i18n-str="how-work-training-data-title"></h3>
+            <div class="explain" data-i18n-str="how-work-training-data-teaser"></div><a class="learnmore" href="#what-is-training-data" data-i18n-str="how-work-learn-more"></a>
           </div>
         </div>
       </div>
       <div class="slide" data-slide="what-is-a-neural-network" data-slide-nav="how-does-it-work">
         <div class="how">
           <div class="content">
-            <h2>What is a neural network?</h2><img src="assets/img/neuron.png">
-            <p>Neural networks are mathematical structures which are motivated by how our human brain works. They work with <b>input values</b>, a series of <b>artificial neurons</b> in one or more layers, and <b>output values</b>. Inside an individual computational neuron you can find weights and biases, which are numbers that can change, and functions like sums and the so called activation functions:</p>
-            <p>In the case of this exhibit (Neural Numbers), we use an artificial network with 28 x 28 inputs, which are the colour pixel values for the input handwritten number, and one layer of 100 neurons. The output are 10 values, which are the confidence that the input matches one of the numbers from 0 to 9. The default activation function we use is the so called Rectified Linear Unit (ReLU): it just passes on the value of the input, if it is positive, and 0, if it is negative. <i>(In Expert Mode you can choose different activation functions)</i>.</p><a class="back button" href="#how-does-it-work">Back</a>
+            <h2 data-i18n-str="what-is-nn-title"></h2><img src="assets/img/neuron.png">
+            <p data-i18n-str="what-is-nn-text-1"></p>
+            <p data-i18n-str="what-is-nn-text-2"></p><a class="back button" href="#how-does-it-work" data-i18n-str="how-work-learn-back"></a>
           </div>
         </div>
       </div>
       <div class="slide" data-slide="how-does-the-network-learn" data-slide-nav="how-does-it-work">
         <div class="how">
           <div class="content">
-            <h2>How does the network learn?</h2>
-            <p>The neural networks learns by iteratively <b>adjusting its weights and biases</b>. For this, so called <b>Training Data</b>, is fed into the network. This is for example the picture of the number 8. Then the weights and biases of the network are adjusted, such that the output confidence of the number 8 is higher than the others. This adjustments are done gradually and depend on a learning rate. The default technique for this adjustment is called <b>Gradient Descent</b>. <i>(In Expert Mode you can choose different learning methods)</i>.</p><a class="back button" href="#how-does-it-work">Back</a>
+            <h2 data-i18n-str="how-learn-title"></h2>
+            <p data-i18n-str="how-learn-text"></p><a class="back button" href="#how-does-it-work" data-i18n-str="how-work-learn-back"></a>
           </div>
         </div>
       </div>
       <div class="slide" data-slide="what-is-training-data" data-slide-nav="how-does-it-work">
         <div class="how">
           <div class="content">
-            <h2>What is training data?</h2><img src="assets/img/mnist.png">
-            <!--TODO: add labels and make this images change-->
-            <p>Training data is the basis to make a neural network do what you desire. It is usually a large set of sample <b>inputs combined with the desired outputs</b>. Often a big part of the training data (for example 80%) is used to <b>train the network</b>, while the remaining part (for example 20%) is used to <b>test the network</b> and see its performance / accuracy. Training data is very valuable, and fortunately there are open databases like the <b>MNIST database</b> we used for this exhibit.</p>
-            <p>In the case of this exhibit (Neural Numbers), we have 70 000 images of handwritten numbers (input) and the number it depicts.</p>
-            <p>The training data is “unified or cleaned”, all pictures are 28 x 28 pixels and the image drawn is centered. Whenever you draw a number, your drawing will be transformed to such a sample image.</p>
+            <h2 data-i18n-str="training-data-title"></h2><img src="assets/img/mnist.png">
+            <p data-i18n-str="training-data-text-1"></p>
+            <p data-i18n-str="training-data-text-2"></p>
+            <p data-i18n-str="training-data-text-3"></p>
             <div class="paint columns" id="normalizepaint">
               <div class="column">
                 <div class="input box background">
                   <canvas class="drawcanvas"></canvas>
                 </div>
-                <p>You</p>
+                <p data-i18n-str="ui-label-input"></p>
               </div>
               <div class="column">
                 <div class="output box">
                   <canvas class="normalizecanvas"></canvas>
                 </div>
-                <p>Normalized Image</p>
+                <p data-i18n-str="ui-label-output-normalized"></p>
               </div>
-            </div><a class="back button" href="#how-does-it-work">Back</a>
+            </div><a class="back button" href="#how-does-it-work" data-i18n-str="how-work-learn-back"></a>
           </div>
         </div>
       </div>
     </div>
     <div class="footer">
-      <div class="navigation"><a class="button" href="#intro">Draw</a><a class="button" href="#training">Train</a><a class="button" href="#how-does-it-work">Info</a></div>
+      <div class="navigation"><a class="button" href="#intro"><span data-i18n-str="nav-button-intro"></span></a><a class="button" href="#training"><span data-i18n-str="nav-button-training"></span></a><a class="button" href="#how-does-it-work"><span data-i18n-str="nav-button-how-does-it-work"></span></a></div>
+      <div class="utility"></div>
       <div class="icons"><a class="international"></a><a class="info"></a></div>
     </div>
     <!--script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js", integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo", crossorigin="anonymous")-->
     <!--script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js", integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1", crossorigin="anonymous")-->
     <!--script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js", integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM", crossorigin="anonymous")-->
+    <script type="text/javascript" src="vendor/i18n4js/i18n4js-1.3.1.min.js"></script>
     <script type="text/javascript" src="vendor/pep/pep.js"></script>
     <script type="text/javascript" src="vendor/tf/tf.min.js"></script>
     <!--script(type="text/javascript", src="assets/js/bundle.min.js")-->

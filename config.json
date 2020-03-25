@@ -1,0 +1,10 @@
+{
+  "paintClearTimeout": 2.2,
+  "idleReload": 300,
+  "lastTrainStepTimeout": 1.5,
+  "languages": {
+    "en": "English",
+    "es": "Español"
+  },
+  "defaultLanguage": "en"
+}

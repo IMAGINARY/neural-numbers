@@ -164,24 +164,64 @@ a {
   background-image: url("../../assets/img/info.svg");
   height: 25px; }
 
-.footer .international {
-  background-image: url("../../assets/img/international.svg"); }
+.footer .utility {
+  position: absolute;
+  bottom: 0;
+  right: 1em; }
+  .footer .utility .lang-switcher {
+    display: inline-block; }
+    .footer .utility .lang-switcher .lang-switcher-trigger {
+      width: 2em;
+      height: 2em;
+      display: block;
+      font-size: 1em;
+      padding: 0;
+      border: none;
+      background-color: transparent;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url("../../assets/img/international.svg");
+      pointer-events: all; }
+      .footer .utility .lang-switcher .lang-switcher-trigger:focus {
+        outline: none; }
+    .footer .utility .lang-switcher .lang-switcher-menu-mask {
+      position: absolute;
+      bottom: 100px;
+      right: -1em;
+      height: calc(100vh - 100px);
+      width: 100vw;
+      overflow: hidden; }
+    .footer .utility .lang-switcher .lang-switcher-menu {
+      display: block;
+      position: absolute;
+      bottom: -100%;
+      right: 1em;
+      padding: 0.1em 0 0.2em 0;
+      margin: 0;
+      background-color: white;
+      border: 8px solid #F2F2F2;
+      border-bottom: none;
+      border-radius: 24px 24px 0 0;
+      transition: bottom 0.3s;
+      box-shadow: 0 15px 10px 4px rgba(0, 0, 0, 0.25); }
+      .footer .utility .lang-switcher .lang-switcher-menu.visible {
+        bottom: 0 !important; }
+      .footer .utility .lang-switcher .lang-switcher-menu li {
+        display: block;
+        padding: 0;
+        margin: 0; }
+        .footer .utility .lang-switcher .lang-switcher-menu li button {
+          display: block;
+          width: 100%;
+          border: 0;
+          background-color: transparent;
+          font-size: 2.2rem;
+          text-align: left;
+          padding: 0.4em 1.5em;
+          min-width: 4.5em;
+          cursor: pointer;
+          pointer-events: all; }
 
-/*
-.footer #backbutton::before {
-  content: "< ";
-}
-
-.footer #nextbutton {
-  border: 2px solid #000000;
-  box-sizing: border-box;
-  border-radius: 20px;
-}
-
-.footer #nextbutton::after {
-  content: " >";
-}
-*/
 .slide {
   display: none;
   position: absolute;
