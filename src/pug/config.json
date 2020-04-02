@@ -1,5 +1,5 @@
 {
-  "siteName": "Does the computer recognize the number you are drawing?",
+  "siteName": "Neural Numbers",
   "siteDescription": "Train a neural network with the MNIST-data set",
   "siteURL": ""
 }
