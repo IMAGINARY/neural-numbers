@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign,no-restricted-properties */
 import Slide from '../slide';
 
 export default class TrainingSlide extends Slide {
@@ -116,6 +116,7 @@ export default class TrainingSlide extends Slide {
     d.querySelector('.reset').onpointerdown = async () => {
       await this.controller.pauseTraining(updateUI);
       await this.controller.resetTraining(els);
+      resetadvancednetwork();
       updateUI();
     };
 

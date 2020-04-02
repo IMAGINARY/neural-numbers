@@ -13,6 +13,8 @@ export default class NeuralNetwork {
   }
 
   setup(modelid = 'dense', optimizerid = 'adam', learningRate = 0.001, activation = 'relu') {
+    // eslint-disable-next-line no-console
+    console.log(`Setting up NN model=${modelid} optimizer=${optimizerid} learningrate=${learningRate} activation=${activation}`);
     this.modelid = modelid;
     this.training = false;
     this.trainedimages = 0;
