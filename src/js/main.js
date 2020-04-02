@@ -49,5 +49,14 @@ fetch('./config.json', { cache: 'no-cache' })
         controller.loadData();
       },
       1000 * config.idleReload);
+
+      // Disable dragging a elements
+      document.querySelectorAll('a')
+        .forEach((aElement) => {
+          aElement.addEventListener('dragstart', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+          });
+        });
     });
   });
