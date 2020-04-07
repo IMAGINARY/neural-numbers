@@ -1,4 +1,4 @@
-import Slide from '../slide';
+import Slide from '../slide.js';
 
 export default class WhatIsTrainingDataSlide extends Slide {
   async onEnter() {

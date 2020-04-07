@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign,no-restricted-properties */
-import Slide from '../slide';
+import Slide from '../slide.js';
 
 export default class TrainingSlide extends Slide {
   async onEnter() {

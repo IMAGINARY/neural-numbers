@@ -1,6 +1,6 @@
 /* globals tf */
 /* eslint-disable class-methods-use-this,no-param-reassign,no-bitwise */
-import BarChart from './BarChart';
+import BarChart from './BarChart.js';
 
 const HEIGHT = 500;
 const DENSEWIDTH = 380;

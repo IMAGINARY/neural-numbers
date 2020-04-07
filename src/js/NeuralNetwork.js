@@ -2,7 +2,7 @@
 /* jshint esversion: 8 */
 /* globals tf */
 
-import TrainingVisualization from './TrainingVisualization';
+import TrainingVisualization from './TrainingVisualization.js';
 
 export default class NeuralNetwork {
   constructor(vp, els) {

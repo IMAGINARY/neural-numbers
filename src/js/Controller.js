@@ -1,8 +1,8 @@
 /* globals tf */
-import Paint from './Paint';
-import { MnistData } from './MnistData';
-import NeuralNetwork from './NeuralNetwork';
-import ValidationPreview from './ValidationPreview';
+import Paint from './Paint.js';
+import { MnistData } from './MnistData.js';
+import NeuralNetwork from './NeuralNetwork.js';
+import ValidationPreview from './ValidationPreview.js';
 
 export default class Controller {
   constructor(config) {

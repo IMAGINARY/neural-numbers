@@ -1,5 +1,5 @@
 /* eslint-disable no-bitwise,class-methods-use-this,no-param-reassign */
-import Slide from './slide';
+import Slide from './slide.js';
 
 export default class SlideShow {
   constructor(controller) {

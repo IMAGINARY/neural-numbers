@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
-import Controller from './Controller';
-import IdleDetector from './IdleDetector';
-import SlideShow from './SlideShow';
-import I18nControler from './i18nController';
-import LangSwitcher from './LangSwitcher';
+import Controller from './Controller.js';
+import IdleDetector from './IdleDetector.js';
+import SlideShow from './SlideShow.js';
+import I18nControler from './i18nController.js';
+import LangSwitcher from './LangSwitcher.js';
 
-import './slide-controllers/intro';
-import './slide-controllers/training';
-import './slide-controllers/what-is-training-data';
+import './slide-controllers/intro.js';
+import './slide-controllers/training.js';
+import './slide-controllers/what-is-training-data.js';
 
 const configDefaults = {
   paintClearTimeout: 2.2,

@@ -1,6 +1,6 @@
 /* globals tf */
 /* eslint-disable no-bitwise */
-import BarChart from './BarChart';
+import BarChart from './BarChart.js';
 
 let SCALE_FACTOR = 9;
 let LINEWIDTH = 2 * SCALE_FACTOR;
