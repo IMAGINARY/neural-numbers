@@ -13,25 +13,32 @@ const pugData = require('./pug/data.js');
 
 const OUTPUT_DIR = '..';
 
-const JS_BUNDLE_NAME = 'bundle';
-
 const paths = {
   html: {
     src: ['./pug/**/*.pug', '!./pug/include/**/*.pug', '!./pug/tpl/**/*.pug', '!./pug/sections/**/*.pug'],
     dest: `${OUTPUT_DIR}`,
+    watchSrc: ['./pug/**/*.pug'],
   },
   styles: {
     src: './sass/**/*.scss',
     dest: `${OUTPUT_DIR}/assets/css`,
   },
   scripts: {
-    src: './js/*.js',
+    src: './js/main.js',
+    filename: 'bundle',
     dest: `${OUTPUT_DIR}/assets/js`,
+    watchSrc: ['./js/**/*.js', '!./js/main-lib.js'],
+  },
+  scriptsLib: {
+    src: './js/main-lib.js',
+    filename: 'neural-numbers',
+    dest: `${OUTPUT_DIR}/assets/js`,
+    watchSrc: ['./js/**/*.js', '!./js/main.js'],
   },
   fonts: {
     src: './node_modules/typeface-exo-2/**/*',
     dest: `${OUTPUT_DIR}/assets/fonts/typeface-exo-2/`,
-  }
+  },
 };
 
 function html() {
@@ -57,41 +64,34 @@ function styles() {
     .pipe(gulp.dest(paths.styles.dest));
 }
 
-function scripts(cb) {
-  cb();
-  return; //ignore
+function es(entrypoint, outputName) {
   return browserify({
-      extensions: ['.js', '.jsx'],
-      entries: './js/main.js',
-    })
-    .transform('babelify', {
-      "presets": [
-        [
-          "@babel/preset-env",
-          {
-            //"exclude": "@babel/plugin-transform-regenerator"
-            //"useBuiltIns": "entry",
-            //"plugins": [
-            //  "transform-runtime",
-            //  "transform-async-to-generator"
-            //]
-          }
-        ]
-      ]
-    })
+    extensions: ['.js', '.jsx'],
+    entries: entrypoint,
+    debug: true,
+  })
+    .transform('babelify', { presets: ['@babel/env'], sourceMaps: true })
     .on('error', (msg) => {
       // eslint-disable-next-line no-console
       console.error(msg);
     })
     .bundle()
-    .pipe(source(`${JS_BUNDLE_NAME}.js`))
+    .pipe(source(`${outputName}.js`))
     .pipe(buffer())
-    .pipe(sourcemaps.init())
+    .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(gulp.dest(paths.scripts.dest))
     .pipe(uglify())
-    .pipe(rename(`${JS_BUNDLE_NAME}.min.js`))
+    .pipe(rename(`${outputName}.min.js`))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.scripts.dest));
+}
+
+function scripts() {
+  return es(paths.scripts.src, paths.scripts.filename);
+}
+
+function scriptsLib() {
+  return es(paths.scriptsLib.src, paths.scriptsLib.filename);
 }
 
 function fonts() {
@@ -100,19 +100,18 @@ function fonts() {
 }
 
 function watch() {
-  gulp.watch(paths.styles.src, styles);
-  gulp.watch(paths.scripts.src, scripts);
-  for (let k in paths.html.src) {
-    gulp.watch(paths.html.src[k], html);
-  }
-  gulp.watch(paths.fonts.src, fonts);
+  gulp.watch(paths.html.watchSrc || paths.html.src, html);
+  gulp.watch(paths.styles.watchSrc || paths.styles.src, styles);
+  // gulp.watch(paths.scripts.watchSrc || paths.scripts.src, scripts);
+  gulp.watch(paths.scriptsLib.watchSrc || paths.scriptsLib.src, scriptsLib);
 }
 
-const build = gulp.parallel(html, styles, scripts, fonts);
+const build = gulp.parallel(html, styles, scripts, scriptsLib, fonts);
 
 exports.html = html;
 exports.styles = styles;
 exports.scripts = scripts;
+exports.scriptsLib = scriptsLib;
 exports.watch = watch;
 
 exports.build = build;
