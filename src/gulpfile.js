@@ -27,13 +27,19 @@ const paths = {
     src: './js/main.js',
     filename: 'bundle',
     dest: `${OUTPUT_DIR}/assets/js`,
-    watchSrc: ['./js/**/*.js', '!./js/main-lib.js'],
+    watchSrc: ['./js/**/*.js', '!./js/main-lib.js', '!./js/dependencies.js'],
   },
   scriptsLib: {
     src: './js/main-lib.js',
     filename: 'neural-numbers',
     dest: `${OUTPUT_DIR}/assets/js`,
-    watchSrc: ['./js/**/*.js', '!./js/main.js'],
+    watchSrc: ['./js/**/*.js', '!./js/main.js', '!./js/dependencies.js'],
+  },
+  scriptsDependencies: {
+    src: './js/dependencies.js',
+    filename: 'dependencies',
+    dest: `${OUTPUT_DIR}/assets/js`,
+    watchSrc: ['./js/dependencies.js'],
   },
   fonts: {
     src: './node_modules/typeface-exo-2/**/*',
@@ -94,6 +100,10 @@ function scriptsLib() {
   return es(paths.scriptsLib.src, paths.scriptsLib.filename);
 }
 
+function scriptsDependencies() {
+  return es(paths.scriptsDependencies.src, paths.scriptsDependencies.filename);
+}
+
 function fonts() {
   return gulp.src(paths.fonts.src)
     .pipe(gulp.dest(paths.fonts.dest));
@@ -104,14 +114,16 @@ function watch() {
   gulp.watch(paths.styles.watchSrc || paths.styles.src, styles);
   // gulp.watch(paths.scripts.watchSrc || paths.scripts.src, scripts);
   gulp.watch(paths.scriptsLib.watchSrc || paths.scriptsLib.src, scriptsLib);
+  gulp.watch(paths.scriptsDependencies.watchSrc || paths.scriptsDependencies.src, scriptsDependencies);
 }
 
-const build = gulp.parallel(html, styles, scripts, scriptsLib, fonts);
+const build = gulp.parallel(html, styles, scripts, scriptsLib, scriptsDependencies, fonts);
 
 exports.html = html;
 exports.styles = styles;
 exports.scripts = scripts;
 exports.scriptsLib = scriptsLib;
+exports.scriptsDependencies = scriptsDependencies;
 exports.watch = watch;
 
 exports.build = build;
