@@ -6,13 +6,13 @@ let SCALE_FACTOR = 9;
 let LINEWIDTH = 2 * SCALE_FACTOR;
 
 export default class Paint {
-  constructor(el, model, showprobability, nwvis = false, clearTimeoutTime = 2.2) {
+  constructor(el, model, outputThreshold, nwvis = false, clearTimeoutTime = 2.2) {
     this.clearTimeoutTime = clearTimeoutTime;
     this.drawingChanged = true;
     this.model = model;
     this.nwvis = nwvis;
 
-    this.showprobability = showprobability;
+    this.outputThreshold = outputThreshold;
 
     // last known position
     this.pos = {
@@ -270,7 +270,8 @@ export default class Paint {
       }
 
       if (this.outputdigit) {
-        this.outputdigit.innerHTML = (!this.empty && probabilities[predicted] > this.showprobability) ? predicted : '?';
+        this.outputdigit.innerHTML = (!this.empty && probabilities[predicted] > this.outputThreshold) ? predicted : '?';
+        this.outputdigit.parentElement.classList.toggle('solved', probabilities[predicted] > this.outputThreshold);
       }
     }
     return true;

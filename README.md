@@ -18,7 +18,9 @@ The config.json file in the root directory has the following keys:
     List of languages to enable, as an object where each key is an ISO language code and
     the value is the language name as it should be presented.
 - defaultLanguage (String, default: 'en')
-    Default language (the app starts and is restarted to this one) 
+    Default language (the app starts and is restarted to this one)
+- modelPath (String, default: 'assets/models/my-model.json')
+    Path to the trained NN model file
 
 
 ## Compilation

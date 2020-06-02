@@ -20,13 +20,20 @@ html
       | Neural Numbers component Test
     block head
   body(class!=body.class.join(' '))
-    .component(data-component='neural-numbers')
-    .component(data-component='neural-numbers', data-show-bars)
-    .component(data-component='neural-numbers-normalizer')
-    .component(data-component='neural-numbers', data-show-training)
-    //script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js", integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo", crossorigin="anonymous")
+    h2 Basic
+    .component(data-component='neural-numbers', data-model='assets/models/my-model.json', data-input-placeholder='write a number between 0&nbsp;and&nbsp;9')
+    h2 With bars
+    .component(data-component='neural-numbers', data-model='assets/models/my-model.json', data-input-placeholder='write a number between 0&nbsp;and&nbsp;9', data-show-bars)
+    h2 Normalization
+    .component(data-component='neural-numbers', data-model='assets/models/my-model.json', data-input-placeholder='write a number between 0&nbsp;and&nbsp;9', data-show-normalizer, data-show-output='false')
+    h2 Bad
+    .component(data-component='neural-numbers', data-model='assets/models/my-model-320.json', data-input-placeholder='write a number between 0&nbsp;and&nbsp;9', data-show-bars)
+    h2 Mediocre
+    .component(data-component='neural-numbers', data-model='assets/models/my-model-1568.json', data-input-placeholder='write a number between 0&nbsp;and&nbsp;9', data-show-bars)
+    script(src="vendor/jquery/jquery-3.3.1.slim.min.js", integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo", crossorigin="anonymous")
     block scripts
     script(type="text/javascript", src="vendor/pep/pep.js")
     script(type="text/javascript", src="vendor/tf/tf.min.js")
+    script(type="text/javascript", src="assets/js/dependencies.min.js")
     script(type="text/javascript", src="assets/js/neural-numbers.min.js")
     block closing

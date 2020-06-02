@@ -14,7 +14,7 @@ export default class Controller {
 
   async initIntroPaint(paintel) {
     if (!this.trainedmodel) {
-      this.trainedmodel = await tf.loadLayersModel('assets/models/my-model.json');
+      this.trainedmodel = await tf.loadLayersModel(this.config.modelPath);
     }
     this.paint = new Paint(
       paintel,
@@ -26,7 +26,7 @@ export default class Controller {
 
   async loadData() {
     if (!this.trainedmodel) {
-      this.trainedmodel = await tf.loadLayersModel('assets/models/my-model.json');
+      this.trainedmodel = await tf.loadLayersModel(this.config.modelPath);
     }
     if (!this.dataloaded) {
       await this.data.load();
@@ -45,6 +45,7 @@ export default class Controller {
       this.nn.visualization,
       this.config.paintClearTimeout
     );
+
     await this.vp.initValidationImages(els);
     // this.nn might have been deleted because in the meanwhile the slide has been skipped
     if (this.nn) {

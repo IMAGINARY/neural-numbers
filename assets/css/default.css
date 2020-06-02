@@ -144,7 +144,7 @@ a {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #F2F2F2;
+  background: #d8d8d8;
   align-items: baseline;
   display: flex;
   padding: 26px;
@@ -199,7 +199,7 @@ a {
       padding: 0.1em 0 0.2em 0;
       margin: 0;
       background-color: white;
-      border: 8px solid #F2F2F2;
+      border: 8px solid #d8d8d8;
       border-bottom: none;
       border-radius: 24px 24px 0 0;
       transition: bottom 0.3s;
@@ -251,11 +251,11 @@ a {
   border-radius: 50px; }
 
 .paint .input.box {
-  border: 3px solid #FFEF58;
+  border: 3px solid #ffec02;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25); }
 
 .paint .output.box {
-  background: #F2F2F2; }
+  background: #d8d8d8; }
 
 .paint .output {
   font-size: 100px;
@@ -452,7 +452,7 @@ a {
 
 .train .menu .controls .pause-resume.pause {
   background-image: url("../../assets/img/pause.svg");
-  background-color: #FFEF58; }
+  background-color: #ffec02; }
 
 .train .menu .controls .single-step {
   background-image: url("../../assets/img/step.svg"); }
@@ -590,7 +590,7 @@ a {
     .train .parameter .select .option .label {
       padding: 10px; }
     .train .parameter .select .option.selected {
-      background-color: #FFEF58; }
+      background-color: #ffec02; }
     .train .parameter .select .option::before {
       content: "";
       height: 100%;
@@ -644,7 +644,7 @@ a {
   width: 287px;
   height: 287px;
   border-radius: 50px;
-  background: #F2F2F2; }
+  background: #d8d8d8; }
 
 .train .training .traininputcanvas {
   width: 287px;
@@ -697,7 +697,7 @@ a {
   background-image: url("../../assets/img/cancel.svg"); }
 
 .train .modeswitch .cancel {
-  background-color: #FFEF58; }
+  background-color: #ffec02; }
 
 .train .learningratetxt {
   font-weight: 500;
@@ -976,7 +976,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   min-width: 20px; }
 
 .bar.highlighted {
-  background: #FFEF58; }
+  background: #ffec02; }
 
 .button {
   font-style: normal;
@@ -995,7 +995,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 
 .button.selected {
   font-weight: bold;
-  background: #FFEF58; }
+  background: #ffec02; }
 
 .button::before {
   content: "";

@@ -1,2 +1,42 @@
-$color-yellow: #FFEF58;
-$color-gray: #F2F2F2;
+$color-black-real: #000;
+$color-white-real: #fff;
+
+$color-black: $color-black-real;
+$color-white: $color-white-real;
+$color-white-dark: #d8d8d8;
+
+$color-yellow: #ffec02;
+$color-yellow-light: #f9f3af;
+$color-yellow-dark: #cab900;
+
+$color-gray-light: #a5a5a5;
+$color-gray: #666;
+$color-gray-dark: #444;
+
+$color-red: #db4c67;
+$color-orange: #ff8459;
+$color-green: #73ff6c;
+$color-turquoise: #00c5ba;
+$color-blue: #3753be;
+$color-violet: #9c52ff;
+$color-magenta: #ef71f2;
+
+$color-red-light: #dfa0ac;
+$color-orange-light: #f4b6a0;
+$color-green-light: #c6f6c4;
+$color-turquoise-light: #b1e2df;
+$color-blue-light: #8f9ed3;
+$color-violet-light: #c19cef;
+$color-magenta-light: #eeb1ee;
+
+$color-red-dark: #a5112d;
+$color-orange-dark: #df4c1b;
+$color-green-dark: #3ac335;
+$color-turquoise-dark: #00887e;
+$color-blue-dark: #102ea2;
+$color-violet-dark: #6f2cc8;
+$color-magenta-dark: #bc46bf;
+
+@mixin neg {
+  -webkit-font-smoothing: antialiased;
+}

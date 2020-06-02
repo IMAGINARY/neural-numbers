@@ -17,6 +17,7 @@ const configDefaults = {
     en: 'English',
   },
   defaultLanguage: 'en',
+  modelPath: 'assets/models/my-model.json',
 };
 
 fetch('./config.json', { cache: 'no-cache' })
