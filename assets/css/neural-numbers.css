@@ -93,9 +93,6 @@
   justify-content: center;
   margin-bottom: 20px;
   height: 216px; }
-  @media (max-width: 767.98px) {
-    .neural-numbers-component {
-      justify-content: start; } }
   .neural-numbers-component .stage {
     position: relative;
     display: none;

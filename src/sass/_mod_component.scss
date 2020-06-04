@@ -9,10 +9,6 @@ $input-box-border: 8px;
   margin-bottom: 20px;
   height: $input-box-size + $input-box-border * 2;
 
-  @include media-breakpoint-down(sm) {
-    justify-content: start;
-  }
-
   .stage {
     position: relative;
     display: none;
