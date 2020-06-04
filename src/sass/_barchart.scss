@@ -4,6 +4,10 @@
   margin: 0;
   position: relative;
   flex-direction: row;
+
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+  }
 }
 
 .bars.vertical {
@@ -17,6 +21,13 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+
+  @include media-breakpoint-down(sm) {
+    height: 20px;
+    width: 120px;
+    justify-content: flex-start;
+    flex-direction: row;
+  }
 }
 
 .vertical .barcontainer {
@@ -35,6 +46,13 @@
   /*position: absolute;*/
   padding-bottom: 7px;
   padding-top: 7px;
+
+  @include media-breakpoint-down(sm) {
+    order: 1;
+    font-size: 16px;
+    text-align: left;
+    padding: 0;
+  }
 }
 
 .vertical .bartxt {
@@ -56,6 +74,14 @@
   /*top: calc(100% - var(--probability)*90%);*/
   height: calc(var(--probability) * 90%);
   min-height: 20px;
+
+  @include media-breakpoint-down(sm) {
+    order: 2;
+    height: 20px;
+    width: calc(var(--probability) * 100px);
+    min-width: 0;
+    margin: 0 0 0 6px;
+  }
 }
 
 .vertical .bar {
