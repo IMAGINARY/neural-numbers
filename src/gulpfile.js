@@ -24,7 +24,7 @@ const paths = {
     dest: `${OUTPUT_DIR}/assets/css`,
   },
   scripts: {
-    src: './js/main.js',
+    src: './js/main-babel.js',
     filename: 'bundle',
     dest: `${OUTPUT_DIR}/assets/js`,
     watchSrc: ['./js/**/*.js', '!./js/main-lib.js', '!./js/dependencies.js'],
@@ -112,7 +112,7 @@ function fonts() {
 function watch() {
   gulp.watch(paths.html.watchSrc || paths.html.src, html);
   gulp.watch(paths.styles.watchSrc || paths.styles.src, styles);
-  // gulp.watch(paths.scripts.watchSrc || paths.scripts.src, scripts);
+  gulp.watch(paths.scripts.watchSrc || paths.scripts.src, scripts);
   gulp.watch(paths.scriptsLib.watchSrc || paths.scriptsLib.src, scriptsLib);
   gulp.watch(paths.scriptsDependencies.watchSrc || paths.scriptsDependencies.src, scriptsDependencies);
 }
