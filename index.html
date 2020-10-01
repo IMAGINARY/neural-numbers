@@ -23,18 +23,19 @@
         <div class="paint columns">
           <div class="column">
             <div class="input box background">
-              <canvas class="drawcanvas"></canvas>
+              <div class="input-canvas-wrapper">
+                <canvas class="drawcanvas"></canvas>
+              </div>
+              <div class="input-placeholder"><span data-i18n-str="ui-label-input-placeholder"></span></div>
             </div>
-            <p data-i18n-str="ui-label-input"></p>
           </div>
           <div class="column confidences visible">
             <div class="bars"></div>
           </div>
           <div class="column">
-            <div class="output box">
-              <p class="digit">3</p>
+            <div class="output-wrapper">
+              <div class="output digit"></div>
             </div>
-            <p data-i18n-str="ui-label-output"></p>
           </div>
         </div>
       </div>
@@ -48,9 +49,11 @@
             <div class="inputspace visible">
               <div class="paint">
                 <div class="input box background">
-                  <canvas class="drawcanvas"></canvas>
+                  <div class="input-canvas-wrapper">
+                    <canvas class="drawcanvas"></canvas>
+                  </div>
+                  <div class="input-placeholder"><span data-i18n-str="ui-label-input-placeholder"></span></div>
                 </div>
-                <p data-i18n-str="ui-label-input"></p>
               </div>
               <div class="training">
                 <div class="box">
@@ -166,15 +169,19 @@
             <div class="paint columns" id="normalizepaint">
               <div class="column">
                 <div class="input box background">
-                  <canvas class="drawcanvas"></canvas>
+                  <div class="input-canvas-wrapper">
+                    <canvas class="drawcanvas"></canvas>
+                  </div>
+                  <div class="input-placeholder"><span data-i18n-str="ui-label-input-placeholder"></span></div>
                 </div>
-                <p data-i18n-str="ui-label-input"></p>
               </div>
               <div class="column">
                 <div class="output box">
-                  <canvas class="normalizecanvas"></canvas>
+                  <div class="normalize-canvas-wrapper">
+                    <canvas class="normalizecanvas"></canvas>
+                  </div>
+                  <p class="normalize-canvas-label" data-i18n-str="ui-label-output-normalized"></p>
                 </div>
-                <p data-i18n-str="ui-label-output-normalized"></p>
               </div>
             </div><a class="back button" href="#how-does-it-work" data-i18n-str="how-work-learn-back"></a>
           </div>

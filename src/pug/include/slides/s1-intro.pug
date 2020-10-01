@@ -3,11 +3,12 @@
   .paint.columns
     .column
       .input.box.background
-        canvas.drawcanvas
-      p(data-i18n-str='ui-label-input')
+        .input-canvas-wrapper
+          canvas.drawcanvas
+        .input-placeholder
+          span(data-i18n-str='ui-label-input-placeholder')
     .column.confidences.visible
       .bars
     .column
-      .output.box
-        p.digit 3
-      p(data-i18n-str='ui-label-output')
+      .output-wrapper
+        .output.digit

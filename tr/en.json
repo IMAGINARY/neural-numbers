@@ -4,6 +4,7 @@
   "nav-button-how-does-it-work": "Info",
   "ui-label-input": "You",
   "ui-label-output": "AI",
+  "ui-label-input-placeholder": "write a number between 0&nbsp;and&nbsp;9",
   "ui-label-output-normalized": "Normalized Image",
   "intro-title": "Can I read your number?",
   "training-title-train": "Train the Network!",

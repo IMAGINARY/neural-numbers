@@ -14,11 +14,14 @@
       .paint.columns#normalizepaint
         .column
           .input.box.background
-            canvas.drawcanvas
-          p(data-i18n-str='ui-label-input')
+            .input-canvas-wrapper
+              canvas.drawcanvas
+            .input-placeholder
+              span(data-i18n-str='ui-label-input-placeholder')
         .column
           .output.box
-            canvas.normalizecanvas
-          p(data-i18n-str='ui-label-output-normalized')
+            .normalize-canvas-wrapper
+              canvas.normalizecanvas
+            p.normalize-canvas-label(data-i18n-str='ui-label-output-normalized')
 
       a.back.button(href='#how-does-it-work', data-i18n-str='how-work-learn-back')

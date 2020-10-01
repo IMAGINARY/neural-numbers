@@ -250,17 +250,38 @@ a {
   box-sizing: border-box;
   border-radius: 50px; }
 
-.paint .input.box {
-  border: 3px solid #ffec02;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25); }
-
-.paint .output.box {
-  background: #d8d8d8; }
-
 .paint .output {
   font-size: 100px;
   font-style: normal;
   font-weight: 500; }
+
+.paint .output-wrapper {
+  position: relative;
+  width: 287px;
+  height: 287px;
+  background: radial-gradient(157.85px, #ffec02, transparent); }
+  .paint .output-wrapper:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    transition: opacity 1s;
+    opacity: 1; }
+  .paint .output-wrapper.solved:before {
+    opacity: 0; }
+
+.paint .output {
+  position: relative;
+  width: 287px;
+  height: 287px;
+  font-size: 229.6px;
+  color: #16214b;
+  text-align: center;
+  line-height: 287px; }
 
 #intropaint .columns {
   justify-content: center; }
@@ -308,12 +329,6 @@ a {
 .paint > .column:first-child > p {
   font-weight: bold; }
 
-.paint .input.box.background {
-  background-image: url("../../assets/img/pen.svg");
-  background-repeat: no-repeat;
-  background-size: 80px;
-  background-position: center; }
-
 .paint .drawcanvas {
   pointer-events: all !important;
   z-index: -1;
@@ -330,7 +345,6 @@ a {
 
 .paint .normalizecanvas {
   pointer-events: all !important;
-  transform: scale(9);
   image-rendering: pixelated !important;
   filter: brightness(0.5) invert(1) brightness(0.95);
   opacity: 0.5; }
@@ -351,6 +365,78 @@ a {
   border-radius: 2.5px;
 }
 */
+.paint .drawcanvas, .paint .normalizecanvas {
+  pointer-events: all !important;
+  filter: invert(1);
+  opacity: 0.5;
+  width: 287px;
+  height: 287px;
+  position: relative;
+  display: block; }
+
+.paint .input-canvas-wrapper {
+  width: 287px;
+  height: 287px;
+  border: 8px dashed #666;
+  border-radius: 8px;
+  box-sizing: content-box; }
+  .paint .input-canvas-wrapper canvas {
+    touch-action: none; }
+
+.paint .input-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 287px;
+  height: 287px;
+  margin: 8px;
+  padding: 15px;
+  box-sizing: border-box;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 38px;
+  line-height: 1.2;
+  color: #666;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.3s;
+  opacity: 0; }
+
+.paint .input.background .input-placeholder {
+  opacity: 0.8; }
+
+.paint .normalize-canvas-wrapper {
+  position: relative;
+  width: 215.25px;
+  height: 215.25px; }
+  .paint .normalize-canvas-wrapper:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    pointer-events: none; }
+
+.paint .normalizecanvas {
+  width: 215.25px;
+  height: 215.25px;
+  opacity: 1; }
+
+.paint .normalize-canvas-label {
+  display: inline-block;
+  position: absolute;
+  bottom: -26px;
+  font-size: 24px;
+  left: 0;
+  line-height: 1.2;
+  text-align: center;
+  width: 215.25px;
+  white-space: nowrap; }
+
 .train {
   display: flex;
   justify-content: center;
@@ -643,8 +729,9 @@ a {
 .train .training .box {
   width: 287px;
   height: 287px;
-  border-radius: 50px;
-  background: #d8d8d8; }
+  border: 8px dashed #cab900;
+  border-radius: 8px;
+  background-color: #f2f2f2; }
 
 .train .training .traininputcanvas {
   width: 287px;
@@ -977,12 +1064,13 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   margin-right: auto;
   /*bottom: 10%;*/
   width: 20px;
-  background: #E6E6E6;
   box-sizing: border-box;
-  border-radius: 20px;
   /*top: calc(100% - var(--probability)*90%);*/
   height: calc(var(--probability) * 90%);
-  min-height: 20px; }
+  background-color: #ffec02;
+  border: 2px solid #333007;
+  border-radius: 0;
+  min-height: 0; }
   @media (max-width: 767.98px) {
     .bar {
       order: 2;
@@ -995,7 +1083,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   margin: auto auto auto 0;
   height: 20px;
   width: calc(var(--probability) * 90%);
-  min-width: 20px; }
+  min-width: 0; }
 
 .bar.highlighted {
   background: #ffec02; }

@@ -63,12 +63,13 @@
   margin-right: auto;
   /*bottom: 10%;*/
   width: 20px;
-  background: #E6E6E6;
   box-sizing: border-box;
-  border-radius: 20px;
   /*top: calc(100% - var(--probability)*90%);*/
   height: calc(var(--probability) * 90%);
-  min-height: 20px; }
+  background-color: #ffec02;
+  border: 2px solid #333007;
+  border-radius: 0;
+  min-height: 0; }
   @media (max-width: 767.98px) {
     .bar {
       order: 2;
@@ -81,7 +82,7 @@
   margin: auto auto auto 0;
   height: 20px;
   width: calc(var(--probability) * 90%);
-  min-width: 20px; }
+  min-width: 0; }
 
 .bar.highlighted {
   background: #ffec02; }

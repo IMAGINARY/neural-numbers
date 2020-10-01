@@ -356,8 +356,9 @@
 .train .training .box {
   width: 287px;
   height: 287px;
-  border-radius: 50px;
-  background: $color-white-dark;
+  border: 8px dashed $color-yellow-dark;
+  border-radius: 8px;
+  background-color: #f2f2f2;
 }
 
 .train .training .traininputcanvas {

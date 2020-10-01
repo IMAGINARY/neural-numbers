@@ -7,8 +7,10 @@
       .inputspace.visible
         .paint
           .input.box.background
+            .input-canvas-wrapper
               canvas.drawcanvas
-          p(data-i18n-str='ui-label-input')
+            .input-placeholder
+              span(data-i18n-str='ui-label-input-placeholder')
         .training
           .box
             canvas.traininputcanvas
