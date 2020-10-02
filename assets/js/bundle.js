@@ -2637,22 +2637,30 @@ var I18nControler = /*#__PURE__*/function () {
   _createClass(I18nControler, null, [{
     key: "init",
     value: function init() {
+      var defaultLanguage = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'en';
       return IMAGINARY.i18n.init({
         queryStringVariable: 'lang',
         translationsDirectory: 'tr',
-        defaultLanguage: 'en'
+        defaultLanguage: defaultLanguage
+      }).then(function () {
+        I18nControler.update();
       });
     }
   }, {
     key: "setLanguage",
     value: function setLanguage(code) {
       IMAGINARY.i18n.setLang(code).then(function () {
-        document.querySelectorAll('[data-i18n-str]').forEach(function (element) {
-          element.innerHTML = IMAGINARY.i18n.t(element.getAttribute('data-i18n-str'));
-        });
-        document.querySelectorAll('[data-i18n-str-title]').forEach(function (element) {
-          element.setAttribute('title', IMAGINARY.i18n.t(element.getAttribute('data-i18n-str-title')));
-        });
+        I18nControler.update();
+      });
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      document.querySelectorAll('[data-i18n-str]').forEach(function (element) {
+        element.innerHTML = IMAGINARY.i18n.t(element.getAttribute('data-i18n-str'));
+      });
+      document.querySelectorAll('[data-i18n-str-title]').forEach(function (element) {
+        element.setAttribute('title', IMAGINARY.i18n.t(element.getAttribute('data-i18n-str-title')));
       });
     }
   }]);
@@ -2710,9 +2718,7 @@ fetch('./config.json', {
 }).then(function (config) {
   return Object.assign({}, configDefaults, config);
 }).then(function (config) {
-  _i18nController["default"].init().then(function () {
-    _i18nController["default"].setLanguage(config.defaultLanguage);
-
+  _i18nController["default"].init(config.defaultLanguage).then(function () {
     var controller = new _Controller["default"](config);
     var slideShow = new _SlideShow["default"](controller);
     controller.loadData();

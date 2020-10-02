@@ -29,8 +29,7 @@ fetch('./config.json', { cache: 'no-cache' })
   })
   .then((config => Object.assign({}, configDefaults, config)))
   .then((config) => {
-    I18nControler.init().then(() => {
-      I18nControler.setLanguage(config.defaultLanguage);
+    I18nControler.init(config.defaultLanguage).then(() => {
       const controller = new Controller(config);
       const slideShow = new SlideShow(controller);
       controller.loadData();
