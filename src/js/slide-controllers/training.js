@@ -52,8 +52,6 @@ export default class TrainingSlide extends Slide {
           this.controller.paint.clear();
         }
       }
-      document.querySelector('.titletrain').classList.toggle('visible', !this.controller.testpaint);
-      document.querySelector('.titletest').classList.toggle('visible', this.controller.testpaint);
 
       d.querySelector('.simplenetwork').classList.toggle('visible', !expertmode);
       d.querySelector('.advanced').classList.toggle('visible', expertmode);

@@ -78,6 +78,10 @@ a {
   text-decoration: none;
   color: black; }
 
+.main-title {
+  font-size: 100px;
+  padding-top: 10vh; }
+
 .header {
   position: absolute;
   left: 0;
@@ -775,7 +779,8 @@ a {
   margin-right: 12px;
   width: 30px;
   height: 30px;
-  display: inline-block; }
+  display: inline-block;
+  vertical-align: text-top; }
 
 .train .modeswitch .activate::before {
   background-image: url("../../assets/img/activate.svg"); }

@@ -2958,8 +2958,6 @@ var TrainingSlide = /*#__PURE__*/function (_Slide) {
                     }
                   }
 
-                  document.querySelector('.titletrain').classList.toggle('visible', !_this.controller.testpaint);
-                  document.querySelector('.titletest').classList.toggle('visible', _this.controller.testpaint);
                   d.querySelector('.simplenetwork').classList.toggle('visible', !expertmode);
                   d.querySelector('.advanced').classList.toggle('visible', expertmode); // d.querySelector(".expertmode-on-off").innerHTML = expertmode ? "on" : "off";
 
