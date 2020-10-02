@@ -4,6 +4,7 @@
   "lastTrainStepTimeout": 1.5,
   "languages": {
     "en": "English",
+    "de": "Deutsch",
     "es": "Español"
   },
   "defaultLanguage": "en"
