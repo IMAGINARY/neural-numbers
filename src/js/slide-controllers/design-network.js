@@ -5,6 +5,7 @@ export default class DesignNetworkSlide extends Slide {
   async onEnter() {
     this.controller.testpaint = true;
     let istraining = true;
+    let isBusy = false;
     const d = document.querySelector('[data-slide=design-network] .train');
     const resetadvancedoptions = () => {
       d.querySelectorAll('.parameter .select').forEach((select) => {
@@ -83,14 +84,23 @@ export default class DesignNetworkSlide extends Slide {
     */
 
     d.querySelector('.pause-resume').onpointerdown = async () => {
+      if (isBusy) {
+        return;
+      }
+      isBusy = true;
       istraining = !istraining;
       await this.controller.toggleTraining(updateUI);
       updateUI();
       d.querySelector('.reset').classList.add('visible');
+      isBusy = false;
     };
 
     d.querySelector('.single-step').onpointerdown = async () => {
-      if ((istraining)) {
+      if (isBusy) {
+        return;
+      }
+      isBusy = true;
+      if (istraining) {
         await this.controller.pauseTraining(updateUI);
         // await controller.singleStep(updateUI);
         istraining = false;
@@ -98,18 +108,28 @@ export default class DesignNetworkSlide extends Slide {
         await this.controller.singleStep(updateUI);
       }
       updateUI();
+      isBusy = false;
     };
 
     d.querySelector('.reset').onpointerdown = async () => {
+      if (isBusy) {
+        return;
+      }
+      isBusy = true;
       await this.controller.pauseTraining(updateUI);
       await this.controller.resetTraining(els);
       resetadvancednetwork();
       updateUI();
+      isBusy = false;
     };
 
     /* expert mode */
 
     const resetadvancednetwork = async () => {
+      if (isBusy) {
+        return;
+      }
+      isBusy = true;
       await this.controller.pauseTraining(updateUI);
       const learningRate = Math.pow(10, d.querySelector('.learningrate').value);
       d.querySelector('.learningratetxt').innerHTML = learningRate.toPrecision(1);
@@ -120,6 +140,7 @@ export default class DesignNetworkSlide extends Slide {
         d.querySelector('.activation').value
       );
       updateUI();
+      isBusy = false;
     };
 
     const rateSlider = d.querySelector('.learningrate');

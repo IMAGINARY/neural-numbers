@@ -221,7 +221,7 @@ export default class NeuralNetwork {
     if (this.training) {
       await this.pauseTraining();
     } else {
-      this.train(data);
+      await this.train(data);
     }
   }
 

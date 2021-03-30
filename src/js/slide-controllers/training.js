@@ -5,6 +5,7 @@ export default class TrainingSlide extends Slide {
   async onEnter() {
     this.controller.testpaint = true;
     let istraining = true;
+    let isBusy = false;
     const d = document.querySelector('[data-slide=training] .train');
 
     const resetadvancedoptions = () => {
@@ -86,13 +87,22 @@ export default class TrainingSlide extends Slide {
     */
 
     d.querySelector('.pause-resume').onpointerdown = async () => {
+      if (isBusy) {
+        return;
+      }
+      isBusy = true;
       istraining = !istraining;
       await this.controller.toggleTraining(updateUI);
       updateUI();
       d.querySelector('.reset').classList.add('visible');
+      isBusy = false;
     };
 
     d.querySelector('.single-step').onpointerdown = async () => {
+      if (isBusy) {
+        return;
+      }
+      isBusy = true;
       if (istraining) {
         await this.controller.pauseTraining(updateUI);
         // await controller.singleStep(updateUI);
@@ -101,13 +111,19 @@ export default class TrainingSlide extends Slide {
         await this.controller.singleStep(updateUI);
       }
       updateUI();
+      isBusy = false;
     };
 
     d.querySelector('.reset').onpointerdown = async () => {
+      if (isBusy) {
+        return;
+      }
+      isBusy = true;
       await this.controller.pauseTraining(updateUI);
       await this.controller.resetTraining(els);
       await resetadvancednetwork();
       updateUI();
+      isBusy = false;
     };
 
     /* expert mode */

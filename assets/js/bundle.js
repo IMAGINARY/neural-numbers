@@ -1402,13 +1402,14 @@ var NeuralNetwork = /*#__PURE__*/function () {
                 return this.pauseTraining();
 
               case 3:
-                _context6.next = 6;
+                _context6.next = 7;
                 break;
 
               case 5:
-                this.train(data);
+                _context6.next = 7;
+                return this.train(data);
 
-              case 6:
+              case 7:
               case "end":
                 return _context6.stop();
             }
@@ -2883,13 +2884,14 @@ var DesignNetworkSlide = /*#__PURE__*/function (_Slide) {
       var _onEnter = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         var _this = this;
 
-        var istraining, d, resetadvancedoptions, els, updateUI, resetadvancednetwork, rateSlider, rateLabel;
+        var istraining, isBusy, d, resetadvancedoptions, els, updateUI, resetadvancednetwork, rateSlider, rateLabel;
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 this.controller.testpaint = true;
                 istraining = true;
+                isBusy = false;
                 d = document.querySelector('[data-slide=design-network] .train');
 
                 resetadvancedoptions = function resetadvancedoptions() {
@@ -2978,15 +2980,25 @@ var DesignNetworkSlide = /*#__PURE__*/function (_Slide) {
                     while (1) {
                       switch (_context.prev = _context.next) {
                         case 0:
+                          if (!isBusy) {
+                            _context.next = 2;
+                            break;
+                          }
+
+                          return _context.abrupt("return");
+
+                        case 2:
+                          isBusy = true;
                           istraining = !istraining;
-                          _context.next = 3;
+                          _context.next = 6;
                           return _this.controller.toggleTraining(updateUI);
 
-                        case 3:
+                        case 6:
                           updateUI();
                           d.querySelector('.reset').classList.add('visible');
+                          isBusy = false;
 
-                        case 5:
+                        case 9:
                         case "end":
                           return _context.stop();
                       }
@@ -2998,28 +3010,39 @@ var DesignNetworkSlide = /*#__PURE__*/function (_Slide) {
                     while (1) {
                       switch (_context2.prev = _context2.next) {
                         case 0:
-                          if (!istraining) {
-                            _context2.next = 6;
+                          if (!isBusy) {
+                            _context2.next = 2;
                             break;
                           }
 
-                          _context2.next = 3;
+                          return _context2.abrupt("return");
+
+                        case 2:
+                          isBusy = true;
+
+                          if (!istraining) {
+                            _context2.next = 9;
+                            break;
+                          }
+
+                          _context2.next = 6;
                           return _this.controller.pauseTraining(updateUI);
 
-                        case 3:
+                        case 6:
                           // await controller.singleStep(updateUI);
                           istraining = false;
-                          _context2.next = 8;
+                          _context2.next = 11;
                           break;
 
-                        case 6:
-                          _context2.next = 8;
+                        case 9:
+                          _context2.next = 11;
                           return _this.controller.singleStep(updateUI);
 
-                        case 8:
+                        case 11:
                           updateUI();
+                          isBusy = false;
 
-                        case 9:
+                        case 13:
                         case "end":
                           return _context2.stop();
                       }
@@ -3031,18 +3054,28 @@ var DesignNetworkSlide = /*#__PURE__*/function (_Slide) {
                     while (1) {
                       switch (_context3.prev = _context3.next) {
                         case 0:
-                          _context3.next = 2;
-                          return _this.controller.pauseTraining(updateUI);
+                          if (!isBusy) {
+                            _context3.next = 2;
+                            break;
+                          }
+
+                          return _context3.abrupt("return");
 
                         case 2:
-                          _context3.next = 4;
+                          isBusy = true;
+                          _context3.next = 5;
+                          return _this.controller.pauseTraining(updateUI);
+
+                        case 5:
+                          _context3.next = 7;
                           return _this.controller.resetTraining(els);
 
-                        case 4:
+                        case 7:
                           resetadvancednetwork();
                           updateUI();
+                          isBusy = false;
 
-                        case 6:
+                        case 10:
                         case "end":
                           return _context3.stop();
                       }
@@ -3058,18 +3091,28 @@ var DesignNetworkSlide = /*#__PURE__*/function (_Slide) {
                       while (1) {
                         switch (_context4.prev = _context4.next) {
                           case 0:
-                            _context4.next = 2;
-                            return _this.controller.pauseTraining(updateUI);
+                            if (!isBusy) {
+                              _context4.next = 2;
+                              break;
+                            }
+
+                            return _context4.abrupt("return");
 
                           case 2:
+                            isBusy = true;
+                            _context4.next = 5;
+                            return _this.controller.pauseTraining(updateUI);
+
+                          case 5:
                             learningRate = Math.pow(10, d.querySelector('.learningrate').value);
                             d.querySelector('.learningratetxt').innerHTML = learningRate.toPrecision(1);
 
                             _this.controller.resetNetwork(d.querySelector('.modelid').value, d.querySelector('.optimizerid').value, learningRate, d.querySelector('.activation').value);
 
                             updateUI();
+                            isBusy = false;
 
-                          case 6:
+                          case 10:
                           case "end":
                             return _context4.stop();
                         }
@@ -3104,14 +3147,14 @@ var DesignNetworkSlide = /*#__PURE__*/function (_Slide) {
                     }
                   }, _callee5);
                 }));
-                _context6.next = 18;
+                _context6.next = 19;
                 return this.controller.initTrainingEnvironment(els);
 
-              case 18:
+              case 19:
                 // controller.startTraining();
                 updateUI();
 
-              case 19:
+              case 20:
               case "end":
                 return _context6.stop();
             }
@@ -3326,13 +3369,14 @@ var TrainingSlide = /*#__PURE__*/function (_Slide) {
       var _onEnter = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         var _this = this;
 
-        var istraining, d, resetadvancedoptions, els, updateUI, resetadvancednetwork, rateSlider, rateLabel;
+        var istraining, isBusy, d, resetadvancedoptions, els, updateUI, resetadvancednetwork, rateSlider, rateLabel;
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 this.controller.testpaint = true;
                 istraining = true;
+                isBusy = false;
                 d = document.querySelector('[data-slide=training] .train');
 
                 resetadvancedoptions = function resetadvancedoptions() {
@@ -3422,15 +3466,25 @@ var TrainingSlide = /*#__PURE__*/function (_Slide) {
                     while (1) {
                       switch (_context.prev = _context.next) {
                         case 0:
+                          if (!isBusy) {
+                            _context.next = 2;
+                            break;
+                          }
+
+                          return _context.abrupt("return");
+
+                        case 2:
+                          isBusy = true;
                           istraining = !istraining;
-                          _context.next = 3;
+                          _context.next = 6;
                           return _this.controller.toggleTraining(updateUI);
 
-                        case 3:
+                        case 6:
                           updateUI();
                           d.querySelector('.reset').classList.add('visible');
+                          isBusy = false;
 
-                        case 5:
+                        case 9:
                         case "end":
                           return _context.stop();
                       }
@@ -3442,28 +3496,39 @@ var TrainingSlide = /*#__PURE__*/function (_Slide) {
                     while (1) {
                       switch (_context2.prev = _context2.next) {
                         case 0:
-                          if (!istraining) {
-                            _context2.next = 6;
+                          if (!isBusy) {
+                            _context2.next = 2;
                             break;
                           }
 
-                          _context2.next = 3;
+                          return _context2.abrupt("return");
+
+                        case 2:
+                          isBusy = true;
+
+                          if (!istraining) {
+                            _context2.next = 9;
+                            break;
+                          }
+
+                          _context2.next = 6;
                           return _this.controller.pauseTraining(updateUI);
 
-                        case 3:
+                        case 6:
                           // await controller.singleStep(updateUI);
                           istraining = false;
-                          _context2.next = 8;
+                          _context2.next = 11;
                           break;
 
-                        case 6:
-                          _context2.next = 8;
+                        case 9:
+                          _context2.next = 11;
                           return _this.controller.singleStep(updateUI);
 
-                        case 8:
+                        case 11:
                           updateUI();
+                          isBusy = false;
 
-                        case 9:
+                        case 13:
                         case "end":
                           return _context2.stop();
                       }
@@ -3475,21 +3540,31 @@ var TrainingSlide = /*#__PURE__*/function (_Slide) {
                     while (1) {
                       switch (_context3.prev = _context3.next) {
                         case 0:
-                          _context3.next = 2;
-                          return _this.controller.pauseTraining(updateUI);
+                          if (!isBusy) {
+                            _context3.next = 2;
+                            break;
+                          }
+
+                          return _context3.abrupt("return");
 
                         case 2:
-                          _context3.next = 4;
+                          isBusy = true;
+                          _context3.next = 5;
+                          return _this.controller.pauseTraining(updateUI);
+
+                        case 5:
+                          _context3.next = 7;
                           return _this.controller.resetTraining(els);
 
-                        case 4:
-                          _context3.next = 6;
+                        case 7:
+                          _context3.next = 9;
                           return resetadvancednetwork();
 
-                        case 6:
+                        case 9:
                           updateUI();
+                          isBusy = false;
 
-                        case 7:
+                        case 11:
                         case "end":
                           return _context3.stop();
                       }
@@ -3552,14 +3627,14 @@ var TrainingSlide = /*#__PURE__*/function (_Slide) {
                     }
                   }, _callee5);
                 }));
-                _context6.next = 18;
+                _context6.next = 19;
                 return this.controller.initTrainingEnvironment(els);
 
-              case 18:
+              case 19:
                 // controller.startTraining();
                 updateUI();
 
-              case 19:
+              case 20:
               case "end":
                 return _context6.stop();
             }
