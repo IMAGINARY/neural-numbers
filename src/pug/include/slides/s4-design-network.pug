@@ -1,4 +1,4 @@
-.slide(data-slide='training')
+.slide(data-slide='design-network')
   h1.main-title: span(data-i18n-str='main-title')
   .train
     .view
@@ -13,10 +13,10 @@
           .box
             canvas.traininputcanvas
           p(data-i18n-str='training-label-training')
-      .simplenetwork.visible
+      .simplenetwork
         canvas.network
         canvas.activations
-      .advanced
+      .advanced.visible
         .parameter
           .title(data-i18n-str='training-adv-model-title')
           .select.modelid
@@ -63,7 +63,8 @@
             div(data-i18n-str='training-label-predicted-accuracy')
         .v-seperator
         .controls
-          a(href="#training", data-i18n-str-title="training-label-reset").reset
-          a(href="#training", data-i18n-str-title="training-label-pause").pause-resume.pause
-          a(href="#training", data-i18n-str-title="training-label-step").single-step
+          a(href="#design-network", data-i18n-str-title="training-label-reset").reset
+          a(href="#design-network", data-i18n-str-title="training-label-pause").pause-resume.pause
+          a(href="#design-network", data-i18n-str-title="training-label-step").single-step
         //a.button.testit -&gt; Test the Network!
+

@@ -118,7 +118,6 @@
               <div class="controls"><a class="reset" href="#training" data-i18n-str-title="training-label-reset"></a><a class="pause-resume pause" href="#training" data-i18n-str-title="training-label-pause"></a><a class="single-step" href="#training" data-i18n-str-title="training-label-step"></a></div>
               <!--a.button.testit -&gt; Test the Network!-->
             </div>
-            <div class="modeswitch"><a class="activate" data-i18n-str="training-label-adv"></a><a class="cancel" data-i18n-str="training-label-adv"></a></div>
           </div>
         </div>
       </div>
@@ -184,11 +183,94 @@
           </div>
         </div>
       </div>
+      <div class="slide" data-slide="design-network">
+        <h1 class="main-title"><span data-i18n-str="main-title"></span></h1>
+        <div class="train">
+          <div class="view">
+            <div class="inputspace visible">
+              <div class="paint">
+                <div class="input box background">
+                  <div class="input-canvas-wrapper">
+                    <canvas class="drawcanvas"></canvas>
+                  </div>
+                  <div class="input-placeholder"><span data-i18n-str="ui-label-input-placeholder"></span></div>
+                </div>
+              </div>
+              <div class="training">
+                <div class="box">
+                  <canvas class="traininputcanvas"></canvas>
+                </div>
+                <p data-i18n-str="training-label-training"></p>
+              </div>
+            </div>
+            <div class="simplenetwork">
+              <canvas class="network"></canvas>
+              <canvas class="activations"></canvas>
+            </div>
+            <div class="advanced visible">
+              <div class="parameter">
+                <div class="title" data-i18n-str="training-adv-model-title"></div>
+                <div class="select modelid">
+                  <div class="option selected" data-value="dense"><span class="label" data-i18n-str="training-adv-model-dense"></span></div>
+                  <div class="option" data-value="cnn"><span class="label" data-i18n-str="training-adv-model-cnn"></span></div>
+                  <div class="option" data-value="nohidden"><span class="label" data-i18n-str="training-adv-model-nohidden"></span></div>
+                </div>
+              </div>
+              <div class="parameter">
+                <div class="title" data-i18n-str="training-adv-activation-title"></div>
+                <div class="select activation">
+                  <div class="option selected" data-value="relu"><span class="label" data-i18n-str="training-adv-activation-relu"></span></div>
+                  <div class="option" data-value="tanh"><span class="label" data-i18n-str="training-adv-activation-tanh"></span></div>
+                  <div class="option" data-value="sigmoid"><span class="label" data-i18n-str="training-adv-activation-sigmoid"></span></div>
+                </div>
+              </div>
+              <div class="columns">
+                <div class="column">
+                  <div class="parameter">
+                    <div class="title" data-i18n-str="training-adv-learning-rate"></div>
+                    <input class="learningrate" type="range" min="-4" max="0" value="-3" step="any">
+                    <div class="learningratetxt">0.001</div>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="parameter">
+                    <div class="title" data-i18n-str="training-adv-optimizer-title"></div>
+                    <div class="select optimizerid">
+                      <div class="option selected" data-value="adam"><span class="label" data-i18n-str="training-adv-optimizer-adam"></span></div>
+                      <div class="option" data-value="sgd"><span class="label" data-i18n-str="training-adv-optimizer-sgd"></span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bars vertical visible"></div>
+          </div>
+          <div class="menu">
+            <div class="box">
+              <div class="info">
+                <div class="info-item imagesused">
+                  <div class="number">0</div>
+                  <div data-i18n-str="training-label-images-used"></div>
+                </div>
+                <div class="h-seperator"></div>
+                <div class="info-item accuracy">
+                  <div class="number">10%</div>
+                  <div data-i18n-str="training-label-predicted-accuracy"></div>
+                </div>
+              </div>
+              <div class="v-seperator"></div>
+              <div class="controls"><a class="reset" href="#design-network" data-i18n-str-title="training-label-reset"></a><a class="pause-resume pause" href="#design-network" data-i18n-str-title="training-label-pause"></a><a class="single-step" href="#design-network" data-i18n-str-title="training-label-step"></a></div>
+              <!--a.button.testit -&gt; Test the Network!-->
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="footer">
-      <div class="navigation"><a class="button" href="#intro"><span data-i18n-str="nav-button-intro"></span></a><a class="button" href="#training"><span data-i18n-str="nav-button-training"></span></a><a class="button" href="#how-does-it-work"><span data-i18n-str="nav-button-how-does-it-work"></span></a></div>
-      <div class="utility"></div>
-      <div class="icons"><a class="international"></a><a class="info"></a></div>
+      <div class="navigation"><a class="button" href="#intro"><span data-i18n-str="nav-button-intro"></span></a><a class="button" href="#training"><span data-i18n-str="nav-button-training"></span></a><a class="button" href="#how-does-it-work"><span data-i18n-str="nav-button-how-does-it-work"></span></a><a class="button" href="#design-network"><span data-i18n-str="nav-button-design-network"></span></a></div>
+      <div class="utility">
+        <div class="icons"><a class="international"></a><a class="info"></a></div>
+      </div>
     </div>
     <script type="text/javascript" src="vendor/i18n4js/i18n4js-1.3.1.min.js"></script>
     <script type="text/javascript" src="vendor/pep/pep.js"></script>

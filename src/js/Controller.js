@@ -55,8 +55,10 @@ export default class Controller {
   }
 
   resetNetwork(modelid, optimizerid, learningRate, activation) {
-    this.nn.setup(modelid, optimizerid, learningRate, activation);
-    this.paint.model = this.nn.model;
+    if (this.nn) {
+      this.nn.setup(modelid, optimizerid, learningRate, activation);
+      this.paint.model = this.nn.model;
+    }
   }
 
   async startTraining() {

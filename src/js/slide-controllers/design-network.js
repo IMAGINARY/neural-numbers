@@ -1,12 +1,11 @@
 /* eslint-disable no-param-reassign,no-restricted-properties */
 import Slide from '../slide.js';
 
-export default class TrainingSlide extends Slide {
+export default class DesignNetworkSlide extends Slide {
   async onEnter() {
     this.controller.testpaint = true;
     let istraining = true;
-    const d = document.querySelector('[data-slide=training] .train');
-
+    const d = document.querySelector('[data-slide=design-network] .train');
     const resetadvancedoptions = () => {
       d.querySelectorAll('.parameter .select').forEach((select) => {
         select.querySelectorAll('.option').forEach((option, k) => {
@@ -47,8 +46,6 @@ export default class TrainingSlide extends Slide {
           this.controller.paint.clear();
         }
       }
-
-      // d.querySelector(".expertmode-on-off").innerHTML = expertmode ? "on" : "off";
 
       const pr = d.querySelector('.pause-resume');
 
@@ -93,7 +90,7 @@ export default class TrainingSlide extends Slide {
     };
 
     d.querySelector('.single-step').onpointerdown = async () => {
-      if (istraining) {
+      if ((istraining)) {
         await this.controller.pauseTraining(updateUI);
         // await controller.singleStep(updateUI);
         istraining = false;
@@ -106,7 +103,7 @@ export default class TrainingSlide extends Slide {
     d.querySelector('.reset').onpointerdown = async () => {
       await this.controller.pauseTraining(updateUI);
       await this.controller.resetTraining(els);
-      await resetadvancednetwork();
+      resetadvancednetwork();
       updateUI();
     };
 
@@ -133,7 +130,7 @@ export default class TrainingSlide extends Slide {
     };
 
     d.querySelector('.learningrate').onchange = async () => {
-      await resetadvancednetwork();
+      resetadvancednetwork();
     };
 
     await this.controller.initTrainingEnvironment(els);
@@ -149,4 +146,4 @@ export default class TrainingSlide extends Slide {
   }
 }
 
-Slide.registerClass('training', TrainingSlide);
+Slide.registerClass('design-network', DesignNetworkSlide);

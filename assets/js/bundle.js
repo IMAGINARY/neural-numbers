@@ -221,8 +221,10 @@ var Controller = /*#__PURE__*/function () {
   }, {
     key: "resetNetwork",
     value: function resetNetwork(modelid, optimizerid, learningRate, activation) {
-      this.nn.setup(modelid, optimizerid, learningRate, activation);
-      this.paint.model = this.nn.model;
+      if (this.nn) {
+        this.nn.setup(modelid, optimizerid, learningRate, activation);
+        this.paint.model = this.nn.model;
+      }
     }
   }, {
     key: "startTraining",
@@ -1793,6 +1795,10 @@ var _slide = _interopRequireDefault(require("./slide.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1805,17 +1811,33 @@ var SlideShow = /*#__PURE__*/function () {
 
     _classCallCheck(this, SlideShow);
 
+    this.createEventMask();
     this.controller = controller;
     this.slides = Array.from(document.querySelectorAll('[data-slide]')).map(function (element) {
       return element.getAttribute('data-slide');
     });
     this.currentSlide = 0;
     this.currentSlideController = null;
+    window.onhashchange = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _this.maskEvents();
 
-    window.onhashchange = function () {
-      _this.doSlideChange();
-    };
+              _context.next = 3;
+              return _this.doSlideChange();
 
+            case 3:
+              _this.unmaskEvents();
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
     this.doSlideChange();
     window.addEventListener('keydown', function (event) {
       switch (event.key) {
@@ -1834,12 +1856,37 @@ var SlideShow = /*#__PURE__*/function () {
       }
     });
   }
-  /**
-   * Go to the first slide
-   */
-
 
   _createClass(SlideShow, [{
+    key: "createEventMask",
+    value: function createEventMask() {
+      this.eventMask = document.createElement('div');
+      this.eventMask.style.position = 'absolute';
+      this.eventMask.style.top = '0';
+      this.eventMask.style.left = '0';
+      this.eventMask.style.width = '100%';
+      this.eventMask.style.height = '100%';
+      this.eventMask.style.zIndex = '1000000';
+      this.eventMask.style.pointerEvents = 'all';
+      this.eventMask.style.backgroundColor = 'transparent';
+      this.eventMask.style.display = 'none';
+      window.document.body.appendChild(this.eventMask);
+    }
+  }, {
+    key: "maskEvents",
+    value: function maskEvents() {
+      this.eventMask.style.display = 'block';
+    }
+  }, {
+    key: "unmaskEvents",
+    value: function unmaskEvents() {
+      this.eventMask.style.display = 'none';
+    }
+    /**
+     * Go to the first slide
+     */
+
+  }, {
     key: "goFirst",
     value: function goFirst() {
       if (this.slides.length > 0) {
@@ -1908,58 +1955,92 @@ var SlideShow = /*#__PURE__*/function () {
 
   }, {
     key: "doSlideChange",
-    value: function doSlideChange() {
-      var _this2 = this;
+    value: function () {
+      var _doSlideChange = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var _this2 = this;
 
-      var currentSlide = this.getCurrentSlide();
-      document.querySelector('.footer .navigation').childNodes.forEach(function (btn) {
-        btn.classList.remove('selected');
-      });
-      this.slides.forEach(function (slide) {
-        var element = document.querySelector("[data-slide=".concat(slide, "]"));
+        var currentSlide, element, nav, menuItem, SlideClass;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                currentSlide = this.getCurrentSlide();
+                document.querySelector('.footer .navigation').childNodes.forEach(function (btn) {
+                  btn.classList.remove('selected');
+                });
+                this.slides.forEach(function (slide) {
+                  var element = document.querySelector("[data-slide=".concat(slide, "]"));
 
-        if (element.onExit && element.open) {
-          element.onExit(_this2.controller);
-        }
+                  if (element.onExit && element.open) {
+                    element.onExit(_this2.controller);
+                  }
 
-        element.open = false;
-        element.classList.remove('visible');
-        element.classList.remove('entering');
-      });
+                  element.open = false;
+                  element.classList.remove('visible');
+                  element.classList.remove('entering');
+                });
 
-      if (this.currentSlideController) {
-        this.currentSlideController.onExit();
-        this.currentSlideController = null;
+                if (!this.currentSlideController) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _context2.next = 6;
+                return this.currentSlideController.onExit();
+
+              case 6:
+                this.currentSlideController = null;
+
+              case 7:
+                element = document.querySelector("[data-slide=".concat(currentSlide, "]"));
+
+                if (!element) {
+                  _context2.next = 21;
+                  break;
+                }
+
+                nav = element.getAttribute('data-slide-nav') || currentSlide;
+                menuItem = document.querySelector(".footer .navigation [href='#".concat(nav, "']"));
+
+                if (menuItem) {
+                  menuItem.classList.add('selected');
+                }
+
+                element.open = true;
+                element.classList.add('visible');
+                setTimeout(function () {
+                  element.classList.add('entering');
+                }, 0);
+
+                if (element.onEnter) {
+                  element.onEnter(this.controller);
+                }
+
+                SlideClass = _slide["default"].getClass(currentSlide);
+
+                if (!SlideClass) {
+                  _context2.next = 21;
+                  break;
+                }
+
+                this.currentSlideController = new SlideClass(element, this.controller);
+                _context2.next = 21;
+                return this.currentSlideController.onEnter();
+
+              case 21:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function doSlideChange() {
+        return _doSlideChange.apply(this, arguments);
       }
 
-      var element = document.querySelector("[data-slide=".concat(currentSlide, "]"));
-
-      if (element) {
-        var nav = element.getAttribute('data-slide-nav') || currentSlide;
-        var menuItem = document.querySelector(".footer .navigation [href='#".concat(nav, "']"));
-
-        if (menuItem) {
-          menuItem.classList.add('selected');
-        }
-
-        element.open = true;
-        element.classList.add('visible');
-        setTimeout(function () {
-          element.classList.add('entering');
-        }, 0);
-
-        if (element.onEnter) {
-          element.onEnter(this.controller);
-        }
-
-        var SlideClass = _slide["default"].getClass(currentSlide);
-
-        if (SlideClass) {
-          this.currentSlideController = new SlideClass(element, this.controller);
-          this.currentSlideController.onEnter();
-        }
-      }
-    }
+      return doSlideChange;
+    }()
   }]);
 
   return SlideShow;
@@ -1967,7 +2048,7 @@ var SlideShow = /*#__PURE__*/function () {
 
 exports["default"] = SlideShow;
 
-},{"./slide.js":17}],9:[function(require,module,exports){
+},{"./slide.js":18}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2694,6 +2775,8 @@ require("./slide-controllers/training.js");
 
 require("./slide-controllers/what-is-training-data.js");
 
+require("./slide-controllers/design-network.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /* eslint-disable no-unused-vars */
@@ -2708,7 +2791,7 @@ var configDefaults = {
   modelPath: 'assets/models/my-model.json'
 };
 fetch('./config.json', {
-  cache: 'no-cache'
+  cache: 'no-store'
 }).then(function (response) {
   if (response.status >= 200 && response.status < 300) {
     return response.json();
@@ -2745,7 +2828,7 @@ fetch('./config.json', {
   });
 });
 
-},{"./Controller.js":2,"./IdleDetector.js":3,"./LangSwitcher.js":4,"./SlideShow.js":8,"./i18nController.js":11,"./slide-controllers/intro.js":14,"./slide-controllers/training.js":15,"./slide-controllers/what-is-training-data.js":16}],14:[function(require,module,exports){
+},{"./Controller.js":2,"./IdleDetector.js":3,"./LangSwitcher.js":4,"./SlideShow.js":8,"./i18nController.js":11,"./slide-controllers/design-network.js":14,"./slide-controllers/intro.js":15,"./slide-controllers/training.js":16,"./slide-controllers/what-is-training-data.js":17}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2783,141 +2866,31 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var IntroSlide = /*#__PURE__*/function (_Slide) {
-  _inherits(IntroSlide, _Slide);
+var DesignNetworkSlide = /*#__PURE__*/function (_Slide) {
+  _inherits(DesignNetworkSlide, _Slide);
 
-  var _super = _createSuper(IntroSlide);
+  var _super = _createSuper(DesignNetworkSlide);
 
-  function IntroSlide() {
-    _classCallCheck(this, IntroSlide);
-
-    return _super.apply(this, arguments);
-  }
-
-  _createClass(IntroSlide, [{
-    key: "onEnter",
-    value: function () {
-      var _onEnter = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return this.controller.initIntroPaint(this.element);
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function onEnter() {
-        return _onEnter.apply(this, arguments);
-      }
-
-      return onEnter;
-    }()
-  }, {
-    key: "onExit",
-    value: function () {
-      var _onExit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                this.controller.cleanupPaint();
-
-              case 1:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function onExit() {
-        return _onExit.apply(this, arguments);
-      }
-
-      return onExit;
-    }()
-  }]);
-
-  return IntroSlide;
-}(_slide["default"]);
-
-exports["default"] = IntroSlide;
-
-_slide["default"].registerClass('intro', IntroSlide);
-
-},{"../slide.js":17}],15:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _slide = _interopRequireDefault(require("../slide.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-var TrainingSlide = /*#__PURE__*/function (_Slide) {
-  _inherits(TrainingSlide, _Slide);
-
-  var _super = _createSuper(TrainingSlide);
-
-  function TrainingSlide() {
-    _classCallCheck(this, TrainingSlide);
+  function DesignNetworkSlide() {
+    _classCallCheck(this, DesignNetworkSlide);
 
     return _super.apply(this, arguments);
   }
 
-  _createClass(TrainingSlide, [{
+  _createClass(DesignNetworkSlide, [{
     key: "onEnter",
     value: function () {
-      var _onEnter = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+      var _onEnter = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         var _this = this;
 
-        var expertmode, istraining, d, resetadvancedoptions, els, updateUI, resetadvancednetwork, rateSlider, rateLabel;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        var istraining, d, resetadvancedoptions, els, updateUI, resetadvancednetwork, rateSlider, rateLabel;
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 this.controller.testpaint = true;
-                expertmode = false;
                 istraining = true;
-                d = document.querySelector('.train');
-                d.querySelector('.modeswitch .activate').classList.add('visible');
-                d.querySelector('.modeswitch .cancel').classList.remove('visible');
+                d = document.querySelector('[data-slide=design-network] .train');
 
                 resetadvancedoptions = function resetadvancedoptions() {
                   d.querySelectorAll('.parameter .select').forEach(function (select) {
@@ -2947,7 +2920,6 @@ var TrainingSlide = /*#__PURE__*/function (_Slide) {
 
                 updateUI = function updateUI() {
                   istraining = _this.controller.nn && _this.controller.nn.training;
-                  expertmode = d.querySelector('.modeswitch .cancel').classList.contains('visible');
 
                   if (_this.controller.nn && _this.controller.nn.trainedimages > 0) {
                     d.querySelector('.reset').classList.add('visible');
@@ -2963,9 +2935,6 @@ var TrainingSlide = /*#__PURE__*/function (_Slide) {
                       _this.controller.paint.clear();
                     }
                   }
-
-                  d.querySelector('.simplenetwork').classList.toggle('visible', !expertmode);
-                  d.querySelector('.advanced').classList.toggle('visible', expertmode); // d.querySelector(".expertmode-on-off").innerHTML = expertmode ? "on" : "off";
 
                   var pr = d.querySelector('.pause-resume');
 
@@ -3113,26 +3082,6 @@ var TrainingSlide = /*#__PURE__*/function (_Slide) {
                   };
                 }();
 
-                d.querySelector('.modeswitch').onpointerdown = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-                  return regeneratorRuntime.wrap(function _callee5$(_context5) {
-                    while (1) {
-                      switch (_context5.prev = _context5.next) {
-                        case 0:
-                          d.querySelector('.modeswitch .activate').classList.toggle('visible');
-                          d.querySelector('.modeswitch .cancel').classList.toggle('visible');
-                          resetadvancedoptions();
-                          resetadvancednetwork();
-                          updateUI();
-                          _context5.next = 7;
-                          return _this.controller.pauseTraining(updateUI);
-
-                        case 7:
-                        case "end":
-                          return _context5.stop();
-                      }
-                    }
-                  }, _callee5);
-                }));
                 rateSlider = d.querySelector('.learningrate');
                 rateLabel = d.querySelector('.learningratetxt');
 
@@ -3141,33 +3090,33 @@ var TrainingSlide = /*#__PURE__*/function (_Slide) {
                   rateLabel.innerText = rate.toPrecision(1);
                 };
 
-                d.querySelector('.learningrate').onchange = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-                  return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                d.querySelector('.learningrate').onchange = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+                  return regeneratorRuntime.wrap(function _callee5$(_context5) {
                     while (1) {
-                      switch (_context6.prev = _context6.next) {
+                      switch (_context5.prev = _context5.next) {
                         case 0:
                           resetadvancednetwork();
 
                         case 1:
                         case "end":
-                          return _context6.stop();
+                          return _context5.stop();
                       }
                     }
-                  }, _callee6);
+                  }, _callee5);
                 }));
-                _context7.next = 22;
+                _context6.next = 18;
                 return this.controller.initTrainingEnvironment(els);
 
-              case 22:
+              case 18:
                 // controller.startTraining();
                 updateUI();
 
-              case 23:
+              case 19:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee6, this);
       }));
 
       function onEnter() {
@@ -3179,13 +3128,13 @@ var TrainingSlide = /*#__PURE__*/function (_Slide) {
   }, {
     key: "onExit",
     value: function () {
-      var _onExit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      var _onExit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 this.controller.cleanupPaint();
-                _context8.next = 3;
+                _context7.next = 3;
                 return this.controller.pauseTraining();
 
               case 3:
@@ -3194,10 +3143,458 @@ var TrainingSlide = /*#__PURE__*/function (_Slide) {
 
               case 5:
               case "end":
-                return _context8.stop();
+                return _context7.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee7, this);
+      }));
+
+      function onExit() {
+        return _onExit.apply(this, arguments);
+      }
+
+      return onExit;
+    }()
+  }]);
+
+  return DesignNetworkSlide;
+}(_slide["default"]);
+
+exports["default"] = DesignNetworkSlide;
+
+_slide["default"].registerClass('design-network', DesignNetworkSlide);
+
+},{"../slide.js":18}],15:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _slide = _interopRequireDefault(require("../slide.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var IntroSlide = /*#__PURE__*/function (_Slide) {
+  _inherits(IntroSlide, _Slide);
+
+  var _super = _createSuper(IntroSlide);
+
+  function IntroSlide() {
+    _classCallCheck(this, IntroSlide);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(IntroSlide, [{
+    key: "onEnter",
+    value: function () {
+      var _onEnter = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.controller.initIntroPaint(this.element);
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function onEnter() {
+        return _onEnter.apply(this, arguments);
+      }
+
+      return onEnter;
+    }()
+  }, {
+    key: "onExit",
+    value: function () {
+      var _onExit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.controller.cleanupPaint();
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function onExit() {
+        return _onExit.apply(this, arguments);
+      }
+
+      return onExit;
+    }()
+  }]);
+
+  return IntroSlide;
+}(_slide["default"]);
+
+exports["default"] = IntroSlide;
+
+_slide["default"].registerClass('intro', IntroSlide);
+
+},{"../slide.js":18}],16:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _slide = _interopRequireDefault(require("../slide.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var TrainingSlide = /*#__PURE__*/function (_Slide) {
+  _inherits(TrainingSlide, _Slide);
+
+  var _super = _createSuper(TrainingSlide);
+
+  function TrainingSlide() {
+    _classCallCheck(this, TrainingSlide);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(TrainingSlide, [{
+    key: "onEnter",
+    value: function () {
+      var _onEnter = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        var _this = this;
+
+        var istraining, d, resetadvancedoptions, els, updateUI, resetadvancednetwork, rateSlider, rateLabel;
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                this.controller.testpaint = true;
+                istraining = true;
+                d = document.querySelector('[data-slide=training] .train');
+
+                resetadvancedoptions = function resetadvancedoptions() {
+                  d.querySelectorAll('.parameter .select').forEach(function (select) {
+                    select.querySelectorAll('.option').forEach(function (option, k) {
+                      option.classList.toggle('selected', k === 0);
+
+                      if (k === 0) {
+                        select.value = option.dataset.value;
+                      }
+                    });
+                  });
+                  d.querySelector('.learningrate').value = -3;
+                  d.querySelector('.learningratetxt').innerHTML = '0.001';
+                };
+
+                resetadvancedoptions();
+                els = {
+                  trainingProgress: d.querySelector('.imagesused .number'),
+                  // validationImages: d.querySelector('#validation-images'),
+                  validationAccuracy: d.querySelector('.accuracy .number'),
+                  input: d.querySelector('.traininputcanvas'),
+                  network: d.querySelector('.simplenetwork > .network'),
+                  activations: d.querySelector('.simplenetwork > .activations'),
+                  bars: d.querySelector('.bars'),
+                  paint: d.querySelector('.paint')
+                };
+
+                updateUI = function updateUI() {
+                  istraining = _this.controller.nn && _this.controller.nn.training;
+
+                  if (_this.controller.nn && _this.controller.nn.trainedimages > 0) {
+                    d.querySelector('.reset').classList.add('visible');
+                  } else {
+                    d.querySelector('.reset').classList.remove('visible');
+                  }
+
+                  d.querySelector('.paint').classList.toggle('visible', _this.controller.testpaint);
+                  d.querySelector('.training').classList.toggle('visible', !_this.controller.testpaint);
+
+                  if (_this.controller.testpaint) {
+                    if (_this.controller.paint) {
+                      _this.controller.paint.clear();
+                    }
+                  } // d.querySelector(".expertmode-on-off").innerHTML = expertmode ? "on" : "off";
+
+
+                  var pr = d.querySelector('.pause-resume');
+
+                  if (istraining) {
+                    pr.classList.remove('resume');
+                    pr.classList.add('pause');
+                  } else {
+                    pr.classList.add('resume');
+                    pr.classList.remove('pause');
+                  }
+
+                  d.querySelectorAll('.parameter .select').forEach(function (select) {
+                    select.querySelectorAll('.option').forEach(function (option) {
+                      option.onpointerdown = function () {
+                        if (select.value !== option.dataset.value) {
+                          select.querySelectorAll('.option').forEach(function (ooption) {
+                            ooption.classList.toggle('selected', ooption === option);
+                          });
+                          select.value = option.dataset.value;
+                          resetadvancednetwork();
+                        }
+                      };
+                    });
+                  });
+                };
+
+                updateUI();
+                /* buttons */
+
+                /*
+                  if (d.querySelector(".testit")) d.querySelector(".testit").onpointerdown = async () => {
+                    controller.testpaint = true;
+                    updateUI();
+                    await controller.pauseTraining();
+                    updateUI();
+                  };
+                */
+
+                d.querySelector('.pause-resume').onpointerdown = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                  return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                      switch (_context.prev = _context.next) {
+                        case 0:
+                          istraining = !istraining;
+                          _context.next = 3;
+                          return _this.controller.toggleTraining(updateUI);
+
+                        case 3:
+                          updateUI();
+                          d.querySelector('.reset').classList.add('visible');
+
+                        case 5:
+                        case "end":
+                          return _context.stop();
+                      }
+                    }
+                  }, _callee);
+                }));
+                d.querySelector('.single-step').onpointerdown = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+                  return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                    while (1) {
+                      switch (_context2.prev = _context2.next) {
+                        case 0:
+                          if (!istraining) {
+                            _context2.next = 6;
+                            break;
+                          }
+
+                          _context2.next = 3;
+                          return _this.controller.pauseTraining(updateUI);
+
+                        case 3:
+                          // await controller.singleStep(updateUI);
+                          istraining = false;
+                          _context2.next = 8;
+                          break;
+
+                        case 6:
+                          _context2.next = 8;
+                          return _this.controller.singleStep(updateUI);
+
+                        case 8:
+                          updateUI();
+
+                        case 9:
+                        case "end":
+                          return _context2.stop();
+                      }
+                    }
+                  }, _callee2);
+                }));
+                d.querySelector('.reset').onpointerdown = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          _context3.next = 2;
+                          return _this.controller.pauseTraining(updateUI);
+
+                        case 2:
+                          _context3.next = 4;
+                          return _this.controller.resetTraining(els);
+
+                        case 4:
+                          _context3.next = 6;
+                          return resetadvancednetwork();
+
+                        case 6:
+                          updateUI();
+
+                        case 7:
+                        case "end":
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3);
+                }));
+                /* expert mode */
+
+                resetadvancednetwork = /*#__PURE__*/function () {
+                  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+                    var learningRate;
+                    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                      while (1) {
+                        switch (_context4.prev = _context4.next) {
+                          case 0:
+                            _context4.next = 2;
+                            return _this.controller.pauseTraining(updateUI);
+
+                          case 2:
+                            learningRate = Math.pow(10, d.querySelector('.learningrate').value);
+                            d.querySelector('.learningratetxt').innerHTML = learningRate.toPrecision(1);
+
+                            _this.controller.resetNetwork(d.querySelector('.modelid').value, d.querySelector('.optimizerid').value, learningRate, d.querySelector('.activation').value);
+
+                            updateUI();
+
+                          case 6:
+                          case "end":
+                            return _context4.stop();
+                        }
+                      }
+                    }, _callee4);
+                  }));
+
+                  return function resetadvancednetwork() {
+                    return _ref4.apply(this, arguments);
+                  };
+                }();
+
+                rateSlider = d.querySelector('.learningrate');
+                rateLabel = d.querySelector('.learningratetxt');
+
+                rateSlider.oninput = function () {
+                  var rate = Math.pow(10, rateSlider.value);
+                  rateLabel.innerText = rate.toPrecision(1);
+                };
+
+                d.querySelector('.learningrate').onchange = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+                  return regeneratorRuntime.wrap(function _callee5$(_context5) {
+                    while (1) {
+                      switch (_context5.prev = _context5.next) {
+                        case 0:
+                          _context5.next = 2;
+                          return resetadvancednetwork();
+
+                        case 2:
+                        case "end":
+                          return _context5.stop();
+                      }
+                    }
+                  }, _callee5);
+                }));
+                _context6.next = 18;
+                return this.controller.initTrainingEnvironment(els);
+
+              case 18:
+                // controller.startTraining();
+                updateUI();
+
+              case 19:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this);
+      }));
+
+      function onEnter() {
+        return _onEnter.apply(this, arguments);
+      }
+
+      return onEnter;
+    }()
+  }, {
+    key: "onExit",
+    value: function () {
+      var _onExit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                this.controller.cleanupPaint();
+                _context7.next = 3;
+                return this.controller.pauseTraining();
+
+              case 3:
+                this.controller.cleanupValidationPreview();
+                this.controller.cleanupNetwork();
+
+              case 5:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
       }));
 
       function onExit() {
@@ -3215,7 +3612,7 @@ exports["default"] = TrainingSlide;
 
 _slide["default"].registerClass('training', TrainingSlide);
 
-},{"../slide.js":17}],16:[function(require,module,exports){
+},{"../slide.js":18}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3322,7 +3719,7 @@ exports["default"] = WhatIsTrainingDataSlide;
 
 _slide["default"].registerClass('what-is-training-data', WhatIsTrainingDataSlide);
 
-},{"../slide.js":17}],17:[function(require,module,exports){
+},{"../slide.js":18}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

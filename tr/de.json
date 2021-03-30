@@ -3,6 +3,7 @@
   "nav-button-intro": "Erkenne ich deine Zahl?",
   "nav-button-training": "Trainiere das Netzwerk!",
   "nav-button-how-does-it-work": "Wie funktioniert das?",
+  "nav-button-design-network": "Gestalte das Netzwerk!",
   "ui-label-input-placeholder": "Schreib eine Zahl zwischen 0&nbsp;und&nbsp;9",
   "ui-label-output-normalized": "Normalisiertes Bild",
   "intro-title": "Erkenne ich deine Zahl?",

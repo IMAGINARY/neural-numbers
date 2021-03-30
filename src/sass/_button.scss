@@ -1,11 +1,11 @@
 
 .button {
   font-style: normal;
-  font-size: 32px;
-  line-height: 37px;
+  font-size: 28px;
+  line-height: 50px;
   font-weight: normal;
   padding: 14px 28px;
-  margin: 25px;
+  margin: 16px;
   pointer-events: all;
   border: 1px solid #CCCCCC;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
@@ -28,8 +28,10 @@
   background-position: bottom;
   margin-right: 12px;
   width: 30px;
-  height: 32px;
+  height: 28px;
   display: inline-block;
+  vertical-align: text-top;
+  margin-top: 2px;
 }
 
 

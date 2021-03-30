@@ -15,6 +15,7 @@ $footer-height: 100px;
 .footer .navigation {
   margin-right: auto;
   margin-left: auto;
+  padding-right: 65px;
 }
 
 .footer .navigation .button:nth-child(1)::before {
@@ -27,7 +28,10 @@ $footer-height: 100px;
 
 .footer .navigation .button:nth-child(3)::before {
   background-image: url("../../assets/img/info.svg");
-  height: 25px;
+}
+
+.footer .navigation .button:nth-child(4)::before {
+  background-image: url("../../assets/img/info.svg");
 }
 
 .footer .utility {

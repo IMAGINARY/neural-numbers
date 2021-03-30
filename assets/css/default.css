@@ -156,7 +156,8 @@ a {
 
 .footer .navigation {
   margin-right: auto;
-  margin-left: auto; }
+  margin-left: auto;
+  padding-right: 65px; }
 
 .footer .navigation .button:nth-child(1)::before {
   background-image: url("../../assets/img/pen.svg"); }
@@ -165,8 +166,10 @@ a {
   background-image: url("../../assets/img/train.svg"); }
 
 .footer .navigation .button:nth-child(3)::before {
-  background-image: url("../../assets/img/info.svg");
-  height: 25px; }
+  background-image: url("../../assets/img/info.svg"); }
+
+.footer .navigation .button:nth-child(4)::before {
+  background-image: url("../../assets/img/info.svg"); }
 
 .footer .utility {
   position: absolute;
@@ -1095,11 +1098,11 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 
 .button {
   font-style: normal;
-  font-size: 32px;
-  line-height: 37px;
+  font-size: 28px;
+  line-height: 50px;
   font-weight: normal;
   padding: 14px 28px;
-  margin: 25px;
+  margin: 16px;
   pointer-events: all;
   border: 1px solid #CCCCCC;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
@@ -1119,8 +1122,10 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   background-position: bottom;
   margin-right: 12px;
   width: 30px;
-  height: 32px;
-  display: inline-block; }
+  height: 28px;
+  display: inline-block;
+  vertical-align: text-top;
+  margin-top: 2px; }
 
 .back.button::before {
   background-image: url("../../assets/img/backarrow.svg"); }

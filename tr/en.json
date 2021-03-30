@@ -3,6 +3,7 @@
   "nav-button-intro": "Can I read your number?",
   "nav-button-training": "Train the Network!",
   "nav-button-how-does-it-work": "How does it work?",
+  "nav-button-design-network": "Design the network!",
   "ui-label-input-placeholder": "write a number between 0&nbsp;and&nbsp;9",
   "ui-label-output-normalized": "Normalized Image",
   "intro-title": "Can I read your number?",

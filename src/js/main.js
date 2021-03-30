@@ -8,6 +8,7 @@ import LangSwitcher from './LangSwitcher.js';
 import './slide-controllers/intro.js';
 import './slide-controllers/training.js';
 import './slide-controllers/what-is-training-data.js';
+import './slide-controllers/design-network.js';
 
 const configDefaults = {
   paintClearTimeout: 2.2,
