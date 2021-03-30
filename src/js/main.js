@@ -20,7 +20,7 @@ const configDefaults = {
   modelPath: 'assets/models/my-model.json',
 };
 
-fetch('./config.json', { cache: 'no-cache' })
+fetch('./config.json', { cache: 'no-store' })
   .then((response) => {
     if (response.status >= 200 && response.status < 300) {
       return response.json();
