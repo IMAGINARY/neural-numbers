@@ -1,8 +1,33 @@
 .slide(data-slide='what-is-a-neural-network', data-slide-nav='how-does-it-work')
-  .how
-    .content
-      h2(data-i18n-str='what-is-nn-title')
-      img(src="assets/img/neuron.png")
-      p(data-i18n-str='what-is-nn-text-1')
-      p(data-i18n-str='what-is-nn-text-2')
-      a.back.button(href='#how-does-it-work', data-i18n-str='how-work-learn-back')
+  .explanation
+    .container-fluid
+      .row
+        .col
+          h2(data-i18n-str='what-is-nn-title')
+      .row
+        .col
+          p.lead
+            | In Artificial Intelligence we use models that are inspired by our human nervous system. They are called <strong>artificial neural networks</strong>. Each neural network consists of several layers of neurons. It starts with the input layer, then some so-called hidden layers and finally the output layer, which serves to derive the results.
+        .col
+          .figure
+            img.img-fluid(src='assets/img/what-is-a-neural-network-fig-1.svg')
+          p
+            | In this exhibit you can write a number in the input field. The neural network then calculates which digit from 0 to 9 you most likely wrote. The colours of the individual pixels of the input image are converted into input values. The input image is 28x28 pixels, which results in 784 input values ​​for the neural network (28x28 = 784). A hidden layer with 100 neurons then follows in the network. At the end there are 10 output values ​​that indicate a likelihood. Each output represents a number between 0 and 9. For example, if the last output value is the highest of all numbers, the network calculated that you did most likely wrote a 9. If two output values ​​are the same, then the likelihood for both drawn digits is the same. In this case, the network cannot say whether you e.g. have drawn a 1 or a 7.
+        .col
+          p
+            | In our example, 100 neurons form a hidden layer of the neural network. A neuron is constructed as follows:
+          .figure
+            img.img-fluid(src='assets/img/what-is-a-neural-network-fig-2.svg')
+          p
+            | The individual input values ​​are weighted, i.e. multiplied by numbers, so-called weights. This increases or decreases the input values.
+          p
+            | A positive or negative number, the so-called bias, is added to the sum of the input values. Then this calculated value is sent to a predefined function, a so-called activation function. It decides which value is passed on. In our case, the calculated value is passed on directly as output if it is positive. If it is negative, the value zero is passed on. In advanced mode you can try out different activation functions for the network. More details on the role of the weights and bias in learning can be found here.
+      .row
+        .col
+          .text-center
+            a.button.button-back(href='#how-does-it-work', data-i18n-str='how-work-learn-back')
+      //h2(data-i18n-str='what-is-nn-title')
+      //img(src="assets/img/neuron.png")
+      //p(data-i18n-str='what-is-nn-text-1')
+      //p(data-i18n-str='what-is-nn-text-2')
+
