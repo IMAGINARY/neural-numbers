@@ -1,0 +1,14 @@
+
+<div class="col">
+  <p class="lead">In der Künstlichen Intelligenz verwendet man Modelle, die unserem menschlichen Nervensystem nachgebildet sind. Sie werden als künstliche neuronale Netzwerke bezeichnet.  Jedes neuronale Netzwerk besteht aus mehreren Schichten von Neuronen. Erst kommt der Input, dann meist sogenannte versteckte Schichten (“Hidden Layers”) und schließlich ein Output als Ergebnis.</p>
+</div>
+<div class="col">
+  <div class="figure"><img class="img-fluid" src="assets/img/what-is-a-neural-network-fig-1.svg"/></div>
+  <p>Bei diesem Exponat kannst du am Anfang eine Ziffer ins Eingabefeld schreiben. Das Neuronale Netzwerk berechnet dann, welche Ziffer zwischen 0-9 du höchstwahrscheinlich geschrieben hast. Dazu werden die Pixel des Eingabefeldes in Inputwerte umgerechnet. Das Eingabefeld ist 28x28 Pixel groß. Für das neuronale Netzwerk ergeben sich daraus 784 Inputwerte (28x28=784). Im Netzwerk folgt dann eine versteckte Schicht mit 100 Neuronen.. Am Schluss stehen 10 Output-Werte, die die Wahrscheinlichkeiten angeben. Jeder Output repräsentiert eine Ziffer zwischen 0-9. Wenn der letzte Output-Wert beispielsweise der höchste Wert aller Zahlen ist, dann hat das Netzwerk berechnet, dass du am ehesten eine 9 gezeichnet hast. Wenn zwei Output-Werte gleich hoch sind, dann ist die Wahrscheinlichkeit für beide gezeichnete Ziffern gleich hoch. Das Netzwerk kann in dem Fall nicht sagen, ob du z.B.  eine 1 oder 7 gezeichnet hast).</p>
+</div>
+<div class="col">
+  <p>In unserem Beispiel bilden 100 Neuronen eine Schicht des Neuronalen Netzwerks. Ein Neuron ist ca. so aufgebaut:</p>
+  <div class="figure"><img class="img-fluid" src="assets/img/what-is-a-neural-network-fig-2.svg"/></div>
+  <p>Die einzelnen Inputwerte werden gewichtet, d.h. mit Zahlen, so genannten Gewichten, multipliziert. Die Input-Werte werden dadurch vergrößert oder verkleinert.</p>
+  <p>Zur Summe der Inputwerte wird eine positive oder negative Zahl, der so genannte Bias, dazugezählt. Dann wird dieser berechnete Wert mit einer vorgegebenen Funktion, einer sogenannten Aktivierungsfunktion, abgeglichen. Sie entscheidet, welcher Wert weitergegeben wird. In unserem Fall wird der berechnete Wert direkt als Output weitergegeben, wenn er positiv ist. Wenn er negativ ist wird der Wert Null weitergegeben. Im Advanced Mode kannst du selbst unterschiedliche Aktivierungsfunktionen für das Netzwerk testen. Welche Rolle die Gewichtung fürs Lernen des neuronalen Netzwerks spielt, findest du hier.</p>
+</div>

@@ -25,6 +25,22 @@ The config file in the root directory has the following keys:
 By default, the file `config.json` will be loaded.
 Alternative config file names can be specified via the URL query string, e.g. `index.html?config=myconfig.json`.
 
+## Internationalization
+
+There are two sources for translations:
+
+- The JSON files in the `tr` directory.
+- The HTML files in the `pages` directory.
+
+The latter are built out of the pug files in the `src/pages` directory.
+
+To add new languages
+
+- Add a new json file in `tr`.
+- Create new pug files in `src/pages/<langcode>`.
+- Build the pug files with the `gulp html` command.
+- Add the language to the list of languages in the `config.json` file
+
 ## Compilation
 
 This website is built using several compilable languages:

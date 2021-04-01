@@ -4,23 +4,8 @@
       .row
         .col
           h2(data-i18n-str='how-learn-title')
-      .row.justify-content-center
-        .col-4
-          p
-            | In each neuron you find a predefined activation function and changeable values ​​(such as weights and bias). The changeable values ​​are particularly interesting for learning.
-          .figure
-            img.img-fluid(src='assets/img/what-is-a-neural-network-fig-2.svg')
-        .col-4
-          p.lead
-            | A new neural network does not “know” anything at the beginning. It has to learn or be trained first. For this purpose, the neural network is “fed” with training data.
-          p
-            | In our case, training data consists of handwritten digits combined with information which digit it represents. The network now starts receiving individual training images as input. After each "individual training", the changeable values ​​(i.e. bias and weights) are updated so that the output of the network changes in the direction of the desired number - and not just for the current training picture, but for all training data. Then the network starts the next training session with the next training data. By continuously adjusting the bias and weights, the network gradually “learns” and the output data is becoming more and more accurate. This optimization method is called “gradient descent”. It is one of the most important methods of AI.
+      .row.justify-content-center(data-i18n-html='s3b-how-does-the-network-learn')
       .row
         .col
           .text-center
             a.button.button-back(href='#how-does-it-work', data-i18n-str='how-work-learn-back')
-  //.how
-  //  .content
-      //h2(data-i18n-str='how-learn-title')
-      //p(data-i18n-str='how-learn-text')
-      //a.back.button(href='#how-does-it-work', data-i18n-str='how-work-learn-back')

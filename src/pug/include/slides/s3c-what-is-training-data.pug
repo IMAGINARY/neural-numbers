@@ -5,16 +5,9 @@
         .col
           h2(data-i18n-str='training-data-title')
       .row
-        .col-4
-          p
-            | Training data is the basis for a neural network to do what you want. It is usually a large set of sample data combined with the desired outputs (= the solutions, so to speak). Often a large part of the training data (e.g. 80%) is used to train the network, while the remaining part (e.g. 20%) is used to test the network and to check its performance / accuracy. Training data is very valuable, and luckily there are open databases like the MNIST database of handwritten digits that we used for this exhibit.
-          p
-            | For the Neural Numbers exhibit we used 70,000 images of handwritten digits (input) and the desired output (as a result):
-          .figure
-            img.img-fluid(src='assets/img/what-is-training-data-fig-1.png')
+        .col-4(data-i18n-html='s3c-what-is-training-data-1')
         .col-8
-          p.lead
-            | The training data is "cleaned up", ie all handwritten digits are centered in a 28x28 pixel field. Accordingly, your written digits are also prepared before the neural network can begin the analysis.
+          div(data-i18n-html='s3c-what-is-training-data-2')
           .paint.columns#normalizepaint.mt-5
             .column
               .input.box.background
@@ -31,30 +24,3 @@
         .col
           .text-center
             a.button.button-back(href='#how-does-it-work', data-i18n-str='how-work-learn-back')
-
-  //.how
-  //  .content
-  //    h2(data-i18n-str='training-data-title')
-  //
-  //    img(src="assets/img/mnist.png")
-  //
-  //    p(data-i18n-str='training-data-text-1')
-  //
-  //    p(data-i18n-str='training-data-text-2')
-  //
-  //    p(data-i18n-str='training-data-text-3')
-  //
-      .paint.columns#normalizepaint
-        .column
-          .input.box.background
-            .input-canvas-wrapper
-              canvas.drawcanvas
-            .input-placeholder
-              span(data-i18n-str='ui-label-input-placeholder')
-        .column
-          .output.box
-            .normalize-canvas-wrapper
-              canvas.normalizecanvas
-            p.normalize-canvas-label(data-i18n-str='ui-label-output-normalized')
-  //
-  //    a.back.button(href='#how-does-it-work', data-i18n-str='how-work-learn-back')

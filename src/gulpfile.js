@@ -62,8 +62,8 @@ function html() {
 
 function styles() {
   return gulp.src(paths.styles.src, {
-      sourcemaps: true
-    })
+    sourcemaps: true,
+  })
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(sourcemaps.write('.'))

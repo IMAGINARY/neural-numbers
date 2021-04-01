@@ -29,5 +29,17 @@
   "training-label-step": "Trainiere einen Einzelschritt",
   "training-label-adv": "Verändere das Netzwerk",
   "training-label-adv-activate": "Zum Fortgeschrittenen-Modus",
-  "training-label-adv-cancel": "Verlasse den Fortgeschrittenen-Modus"
+  "training-label-adv-cancel": "Verlasse den Fortgeschrittenen-Modus",
+  "how-work-title": "How does it work?",
+  "how-work-learn-more": "Learn more",
+  "how-work-learn-back": "Zurück",
+  "how-work-what-is-nn-title": "Was ist ein neuronales Netzwerk?",
+  "how-work-what-is-nn-teaser": "A Neural Network is a way to teach computer things.",
+  "how-work-how-learn-title": "Wie lernt ein Neuronales Netzwerk?",
+  "how-work-how-learn-teaser": "By trying to get an answer right again and again. Each time we say if the answer was correct.",
+  "how-work-training-data-title": "Was sind Trainingsdaten?",
+  "how-work-training-data-teaser": "The training data tells the network when it was right or wrong.",
+  "what-is-nn-title": "Was ist ein neuronales Netzwerk?",
+  "how-learn-title": "Wie lernt ein Neuronales Netzwerk?",
+  "training-data-title": "Was sind Trainingsdaten?"
 }

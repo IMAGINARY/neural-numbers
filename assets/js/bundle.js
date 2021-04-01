@@ -2744,6 +2744,21 @@ var I18nControler = /*#__PURE__*/function () {
       document.querySelectorAll('[data-i18n-str-title]').forEach(function (element) {
         element.setAttribute('title', IMAGINARY.i18n.t(element.getAttribute('data-i18n-str-title')));
       });
+      document.querySelectorAll('[data-i18n-html]').forEach(function (element) {
+        var path = "pages/".concat(IMAGINARY.i18n.getLang(), "/").concat(element.getAttribute('data-i18n-html'), ".html");
+        fetch(path).then(function (response) {
+          if (response.status >= 200 && response.status < 300) {
+            return response.text();
+          }
+
+          throw new Error(response.statusText);
+        }).then(function (content) {
+          element.innerHTML = content;
+        })["catch"](function (err) {
+          console.error("Error fetching i18n page ".concat(path));
+          console.error(err);
+        });
+      });
     }
   }]);
 

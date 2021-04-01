@@ -147,30 +147,12 @@
                 <h2 data-i18n-str="what-is-nn-title"></h2>
               </div>
             </div>
-            <div class="row">
-              <div class="col">
-                <p class="lead">In Artificial Intelligence we use models that are inspired by our human nervous system. They are called <strong>artificial neural networks</strong>. Each neural network consists of several layers of neurons. It starts with the input layer, then some so-called hidden layers and finally the output layer, which serves to derive the results.</p>
-              </div>
-              <div class="col">
-                <div class="figure"><img class="img-fluid" src="assets/img/what-is-a-neural-network-fig-1.svg"></div>
-                <p>In this exhibit you can write a number in the input field. The neural network then calculates which digit from 0 to 9 you most likely wrote. The colours of the individual pixels of the input image are converted into input values. The input image is 28x28 pixels, which results in 784 input values ​​for the neural network (28x28 = 784). A hidden layer with 100 neurons then follows in the network. At the end there are 10 output values ​​that indicate a likelihood. Each output represents a number between 0 and 9. For example, if the last output value is the highest of all numbers, the network calculated that you did most likely wrote a 9. If two output values ​​are the same, then the likelihood for both drawn digits is the same. In this case, the network cannot say whether you e.g. have drawn a 1 or a 7.</p>
-              </div>
-              <div class="col">
-                <p>In our example, 100 neurons form a hidden layer of the neural network. A neuron is constructed as follows:</p>
-                <div class="figure"><img class="img-fluid" src="assets/img/what-is-a-neural-network-fig-2.svg"></div>
-                <p>The individual input values ​​are weighted, i.e. multiplied by numbers, so-called weights. This increases or decreases the input values.</p>
-                <p>A positive or negative number, the so-called bias, is added to the sum of the input values. Then this calculated value is sent to a predefined function, a so-called activation function. It decides which value is passed on. In our case, the calculated value is passed on directly as output if it is positive. If it is negative, the value zero is passed on. In advanced mode you can try out different activation functions for the network. More details on the role of the weights and bias in learning can be found here.</p>
-              </div>
-            </div>
+            <div class="row" data-i18n-html="s3a-what-is-a-neural-network"></div>
             <div class="row">
               <div class="col">
                 <div class="text-center"><a class="button button-back" href="#how-does-it-work" data-i18n-str="how-work-learn-back"></a></div>
               </div>
             </div>
-            <!--h2(data-i18n-str='what-is-nn-title')-->
-            <!--img(src="assets/img/neuron.png")-->
-            <!--p(data-i18n-str='what-is-nn-text-1')-->
-            <!--p(data-i18n-str='what-is-nn-text-2')-->
           </div>
         </div>
       </div>
@@ -182,16 +164,7 @@
                 <h2 data-i18n-str="how-learn-title"></h2>
               </div>
             </div>
-            <div class="row justify-content-center">
-              <div class="col-4">
-                <p>In each neuron you find a predefined activation function and changeable values ​​(such as weights and bias). The changeable values ​​are particularly interesting for learning.</p>
-                <div class="figure"><img class="img-fluid" src="assets/img/what-is-a-neural-network-fig-2.svg"></div>
-              </div>
-              <div class="col-4">
-                <p class="lead">A new neural network does not “know” anything at the beginning. It has to learn or be trained first. For this purpose, the neural network is “fed” with training data.</p>
-                <p>In our case, training data consists of handwritten digits combined with information which digit it represents. The network now starts receiving individual training images as input. After each "individual training", the changeable values ​​(i.e. bias and weights) are updated so that the output of the network changes in the direction of the desired number - and not just for the current training picture, but for all training data. Then the network starts the next training session with the next training data. By continuously adjusting the bias and weights, the network gradually “learns” and the output data is becoming more and more accurate. This optimization method is called “gradient descent”. It is one of the most important methods of AI.</p>
-              </div>
-            </div>
+            <div class="row justify-content-center" data-i18n-html="s3b-how-does-the-network-learn"></div>
             <div class="row">
               <div class="col">
                 <div class="text-center"><a class="button button-back" href="#how-does-it-work" data-i18n-str="how-work-learn-back"></a></div>
@@ -199,12 +172,6 @@
             </div>
           </div>
         </div>
-        <!--.how-->
-        <!--  .content
-        //h2(data-i18n-str='how-learn-title')
-        //p(data-i18n-str='how-learn-text')
-        //a.back.button(href='#how-does-it-work', data-i18n-str='how-work-learn-back')
-        -->
       </div>
       <div class="slide" data-slide="what-is-training-data" data-slide-nav="how-does-it-work">
         <div class="explanation">
@@ -215,13 +182,9 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-4">
-                <p>Training data is the basis for a neural network to do what you want. It is usually a large set of sample data combined with the desired outputs (= the solutions, so to speak). Often a large part of the training data (e.g. 80%) is used to train the network, while the remaining part (e.g. 20%) is used to test the network and to check its performance / accuracy. Training data is very valuable, and luckily there are open databases like the MNIST database of handwritten digits that we used for this exhibit.</p>
-                <p>For the Neural Numbers exhibit we used 70,000 images of handwritten digits (input) and the desired output (as a result):</p>
-                <div class="figure"><img class="img-fluid" src="assets/img/what-is-training-data-fig-1.png"></div>
-              </div>
+              <div class="col-4" data-i18n-html="s3c-what-is-training-data-1"></div>
               <div class="col-8">
-                <p class="lead">The training data is "cleaned up", ie all handwritten digits are centered in a 28x28 pixel field. Accordingly, your written digits are also prepared before the neural network can begin the analysis.</p>
+                <div data-i18n-html="s3c-what-is-training-data-2"></div>
                 <div class="paint columns mt-5" id="normalizepaint">
                   <div class="column">
                     <div class="input box background">
@@ -249,33 +212,6 @@
             </div>
           </div>
         </div>
-        <!--.how-->
-        <!--  .content-->
-        <!--    h2(data-i18n-str='training-data-title')-->
-        <!---->
-        <!--    img(src="assets/img/mnist.png")-->
-        <!---->
-        <!--    p(data-i18n-str='training-data-text-1')-->
-        <!---->
-        <!--    p(data-i18n-str='training-data-text-2')-->
-        <!---->
-        <!--    p(data-i18n-str='training-data-text-3')-->
-        <!--
-        .paint.columns#normalizepaint
-          .column
-            .input.box.background
-              .input-canvas-wrapper
-                canvas.drawcanvas
-              .input-placeholder
-                span(data-i18n-str='ui-label-input-placeholder')
-          .column
-            .output.box
-              .normalize-canvas-wrapper
-                canvas.normalizecanvas
-              p.normalize-canvas-label(data-i18n-str='ui-label-output-normalized')
-        -->
-        <!---->
-        <!--    a.back.button(href='#how-does-it-work', data-i18n-str='how-work-learn-back')-->
       </div>
       <div class="slide" data-slide="design-network">
         <h1 class="main-title"><span data-i18n-str="main-title"></span></h1>

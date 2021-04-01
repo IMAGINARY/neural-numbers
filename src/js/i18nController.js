@@ -30,5 +30,24 @@ export default class I18nControler {
           'title',
           IMAGINARY.i18n.t(element.getAttribute('data-i18n-str-title')));
       });
+
+    document.querySelectorAll('[data-i18n-html]')
+      .forEach((element) => {
+        const path = `pages/${IMAGINARY.i18n.getLang()}/${element.getAttribute('data-i18n-html')}.html`;
+        fetch(path)
+          .then((response) => {
+            if (response.status >= 200 && response.status < 300) {
+              return response.text();
+            }
+            throw new Error(response.statusText);
+          })
+          .then((content) => {
+            element.innerHTML = content;
+          })
+          .catch((err) => {
+            console.error(`Error fetching i18n page ${path}`);
+            console.error(err);
+          });
+      });
   }
 }
