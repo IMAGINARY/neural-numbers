@@ -169,7 +169,7 @@ a {
   background-image: url("../../assets/img/info.svg"); }
 
 .footer .navigation .button:nth-child(4)::before {
-  background-image: url("../../assets/img/info.svg"); }
+  background-image: url("../../assets/img/activate.svg"); }
 
 .footer .utility {
   position: absolute;
