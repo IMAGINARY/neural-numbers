@@ -55,13 +55,15 @@
   font-weight: 500;
   font-size: 24px;
   line-height: 44px;
-  font-family: Exo 2;
+  font-family: 'Exo 2', sans-serif;
   font-style: normal;
-  font-color: #0D0D0D;
+  color: #0D0D0D;
   border: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-bottom: 17px;
+  box-shadow: none;
 
   &:before {
     content: "";
@@ -73,6 +75,7 @@
     height: 32px;
     display: inline-block;
     background-image: url("../../assets/img/arrow.svg");
+    margin-top: -3px;
   }
 
   &:hover {

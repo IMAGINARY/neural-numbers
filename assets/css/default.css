@@ -193,9 +193,9 @@ a {
         outline: none; }
     .footer .utility .lang-switcher .lang-switcher-menu-mask {
       position: absolute;
-      bottom: 100px;
+      bottom: 108px;
       right: -1em;
-      height: calc(100vh - 100px);
+      height: calc(100vh - 108px);
       width: 100vw;
       overflow: hidden; }
     .footer .utility .lang-switcher .lang-switcher-menu {
@@ -450,6 +450,7 @@ a {
   align-items: center; }
 
 .train .view {
+  margin-top: 35px;
   height: 510px;
   margin-right: 5px;
   position: relative;
@@ -484,11 +485,12 @@ a {
 
 .train .menu {
   width: 400px;
-  height: 482px;
+  height: 360px;
   pointer-events: all;
   position: relative;
   font-size: 24px;
-  line-height: 28px; }
+  line-height: 28px;
+  margin-top: 30px; }
 
 .train .menu.drawmode::after {
   content: "";
@@ -631,6 +633,7 @@ a {
   display: flex;
   flex-direction: row;
   border-radius: 50px;
+  box-sizing: content-box;
   /*TODO*/
   position: relative; }
   .train .advanced .columns {
@@ -849,13 +852,15 @@ a {
   font-weight: 500;
   font-size: 24px;
   line-height: 44px;
-  font-family: Exo 2;
+  font-family: 'Exo 2', sans-serif;
   font-style: normal;
-  font-color: #0D0D0D;
+  color: #0D0D0D;
   border: 0;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  padding-bottom: 17px;
+  box-shadow: none; }
   .how .learnmore:before {
     content: "";
     background-size: contain;
@@ -865,7 +870,8 @@ a {
     width: 30px;
     height: 32px;
     display: inline-block;
-    background-image: url("../../assets/img/arrow.svg"); }
+    background-image: url("../../assets/img/arrow.svg");
+    margin-top: -3px; }
   .how .learnmore:hover {
     background: #DDD; }
 
@@ -1107,7 +1113,9 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   border-radius: 50px; }
 
 .button:hover {
-  background: #EEEEEE; }
+  background: #EEEEEE;
+  text-decoration: none;
+  color: #000; }
 
 .button.selected {
   font-weight: bold;
