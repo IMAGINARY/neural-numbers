@@ -2781,6 +2781,33 @@ require("./slide-controllers/design-network.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /* eslint-disable no-unused-vars */
+
+/**
+ * Return the URL of the user-supplied config file or {null} if it is not present.
+ *
+ * A custom config file name can be provided via the 'config' query string variable.
+ * Allowed file names must match the regex /^[A-Za-z0\-_.]+$/.
+ *
+ * @returns {URL|null} User-supplied config URL or {null} if not supplied.
+ * @throws {Error} If the user-supplied config file name doesn't match the regex.
+ */
+function getCustomConfigUrl() {
+  var urlSearchParams = new URLSearchParams(window.location.search);
+
+  if (!urlSearchParams.has('config')) {
+    return null;
+  }
+
+  var customConfigName = urlSearchParams.get('config');
+  var whitelistRegex = /^[A-Za-z0\-_.]+$/;
+
+  if (whitelistRegex.test(customConfigName)) {
+    return new URL(customConfigName, window.location.href);
+  }
+
+  throw new Error("Custom config path ".concat(customConfigName, " must match ").concat(whitelistRegex.toString(), "."));
+}
+
 var configDefaults = {
   paintClearTimeout: 2.2,
   idleReload: 300,
@@ -2791,7 +2818,10 @@ var configDefaults = {
   defaultLanguage: 'en',
   modelPath: 'assets/models/my-model.json'
 };
-fetch('./config.json', {
+var defaultConfigUrl = new URL('./config.json', window.location.href);
+var customConfigUrl = getCustomConfigUrl();
+var configUrl = customConfigUrl || defaultConfigUrl;
+fetch(configUrl, {
   cache: 'no-store'
 }).then(function (response) {
   if (response.status >= 200 && response.status < 300) {

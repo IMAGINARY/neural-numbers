@@ -10,6 +10,30 @@ import './slide-controllers/training.js';
 import './slide-controllers/what-is-training-data.js';
 import './slide-controllers/design-network.js';
 
+/**
+ * Return the URL of the user-supplied config file or {null} if it is not present.
+ *
+ * A custom config file name can be provided via the 'config' query string variable.
+ * Allowed file names must match the regex /^[A-Za-z0\-_.]+$/.
+ *
+ * @returns {URL|null} User-supplied config URL or {null} if not supplied.
+ * @throws {Error} If the user-supplied config file name doesn't match the regex.
+ */
+function getCustomConfigUrl() {
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  if (!urlSearchParams.has('config')) {
+    return null;
+  }
+
+  const customConfigName = urlSearchParams.get('config');
+  const whitelistRegex = /^[A-Za-z0\-_.]+$/;
+  if (whitelistRegex.test(customConfigName)) {
+    return new URL(customConfigName, window.location.href);
+  }
+
+  throw new Error(`Custom config path ${customConfigName} must match ${whitelistRegex.toString()}.`);
+}
+
 const configDefaults = {
   paintClearTimeout: 2.2,
   idleReload: 300,
@@ -21,7 +45,12 @@ const configDefaults = {
   modelPath: 'assets/models/my-model.json',
 };
 
-fetch('./config.json', { cache: 'no-store' })
+
+const defaultConfigUrl = new URL('./config.json', window.location.href);
+const customConfigUrl = getCustomConfigUrl();
+const configUrl = customConfigUrl || defaultConfigUrl;
+
+fetch(configUrl, { cache: 'no-store' })
   .then((response) => {
     if (response.status >= 200 && response.status < 300) {
       return response.json();

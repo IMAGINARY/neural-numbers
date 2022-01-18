@@ -6,7 +6,7 @@ Check out the [online demo](https://imaginary.github.io/neural-numbers/).
 
 ## Configuration
 
-The config.json file in the root directory has the following keys:
+The config file in the root directory has the following keys:
 
 - paintClearTimeout (Number, default: 2.2): 
     Number of seconds after which the painting canvas is cleared if there's no interaction
@@ -22,6 +22,8 @@ The config.json file in the root directory has the following keys:
 - modelPath (String, default: 'assets/models/my-model.json')
     Path to the trained NN model file
 
+By default, the file `config.json` will be loaded.
+Alternative config file names can be specified via the URL query string, e.g. `index.html?config=myconfig.json`.
 
 ## Compilation
 
