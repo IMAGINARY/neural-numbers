@@ -999,8 +999,6 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   background: #eee; }
 
 .button {
-  font-family: Roboto;
-  font-style: normal;
   font-size: 32px;
   line-height: 37px;
   font-weight: normal;
@@ -1118,7 +1116,6 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   color: #000; }
 
 .button.selected {
-  font-weight: bold;
   background: #ffec02; }
 
 .button::before {
