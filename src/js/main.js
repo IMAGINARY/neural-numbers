@@ -57,6 +57,7 @@ fetch(configUrl, { cache: 'no-store' })
     }
     throw new Error(response.statusText);
   })
+  .catch((err) => { throw new Error(`Failed to load config file ${configUrl}: ${err}`); })
   .then((config => Object.assign({}, configDefaults, config)))
   .then((config) => {
     I18nControler.init(config.defaultLanguage).then(() => {
@@ -89,4 +90,5 @@ fetch(configUrl, { cache: 'no-store' })
           });
         });
     });
-  });
+  })
+  .catch(err => console.error(err));

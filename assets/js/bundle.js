@@ -2844,6 +2844,8 @@ fetch(configUrl, {
   }
 
   throw new Error(response.statusText);
+})["catch"](function (err) {
+  throw new Error("Failed to load config file ".concat(configUrl, ": ").concat(err));
 }).then(function (config) {
   return Object.assign({}, configDefaults, config);
 }).then(function (config) {
@@ -2872,6 +2874,8 @@ fetch(configUrl, {
       });
     });
   });
+})["catch"](function (err) {
+  return console.error(err);
 });
 
 },{"./Controller.js":2,"./IdleDetector.js":3,"./LangSwitcher.js":4,"./SlideShow.js":8,"./i18nController.js":11,"./slide-controllers/design-network.js":14,"./slide-controllers/intro.js":15,"./slide-controllers/training.js":16,"./slide-controllers/what-is-training-data.js":17}],14:[function(require,module,exports){
