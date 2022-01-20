@@ -1,10 +1,9 @@
 .col-4
   p
-    | In each neuron you find a predefined activation function and changeable values ​​(such as weights and bias). The changeable values ​​are particularly interesting for learning.
   .figure
     img.img-fluid(src='assets/img/what-is-a-neural-network-fig-2.svg')
 .col-4
   p.lead
-    | A new neural network does not “know” anything at the beginning. It has to learn or be trained first. For this purpose, the neural network is “fed” with training data.
-  p
-    | In our case, training data consists of handwritten digits combined with information which digit it represents. The network now starts receiving individual training images as input. After each "individual training", the changeable values ​​(i.e. bias and weights) are updated so that the output of the network changes in the direction of the desired number - and not just for the current training picture, but for all training data. Then the network starts the next training session with the next training data. By continuously adjusting the bias and weights, the network gradually “learns” and the output data is becoming more and more accurate. This optimization method is called “gradient descent”. It is one of the most important methods of AI.
+    | A new neural network does not “know” anything at the beginning. It has to be “trained” first. For this purpose, the neural network is given <strong>training data</strong> as input. In our case, training data consists of images of handwritten digits which were manually identified by humans.
+  p.lead
+    | The network receives individual training images as input. After each one, the parameters (i.e. <strong>bias</strong> and <strong>weights</strong>) are updated so that the output of the network changes in the direction of the desired result - and not just for the current training picture, but for all training data. By continuously adjusting the bias and weights, the network gradually “learns” and its output becomes more and more accurate.
