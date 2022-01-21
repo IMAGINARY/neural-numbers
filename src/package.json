@@ -1,6 +1,6 @@
 {
   "name": "mnist-exhibit",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A widget that trains a neuronal network by the MNIST database",
   "repository": "github:IMAGINARY/mnist-exhibit",
   "author": "Aaron Montag <aaron.montag@imaginary.org>",
