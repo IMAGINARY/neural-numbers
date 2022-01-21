@@ -1168,4 +1168,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     margin: 1em 0 0;
     padding: 6px 28px 5px; }
 
+a:focus, a:focus-visible, button:focus, button:focus-visible {
+  outline: none; }
+
 /*# sourceMappingURL=default.css.map */
