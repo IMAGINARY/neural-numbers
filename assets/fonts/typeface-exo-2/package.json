@@ -1,35 +1,8 @@
 {
-  "_from": "typeface-exo-2@0.0.72",
-  "_id": "typeface-exo-2@0.0.72",
-  "_inBundle": false,
-  "_integrity": "sha512-PKsXGtoMap2953TneJoHfS1UNwAzB7iB0YPcHu5P2pI+Y0AKLCv4ihfz1QZaW3OTP+rkB147L0Kd7ZxRRPkIvQ==",
-  "_location": "/typeface-exo-2",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "typeface-exo-2@0.0.72",
-    "name": "typeface-exo-2",
-    "escapedName": "typeface-exo-2",
-    "rawSpec": "0.0.72",
-    "saveSpec": null,
-    "fetchSpec": "0.0.72"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/typeface-exo-2/-/typeface-exo-2-0.0.72.tgz",
-  "_shasum": "dc7ecddd106264eab0fec76e931f2b9feb8b7329",
-  "_spec": "typeface-exo-2@0.0.72",
-  "_where": "/home/aaron/www/mnist-exhibit/src",
-  "author": {
-    "name": "Kyle Mathews",
-    "email": "mathews.kyle@gmail.com"
-  },
-  "bundleDependencies": false,
-  "deprecated": false,
+  "name": "typeface-exo-2",
+  "version": "0.0.72",
   "description": "Exo 2 typeface",
+  "main": "index.css",
   "keywords": [
     "typeface",
     "font",
@@ -37,12 +10,7 @@
     "google fonts",
     "exo-2"
   ],
+  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "license": "MIT",
-  "main": "index.css",
-  "name": "typeface-exo-2",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/KyleAMathews/typefaces/tree/master/packages/exo-2"
-  },
-  "version": "0.0.72"
+  "repository": "https://github.com/KyleAMathews/typefaces/tree/master/packages/exo-2"
 }
