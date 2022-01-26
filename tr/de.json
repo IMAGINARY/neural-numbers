@@ -4,7 +4,7 @@
   "nav-button-training": "Trainiere das Netz!",
   "nav-button-how-does-it-work": "Wie funktioniert das?",
   "nav-button-design-network": "Verändere das Netz!",
-  "ui-label-input-placeholder": "Schreib eine Zahl zwischen 0&nbsp;und&nbsp;9",
+  "ui-label-input-placeholder": "Schreibe eine Zahl zwischen 0&nbsp;und&nbsp;9",
   "ui-label-output-normalized": "Normalisiertes Bild",
   "intro-title": "Erkenne ich deine Zahl?",
   "training-title-train": "Trainiere das Netz!",
