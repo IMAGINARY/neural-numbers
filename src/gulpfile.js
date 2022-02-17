@@ -27,13 +27,19 @@ const paths = {
     src: './js/main-babel.js',
     filename: 'bundle',
     dest: `${OUTPUT_DIR}/assets/js`,
-    watchSrc: ['./js/**/*.js', '!./js/main-lib.js', '!./js/dependencies.js'],
+    watchSrc: ['./js/**/*.js', '!./js/main-lib.js', '!./js/dependencies.js', '!./js/main-embed.js'],
   },
   scriptsLib: {
     src: './js/main-lib.js',
     filename: 'neural-numbers',
     dest: `${OUTPUT_DIR}/assets/js`,
-    watchSrc: ['./js/**/*.js', '!./js/main.js', '!./js/dependencies.js'],
+    watchSrc: ['./js/**/*.js', '!./js/main.js', '!./js/dependencies.js', '!./js/main-embed.js'],
+  },
+  scriptsEmbed: {
+    src: './js/main-embed.js',
+    filename: 'embed',
+    dest: `${OUTPUT_DIR}/assets/js`,
+    watchSrc: ['./js/main-embed.js'],
   },
   scriptsDependencies: {
     src: './js/dependencies.js',
@@ -100,6 +106,10 @@ function scriptsLib() {
   return es(paths.scriptsLib.src, paths.scriptsLib.filename);
 }
 
+function scriptsEmbed() {
+  return es(paths.scriptsEmbed.src, paths.scriptsEmbed.filename);
+}
+
 function scriptsDependencies() {
   return es(paths.scriptsDependencies.src, paths.scriptsDependencies.filename);
 }
@@ -114,15 +124,19 @@ function watch() {
   gulp.watch(paths.styles.watchSrc || paths.styles.src, styles);
   gulp.watch(paths.scripts.watchSrc || paths.scripts.src, scripts);
   gulp.watch(paths.scriptsLib.watchSrc || paths.scriptsLib.src, scriptsLib);
-  gulp.watch(paths.scriptsDependencies.watchSrc || paths.scriptsDependencies.src, scriptsDependencies);
+  gulp.watch(paths.scriptsEmbed.watchSrc || paths.scriptsEmbed.src, scriptsEmbed);
+  gulp.watch(paths.scriptsDependencies.watchSrc || paths.scriptsDependencies.src,
+    scriptsDependencies);
 }
 
-const build = gulp.parallel(html, styles, scripts, scriptsLib, scriptsDependencies, fonts);
+const build = gulp.parallel(html, styles, scripts, scriptsLib,
+  scriptsEmbed, scriptsDependencies, fonts);
 
 exports.html = html;
 exports.styles = styles;
 exports.scripts = scripts;
 exports.scriptsLib = scriptsLib;
+exports.scriptsEmbed = scriptsEmbed;
 exports.scriptsDependencies = scriptsDependencies;
 exports.watch = watch;
 

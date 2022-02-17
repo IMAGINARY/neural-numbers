@@ -20,6 +20,7 @@ export default class NeuralNumbersComponent {
 
     const {
       inputPlaceholder,
+      safeInputPlaceholder,
       showBars,
       showNormalizer,
       showTraining,
@@ -49,6 +50,13 @@ export default class NeuralNumbersComponent {
         .addClass('input-placeholder')
         .append(
           $('<span>').html(inputPlaceholder)
+        )
+        .appendTo(this.$inputStage);
+    } else if (safeInputPlaceholder) {
+      $('<div>')
+        .addClass('input-placeholder')
+        .append(
+          $('<span>').text(safeInputPlaceholder)
         )
         .appendTo(this.$inputStage);
     }

@@ -72,6 +72,26 @@ You can configure the component by adding the following attributes to the `<div>
 - **data-show-normalizer** (default: false): Whether to show the normalized input.
 - **data-show-output** (default: true): Weather to show the output.
 
+## Embed
+
+The component can also be used by embedding the `embed.html` file in the page using an iframe.
+
+```
+<iframe src="embed.html?input-placeholder=Enter%20a%20number%20between%200%C2%A0and%C2%A09" 
+  width="100%" height="244" style="border:0;"></iframe>
+```
+
+Use the following query string arguments to configure the component:
+
+- **model**=`<text>` (default: 'my-model'): The name of the model (filename of the model in `assets/models` 
+  minus the json extension). 
+- **input-placeholder**=`<text>` (default: ''): The placeholder text for the input area.
+- **show-bars**=`<true|false>` (default: false): Whether to show the confidence bars in the output.
+- **show-normalizer**=`<true|false>` (default: false): Whether to show the normalized input.
+- **show-output**=`<true|false>` (default: true): Weather to show the output.
+- **style**=`<default|mediocre|bad>` (default: 'default'): The style of the component (determines  
+  the color of the bars, etc.).
+
 ## Compilation
 
 This website is built using several compilable languages:

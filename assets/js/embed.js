@@ -414,26 +414,39 @@ var _neuralNumbersComponent = _interopRequireDefault(require("./neural-numbers-c
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function attrFlag(attribute, defaultValue) {
-  if (attribute === undefined) {
-    return defaultValue;
+function buildComponent(container, props) {
+  var element = $('<div></div>').addClass('component neural-numbers-component').appendTo(container);
+  var styles = ['default', 'bad', 'mediocre'];
+
+  if (props.style && styles.includes(props.style)) {
+    element.addClass("neural-numbers-component-".concat(props.style));
   }
 
-  return attribute !== 'false';
-}
-
-$('[data-component=neural-numbers]').each(function (i, element) {
-  var props = {
-    modelPath: $(element).attr('data-model') || null,
-    inputPlaceholder: $(element).attr('data-input-placeholder') || '',
-    showBars: attrFlag($(element).attr('data-show-bars'), false),
-    showNormalizer: attrFlag($(element).attr('data-show-normalizer'), false),
-    showTraining: attrFlag($(element).attr('data-show-training'), false),
-    showOutput: attrFlag($(element).attr('data-show-output'), true)
-  };
   var component = new _neuralNumbersComponent["default"](element, props);
   component.init();
-});
+}
+
+function showError(container, error) {
+  $('<div></div>').addClass(['error', 'text-center']).text(error).appendTo(container);
+}
+
+var urlSearchParams = new URLSearchParams(window.location.search);
+var modelName = urlSearchParams.get('model') || 'my-model';
+var modelNameValidationRegex = /^[0-9A-Za-z0\-_.]+$/;
+
+if (modelNameValidationRegex.test(modelName)) {
+  var props = {
+    modelPath: "assets/models/".concat(modelName, ".json"),
+    safeInputPlaceholder: urlSearchParams.get('input-placeholder') || '',
+    showBars: urlSearchParams.get('show-bars') === 'true' || false,
+    showNormalizer: urlSearchParams.get('show-normalizer') === 'true' || false,
+    showOutput: urlSearchParams.get('show-output') !== 'false',
+    style: urlSearchParams.get('style') || 'default'
+  };
+  buildComponent('body', props);
+} else {
+  showError('body', 'Invalid model name');
+}
 
 },{"./neural-numbers-component":4}],4:[function(require,module,exports){
 "use strict";
