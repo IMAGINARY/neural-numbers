@@ -139,6 +139,7 @@ After it runs succesfuly you can compile as needed:
 
 Created by [Aaron Montag](https://github.com/montaga) for IMAGINARY gGmbH.
 Further adaptations by [Eric Londaits](https://github.com/elondaits).
+Dutch translation by [Jarne Renders](https://github.com/JarneRenders).
 
 ## License
 
