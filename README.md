@@ -34,12 +34,12 @@ There are two sources for translations:
 - The JSON files in the `tr` directory.
 - The HTML files in the `pages` directory.
 
-The latter are built out of the pug files in the `src/pages` directory.
+The latter are built out of the pug files in the `src/pug/pages` directory.
 
 To add new languages
 
 - Add a new json file in `tr`.
-- Create new pug files in `src/pages/<langcode>`.
+- Create new pug files in `src/pug/pages/<langcode>`.
 - Build the pug files with the `gulp html` command.
 - Add the language to the list of languages in the `config.json` file
 
