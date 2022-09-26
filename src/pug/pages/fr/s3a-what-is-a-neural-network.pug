@@ -1,0 +1,15 @@
+.col
+  p.lead
+    | In Artificial Intelligence we use models that are inspired by our human nervous system. They are called <strong>artificial neural networks</strong>. Each neural network consists of several layers of <strong>neurons</strong>. It starts with the <strong>input layer</strong>, then some so-called <strong>hidden layers</strong> and finally the <strong>output layer</strong>, which serves to derive the results.
+.col
+  .figure
+    img.img-fluid(src='assets/img/what-is-a-neural-network-fig-1.svg')
+  p.lead
+    | In our example, we have 784 input values (each black or white pixel of the 28x28 pixel image), 100 neurons in the hidden layer, and 10 output values associated with each possible digit between 0 and 9.
+.col
+  p.lead
+    | A neuron is constructed as follows:
+  .figure
+    img.img-fluid(src='assets/img/what-is-a-neural-network-fig-2.svg')
+  p
+    | The individual input values are increased or decreased by multiplying them by numbers called <strong>weights</strong>. All inputs are summed, along with another number called <strong>bias</strong>. Then this calculated value is sent to a predefined <strong>activation function</strong>. It decides which value is sent to the neuron’s output. In our case, the calculated value is sent directly as output if it is positive. If it is negative, the value zero is sent instead. In our “Design the network” mode you can try out different activation functions.
