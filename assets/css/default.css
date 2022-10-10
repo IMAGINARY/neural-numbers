@@ -55,7 +55,7 @@ body {
 
 h1 {
   font-weight: bold;
-  font-family: "gap_sansbold", "Gap Sans", "Exo 2", "Roboto", Arial, sans-serif;
+  font-family: "gap_sansbold", "Gap Sans", Arial, sans-serif;
   font-weight: 500;
   font-size: 60px;
   line-height: 140%;
@@ -511,7 +511,8 @@ a {
   /* left: 1302px; */
   /* top: 347px; */
   background: #F2F2F2;
-  border-radius: 10px; }
+  border-radius: 10px;
+  padding: 10px; }
 
 .train .menu .controls {
   display: flex;
@@ -562,7 +563,7 @@ a {
 .train .menu .box .info .h-seperator {
   height: 100%;
   border: 1px solid #C4C4C4;
-  margin: auto; }
+  margin: auto 10px; }
 
 .train .menu .box .v-seperator {
   width: 90%;
@@ -803,7 +804,7 @@ a {
   line-height: 26px; }
 
 .how.columns {
-  align-items: flex-start;
+  align-items: stretch;
   margin: 20px; }
 
 .how > .box {
@@ -838,14 +839,15 @@ a {
   line-height: 29px;
   padding-bottom: 24px;
   text-align: center;
-  color: #0D0D0D; }
+  color: #0D0D0D;
+  margin-bottom: auto; }
 
 .how > .box:hover {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3); }
 
 .how .learnmore {
   align-self: center;
-  width: 250px;
+  width: 260px;
   height: 48px;
   background: #F2F2F2;
   border-radius: 50px;
@@ -895,7 +897,7 @@ a {
       left: 0;
       width: 100%;
       font-weight: bold;
-      font-family: "gap_sansbold", "Gap Sans", "Exo 2", "Roboto", Arial, sans-serif;
+      font-family: "gap_sansbold", "Gap Sans", Arial, sans-serif;
       font-weight: 500;
       font-size: 60px;
       line-height: 140%;
@@ -1152,7 +1154,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     display: block;
     margin: 1em 0 1em; }
   .explanation h2 {
-    font-family: "gap_sansbold", "Gap Sans", "Exo 2", "Roboto", Arial, sans-serif;
+    font-family: "gap_sansbold", "Gap Sans", Arial, sans-serif;
     font-weight: 500;
     font-size: 40px;
     line-height: 140%;
