@@ -1,15 +1,15 @@
 .col
   p.lead
-    | In Artificial Intelligence we use models that are inspired by our human nervous system. They are called <strong>artificial neural networks</strong>. Each neural network consists of several layers of <strong>neurons</strong>. It starts with the <strong>input layer</strong>, then some so-called <strong>hidden layers</strong> and finally the <strong>output layer</strong>, which serves to derive the results.
+    | En intelligence artificielle, l'un des modèles s'inspire du système nerveux humain. Ce modèle est appelé <strong>réseau de neurones artificiels</strong>. Chaque réseau de neurones est constitué de plusieurs couches de <strong>neurones</strong>. Le réseau commence par une <strong>couche d'entrée</strong>, après suivent certaines couches dites <strong>couches cachées</strong> et finalement une <strong>couche de sortie</strong>, qui sert à fournir les résultats.
 .col
   .figure
     img.img-fluid(src='assets/img/what-is-a-neural-network-fig-1-fr.svg')
   p.lead
-    | In our example, we have 784 input values (each black or white pixel of the 28x28 pixel image), 100 neurons in the hidden layer, and 10 output values associated with each possible digit between 0 and 9.
+    | Dans notre exemple, nous utilisons 784 valeurs d'entrée (tous les pixels qui forment l'image, soit 28x28 pixels noirs ou blancs), 100 neurones dans la couche cachée et 10 valeurs de sortie associées à chaque chiffre entre 0 et 9.
 .col
   p.lead
-    | A neuron is constructed as follows:
+    | Un neurone est construit comme suit :
   .figure
     img.img-fluid(src='assets/img/what-is-a-neural-network-fig-2-fr.svg')
   p
-    | The individual input values are increased or decreased by multiplying them by numbers called <strong>weights</strong>. All inputs are summed, along with another number called <strong>bias</strong>. Then this calculated value is sent to a predefined <strong>activation function</strong>. It decides which value is sent to the neuron’s output. In our case, the calculated value is sent directly as output if it is positive. If it is negative, the value zero is sent instead. In our “Design the network” mode you can try out different activation functions.
+    | Les valeurs d'entrée sont multipliées par des nombres appelés <strong>poids</strong> et ainsi augmentées ou diminuées. Les valeurs obtenues sont par la suite additionnées. A cette somme est ajouté un autre nombre appelé <strong>biais</strong>. Ensuite, la valeur obtenue est transformée par une <strong>fonction d'activation</strong> prédéfinie. Cette fonction décide quelle valeur est envoyée à la sortie du neurone. Dans notre cas, si la valeur calculée est positive, elle est envoyée directement à la sortie. Si elle est négative, la valeur zéro est envoyée à sa place.	 Dans le mode "Concevez votre réseau", vous pouvez essayer différentes fonctions d'activation.
