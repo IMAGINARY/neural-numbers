@@ -5,7 +5,8 @@
   "languages": {
     "en": "English",
     "de": "Deutsch",
-    "nl": "Nederlands"
+    "nl": "Nederlands",
+    "fr": "Français"
   },
   "defaultLanguage": "en"
 }
