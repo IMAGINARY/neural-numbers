@@ -25,6 +25,7 @@ export default class NeuralNumbersComponent {
       showNormalizer,
       showTraining,
       showOutput,
+      verticalBars
     } = this.props;
 
     this.$element.addClass('neural-numbers-component');
@@ -77,6 +78,7 @@ export default class NeuralNumbersComponent {
 
     this.$bars = $('<div>')
       .addClass('bars')
+      .toggleClass('vertical', verticalBars || false)
       .appendTo(this.$probabilityStage);
 
     this.$outputStage = $('<div>')

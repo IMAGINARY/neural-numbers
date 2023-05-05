@@ -91,6 +91,12 @@ const nnComponent = new IMAGINARY.NeuralNumbers(containerElement, {
 await nnComponent.init();
 ```
 
+### Properties
+
+Extra properties supported
+
+- **verticalBars** (default: false): Whether to distribute the confidence bars vertically.
+
 ## Embed
 
 The component can also be used by embedding the `embed.html` file in the page using an iframe.

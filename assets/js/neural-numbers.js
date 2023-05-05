@@ -515,7 +515,8 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
         showBars = _this$props.showBars,
         showNormalizer = _this$props.showNormalizer,
         showTraining = _this$props.showTraining,
-        showOutput = _this$props.showOutput;
+        showOutput = _this$props.showOutput,
+        verticalBars = _this$props.verticalBars;
     this.$element.addClass('neural-numbers-component');
     this.$element.toggleClass('with-bars', showBars);
     this.$element.toggleClass('with-normalizer', showNormalizer);
@@ -533,7 +534,7 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
     this.$normalizeStage = $('<div>').addClass(['stage', 'stage-normalize']).appendTo(this.$element);
     this.$normalizeCanvas = $('<canvas>').addClass('normalizecanvas').appendTo($('<div>').addClass('normalize-canvas-wrapper').appendTo(this.$normalizeStage));
     this.$probabilityStage = $('<div>').addClass(['stage', 'stage-bars']).appendTo(this.$element);
-    this.$bars = $('<div>').addClass('bars').appendTo(this.$probabilityStage);
+    this.$bars = $('<div>').addClass('bars').toggleClass('vertical', verticalBars || false).appendTo(this.$probabilityStage);
     this.$outputStage = $('<div>').addClass(['stage', 'stage-output']).appendTo(this.$element);
     this.$output = $('<div>').addClass(['output', 'digit']).appendTo($('<div>').addClass('output-wrapper').appendTo(this.$outputStage));
   }
