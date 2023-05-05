@@ -43,7 +43,7 @@ To add new languages
 - Build the pug files with the `gulp html` command.
 - Add the language to the list of languages in the `config.json` file
 
-## Use as a component
+## Use as a component (HTML)
 
 The number recognizer can be included as a component in a web page. Check `test-components.html` for
 an example.
@@ -74,6 +74,22 @@ You can configure the component by adding the following attributes to the `<div>
 - **data-show-bars** (default: false): Whether to show the confidence bars in the output.
 - **data-show-normalizer** (default: false): Whether to show the normalized input.
 - **data-show-output** (default: true): Weather to show the output.
+
+## Use as a component (JS)
+
+Include the same dependencies as in the HTML component, and then add the following code to your page:
+
+```
+const nnComponent = new IMAGINARY.NeuralNumbers(containerElement, { 
+  modelPath: 'assets/models/my-model.json',
+  inputPlaceholder: 'Enter a number between 0 and 9',
+  showBars: true,
+  showNormalizer: true,
+  showTraining: true,
+  showOutput: true,
+});
+await nnComponent.init();
+```
 
 ## Embed
 

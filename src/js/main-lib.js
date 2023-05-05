@@ -20,3 +20,11 @@ $('[data-component=neural-numbers]')
     const component = new NeuralNumbersComponent(element, props);
     component.init();
   });
+
+if (window.IMAGINARY === undefined) {
+  window.IMAGINARY = {};
+}
+
+if (window.IMAGINARY.NeuralNumbers === undefined) {
+  window.IMAGINARY.NeuralNumbers = NeuralNumbersComponent;
+}

@@ -435,6 +435,14 @@ $('[data-component=neural-numbers]').each(function (i, element) {
   component.init();
 });
 
+if (window.IMAGINARY === undefined) {
+  window.IMAGINARY = {};
+}
+
+if (window.IMAGINARY.NeuralNumbers === undefined) {
+  window.IMAGINARY.NeuralNumbers = _neuralNumbersComponent["default"];
+}
+
 },{"./neural-numbers-component":4}],4:[function(require,module,exports){
 "use strict";
 
