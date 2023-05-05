@@ -10,8 +10,11 @@
   }
 }
 
-.bars.vertical {
-  flex-direction: column;
+.bars {
+  &.bars-vertical,
+  &.vertical {
+    flex-direction: column;
+  }
 }
 
 .barcontainer {
@@ -30,11 +33,14 @@
   }
 }
 
-.vertical .barcontainer {
-  height: 10%;
-  width: 100%;
-  flex-direction: row-reverse;
-  justify-content: flex-start;
+.vertical,
+.bars-vertical {
+  .barcontainer {
+    height: 10%;
+    width: 100%;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+  }
 }
 
 .bartxt {
@@ -55,7 +61,16 @@
   }
 }
 
+// Used in the exhibit (training tab)
 .vertical .bartxt {
+  padding-right: 15px;
+  padding-left: 10px;
+  width: 10px;
+  padding-top: 10px;
+}
+
+// Used in the component
+.bars-vertical .bartxt {
   font-size: 18px;
   padding: 0 15px 0 10px;
   margin-top: -2px;
@@ -86,7 +101,16 @@
   }
 }
 
+// Used in the exhibit (training tab)
 .vertical .bar {
+  margin: auto auto auto 0;
+  height: 20px;
+  width: calc(var(--probability) * 90%);
+  min-width: 0;
+}
+
+// Used in the component
+.bars-vertical .bar {
   margin: auto auto auto 0;
   height: 20px;
   width: calc(var(--probability) * (100% - 3.4em));

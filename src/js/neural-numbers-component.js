@@ -78,7 +78,7 @@ export default class NeuralNumbersComponent {
 
     this.$bars = $('<div>')
       .addClass('bars')
-      .toggleClass('vertical', verticalBars || false)
+      .toggleClass('bars-vertical', verticalBars || false)
       .appendTo(this.$probabilityStage);
 
     this.$outputStage = $('<div>')

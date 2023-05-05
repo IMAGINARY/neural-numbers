@@ -1025,7 +1025,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     .bars {
       flex-direction: column; } }
 
-.bars.vertical {
+.bars.bars-vertical, .bars.vertical {
   flex-direction: column; }
 
 .barcontainer {
@@ -1042,7 +1042,8 @@ input[type=range]:focus::-webkit-slider-runnable-track {
       justify-content: flex-start;
       flex-direction: row; } }
 
-.vertical .barcontainer {
+.vertical .barcontainer,
+.bars-vertical .barcontainer {
   height: 10%;
   width: 100%;
   flex-direction: row-reverse;
@@ -1065,6 +1066,12 @@ input[type=range]:focus::-webkit-slider-runnable-track {
       padding: 0; } }
 
 .vertical .bartxt {
+  padding-right: 15px;
+  padding-left: 10px;
+  width: 10px;
+  padding-top: 10px; }
+
+.bars-vertical .bartxt {
   font-size: 18px;
   padding: 0 15px 0 10px;
   margin-top: -2px;
@@ -1093,6 +1100,12 @@ input[type=range]:focus::-webkit-slider-runnable-track {
       margin: 0 0 0 6px; } }
 
 .vertical .bar {
+  margin: auto auto auto 0;
+  height: 20px;
+  width: calc(var(--probability) * 90%);
+  min-width: 0; }
+
+.bars-vertical .bar {
   margin: auto auto auto 0;
   height: 20px;
   width: calc(var(--probability) * (100% - 3.4em));
