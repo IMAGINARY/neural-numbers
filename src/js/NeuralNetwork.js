@@ -2,17 +2,17 @@
 /* jshint esversion: 8 */
 /* globals tf */
 
-import TrainingVisualization from './TrainingVisualization.js';
-
 export default class NeuralNetwork {
-  constructor(vp, els) {
-    this.els = els;
-    this.vp = vp;
-    this.setup();
-    this.visualization = new TrainingVisualization(this, els);
+  constructor(options) {
+    this.options = Object.assign({}, {
+      trainingCallback: null,
+      batchCallback: null,
+      modelUpdateCallback: null,
+    }, options);
+    this.init();
   }
 
-  setup(modelid = 'dense', optimizerid = 'adam', learningRate = 0.001, activation = 'relu') {
+  init(modelid = 'dense', optimizerid = 'adam', learningRate = 0.001, activation = 'relu') {
     // eslint-disable-next-line no-console
     console.log(`Setting up NN model=${modelid} optimizer=${optimizerid} learningrate=${learningRate} activation=${activation}`);
     this.modelid = modelid;
@@ -21,8 +21,9 @@ export default class NeuralNetwork {
     this.lastrainedimages = 0;
     this.pausecbs = [];
 
-    // this.els.trainingAccuracy.innerHTML = ``;
-    this.els.trainingProgress.innerHTML = this.trainedimages;
+    if (this.options.batchCallback) {
+      this.options.batchCallback(this.trainedimages);
+    }
 
     // delete old model if it has been existing
     if (this.model) {
@@ -137,7 +138,9 @@ export default class NeuralNetwork {
       ];
     });
 
-    await this.visualization.setCurrentTraining(trainXs, trainYs);
+    if (this.options.trainingCallback) {
+      await this.options.trainingCallback(trainXs, trainYs);
+    }
 
     await model.fit(trainXs, trainYs, {
       batchSize: BATCH_SIZE,
@@ -145,9 +148,9 @@ export default class NeuralNetwork {
         onEpochEnd: async () => {},
         onBatchEnd: async () => {
           this.trainedimages += BATCH_SIZE;
-          // this.els.trainingAccuracy.innerHTML =
-          //  `Accuracy on current training data: ${(logs.acc * 1000 | 0)/10}%`;
-          this.els.trainingProgress.innerHTML = this.trainedimages;
+          if (this.options.batchCallback) {
+            this.options.batchCallback(this.trainedimages);
+          }
         },
       },
     });
@@ -163,8 +166,9 @@ export default class NeuralNetwork {
 
   async trainSingleStep(data) {
     await this.trainByBatchFromData(data, 1, 1);
-    this.vp.updateValidationImages(this.model);
-    this.vp.updateAccuracy(this.model);
+    if (this.options.modelUpdateCallback) {
+      this.options.modelUpdateCallback(this.model);
+    }
   }
 
   async train(data) {
@@ -184,8 +188,9 @@ export default class NeuralNetwork {
       if (this.trainedimages
         > this.lastrainedimages + Math.min(1000, 0.3 * this.trainedimages)
         || this.trainedimages < 250) {
-        this.vp.updateValidationImages(this.model);
-        this.vp.updateAccuracy(this.model);
+        if (this.options.modelUpdateCallback) {
+          this.options.modelUpdateCallback(this.model);
+        }
         if ((this.trainedimages < 100)) {
           // sleep some time per image
           await new Promise(resolve => setTimeout(

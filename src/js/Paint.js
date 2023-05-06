@@ -97,8 +97,8 @@ export default class Paint {
       updateDimensions();
     };
 
-    this.drawcontext = this.drawcanvas.getContext('2d');
-    this.normalizecontext = this.normalizecanvas.getContext('2d');
+    this.drawcontext = this.drawcanvas.getContext('2d', { willReadFrequently: true });
+    this.normalizecontext = this.normalizecanvas.getContext('2d', { willReadFrequently: true });
     // const { drawcontext, normalizecontext } = this;
     //  normalizecanvas.style.width = 28 * SCALE_FACTOR + 'px';
     //  normalizecanvas.style.height = 28 * SCALE_FACTOR + 'px';
@@ -275,6 +275,11 @@ export default class Paint {
       }
     }
     return true;
+  }
+
+  swapModel(model) {
+    this.model = model;
+    this.predict();
   }
 
   clear() {

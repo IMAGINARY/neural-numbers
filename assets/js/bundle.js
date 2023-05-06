@@ -76,6 +76,8 @@ var _NeuralNetwork = _interopRequireDefault(require("./NeuralNetwork.js"));
 
 var _ValidationPreview = _interopRequireDefault(require("./ValidationPreview.js"));
 
+var _TrainingVisualization = _interopRequireDefault(require("./TrainingVisualization.js"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -182,34 +184,70 @@ var Controller = /*#__PURE__*/function () {
   }, {
     key: "initTrainingEnvironment",
     value: function () {
-      var _initTrainingEnvironment = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(els) {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      var _initTrainingEnvironment = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(els) {
+        var _this = this;
+
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context3.next = 2;
+                _context4.next = 2;
                 return this.loadData();
 
               case 2:
+                this.trainingViz = new _TrainingVisualization["default"](els);
                 this.vp = new _ValidationPreview["default"](this.data, els);
-                this.nn = new _NeuralNetwork["default"](this.vp, els);
-                this.paint = new _Paint["default"](els.paint, this.nn.model, 0, this.nn.visualization, this.config.paintClearTimeout);
-                _context3.next = 7;
+                this.nn = new _NeuralNetwork["default"]({
+                  trainingCallback: function () {
+                    var _trainingCallback = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(trainXs, trainYs) {
+                      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                        while (1) {
+                          switch (_context3.prev = _context3.next) {
+                            case 0:
+                              _context3.next = 2;
+                              return _this.trainingViz.setCurrentTraining(trainXs, trainYs);
+
+                            case 2:
+                            case "end":
+                              return _context3.stop();
+                          }
+                        }
+                      }, _callee3);
+                    }));
+
+                    function trainingCallback(_x3, _x4) {
+                      return _trainingCallback.apply(this, arguments);
+                    }
+
+                    return trainingCallback;
+                  }(),
+                  batchCallback: function batchCallback(trainingImageCount) {
+                    els.trainingProgress.innerHTML = trainingImageCount;
+                  },
+                  modelUpdateCallback: function modelUpdateCallback(model) {
+                    _this.vp.updateValidationImages(model);
+
+                    _this.vp.updateAccuracy(model);
+                  }
+                });
+                this.trainingViz.setNeuralNetwork(this.nn);
+                this.paint = new _Paint["default"](els.paint, this.nn.model, 0, this.trainingViz, this.config.paintClearTimeout);
+                _context4.next = 9;
                 return this.vp.initValidationImages(els);
 
-              case 7:
+              case 9:
                 // this.nn might have been deleted because in the meanwhile the slide has been skipped
                 if (this.nn) {
                   this.vp.updateValidationImages(this.nn.model);
                   this.vp.updateAccuracy(this.nn.model);
                 }
 
-              case 8:
+              case 10:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function initTrainingEnvironment(_x2) {
@@ -222,35 +260,35 @@ var Controller = /*#__PURE__*/function () {
     key: "resetNetwork",
     value: function resetNetwork(modelid, optimizerid, learningRate, activation) {
       if (this.nn) {
-        this.nn.setup(modelid, optimizerid, learningRate, activation);
+        this.nn.init(modelid, optimizerid, learningRate, activation);
         this.paint.model = this.nn.model;
       }
     }
   }, {
     key: "startTraining",
     value: function () {
-      var _startTraining = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      var _startTraining = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 this.clearDelayedTrainStepPreview();
                 this.testpaint = false;
 
                 if (!this.nn) {
-                  _context4.next = 5;
+                  _context5.next = 5;
                   break;
                 }
 
-                _context4.next = 5;
+                _context5.next = 5;
                 return this.nn.train(this.data);
 
               case 5:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function startTraining() {
@@ -262,17 +300,17 @@ var Controller = /*#__PURE__*/function () {
   }, {
     key: "pauseTraining",
     value: function () {
-      var _pauseTraining = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(cb) {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      var _pauseTraining = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(cb) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!this.nn) {
-                  _context5.next = 4;
+                  _context6.next = 4;
                   break;
                 }
 
-                _context5.next = 3;
+                _context6.next = 3;
                 return this.nn.pauseTraining();
 
               case 3:
@@ -280,13 +318,13 @@ var Controller = /*#__PURE__*/function () {
 
               case 4:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
-      function pauseTraining(_x3) {
+      function pauseTraining(_x5) {
         return _pauseTraining.apply(this, arguments);
       }
 
@@ -295,18 +333,18 @@ var Controller = /*#__PURE__*/function () {
   }, {
     key: "singleStep",
     value: function () {
-      var _singleStep = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(cb) {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      var _singleStep = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(cb) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (!this.nn) {
-                  _context6.next = 5;
+                  _context7.next = 5;
                   break;
                 }
 
                 this.testpaint = false;
-                _context6.next = 4;
+                _context7.next = 4;
                 return this.nn.trainSingleStep(this.data);
 
               case 4:
@@ -314,13 +352,13 @@ var Controller = /*#__PURE__*/function () {
 
               case 5:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
-      function singleStep(_x4) {
+      function singleStep(_x6) {
         return _singleStep.apply(this, arguments);
       }
 
@@ -329,19 +367,19 @@ var Controller = /*#__PURE__*/function () {
   }, {
     key: "resetTraining",
     value: function () {
-      var _resetTraining = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(els) {
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      var _resetTraining = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(els) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context7.next = 2;
+                _context8.next = 2;
                 return this.pauseTraining();
 
               case 2:
                 this.cleanupValidationPreview();
                 this.cleanupPaint();
                 this.cleanupNetwork();
-                _context7.next = 7;
+                _context8.next = 7;
                 return this.initTrainingEnvironment(els);
 
               case 7:
@@ -349,13 +387,13 @@ var Controller = /*#__PURE__*/function () {
 
               case 8:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
 
-      function resetTraining(_x5) {
+      function resetTraining(_x7) {
         return _resetTraining.apply(this, arguments);
       }
 
@@ -364,12 +402,12 @@ var Controller = /*#__PURE__*/function () {
   }, {
     key: "delayedTrainStepPreview",
     value: function delayedTrainStepPreview(cb) {
-      var _this = this;
+      var _this2 = this;
 
       this.clearDelayedTrainStepPreview();
       this.traintimeout = setTimeout(function () {
-        _this.testpaint = true;
-        if (_this.paint) _this.paint.predict();
+        _this2.testpaint = true;
+        if (_this2.paint) _this2.paint.predict();
         if (cb) cb();
       }, this.config.lastTrainStepTimeout * 1000);
     }
@@ -430,7 +468,7 @@ var Controller = /*#__PURE__*/function () {
 
 exports["default"] = Controller;
 
-},{"./MnistData.js":5,"./NeuralNetwork.js":6,"./Paint.js":7,"./ValidationPreview.js":10}],3:[function(require,module,exports){
+},{"./MnistData.js":5,"./NeuralNetwork.js":6,"./Paint.js":7,"./TrainingVisualization.js":9,"./ValidationPreview.js":10}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -899,7 +937,9 @@ var MnistData = /*#__PURE__*/function () {
                 // Make a request for the MNIST sprited image.
                 img = new Image();
                 canvas = document.createElement('canvas');
-                ctx = canvas.getContext('2d');
+                ctx = canvas.getContext('2d', {
+                  willReadFrequently: true
+                });
                 imgRequest = new Promise(function (resolve, reject) {
                   img.crossOrigin = '';
 
@@ -1025,10 +1065,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _TrainingVisualization = _interopRequireDefault(require("./TrainingVisualization.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1051,19 +1087,26 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+/* eslint-disable no-await-in-loop */
+
+/* jshint esversion: 8 */
+
+/* globals tf */
 var NeuralNetwork = /*#__PURE__*/function () {
-  function NeuralNetwork(vp, els) {
+  function NeuralNetwork(options) {
     _classCallCheck(this, NeuralNetwork);
 
-    this.els = els;
-    this.vp = vp;
-    this.setup();
-    this.visualization = new _TrainingVisualization["default"](this, els);
+    this.options = Object.assign({}, {
+      trainingCallback: null,
+      batchCallback: null,
+      modelUpdateCallback: null
+    }, options);
+    this.init();
   }
 
   _createClass(NeuralNetwork, [{
-    key: "setup",
-    value: function setup() {
+    key: "init",
+    value: function init() {
       var modelid = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'dense';
       var optimizerid = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'adam';
       var learningRate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.001;
@@ -1074,9 +1117,12 @@ var NeuralNetwork = /*#__PURE__*/function () {
       this.training = false;
       this.trainedimages = 0;
       this.lastrainedimages = 0;
-      this.pausecbs = []; // this.els.trainingAccuracy.innerHTML = ``;
+      this.pausecbs = [];
 
-      this.els.trainingProgress.innerHTML = this.trainedimages; // delete old model if it has been existing
+      if (this.options.batchCallback) {
+        this.options.batchCallback(this.trainedimages);
+      } // delete old model if it has been existing
+
 
       if (this.model) {
         this.model.dispose();
@@ -1184,11 +1230,17 @@ var NeuralNetwork = /*#__PURE__*/function () {
                   var d = data.nextTrainBatch(TRAIN_DATA_SIZE);
                   return [d.xs.reshape([TRAIN_DATA_SIZE, 28, 28, 1]), d.labels];
                 }), _tf$tidy2 = _slicedToArray(_tf$tidy, 2), trainXs = _tf$tidy2[0], trainYs = _tf$tidy2[1];
-                _context3.next = 5;
-                return this.visualization.setCurrentTraining(trainXs, trainYs);
 
-              case 5:
-                _context3.next = 7;
+                if (!this.options.trainingCallback) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                _context3.next = 6;
+                return this.options.trainingCallback(trainXs, trainYs);
+
+              case 6:
+                _context3.next = 8;
                 return model.fit(trainXs, trainYs, {
                   batchSize: BATCH_SIZE,
                   callbacks: {
@@ -1217,10 +1269,11 @@ var NeuralNetwork = /*#__PURE__*/function () {
                           while (1) {
                             switch (_context2.prev = _context2.next) {
                               case 0:
-                                _this.trainedimages += BATCH_SIZE; // this.els.trainingAccuracy.innerHTML =
-                                //  `Accuracy on current training data: ${(logs.acc * 1000 | 0)/10}%`;
+                                _this.trainedimages += BATCH_SIZE;
 
-                                _this.els.trainingProgress.innerHTML = _this.trainedimages;
+                                if (_this.options.batchCallback) {
+                                  _this.options.batchCallback(_this.trainedimages);
+                                }
 
                               case 2:
                               case "end":
@@ -1239,7 +1292,7 @@ var NeuralNetwork = /*#__PURE__*/function () {
                   }
                 });
 
-              case 7:
+              case 8:
                 tf.dispose(trainXs);
                 tf.dispose(trainYs);
 
@@ -1248,7 +1301,7 @@ var NeuralNetwork = /*#__PURE__*/function () {
                   // is used for unknown reasons
                 }
 
-              case 10:
+              case 11:
               case "end":
                 return _context3.stop();
             }
@@ -1274,10 +1327,11 @@ var NeuralNetwork = /*#__PURE__*/function () {
                 return this.trainByBatchFromData(data, 1, 1);
 
               case 2:
-                this.vp.updateValidationImages(this.model);
-                this.vp.updateAccuracy(this.model);
+                if (this.options.modelUpdateCallback) {
+                  this.options.modelUpdateCallback(this.model);
+                }
 
-              case 4:
+              case 3:
               case "end":
                 return _context4.stop();
             }
@@ -1306,7 +1360,7 @@ var NeuralNetwork = /*#__PURE__*/function () {
 
               case 1:
                 if (!this.training) {
-                  _context5.next = 15;
+                  _context5.next = 14;
                   break;
                 }
 
@@ -1322,36 +1376,37 @@ var NeuralNetwork = /*#__PURE__*/function () {
 
               case 6:
                 if (!(this.trainedimages > this.lastrainedimages + Math.min(1000, 0.3 * this.trainedimages) || this.trainedimages < 250)) {
-                  _context5.next = 13;
-                  break;
-                }
-
-                this.vp.updateValidationImages(this.model);
-                this.vp.updateAccuracy(this.model);
-
-                if (!(this.trainedimages < 100)) {
                   _context5.next = 12;
                   break;
                 }
 
-                _context5.next = 12;
+                if (this.options.modelUpdateCallback) {
+                  this.options.modelUpdateCallback(this.model);
+                }
+
+                if (!(this.trainedimages < 100)) {
+                  _context5.next = 11;
+                  break;
+                }
+
+                _context5.next = 11;
                 return new Promise(function (resolve) {
                   return setTimeout(resolve, 1000 / (5 + 4 * _this2.trainedimages) * (_this2.trainedimages - _this2.lastrainedimages));
                 });
 
-              case 12:
+              case 11:
                 this.lastrainedimages = this.trainedimages;
 
-              case 13:
+              case 12:
                 _context5.next = 1;
                 break;
 
-              case 15:
+              case 14:
                 while (this.pausecbs.length > 0) {
                   this.pausecbs.pop()();
                 }
 
-              case 16:
+              case 15:
               case "end":
                 return _context5.stop();
             }
@@ -1437,7 +1492,7 @@ var NeuralNetwork = /*#__PURE__*/function () {
 
 exports["default"] = NeuralNetwork;
 
-},{"./TrainingVisualization.js":9}],7:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1577,8 +1632,12 @@ var Paint = /*#__PURE__*/function () {
         updateDimensions();
       };
 
-      this.drawcontext = this.drawcanvas.getContext('2d');
-      this.normalizecontext = this.normalizecanvas.getContext('2d'); // const { drawcontext, normalizecontext } = this;
+      this.drawcontext = this.drawcanvas.getContext('2d', {
+        willReadFrequently: true
+      });
+      this.normalizecontext = this.normalizecanvas.getContext('2d', {
+        willReadFrequently: true
+      }); // const { drawcontext, normalizecontext } = this;
       //  normalizecanvas.style.width = 28 * SCALE_FACTOR + 'px';
       //  normalizecanvas.style.height = 28 * SCALE_FACTOR + 'px';
       //  normalizecanvas.style.imageRendering = 'pixelated';
@@ -1756,6 +1815,12 @@ var Paint = /*#__PURE__*/function () {
       }
 
       return true;
+    }
+  }, {
+    key: "swapModel",
+    value: function swapModel(model) {
+      this.model = model;
+      this.predict();
     }
   }, {
     key: "clear",
@@ -2088,13 +2153,10 @@ var DENSEWIDTH = 380;
 var XOFFSET = 20;
 
 var TrainingVisualization = /*#__PURE__*/function () {
-  function TrainingVisualization(nn, els) {
+  function TrainingVisualization(els) {
     _classCallCheck(this, TrainingVisualization);
 
     this.els = els;
-    this.nn = nn;
-    this.currentDigit = new Float32Array(784);
-    this.currentProbabilities = new Float32Array(10);
     this.canvas = this.els.network;
     var canvas = this.canvas;
     canvas.height = canvas.clientHeight;
@@ -2115,14 +2177,21 @@ var TrainingVisualization = /*#__PURE__*/function () {
     this.traindigit = document.createElement('canvas');
     this.traindigit.height = 28;
     this.traindigit.width = 28;
-    this.lt1 = 0.08;
-    this.lt2 = 0.2; // this.animateNetwork();
-
-    this.renderNetwork();
-    this.renderActivations();
   }
 
   _createClass(TrainingVisualization, [{
+    key: "setNeuralNetwork",
+    value: function setNeuralNetwork() {
+      var nn = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      this.nn = nn;
+      this.currentDigit = new Float32Array(784);
+      this.currentProbabilities = new Float32Array(10);
+      this.lt1 = 0.08;
+      this.lt2 = 0.2;
+      this.renderNetwork();
+      this.renderActivations();
+    }
+  }, {
     key: "findthreshold",
     value: function findthreshold(arr, a, b, target) {
       // binary search to find good
@@ -2146,25 +2215,7 @@ var TrainingVisualization = /*#__PURE__*/function () {
   }, {
     key: "drawdenselayer",
     value: function drawdenselayer(N, M, weights, x0, y0, width, height, lastthreshold) {
-      var ctx = this.ctx;
-      /*
-      // takes about 120ms for 78400 weights
-      const topWeights = Array.from(weights)
-      .map((v, k) => [Math.abs(v), k]).sort((a, b) => (a[0] - b[0]))
-      .slice(Math.max(0, weights.length - 100));
-      const maxWeight = topWeights[topWeights.length - 1][0];
-      for (let k in topWeights) {
-        const nodeB = topWeights[k][1] % M;
-        const nodeA = topWeights[k][1] / M;
-        const val = topWeights[k][0];
-        ctx.beginPath();
-        ctx.globalAlpha = val / topWeights[0][0];
-        ctx.moveTo(x0, y0 + nodeA * height / N);
-        ctx.lineTo(x0 + width, y0 + nodeB * height / M);
-        ctx.stroke();
-      }
-      */
-      // takes about 40ms for 784 weights
+      var ctx = this.ctx; // takes about 40ms for 784 weights
 
       var threshold = this.findthreshold(weights, lastthreshold * 0.8, lastthreshold * 1.2, 200);
 
@@ -2202,97 +2253,59 @@ var TrainingVisualization = /*#__PURE__*/function () {
         ctx.fillStyle = "rgb(".concat(cval, ", ").concat(cval, ", ").concat(cval, ")");
         ctx.beginPath();
         ctx.arc(x0, y0 + nodeA * height / (N - 1), radius, 0, 2 * Math.PI, false);
-        /*
-          if (cval > 200 && radius > 2) {
-            ctx.strokeStyle = `rgb(128, 128, 128)`;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        */
-        // ctx.stroke();
-
         ctx.fill();
       }
     }
   }, {
+    key: "clearNetwork",
+    value: function clearNetwork() {
+      var canvas = this.canvas,
+          ctx = this.ctx;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }, {
     key: "renderNetwork",
     value: function renderNetwork() {
-      if (this.nn.modelid === 'dense') {
+      this.clearNetwork();
+
+      if (this.nn && this.nn.modelid === 'dense') {
         var canvas = this.canvas,
             ctx = this.ctx;
         var weights = this.nn.model.getWeights().map(function (w) {
           return w.dataSync();
         });
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.lt1 = this.drawdenselayer(784, 100, weights[0], XOFFSET, 50, DENSEWIDTH, HEIGHT - 100, this.lt1);
         this.lt2 = this.drawdenselayer(100, 10, weights[2], XOFFSET + DENSEWIDTH, 50, DENSEWIDTH, HEIGHT - 100, this.lt2);
-      } // this.lastvisualization = this.nn.trainedimages;
-
+      }
+    }
+  }, {
+    key: "clearActivations",
+    value: function clearActivations() {
+      this.actx.clearRect(0, 0, this.acanvas.width, this.acanvas.height);
+      this.ictx.clearRect(0, 0, this.icanvas.width, this.icanvas.height);
     }
   }, {
     key: "renderActivations",
     value: function renderActivations() {
-      this.actx.clearRect(0, 0, this.acanvas.width, this.acanvas.height);
-      this.ictx.clearRect(0, 0, this.icanvas.width, this.icanvas.height);
+      this.clearActivations();
 
-      if (this.traindigit.active) {
-        this.ictx.imageSmoothingEnabled = false; // no antialiasin
+      if (this.nn) {
+        if (this.traindigit.active) {
+          this.ictx.imageSmoothingEnabled = false; // no antialiasin
 
-        this.ictx.filter = 'brightness(0.5) invert(1) brightness(0.95)';
-        this.ictx.drawImage(this.traindigit, 0, 0, 28, 28, 60, 60, 28 * 6, 28 * 6);
-        this.ictx.filter = 'none';
-      } // draw bars for activations
-
-      /*
-        this.octx.beginPath();
-        this.octx.strokeStyle = '#c4c4c4';
-        this.octx.lineWidth = 20;
-        this.octx.lineCap = "round";
-        for (let k = 0; k < 10; k++) {
-          const x0 = 10;
-          const x1 = 95;
-          const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
-          this.octx.moveTo(x0, y0);
-          this.octx.lineTo(
-            this.currentProbabilities[k] * x1 + (1 - this.currentProbabilities[k]) * x0,
-            y0
-          );
+          this.ictx.filter = 'brightness(0.5) invert(1) brightness(0.95)';
+          this.ictx.drawImage(this.traindigit, 0, 0, 28, 28, 60, 60, 28 * 6, 28 * 6);
+          this.ictx.filter = 'none';
         }
-        this.octx.stroke();
-        this.octx.lineWidth = 1;
-        this.octx.lineCap = "butt";
-      */
 
+        this.barchart.update(this.currentProbabilities, this.currentTarget);
+        this.drawnodes(this.actx, 784, this.currentDigit, XOFFSET, 50, HEIGHT - 100, 0.5);
 
-      this.barchart.update(this.currentProbabilities, this.currentTarget);
-      this.drawnodes(this.actx, 784, this.currentDigit, XOFFSET, 50, HEIGHT - 100, 0.5);
-
-      if (this.nn.modelid === 'dense') {
-        this.drawnodes(this.actx, 100, this.intermediateActivations, XOFFSET + DENSEWIDTH, 50, HEIGHT - 100, 1.5);
-      } // this.drawnodes(this.octx, 10, this.currentProbabilities, 8, 50, (HEIGHT - 100), 8);
-
-      /*
-          //draw digits
-          this.octx.fillStyle = 'black';
-          for (let k = 0; k < 10; k++) {
-            const x0 = 105;
-            const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
-            this.octx.font = "20px 'Exo 2'";
-            this.octx.fillText(k, x0, y0 + 8);
-          }
-      */
-
-    }
-    /*
-      animateNetwork() {
-        if (this.nn.trainedimages
-          > this.lastvisualization + Math.min(512, 0.1 * this.nn.trainedimages)) {
-          this.renderNetwork();
+        if (this.nn.modelid === 'dense') {
+          this.drawnodes(this.actx, 100, this.intermediateActivations, XOFFSET + DENSEWIDTH, 50, HEIGHT - 100, 1.5);
         }
-        requestAnimationFrame(() => this.animateNetwork());
       }
-    */
-
+    }
   }, {
     key: "setCurrentTraining",
     value: function () {
@@ -2371,6 +2384,10 @@ var TrainingVisualization = /*#__PURE__*/function () {
   }, {
     key: "computeActivations",
     value: function computeActivations(input) {
+      if (!this.nn) {
+        return;
+      }
+
       if (this.nn.modelid === 'dense') {
         var A1 = this.nn.model.layers[0].apply(input);
         var A2 = this.nn.model.layers[1].apply(A1);
@@ -2436,13 +2453,17 @@ var ValidationPreview = /*#__PURE__*/function () {
 
     this.data = data;
     this.els = els;
-    this.displayedAccuracy = 0;
-    this.accuracy = this.displayedAccuracy;
-    this.isanimating = true;
-    this.acccbs = []; // this.animate();
+    this.reset();
   }
 
   _createClass(ValidationPreview, [{
+    key: "reset",
+    value: function reset() {
+      this.accuracy = 0;
+      this.acccbs = [];
+      this.cleanup();
+    }
+  }, {
     key: "initValidationImages",
     value: function () {
       var _initValidationImages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
@@ -2649,35 +2670,11 @@ var ValidationPreview = /*#__PURE__*/function () {
     /* This function is not used anymore: smooth rendering of accuracy */
 
   }, {
-    key: "animate",
-    value: function animate() {
-      var _this4 = this;
-
-      if (!this.isanimating) {
-        return;
-      }
-
-      var alpha = 0.05;
-      this.displayedAccuracy = (1 - alpha) * this.displayedAccuracy + alpha * this.accuracy; // this.els.validationAccuracy.style = `--angle: ${(1-this.displayedAccuracy)*360}deg;`;
-      // const accuracy = (this.displayedAccuracy < 0.95)
-      //  ? Math.round(this.displayedAccuracy * 100)
-      //  : Math.round(this.displayedAccuracy * 1000) /10;
-      // this.els.validationAccuracy.firstElementChild.innerHTML = `${accuracy}%`;
-
-      var accuracy = this.displayedAccuracy < 0.95 ? Math.round(this.displayedAccuracy * 100) : Math.round(this.displayedAccuracy * 1000) / 10;
-      this.els.validationAccuracy.innerHTML = "".concat(accuracy, "%");
-      window.requestAnimationFrame(function () {
-        return _this4.animate();
-      });
-    }
-  }, {
     key: "cleanup",
     value: function cleanup() {
       while (this.els.validationImages && this.els.validationImages.firstChild) {
         this.els.validationImages.removeChild(this.els.validationImages.firstChild);
       }
-
-      this.isanimating = false;
     }
   }, {
     key: "addAccuracyCallback",

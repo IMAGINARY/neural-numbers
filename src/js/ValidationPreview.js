@@ -7,11 +7,13 @@ export default class ValidationPreview {
     this.data = data;
     this.els = els;
 
-    this.displayedAccuracy = 0;
-    this.accuracy = this.displayedAccuracy;
-    this.isanimating = true;
+    this.reset();
+  }
+
+  reset() {
+    this.accuracy = 0;
     this.acccbs = [];
-    // this.animate();
+    this.cleanup();
   }
 
   async initValidationImages() {
@@ -87,29 +89,11 @@ export default class ValidationPreview {
   }
 
   /* This function is not used anymore: smooth rendering of accuracy */
-  animate() {
-    if (!this.isanimating) {
-      return;
-    }
-    const alpha = 0.05;
-    this.displayedAccuracy = (1 - alpha) * this.displayedAccuracy + alpha * this.accuracy;
-    // this.els.validationAccuracy.style = `--angle: ${(1-this.displayedAccuracy)*360}deg;`;
-    // const accuracy = (this.displayedAccuracy < 0.95)
-    //  ? Math.round(this.displayedAccuracy * 100)
-    //  : Math.round(this.displayedAccuracy * 1000) /10;
-    // this.els.validationAccuracy.firstElementChild.innerHTML = `${accuracy}%`;
-    const accuracy = (this.displayedAccuracy < 0.95)
-      ? Math.round(this.displayedAccuracy * 100)
-      : Math.round(this.displayedAccuracy * 1000) / 10;
-    this.els.validationAccuracy.innerHTML = `${accuracy}%`;
-    window.requestAnimationFrame(() => this.animate());
-  }
 
   cleanup() {
     while (this.els.validationImages && this.els.validationImages.firstChild) {
       this.els.validationImages.removeChild(this.els.validationImages.firstChild);
     }
-    this.isanimating = false;
   }
 
   addAccuracyCallback(acc, cb) {

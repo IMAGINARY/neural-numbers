@@ -7,11 +7,8 @@ const DENSEWIDTH = 380;
 const XOFFSET = 20;
 
 export default class TrainingVisualization {
-  constructor(nn, els) {
+  constructor(els) {
     this.els = els;
-    this.nn = nn;
-    this.currentDigit = new Float32Array(784);
-    this.currentProbabilities = new Float32Array(10);
 
     this.canvas = this.els.network;
     const { canvas } = this;
@@ -38,10 +35,14 @@ export default class TrainingVisualization {
     this.traindigit = document.createElement('canvas');
     this.traindigit.height = 28;
     this.traindigit.width = 28;
+  }
 
+  setNeuralNetwork(nn = null) {
+    this.nn = nn;
+    this.currentDigit = new Float32Array(784);
+    this.currentProbabilities = new Float32Array(10);
     this.lt1 = 0.08;
     this.lt2 = 0.2;
-    // this.animateNetwork();
 
     this.renderNetwork();
     this.renderActivations();
@@ -65,24 +66,6 @@ export default class TrainingVisualization {
 
   drawdenselayer(N, M, weights, x0, y0, width, height, lastthreshold) {
     const { ctx } = this;
-
-    /*
-    // takes about 120ms for 78400 weights
-    const topWeights = Array.from(weights)
-    .map((v, k) => [Math.abs(v), k]).sort((a, b) => (a[0] - b[0]))
-    .slice(Math.max(0, weights.length - 100));
-    const maxWeight = topWeights[topWeights.length - 1][0];
-    for (let k in topWeights) {
-      const nodeB = topWeights[k][1] % M;
-      const nodeA = topWeights[k][1] / M;
-      const val = topWeights[k][0];
-      ctx.beginPath();
-      ctx.globalAlpha = val / topWeights[0][0];
-      ctx.moveTo(x0, y0 + nodeA * height / N);
-      ctx.lineTo(x0 + width, y0 + nodeB * height / M);
-      ctx.stroke();
-    }
-    */
 
     // takes about 40ms for 784 weights
     const threshold = this.findthreshold(weights, lastthreshold * 0.8, lastthreshold * 1.2, 200);
@@ -119,23 +102,21 @@ export default class TrainingVisualization {
       ctx.fillStyle = `rgb(${cval}, ${cval}, ${cval})`;
       ctx.beginPath();
       ctx.arc(x0, y0 + nodeA * height / (N - 1), radius, 0, 2 * Math.PI, false);
-      /*
-        if (cval > 200 && radius > 2) {
-          ctx.strokeStyle = `rgb(128, 128, 128)`;
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-      */
-      // ctx.stroke();
       ctx.fill();
     }
   }
 
+  clearNetwork() {
+    const { canvas, ctx } = this;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
   renderNetwork() {
-    if (this.nn.modelid === 'dense') {
+    this.clearNetwork();
+
+    if (this.nn && this.nn.modelid === 'dense') {
       const { canvas, ctx } = this;
       const weights = this.nn.model.getWeights().map(w => w.dataSync());
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
       this.lt1 = this.drawdenselayer(
         784, 100, weights[0], XOFFSET, 50, DENSEWIDTH, (HEIGHT - 100), this.lt1
       );
@@ -143,72 +124,34 @@ export default class TrainingVisualization {
         100, 10, weights[2], XOFFSET + DENSEWIDTH, 50, DENSEWIDTH, (HEIGHT - 100), this.lt2
       );
     }
+  }
 
-    // this.lastvisualization = this.nn.trainedimages;
+  clearActivations() {
+    this.actx.clearRect(0, 0, this.acanvas.width, this.acanvas.height);
+    this.ictx.clearRect(0, 0, this.icanvas.width, this.icanvas.height);
   }
 
   renderActivations() {
-    this.actx.clearRect(0, 0, this.acanvas.width, this.acanvas.height);
-    this.ictx.clearRect(0, 0, this.icanvas.width, this.icanvas.height);
+    this.clearActivations();
 
-    if (this.traindigit.active) {
-      this.ictx.imageSmoothingEnabled = false; // no antialiasin
-      this.ictx.filter = 'brightness(0.5) invert(1) brightness(0.95)';
-      this.ictx.drawImage(this.traindigit, 0, 0, 28, 28, 60, 60, 28 * 6, 28 * 6);
-      this.ictx.filter = 'none';
-    }
-
-    // draw bars for activations
-    /*
-      this.octx.beginPath();
-      this.octx.strokeStyle = '#c4c4c4';
-      this.octx.lineWidth = 20;
-      this.octx.lineCap = "round";
-      for (let k = 0; k < 10; k++) {
-        const x0 = 10;
-        const x1 = 95;
-        const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
-        this.octx.moveTo(x0, y0);
-        this.octx.lineTo(
-          this.currentProbabilities[k] * x1 + (1 - this.currentProbabilities[k]) * x0,
-          y0
-        );
+    if (this.nn){
+      if (this.traindigit.active) {
+        this.ictx.imageSmoothingEnabled = false; // no antialiasin
+        this.ictx.filter = 'brightness(0.5) invert(1) brightness(0.95)';
+        this.ictx.drawImage(this.traindigit, 0, 0, 28, 28, 60, 60, 28 * 6, 28 * 6);
+        this.ictx.filter = 'none';
       }
-      this.octx.stroke();
-      this.octx.lineWidth = 1;
-      this.octx.lineCap = "butt";
-    */
-    this.barchart.update(this.currentProbabilities, this.currentTarget);
 
+      this.barchart.update(this.currentProbabilities, this.currentTarget);
 
-    this.drawnodes(this.actx, 784, this.currentDigit, XOFFSET, 50, (HEIGHT - 100), 0.5);
-    if (this.nn.modelid === 'dense') {
-      this.drawnodes(this.actx, 100, this.intermediateActivations,
-        XOFFSET + DENSEWIDTH, 50, (HEIGHT - 100), 1.5);
+      this.drawnodes(this.actx, 784, this.currentDigit, XOFFSET, 50, (HEIGHT - 100), 0.5);
+      if (this.nn.modelid === 'dense') {
+        this.drawnodes(this.actx, 100, this.intermediateActivations,
+          XOFFSET + DENSEWIDTH, 50, (HEIGHT - 100), 1.5);
+      }
     }
-    // this.drawnodes(this.octx, 10, this.currentProbabilities, 8, 50, (HEIGHT - 100), 8);
-
-    /*
-        //draw digits
-        this.octx.fillStyle = 'black';
-        for (let k = 0; k < 10; k++) {
-          const x0 = 105;
-          const y0 = 50 + (HEIGHT - 100) * k / (10 - 1);
-          this.octx.font = "20px 'Exo 2'";
-          this.octx.fillText(k, x0, y0 + 8);
-        }
-    */
   }
 
-  /*
-    animateNetwork() {
-      if (this.nn.trainedimages
-        > this.lastvisualization + Math.min(512, 0.1 * this.nn.trainedimages)) {
-        this.renderNetwork();
-      }
-      requestAnimationFrame(() => this.animateNetwork());
-    }
-  */
   async setCurrentTraining(trainXs, trainYs) {
     const trainX1 = trainXs.slice([0, 0, 0, 0], [1, 28, 28, 1]); // only the first
     const imageTensor = trainX1.reshape([28, 28, 1]); // first as image
@@ -236,6 +179,9 @@ export default class TrainingVisualization {
   }
 
   computeActivations(input) {
+    if (!this.nn) {
+      return;
+    }
     if (this.nn.modelid === 'dense') {
       const A1 = this.nn.model.layers[0].apply(input);
       const A2 = this.nn.model.layers[1].apply(A1);

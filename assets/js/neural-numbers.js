@@ -200,8 +200,12 @@ var Paint = /*#__PURE__*/function () {
         updateDimensions();
       };
 
-      this.drawcontext = this.drawcanvas.getContext('2d');
-      this.normalizecontext = this.normalizecanvas.getContext('2d'); // const { drawcontext, normalizecontext } = this;
+      this.drawcontext = this.drawcanvas.getContext('2d', {
+        willReadFrequently: true
+      });
+      this.normalizecontext = this.normalizecanvas.getContext('2d', {
+        willReadFrequently: true
+      }); // const { drawcontext, normalizecontext } = this;
       //  normalizecanvas.style.width = 28 * SCALE_FACTOR + 'px';
       //  normalizecanvas.style.height = 28 * SCALE_FACTOR + 'px';
       //  normalizecanvas.style.imageRendering = 'pixelated';
@@ -381,6 +385,12 @@ var Paint = /*#__PURE__*/function () {
       return true;
     }
   }, {
+    key: "swapModel",
+    value: function swapModel(model) {
+      this.model = model;
+      this.predict();
+    }
+  }, {
     key: "clear",
     value: function clear() {
       this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
@@ -534,7 +544,7 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
     this.$normalizeStage = $('<div>').addClass(['stage', 'stage-normalize']).appendTo(this.$element);
     this.$normalizeCanvas = $('<canvas>').addClass('normalizecanvas').appendTo($('<div>').addClass('normalize-canvas-wrapper').appendTo(this.$normalizeStage));
     this.$probabilityStage = $('<div>').addClass(['stage', 'stage-bars']).appendTo(this.$element);
-    this.$bars = $('<div>').addClass('bars').toggleClass('vertical', verticalBars || false).appendTo(this.$probabilityStage);
+    this.$bars = $('<div>').addClass('bars').toggleClass('bars-vertical', verticalBars || false).appendTo(this.$probabilityStage);
     this.$outputStage = $('<div>').addClass(['stage', 'stage-output']).appendTo(this.$element);
     this.$output = $('<div>').addClass(['output', 'digit']).appendTo($('<div>').addClass('output-wrapper').appendTo(this.$outputStage));
   }

@@ -3,6 +3,7 @@ import Paint from './Paint.js';
 import { MnistData } from './MnistData.js';
 import NeuralNetwork from './NeuralNetwork.js';
 import ValidationPreview from './ValidationPreview.js';
+import TrainingVisualization from './TrainingVisualization.js';
 
 export default class Controller {
   constructor(config) {
@@ -36,13 +37,27 @@ export default class Controller {
 
   async initTrainingEnvironment(els) {
     await this.loadData();
+    this.trainingViz = new TrainingVisualization(els);
     this.vp = new ValidationPreview(this.data, els);
-    this.nn = new NeuralNetwork(this.vp, els);
+    this.nn = new NeuralNetwork({
+      trainingCallback: async (trainXs, trainYs) => {
+        await this.trainingViz.setCurrentTraining(trainXs, trainYs);
+      },
+      batchCallback: (trainingImageCount) => {
+        els.trainingProgress.innerHTML = trainingImageCount;
+      },
+      modelUpdateCallback: (model) => {
+        this.vp.updateValidationImages(model);
+        this.vp.updateAccuracy(model);
+      },
+    });
+    this.trainingViz.setNeuralNetwork(this.nn);
+
     this.paint = new Paint(
       els.paint,
       this.nn.model,
       0,
-      this.nn.visualization,
+      this.trainingViz,
       this.config.paintClearTimeout
     );
 
@@ -56,7 +71,7 @@ export default class Controller {
 
   resetNetwork(modelid, optimizerid, learningRate, activation) {
     if (this.nn) {
-      this.nn.setup(modelid, optimizerid, learningRate, activation);
+      this.nn.init(modelid, optimizerid, learningRate, activation);
       this.paint.model = this.nn.model;
     }
   }
