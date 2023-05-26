@@ -15,6 +15,7 @@ export default class NeuralNumbersComponent {
   constructor(element, props) {
     this.$element = $(element);
     this.props = props;
+    this.defaultModel = null;
     this.model = null;
     this.paint = null;
 
@@ -94,7 +95,8 @@ export default class NeuralNumbersComponent {
 
   async init() {
     const { modelPath } = this.props;
-    this.model = await loadModel(modelPath);
+    this.defaultModel = await loadModel(modelPath);
+    this.model = this.defaultModel;
 
     this.paint = new Paint(
       this.$element[0],
@@ -102,6 +104,14 @@ export default class NeuralNumbersComponent {
       0.5,
       false,
       NeuralNumbersComponent.PAINT_CLEAR_TIMEOUT);
+  }
+
+  setModel(model = null) {
+    if (model === null) {
+      model = this.defaultModel;
+    }
+    this.model = model;
+    this.paint.swapModel(model);
   }
 }
 

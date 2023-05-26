@@ -1,4 +1,6 @@
 import NeuralNumbersComponent from './neural-numbers-component';
+import TrainingController from './training-controller';
+import TrainingComponent from "./training-component";
 
 function attrFlag(attribute, defaultValue) {
   if (attribute === undefined) {
@@ -27,4 +29,6 @@ if (window.IMAGINARY === undefined) {
 
 if (window.IMAGINARY.NeuralNumbers === undefined) {
   window.IMAGINARY.NeuralNumbers = NeuralNumbersComponent;
+  window.IMAGINARY.NeuralNumbersTrainingController = TrainingController;
+  window.IMAGINARY.NeuralNumbersTraining = TrainingComponent;
 }

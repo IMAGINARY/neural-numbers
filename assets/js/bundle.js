@@ -1101,6 +1101,7 @@ var NeuralNetwork = /*#__PURE__*/function () {
       batchCallback: null,
       modelUpdateCallback: null
     }, options);
+    this.training = false;
     this.init();
   }
 
@@ -1114,7 +1115,6 @@ var NeuralNetwork = /*#__PURE__*/function () {
       // eslint-disable-next-line no-console
       console.log("Setting up NN model=".concat(modelid, " optimizer=").concat(optimizerid, " learningrate=").concat(learningRate, " activation=").concat(activation));
       this.modelid = modelid;
-      this.training = false;
       this.trainedimages = 0;
       this.lastrainedimages = 0;
       this.pausecbs = [];
@@ -1439,6 +1439,11 @@ var NeuralNetwork = /*#__PURE__*/function () {
           resolve();
         }
       });
+    }
+  }, {
+    key: "isTraining",
+    value: function isTraining() {
+      return this.training;
     }
   }, {
     key: "toggleTraining",

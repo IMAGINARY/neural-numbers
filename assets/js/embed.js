@@ -522,6 +522,7 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
 
     this.$element = $(element);
     this.props = props;
+    this.defaultModel = null;
     this.model = null;
     this.paint = null;
     var _this$props = this.props,
@@ -568,10 +569,11 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
                 return loadModel(modelPath);
 
               case 3:
-                this.model = _context.sent;
+                this.defaultModel = _context.sent;
+                this.model = this.defaultModel;
                 this.paint = new _Paint["default"](this.$element[0], this.model, 0.5, false, NeuralNumbersComponent.PAINT_CLEAR_TIMEOUT);
 
-              case 5:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -585,6 +587,18 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
 
       return init;
     }()
+  }, {
+    key: "setModel",
+    value: function setModel() {
+      var model = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      if (model === null) {
+        model = this.defaultModel;
+      }
+
+      this.model = model;
+      this.paint.swapModel(model);
+    }
   }]);
 
   return NeuralNumbersComponent;

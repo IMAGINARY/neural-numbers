@@ -121,6 +121,9 @@
       margin-right: 0; }
   .neural-numbers-component .stage-input {
     display: flex; }
+  .neural-numbers-component .break {
+    height: 0;
+    flex-basis: 100%; }
   .neural-numbers-component.with-normalizer .stage-normalize {
     display: flex; }
   .neural-numbers-component.with-bars .stage-bars {
@@ -237,5 +240,47 @@
 
 .neural-numbers-component-mediocre .bars .bar {
   background-color: #ff8459; }
+
+.neural-numbers-training-component {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #f2f2f2;
+  padding: 0.5rem; }
+  .neural-numbers-training-component .controls {
+    margin: -0.25rem; }
+  .neural-numbers-training-component .progress-bar {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem; }
+  .neural-numbers-training-component .image-count-label {
+    margin-right: 0.5em;
+    font-weight: bold; }
+  .neural-numbers-training-component .btn {
+    font-size: 0;
+    border: 2px solid #b6b6b6;
+    border-radius: 50%;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
+    margin: 0 0.25rem;
+    cursor: pointer; }
+  .neural-numbers-training-component .start-pause-btn {
+    width: 4rem;
+    height: 4rem;
+    background-image: url("../../assets/img/resume.svg");
+    background-position: 60% center; }
+  .neural-numbers-training-component.running .start-pause-btn {
+    background-image: url("../../assets/img/pause.svg"); }
+  .neural-numbers-training-component .step-btn {
+    width: 3.3rem;
+    height: 3.3rem;
+    background-image: url("../../assets/img/step.svg");
+    background-size: 55%;
+    background-position: 42% center; }
+  .neural-numbers-training-component .reset-btn {
+    width: 3.3rem;
+    height: 3.3rem;
+    background-image: url("../../assets/img/reset.svg");
+    background-size: 45%;
+    background-position: center 40%; }
 
 /*# sourceMappingURL=neural-numbers.css.map */

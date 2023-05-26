@@ -29,6 +29,11 @@ $input-box-border: 8px;
     display: flex;
   }
 
+  .break {
+    height: 0;
+    flex-basis: 100%;
+  }
+
   &.with-normalizer {
     .stage-normalize {
       display: flex;

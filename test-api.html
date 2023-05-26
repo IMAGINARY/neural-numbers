@@ -26,6 +26,9 @@
     <div id="bad"></div>
     <h2>Mediocre</h2>
     <div id="mediocre"></div>
+    <h2>With training</h2>
+    <div id="with-training"></div>
+    <div id="with-training-ui"></div>
     <script src="vendor/jquery/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script type="text/javascript" src="vendor/pep/pep.js"></script>
     <script type="text/javascript" src="vendor/tf/tf.min.js"></script>
@@ -93,6 +96,21 @@
           showInput: true,
         });
         await mediocre.init();
+
+        var withTraining = new IMAGINARY.NeuralNumbers($('#with-training')[0], {
+          modelPath: 'assets/models/my-model.json',
+          placeholder: 'write a number between 0&amp;nbsp;and&amp;nbsp;9',
+          showBars: true,
+          verticalBars: true,
+          showNormalizer: false,
+          showOutput: true,
+          showInput: true,
+          showTraining: true,
+        });
+
+        var trainer = new IMAGINARY.NeuralNumbersTraining(withTraining, $('#with-training-ui')[0])
+        await withTraining.init();
+        await trainer.init();
       })();
     </script>
   </body>

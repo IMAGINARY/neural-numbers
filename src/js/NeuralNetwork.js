@@ -9,6 +9,7 @@ export default class NeuralNetwork {
       batchCallback: null,
       modelUpdateCallback: null,
     }, options);
+    this.training = false;
     this.init();
   }
 
@@ -16,7 +17,6 @@ export default class NeuralNetwork {
     // eslint-disable-next-line no-console
     console.log(`Setting up NN model=${modelid} optimizer=${optimizerid} learningrate=${learningRate} activation=${activation}`);
     this.modelid = modelid;
-    this.training = false;
     this.trainedimages = 0;
     this.lastrainedimages = 0;
     this.pausecbs = [];
@@ -220,6 +220,10 @@ export default class NeuralNetwork {
         resolve();
       }
     });
+  }
+
+  isTraining() {
+    return this.training;
   }
 
   async toggleTraining(data) {
