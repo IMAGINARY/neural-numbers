@@ -1099,7 +1099,8 @@ var NeuralNetwork = /*#__PURE__*/function () {
     this.options = Object.assign({}, {
       trainingCallback: null,
       batchCallback: null,
-      modelUpdateCallback: null
+      modelUpdateCallback: null,
+      modelUpdateAsyncCallback: null
     }, options);
     this.training = false;
     this.init();
@@ -1331,7 +1332,15 @@ var NeuralNetwork = /*#__PURE__*/function () {
                   this.options.modelUpdateCallback(this.model);
                 }
 
-              case 3:
+                if (!this.options.modelUpdateAsyncCallback) {
+                  _context4.next = 6;
+                  break;
+                }
+
+                _context4.next = 6;
+                return this.options.modelUpdateAsyncCallback(this.model);
+
+              case 6:
               case "end":
                 return _context4.stop();
             }
@@ -1360,7 +1369,7 @@ var NeuralNetwork = /*#__PURE__*/function () {
 
               case 1:
                 if (!this.training) {
-                  _context5.next = 14;
+                  _context5.next = 17;
                   break;
                 }
 
@@ -1376,7 +1385,7 @@ var NeuralNetwork = /*#__PURE__*/function () {
 
               case 6:
                 if (!(this.trainedimages > this.lastrainedimages + Math.min(1000, 0.3 * this.trainedimages) || this.trainedimages < 250)) {
-                  _context5.next = 12;
+                  _context5.next = 15;
                   break;
                 }
 
@@ -1384,29 +1393,38 @@ var NeuralNetwork = /*#__PURE__*/function () {
                   this.options.modelUpdateCallback(this.model);
                 }
 
-                if (!(this.trainedimages < 100)) {
+                if (!this.options.modelUpdateAsyncCallback) {
                   _context5.next = 11;
                   break;
                 }
 
                 _context5.next = 11;
+                return this.options.modelUpdateAsyncCallback(this.model);
+
+              case 11:
+                if (!(this.trainedimages < 100)) {
+                  _context5.next = 14;
+                  break;
+                }
+
+                _context5.next = 14;
                 return new Promise(function (resolve) {
                   return setTimeout(resolve, 1000 / (5 + 4 * _this2.trainedimages) * (_this2.trainedimages - _this2.lastrainedimages));
                 });
 
-              case 11:
+              case 14:
                 this.lastrainedimages = this.trainedimages;
 
-              case 12:
+              case 15:
                 _context5.next = 1;
                 break;
 
-              case 14:
+              case 17:
                 while (this.pausecbs.length > 0) {
                   this.pausecbs.pop()();
                 }
 
-              case 15:
+              case 18:
               case "end":
                 return _context5.stop();
             }
@@ -1541,6 +1559,9 @@ var Paint = /*#__PURE__*/function () {
     this.drawingChanged = true;
     this.model = model;
     this.nwvis = nwvis;
+    this.barchart = null;
+    this.drawingActive = true;
+    this.clearOnInput = false;
     this.outputThreshold = outputThreshold; // last known position
 
     this.pos = {
@@ -1560,7 +1581,11 @@ var Paint = /*#__PURE__*/function () {
 
       this.eventfunctions = {
         pointerdown: function pointerdown(e) {
-          if (!_this.isdown) {
+          if (!_this.isdown && _this.drawingActive) {
+            if (_this.clearOnInput) {
+              _this.clear();
+            }
+
             _this.removeClearTimeout();
 
             _this.setPosition(e);
@@ -1570,24 +1595,26 @@ var Paint = /*#__PURE__*/function () {
           }
         },
         pointermove: function pointermove(e) {
-          if (_this.isdown && _this.pointerId === e.pointerId) _this.draw(e);
+          if (_this.isdown && _this.drawingActive && _this.pointerId === e.pointerId) {
+            _this.draw(e);
+          }
         },
         pointerup: function pointerup(e) {
-          if (_this.pointerId === e.pointerId) {
+          if (_this.drawingActive && _this.pointerId === e.pointerId) {
             _this.setClearTimeout();
 
             _this.isdown = false;
           }
         },
         pointerleave: function pointerleave(e) {
-          if (_this.pointerId === e.pointerId) {
+          if (_this.drawingActive && _this.pointerId === e.pointerId) {
             _this.setClearTimeout();
 
             _this.isdown = false;
           }
         },
         pointercancel: function pointercancel(e) {
-          if (_this.pointerId === e.pointerId) {
+          if (_this.drawingActive && _this.pointerId === e.pointerId) {
             _this.setClearTimeout();
 
             _this.isdown = false;
@@ -1698,6 +1725,11 @@ var Paint = /*#__PURE__*/function () {
         _this3.clear();
       }, this.clearTimeoutTime * 1000);
       return true;
+    }
+  }, {
+    key: "setClearOnInput",
+    value: function setClearOnInput() {
+      this.clearOnInput = true;
     }
   }, {
     key: "draw",
@@ -1830,6 +1862,7 @@ var Paint = /*#__PURE__*/function () {
   }, {
     key: "clear",
     value: function clear() {
+      this.clearOnInput = false;
       this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
       this.empty = true;
       this.normalize(100);
@@ -1846,6 +1879,17 @@ var Paint = /*#__PURE__*/function () {
       if (this.barchart) {
         this.barchart.cleanup();
       }
+    }
+  }, {
+    key: "disableDrawing",
+    value: function disableDrawing() {
+      this.drawingActive = false;
+      this.isdown = false;
+    }
+  }, {
+    key: "enableDrawing",
+    value: function enableDrawing() {
+      this.drawingActive = true;
     }
   }]);
 

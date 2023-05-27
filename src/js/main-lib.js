@@ -16,7 +16,6 @@ $('[data-component=neural-numbers]')
       inputPlaceholder: $(element).attr('data-input-placeholder') || '',
       showBars: attrFlag($(element).attr('data-show-bars'), false),
       showNormalizer: attrFlag($(element).attr('data-show-normalizer'), false),
-      showTraining: attrFlag($(element).attr('data-show-training'), false),
       showOutput: attrFlag($(element).attr('data-show-output'), true),
     };
     const component = new NeuralNumbersComponent(element, props);

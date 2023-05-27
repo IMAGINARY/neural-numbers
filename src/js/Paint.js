@@ -11,6 +11,9 @@ export default class Paint {
     this.drawingChanged = true;
     this.model = model;
     this.nwvis = nwvis;
+    this.barchart = null;
+    this.drawingActive = true;
+    this.clearOnInput = false;
 
     this.outputThreshold = outputThreshold;
 
@@ -29,7 +32,10 @@ export default class Paint {
   addEventListeners() {
     this.eventfunctions = {
       pointerdown: ((e) => {
-        if (!this.isdown) {
+        if (!this.isdown && this.drawingActive) {
+          if (this.clearOnInput) {
+            this.clear();
+          }
           this.removeClearTimeout();
           this.setPosition(e);
           this.isdown = true;
@@ -37,22 +43,24 @@ export default class Paint {
         }
       }),
       pointermove: ((e) => {
-        if (this.isdown && (this.pointerId === e.pointerId)) this.draw(e);
+        if (this.isdown && this.drawingActive && (this.pointerId === e.pointerId)) {
+          this.draw(e);
+        }
       }),
       pointerup: ((e) => {
-        if ((this.pointerId === e.pointerId)) {
+        if (this.drawingActive && (this.pointerId === e.pointerId)) {
           this.setClearTimeout();
           this.isdown = false;
         }
       }),
       pointerleave: ((e) => {
-        if ((this.pointerId === e.pointerId)) {
+        if (this.drawingActive && (this.pointerId === e.pointerId)) {
           this.setClearTimeout();
           this.isdown = false;
         }
       }),
       pointercancel: ((e) => {
-        if ((this.pointerId === e.pointerId)) {
+        if (this.drawingActive && (this.pointerId === e.pointerId)) {
           this.setClearTimeout();
           this.isdown = false;
         }
@@ -149,6 +157,10 @@ export default class Paint {
       this.clear();
     }, this.clearTimeoutTime * 1000);
     return true;
+  }
+
+  setClearOnInput() {
+    this.clearOnInput = true;
   }
 
   draw(e) {
@@ -283,6 +295,7 @@ export default class Paint {
   }
 
   clear() {
+    this.clearOnInput = false;
     this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
     this.empty = true;
     this.normalize(100);
@@ -300,5 +313,14 @@ export default class Paint {
     if (this.barchart) {
       this.barchart.cleanup();
     }
+  }
+
+  disableDrawing() {
+    this.drawingActive = false;
+    this.isdown = false;
+  }
+
+  enableDrawing() {
+    this.drawingActive = true;
   }
 }

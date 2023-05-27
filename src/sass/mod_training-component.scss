@@ -4,19 +4,71 @@ $button-spacing: 0.25rem;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #f2f2f2;
   padding: 0.5rem;
+  display: flex;
+  justify-content: center;
 
   .controls {
     margin: 0 -$button-spacing;
+    align-self: center;
   }
 
-  .progress-bar {
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
+  .image-count {
+    align-self: center;
+  }
+
+  .progress {
+    display: flex;
+    padding: 0 2rem;
+    align-self: center;
+  }
+
+  .accuracy {
+    display: flex;
+  }
+
+  .accuracy-label {
+    margin-right: 0.5rem;
+    align-self: center;
+    font-weight: bold;
+    text-align: right;
+  }
+
+  .accuracy-value {
+    line-height: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 2.1em;
+    text-align: right;
+    padding: 0.3rem 0.5rem;
+    color: #049404;
+
+    &[data-ranking='bad'] {
+      color: #d31616;
+    }
+
+    &[data-ranking='mediocre'] {
+      color: #c48606;
+    }
+  }
+
+  .image-count {
+    display: flex;
+    margin-right: 1rem;
   }
 
   .image-count-label {
     margin-right: 0.5em;
     font-weight: bold;
+    text-align: right;
+    align-self: center;
+  }
+
+  .image-count-value {
+    line-height: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 3em;
+    display: inline-block;
   }
 
   .btn {
@@ -41,6 +93,7 @@ $button-spacing: 0.25rem;
   &.running {
     .start-pause-btn {
       background-image: url("../../assets/img/pause.svg");
+      background-position: center center;
     }
   }
 

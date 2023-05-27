@@ -306,7 +306,8 @@ var NeuralNetwork = /*#__PURE__*/function () {
     this.options = Object.assign({}, {
       trainingCallback: null,
       batchCallback: null,
-      modelUpdateCallback: null
+      modelUpdateCallback: null,
+      modelUpdateAsyncCallback: null
     }, options);
     this.training = false;
     this.init();
@@ -538,7 +539,15 @@ var NeuralNetwork = /*#__PURE__*/function () {
                   this.options.modelUpdateCallback(this.model);
                 }
 
-              case 3:
+                if (!this.options.modelUpdateAsyncCallback) {
+                  _context4.next = 6;
+                  break;
+                }
+
+                _context4.next = 6;
+                return this.options.modelUpdateAsyncCallback(this.model);
+
+              case 6:
               case "end":
                 return _context4.stop();
             }
@@ -567,7 +576,7 @@ var NeuralNetwork = /*#__PURE__*/function () {
 
               case 1:
                 if (!this.training) {
-                  _context5.next = 14;
+                  _context5.next = 17;
                   break;
                 }
 
@@ -583,7 +592,7 @@ var NeuralNetwork = /*#__PURE__*/function () {
 
               case 6:
                 if (!(this.trainedimages > this.lastrainedimages + Math.min(1000, 0.3 * this.trainedimages) || this.trainedimages < 250)) {
-                  _context5.next = 12;
+                  _context5.next = 15;
                   break;
                 }
 
@@ -591,29 +600,38 @@ var NeuralNetwork = /*#__PURE__*/function () {
                   this.options.modelUpdateCallback(this.model);
                 }
 
-                if (!(this.trainedimages < 100)) {
+                if (!this.options.modelUpdateAsyncCallback) {
                   _context5.next = 11;
                   break;
                 }
 
                 _context5.next = 11;
+                return this.options.modelUpdateAsyncCallback(this.model);
+
+              case 11:
+                if (!(this.trainedimages < 100)) {
+                  _context5.next = 14;
+                  break;
+                }
+
+                _context5.next = 14;
                 return new Promise(function (resolve) {
                   return setTimeout(resolve, 1000 / (5 + 4 * _this2.trainedimages) * (_this2.trainedimages - _this2.lastrainedimages));
                 });
 
-              case 11:
+              case 14:
                 this.lastrainedimages = this.trainedimages;
 
-              case 12:
+              case 15:
                 _context5.next = 1;
                 break;
 
-              case 14:
+              case 17:
                 while (this.pausecbs.length > 0) {
                   this.pausecbs.pop()();
                 }
 
-              case 15:
+              case 18:
               case "end":
                 return _context5.stop();
             }
@@ -748,6 +766,9 @@ var Paint = /*#__PURE__*/function () {
     this.drawingChanged = true;
     this.model = model;
     this.nwvis = nwvis;
+    this.barchart = null;
+    this.drawingActive = true;
+    this.clearOnInput = false;
     this.outputThreshold = outputThreshold; // last known position
 
     this.pos = {
@@ -767,7 +788,11 @@ var Paint = /*#__PURE__*/function () {
 
       this.eventfunctions = {
         pointerdown: function pointerdown(e) {
-          if (!_this.isdown) {
+          if (!_this.isdown && _this.drawingActive) {
+            if (_this.clearOnInput) {
+              _this.clear();
+            }
+
             _this.removeClearTimeout();
 
             _this.setPosition(e);
@@ -777,24 +802,26 @@ var Paint = /*#__PURE__*/function () {
           }
         },
         pointermove: function pointermove(e) {
-          if (_this.isdown && _this.pointerId === e.pointerId) _this.draw(e);
+          if (_this.isdown && _this.drawingActive && _this.pointerId === e.pointerId) {
+            _this.draw(e);
+          }
         },
         pointerup: function pointerup(e) {
-          if (_this.pointerId === e.pointerId) {
+          if (_this.drawingActive && _this.pointerId === e.pointerId) {
             _this.setClearTimeout();
 
             _this.isdown = false;
           }
         },
         pointerleave: function pointerleave(e) {
-          if (_this.pointerId === e.pointerId) {
+          if (_this.drawingActive && _this.pointerId === e.pointerId) {
             _this.setClearTimeout();
 
             _this.isdown = false;
           }
         },
         pointercancel: function pointercancel(e) {
-          if (_this.pointerId === e.pointerId) {
+          if (_this.drawingActive && _this.pointerId === e.pointerId) {
             _this.setClearTimeout();
 
             _this.isdown = false;
@@ -905,6 +932,11 @@ var Paint = /*#__PURE__*/function () {
         _this3.clear();
       }, this.clearTimeoutTime * 1000);
       return true;
+    }
+  }, {
+    key: "setClearOnInput",
+    value: function setClearOnInput() {
+      this.clearOnInput = true;
     }
   }, {
     key: "draw",
@@ -1037,6 +1069,7 @@ var Paint = /*#__PURE__*/function () {
   }, {
     key: "clear",
     value: function clear() {
+      this.clearOnInput = false;
       this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
       this.empty = true;
       this.normalize(100);
@@ -1053,6 +1086,17 @@ var Paint = /*#__PURE__*/function () {
       if (this.barchart) {
         this.barchart.cleanup();
       }
+    }
+  }, {
+    key: "disableDrawing",
+    value: function disableDrawing() {
+      this.drawingActive = false;
+      this.isdown = false;
+    }
+  }, {
+    key: "enableDrawing",
+    value: function enableDrawing() {
+      this.drawingActive = true;
     }
   }]);
 
@@ -1086,7 +1130,6 @@ $('[data-component=neural-numbers]').each(function (i, element) {
     inputPlaceholder: $(element).attr('data-input-placeholder') || '',
     showBars: attrFlag($(element).attr('data-show-bars'), false),
     showNormalizer: attrFlag($(element).attr('data-show-normalizer'), false),
-    showTraining: attrFlag($(element).attr('data-show-training'), false),
     showOutput: attrFlag($(element).attr('data-show-output'), true)
   };
   var component = new _neuralNumbersComponent["default"](element, props);
@@ -1175,23 +1218,23 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
         safeInputPlaceholder = _this$props.safeInputPlaceholder,
         showBars = _this$props.showBars,
         showNormalizer = _this$props.showNormalizer,
-        showTraining = _this$props.showTraining,
         showOutput = _this$props.showOutput,
         verticalBars = _this$props.verticalBars;
     this.$element.addClass('neural-numbers-component');
     this.$element.toggleClass('with-bars', showBars);
     this.$element.toggleClass('with-normalizer', showNormalizer);
-    this.$element.toggleClass('with-training', showTraining);
     this.$element.toggleClass('with-output', showOutput);
     this.$inputStage = $('<div>').addClass(['stage', 'stage-input', 'input', 'box']).appendTo(this.$element);
     this.$drawCanvas = $('<canvas>').addClass(['drawcanvas', 'input-canvas']).appendTo($('<div>').addClass('input-canvas-wrapper').appendTo(this.$inputStage));
+    var placeholderText = $('<span>');
 
     if (inputPlaceholder) {
-      $('<div>').addClass('input-placeholder').append($('<span>').html(inputPlaceholder)).appendTo(this.$inputStage);
+      placeholderText.html(inputPlaceholder);
     } else if (safeInputPlaceholder) {
-      $('<div>').addClass('input-placeholder').append($('<span>').text(safeInputPlaceholder)).appendTo(this.$inputStage);
+      placeholderText.text(safeInputPlaceholder);
     }
 
+    $('<div>').addClass('input-placeholder').append(placeholderText).appendTo(this.$inputStage);
     this.$normalizeStage = $('<div>').addClass(['stage', 'stage-normalize']).appendTo(this.$element);
     this.$normalizeCanvas = $('<canvas>').addClass('normalizecanvas').appendTo($('<div>').addClass('normalize-canvas-wrapper').appendTo(this.$normalizeStage));
     this.$probabilityStage = $('<div>').addClass(['stage', 'stage-bars']).appendTo(this.$element);
@@ -1244,6 +1287,31 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
       this.model = model;
       this.paint.swapModel(model);
     }
+  }, {
+    key: "getBarChart",
+    value: function getBarChart() {
+      return this.paint.barchart;
+    }
+  }, {
+    key: "disableDrawing",
+    value: function disableDrawing() {
+      this.paint.disableDrawing();
+    }
+  }, {
+    key: "enableDrawing",
+    value: function enableDrawing() {
+      this.paint.enableDrawing();
+    }
+  }, {
+    key: "setClearTimeout",
+    value: function setClearTimeout() {
+      this.paint.setClearTimeout();
+    }
+  }, {
+    key: "setClearOnInput",
+    value: function setClearOnInput() {
+      this.paint.setClearOnInput();
+    }
   }]);
 
   return NeuralNumbersComponent;
@@ -1281,20 +1349,27 @@ var TrainingComponent = /*#__PURE__*/function () {
     _classCallCheck(this, TrainingComponent);
 
     this.trainingController = new _trainingController["default"](nnComponent);
+    this.nnComponent = nnComponent;
     this.$element = $(element);
     this.props = Object.assign({}, {
-      imageCountLabelText: 'Images used:'
+      imageCountLabelText: 'Images used:',
+      predictedAccuracyLabelText: 'Predicted accuracy:'
     }, props);
     this.$element.addClass('neural-numbers-training-component');
-    this.$progressBar = $('<div>').addClass('progress-bar').appendTo(this.$element);
-    this.$imageCount = $('<div>').addClass('image-count').appendTo(this.$progressBar);
-    this.$imageCountLabel = $('<span>').addClass('image-count-label').html(this.props.imageCountLabelText).appendTo(this.$imageCount);
-    this.$imageCountValue = $('<span>').addClass('image-count-value').appendTo(this.$imageCount);
-    this.$controls = $('<div>').addClass('controls').appendTo(this.$element);
-    this.$startPauseBtn = $('<button>').addClass(['start-pause-btn', 'btn']).text('Start').on('click', this.handleStartPauseBtn.bind(this)).appendTo(this.$controls);
-    this.$stepBtn = $('<button>').addClass(['step-btn', 'btn']).text('Step').on('click', this.handleStepBtn.bind(this)).appendTo(this.$controls);
-    this.$resetBtn = $('<button>').addClass(['reset-btn', 'btn']).text('Reset').on('click', this.handleResetBtn.bind(this)).appendTo(this.$controls);
+    this.$controlsL = $('<div>').addClass(['controls', 'controls-l']).appendTo(this.$element);
+    this.$progress = $('<div>').addClass('progress').appendTo(this.$element);
+    this.$imageCount = $('<div>').addClass('image-count').appendTo(this.$progress);
+    this.$imageCountLabel = $('<div>').addClass('image-count-label').html(this.props.imageCountLabelText).appendTo(this.$imageCount);
+    this.$imageCountValue = $('<div>').addClass('image-count-value').appendTo(this.$imageCount);
+    this.$accuracy = $('<div>').addClass('accuracy').appendTo(this.$progress);
+    this.$accuracyLabel = $('<div>').addClass('accuracy-label').html(this.props.predictedAccuracyLabelText).appendTo(this.$accuracy);
+    this.$accuracyValue = $('<div>').addClass('accuracy-value').appendTo(this.$accuracy);
+    this.$controlsR = $('<div>').addClass(['controls', 'controls-r']).appendTo(this.$element);
+    this.$startPauseBtn = $('<button>').addClass(['start-pause-btn', 'btn']).text('Start').on('click', this.handleStartPauseBtn.bind(this)).appendTo(this.$controlsL);
+    this.$stepBtn = $('<button>').addClass(['step-btn', 'btn']).text('Step').on('click', this.handleStepBtn.bind(this)).appendTo(this.$controlsL);
+    this.$resetBtn = $('<button>').addClass(['reset-btn', 'btn']).text('Reset').on('click', this.handleResetBtn.bind(this)).appendTo(this.$controlsR);
     this.trainingController.events.on('batch', this.handleBatch.bind(this));
+    this.trainingController.events.on('accuracy', this.handleAccuracy.bind(this));
     this.trainingController.events.on('start', this.handleTrainingStart.bind(this));
     this.trainingController.events.on('pause', this.handleTrainingPause.bind(this));
     this.disableButtons();
@@ -1367,16 +1442,24 @@ var TrainingComponent = /*#__PURE__*/function () {
       this.$imageCountValue.text(imageCount);
     }
   }, {
+    key: "handleAccuracy",
+    value: function handleAccuracy(accuracy) {
+      this.$accuracyValue.attr('data-ranking', accuracy > 50 ? accuracy > 85 ? 'good' : 'mediocre' : 'bad');
+      this.$accuracyValue.text("".concat(Math.round(accuracy), "%"));
+    }
+  }, {
     key: "handleTrainingStart",
     value: function handleTrainingStart() {
       this.$startPauseBtn.text('Pause');
       this.$element.addClass('running');
+      this.nnComponent.disableDrawing();
     }
   }, {
     key: "handleTrainingPause",
     value: function handleTrainingPause() {
       this.$startPauseBtn.text('Start');
       this.$element.removeClass('running');
+      this.nnComponent.enableDrawing();
     }
   }]);
 
@@ -1396,6 +1479,8 @@ exports["default"] = void 0;
 var _events = _interopRequireDefault(require("events"));
 
 var _NeuralNetwork = _interopRequireDefault(require("./NeuralNetwork"));
+
+var _trainingViz = _interopRequireDefault(require("./training-viz"));
 
 var _MnistData = require("./MnistData");
 
@@ -1418,9 +1503,12 @@ var TrainingController = /*#__PURE__*/function () {
     this.nnComponent = nnComponent;
     this.events = new _events["default"]();
     this.nn = new _NeuralNetwork["default"]({
-      batchCallback: this.handleBatch.bind(this)
+      trainingCallback: this.handleTraining.bind(this),
+      batchCallback: this.handleBatch.bind(this),
+      modelUpdateAsyncCallback: this.handleModelUpdate.bind(this)
     });
     this.data = new _MnistData.MnistData();
+    this.trainingViz = new _trainingViz["default"](this);
   }
 
   _createClass(TrainingController, [{
@@ -1456,6 +1544,18 @@ var TrainingController = /*#__PURE__*/function () {
     value: function rebuildNetwork() {
       this.nn.init();
       this.nnComponent.setModel(this.nn.model);
+      this.handleModelUpdate(this.nn.model);
+    }
+  }, {
+    key: "useDefaultModel",
+    value: function useDefaultModel() {
+      this.nnComponent.setModel();
+      this.handleModelUpdate(this.nn.model);
+    }
+  }, {
+    key: "useTrainableModel",
+    value: function useTrainableModel() {
+      this.rebuildNetwork();
     }
   }, {
     key: "isTraining",
@@ -1574,6 +1674,61 @@ var TrainingController = /*#__PURE__*/function () {
     value: function handleBatch(imageCount) {
       this.events.emit('batch', imageCount);
     }
+  }, {
+    key: "handleTraining",
+    value: function () {
+      var _handleTraining = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(trainXs, trainYs) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
+                return this.trainingViz.setCurrentTraining(trainXs, trainYs);
+
+              case 2:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this);
+      }));
+
+      function handleTraining(_x, _x2) {
+        return _handleTraining.apply(this, arguments);
+      }
+
+      return handleTraining;
+    }()
+  }, {
+    key: "handleModelUpdate",
+    value: function () {
+      var _handleModelUpdate = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(model) {
+        var accuracy;
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return this.trainingViz.estimateAccuracy(model);
+
+              case 2:
+                accuracy = _context7.sent;
+                this.events.emit('accuracy', accuracy);
+
+              case 4:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function handleModelUpdate(_x3) {
+        return _handleModelUpdate.apply(this, arguments);
+      }
+
+      return handleModelUpdate;
+    }()
   }]);
 
   return TrainingController;
@@ -1581,7 +1736,233 @@ var TrainingController = /*#__PURE__*/function () {
 
 exports["default"] = TrainingController;
 
-},{"./MnistData":2,"./NeuralNetwork":3,"events":9}],9:[function(require,module,exports){
+},{"./MnistData":2,"./NeuralNetwork":3,"./training-viz":9,"events":10}],9:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var TrainingViz = /*#__PURE__*/function () {
+  function TrainingViz(trainingController) {
+    _classCallCheck(this, TrainingViz);
+
+    this.trainingController = trainingController;
+    this.nnComponent = trainingController.nnComponent;
+    this.drawCanvas = this.nnComponent.$drawCanvas[0];
+    this.drawCanvasCtx = this.drawCanvas.getContext('2d');
+    this.trainDigitBuffer = document.createElement('canvas');
+    this.trainDigitBuffer.height = 28;
+    this.trainDigitBuffer.width = 28;
+  }
+
+  _createClass(TrainingViz, [{
+    key: "init",
+    value: function () {
+      var _init = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      function init() {
+        return _init.apply(this, arguments);
+      }
+
+      return init;
+    }()
+  }, {
+    key: "setCurrentTraining",
+    value: function () {
+      var _setCurrentTraining = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(trainXs, trainYs) {
+        var trainX1, imageTensor, trainY1, _trainY1$argMax$dataS, _trainY1$argMax$dataS2;
+
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                trainX1 = trainXs.slice([0, 0, 0, 0], [1, 28, 28, 1]); // only the first
+
+                imageTensor = trainX1.reshape([28, 28, 1]); // first as image
+
+                _context2.next = 4;
+                return tf.browser.toPixels(imageTensor, this.trainDigitBuffer);
+
+              case 4:
+                this.trainDigitBuffer.active = true;
+                this.currentDigit = imageTensor.dataSync();
+                this.computeActivations(trainX1);
+                trainY1 = trainYs.slice([0, 0], [1, 10]); // only the first
+
+                _trainY1$argMax$dataS = trainY1.argMax([-1]).dataSync();
+                _trainY1$argMax$dataS2 = _slicedToArray(_trainY1$argMax$dataS, 1);
+                this.currentTarget = _trainY1$argMax$dataS2[0];
+                this.renderNetwork();
+                this.renderActivations(); // clean up
+
+                trainX1.dispose();
+                trainY1.dispose();
+                imageTensor.dispose();
+
+              case 16:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function setCurrentTraining(_x, _x2) {
+        return _setCurrentTraining.apply(this, arguments);
+      }
+
+      return setCurrentTraining;
+    }()
+  }, {
+    key: "computeActivations",
+    value: function computeActivations(input) {
+      var nn = this.trainingController.nn;
+
+      if (nn.modelid === 'dense') {
+        var A1 = nn.model.layers[0].apply(input);
+        var A2 = nn.model.layers[1].apply(A1);
+        var A3 = nn.model.layers[2].apply(A2);
+        this.intermediateActivations = A2.dataSync().map(function (x) {
+          return Math.abs(x) / 2;
+        });
+        this.currentProbabilities = A3.dataSync();
+
+        var _A3$argMax$dataSync = A3.argMax([-1]).dataSync();
+
+        var _A3$argMax$dataSync2 = _slicedToArray(_A3$argMax$dataSync, 1);
+
+        this.currentTarget = _A3$argMax$dataSync2[0];
+        A1.dispose();
+        A2.dispose();
+        A3.dispose();
+      } else {
+        var prediction = nn.model.predict(input);
+        this.currentProbabilities = prediction.dataSync();
+
+        var _prediction$argMax$da = prediction.argMax([-1]).dataSync();
+
+        var _prediction$argMax$da2 = _slicedToArray(_prediction$argMax$da, 1);
+
+        this.currentTarget = _prediction$argMax$da2[0];
+        prediction.dispose();
+      }
+    }
+  }, {
+    key: "renderNetwork",
+    value: function renderNetwork() {}
+  }, {
+    key: "clearActivations",
+    value: function clearActivations() {
+      this.drawCanvasCtx.clearRect(0, 0, this.drawCanvas.width, this.drawCanvas.height);
+    }
+  }, {
+    key: "renderActivations",
+    value: function renderActivations() {
+      this.clearActivations();
+
+      if (this.trainDigitBuffer.active) {
+        var destOrigin = this.drawCanvas.width * 0.125;
+        var destSize = this.drawCanvas.width * 0.75;
+        this.drawCanvasCtx.imageSmoothingEnabled = false; // no antialiasing
+
+        this.drawCanvasCtx.drawImage(this.trainDigitBuffer, 0, 0, 28, 28, destOrigin, destOrigin, destSize, destSize);
+        this.nnComponent.setClearTimeout();
+        this.nnComponent.setClearOnInput();
+      }
+
+      this.nnComponent.getBarChart().update(this.currentProbabilities, this.currentTarget);
+    }
+  }, {
+    key: "estimateAccuracy",
+    value: function () {
+      var _estimateAccuracy = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(model) {
+        var testDataSize,
+            data,
+            accuracy,
+            _args3 = arguments;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                testDataSize = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : 100;
+                data = this.trainingController.data;
+                accuracy = tf.tidy(function () {
+                  var d = data.nextTestBatch(testDataSize);
+                  var testXs = d.xs.reshape([testDataSize, 28, 28, 1]);
+                  var testYs = d.labels;
+                  return model.evaluate(testXs, testYs)[1].dataSync();
+                });
+
+                if (!(testDataSize < 1000 && accuracy > 0.9)) {
+                  _context3.next = 7;
+                  break;
+                }
+
+                _context3.next = 6;
+                return this.estimateAccuracy(model, 1000);
+
+              case 6:
+                return _context3.abrupt("return", _context3.sent);
+
+              case 7:
+                return _context3.abrupt("return", accuracy < 0.9 ? Math.round(accuracy * 100) : Math.round(accuracy * 1000) / 10);
+
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function estimateAccuracy(_x3) {
+        return _estimateAccuracy.apply(this, arguments);
+      }
+
+      return estimateAccuracy;
+    }()
+  }]);
+
+  return TrainingViz;
+}();
+
+exports["default"] = TrainingViz;
+
+},{}],10:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a

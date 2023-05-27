@@ -1,15 +1,51 @@
 .neural-numbers-training-component {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #f2f2f2;
-  padding: 0.5rem; }
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center; }
   .neural-numbers-training-component .controls {
-    margin: -0.25rem; }
-  .neural-numbers-training-component .progress-bar {
-    padding: 0.5rem;
-    margin-bottom: 0.5rem; }
+    margin: -0.25rem;
+    align-self: center; }
+  .neural-numbers-training-component .image-count {
+    align-self: center; }
+  .neural-numbers-training-component .progress {
+    display: flex;
+    padding: 0 2rem;
+    align-self: center; }
+  .neural-numbers-training-component .accuracy {
+    display: flex; }
+  .neural-numbers-training-component .accuracy-label {
+    margin-right: 0.5rem;
+    align-self: center;
+    font-weight: bold;
+    text-align: right; }
+  .neural-numbers-training-component .accuracy-value {
+    line-height: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 2.1em;
+    text-align: right;
+    padding: 0.3rem 0.5rem;
+    color: #049404; }
+    .neural-numbers-training-component .accuracy-value[data-ranking='bad'] {
+      color: #d31616; }
+    .neural-numbers-training-component .accuracy-value[data-ranking='mediocre'] {
+      color: #c48606; }
+  .neural-numbers-training-component .image-count {
+    display: flex;
+    margin-right: 1rem; }
   .neural-numbers-training-component .image-count-label {
     margin-right: 0.5em;
-    font-weight: bold; }
+    font-weight: bold;
+    text-align: right;
+    align-self: center; }
+  .neural-numbers-training-component .image-count-value {
+    line-height: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 3em;
+    display: inline-block; }
   .neural-numbers-training-component .btn {
     font-size: 0;
     border: 2px solid #b6b6b6;
@@ -26,7 +62,8 @@
     background-image: url("../../assets/img/resume.svg");
     background-position: 60% center; }
   .neural-numbers-training-component.running .start-pause-btn {
-    background-image: url("../../assets/img/pause.svg"); }
+    background-image: url("../../assets/img/pause.svg");
+    background-position: center center; }
   .neural-numbers-training-component .step-btn {
     width: 3.3rem;
     height: 3.3rem;

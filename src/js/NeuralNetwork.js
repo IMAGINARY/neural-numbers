@@ -8,6 +8,7 @@ export default class NeuralNetwork {
       trainingCallback: null,
       batchCallback: null,
       modelUpdateCallback: null,
+      modelUpdateAsyncCallback: null,
     }, options);
     this.training = false;
     this.init();
@@ -169,6 +170,9 @@ export default class NeuralNetwork {
     if (this.options.modelUpdateCallback) {
       this.options.modelUpdateCallback(this.model);
     }
+    if (this.options.modelUpdateAsyncCallback) {
+      await this.options.modelUpdateAsyncCallback(this.model);
+    }
   }
 
   async train(data) {
@@ -190,6 +194,9 @@ export default class NeuralNetwork {
         || this.trainedimages < 250) {
         if (this.options.modelUpdateCallback) {
           this.options.modelUpdateCallback(this.model);
+        }
+        if (this.options.modelUpdateAsyncCallback) {
+          await this.options.modelUpdateAsyncCallback(this.model);
         }
         if ((this.trainedimages < 100)) {
           // sleep some time per image

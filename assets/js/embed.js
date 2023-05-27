@@ -104,6 +104,9 @@ var Paint = /*#__PURE__*/function () {
     this.drawingChanged = true;
     this.model = model;
     this.nwvis = nwvis;
+    this.barchart = null;
+    this.drawingActive = true;
+    this.clearOnInput = false;
     this.outputThreshold = outputThreshold; // last known position
 
     this.pos = {
@@ -123,7 +126,11 @@ var Paint = /*#__PURE__*/function () {
 
       this.eventfunctions = {
         pointerdown: function pointerdown(e) {
-          if (!_this.isdown) {
+          if (!_this.isdown && _this.drawingActive) {
+            if (_this.clearOnInput) {
+              _this.clear();
+            }
+
             _this.removeClearTimeout();
 
             _this.setPosition(e);
@@ -133,24 +140,26 @@ var Paint = /*#__PURE__*/function () {
           }
         },
         pointermove: function pointermove(e) {
-          if (_this.isdown && _this.pointerId === e.pointerId) _this.draw(e);
+          if (_this.isdown && _this.drawingActive && _this.pointerId === e.pointerId) {
+            _this.draw(e);
+          }
         },
         pointerup: function pointerup(e) {
-          if (_this.pointerId === e.pointerId) {
+          if (_this.drawingActive && _this.pointerId === e.pointerId) {
             _this.setClearTimeout();
 
             _this.isdown = false;
           }
         },
         pointerleave: function pointerleave(e) {
-          if (_this.pointerId === e.pointerId) {
+          if (_this.drawingActive && _this.pointerId === e.pointerId) {
             _this.setClearTimeout();
 
             _this.isdown = false;
           }
         },
         pointercancel: function pointercancel(e) {
-          if (_this.pointerId === e.pointerId) {
+          if (_this.drawingActive && _this.pointerId === e.pointerId) {
             _this.setClearTimeout();
 
             _this.isdown = false;
@@ -261,6 +270,11 @@ var Paint = /*#__PURE__*/function () {
         _this3.clear();
       }, this.clearTimeoutTime * 1000);
       return true;
+    }
+  }, {
+    key: "setClearOnInput",
+    value: function setClearOnInput() {
+      this.clearOnInput = true;
     }
   }, {
     key: "draw",
@@ -393,6 +407,7 @@ var Paint = /*#__PURE__*/function () {
   }, {
     key: "clear",
     value: function clear() {
+      this.clearOnInput = false;
       this.drawcontext.fillRect(0, 0, this.drawcanvas.width, this.drawcanvas.height);
       this.empty = true;
       this.normalize(100);
@@ -409,6 +424,17 @@ var Paint = /*#__PURE__*/function () {
       if (this.barchart) {
         this.barchart.cleanup();
       }
+    }
+  }, {
+    key: "disableDrawing",
+    value: function disableDrawing() {
+      this.drawingActive = false;
+      this.isdown = false;
+    }
+  }, {
+    key: "enableDrawing",
+    value: function enableDrawing() {
+      this.drawingActive = true;
     }
   }]);
 
@@ -530,23 +556,23 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
         safeInputPlaceholder = _this$props.safeInputPlaceholder,
         showBars = _this$props.showBars,
         showNormalizer = _this$props.showNormalizer,
-        showTraining = _this$props.showTraining,
         showOutput = _this$props.showOutput,
         verticalBars = _this$props.verticalBars;
     this.$element.addClass('neural-numbers-component');
     this.$element.toggleClass('with-bars', showBars);
     this.$element.toggleClass('with-normalizer', showNormalizer);
-    this.$element.toggleClass('with-training', showTraining);
     this.$element.toggleClass('with-output', showOutput);
     this.$inputStage = $('<div>').addClass(['stage', 'stage-input', 'input', 'box']).appendTo(this.$element);
     this.$drawCanvas = $('<canvas>').addClass(['drawcanvas', 'input-canvas']).appendTo($('<div>').addClass('input-canvas-wrapper').appendTo(this.$inputStage));
+    var placeholderText = $('<span>');
 
     if (inputPlaceholder) {
-      $('<div>').addClass('input-placeholder').append($('<span>').html(inputPlaceholder)).appendTo(this.$inputStage);
+      placeholderText.html(inputPlaceholder);
     } else if (safeInputPlaceholder) {
-      $('<div>').addClass('input-placeholder').append($('<span>').text(safeInputPlaceholder)).appendTo(this.$inputStage);
+      placeholderText.text(safeInputPlaceholder);
     }
 
+    $('<div>').addClass('input-placeholder').append(placeholderText).appendTo(this.$inputStage);
     this.$normalizeStage = $('<div>').addClass(['stage', 'stage-normalize']).appendTo(this.$element);
     this.$normalizeCanvas = $('<canvas>').addClass('normalizecanvas').appendTo($('<div>').addClass('normalize-canvas-wrapper').appendTo(this.$normalizeStage));
     this.$probabilityStage = $('<div>').addClass(['stage', 'stage-bars']).appendTo(this.$element);
@@ -598,6 +624,31 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
 
       this.model = model;
       this.paint.swapModel(model);
+    }
+  }, {
+    key: "getBarChart",
+    value: function getBarChart() {
+      return this.paint.barchart;
+    }
+  }, {
+    key: "disableDrawing",
+    value: function disableDrawing() {
+      this.paint.disableDrawing();
+    }
+  }, {
+    key: "enableDrawing",
+    value: function enableDrawing() {
+      this.paint.enableDrawing();
+    }
+  }, {
+    key: "setClearTimeout",
+    value: function setClearTimeout() {
+      this.paint.setClearTimeout();
+    }
+  }, {
+    key: "setClearOnInput",
+    value: function setClearOnInput() {
+      this.paint.setClearOnInput();
     }
   }]);
 

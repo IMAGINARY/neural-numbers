@@ -24,7 +24,6 @@ export default class NeuralNumbersComponent {
       safeInputPlaceholder,
       showBars,
       showNormalizer,
-      showTraining,
       showOutput,
       verticalBars
     } = this.props;
@@ -32,7 +31,6 @@ export default class NeuralNumbersComponent {
     this.$element.addClass('neural-numbers-component');
     this.$element.toggleClass('with-bars', showBars);
     this.$element.toggleClass('with-normalizer', showNormalizer);
-    this.$element.toggleClass('with-training', showTraining);
     this.$element.toggleClass('with-output', showOutput);
 
     this.$inputStage = $('<div>')
@@ -47,21 +45,16 @@ export default class NeuralNumbersComponent {
           .appendTo(this.$inputStage)
       );
 
+    const placeholderText = $('<span>');
     if (inputPlaceholder) {
-      $('<div>')
-        .addClass('input-placeholder')
-        .append(
-          $('<span>').html(inputPlaceholder)
-        )
-        .appendTo(this.$inputStage);
+      placeholderText.html(inputPlaceholder);
     } else if (safeInputPlaceholder) {
-      $('<div>')
-        .addClass('input-placeholder')
-        .append(
-          $('<span>').text(safeInputPlaceholder)
-        )
-        .appendTo(this.$inputStage);
+      placeholderText.text(safeInputPlaceholder);
     }
+    $('<div>')
+        .addClass('input-placeholder')
+        .append(placeholderText)
+        .appendTo(this.$inputStage);
 
     this.$normalizeStage = $('<div>')
       .addClass(['stage', 'stage-normalize'])
@@ -112,6 +105,26 @@ export default class NeuralNumbersComponent {
     }
     this.model = model;
     this.paint.swapModel(model);
+  }
+
+  getBarChart() {
+    return this.paint.barchart;
+  }
+
+  disableDrawing() {
+    this.paint.disableDrawing();
+  }
+
+  enableDrawing() {
+    this.paint.enableDrawing();
+  }
+
+  setClearTimeout() {
+    this.paint.setClearTimeout();
+  }
+
+  setClearOnInput() {
+    this.paint.setClearOnInput();
   }
 }
 

@@ -82,14 +82,34 @@ Include the same dependencies as in the HTML component, and then add the followi
 ```
 const nnComponent = new IMAGINARY.NeuralNumbers(containerElement, { 
   modelPath: 'assets/models/my-model.json',
-  inputPlaceholder: 'Enter a number between 0 and 9',
+  placeholder: 'write a number between 0&amp;nbsp;and&amp;nbsp;9',
   showBars: true,
-  showNormalizer: true,
-  showTraining: true,
+  verticalBars: true,
+  showInput: true,
   showOutput: true,
 });
 await nnComponent.init();
 ```
+
+You can also create a trainable component:
+
+```
+const nnComponent = new IMAGINARY.NeuralNumbers(containerElement, {
+  modelPath: 'assets/models/my-model.json',
+  placeholder: 'write a number between 0&amp;nbsp;and&amp;nbsp;9',
+  showBars: true,
+  verticalBars: true,
+  showInput: true,
+  showOutput: true,
+});
+
+const nnTrainingComponent = new IMAGINARY.NeuralNumbersTraining(nnComponent, trainingUiContainerElement)
+await nnComponent.init();
+await nnTrainingComponent.init();
+```
+
+If you want to build your own training UI  you can use the `IMAGINARY.NeuralNumbersTrainingController`
+component instead. See `src/js/training-controller.js` for the API.
 
 ### Properties
 
