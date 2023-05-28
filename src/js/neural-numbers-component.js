@@ -22,6 +22,7 @@ export default class NeuralNumbersComponent {
     const {
       inputPlaceholder,
       safeInputPlaceholder,
+      classes,
       showBars,
       showNormalizer,
       showOutput,
@@ -32,6 +33,9 @@ export default class NeuralNumbersComponent {
     this.$element.toggleClass('with-bars', showBars);
     this.$element.toggleClass('with-normalizer', showNormalizer);
     this.$element.toggleClass('with-output', showOutput);
+    if (classes) {
+      this.$element.addClass(classes);
+    }
 
     this.$inputStage = $('<div>')
       .addClass(['stage', 'stage-input', 'input', 'box'])

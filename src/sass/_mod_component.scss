@@ -206,3 +206,22 @@ $input-box-border: 8px;
     background-color: $color-orange;
   }
 }
+
+.neural-numbers-component.large {
+  height: auto;
+
+  .input-canvas-wrapper {
+    width: 350px;
+    height: 350px;
+  }
+
+  .drawcanvas {
+    height: 350px;
+    width: 350px;
+  }
+
+  .input-placeholder {
+    width: 350px;
+    height: 350px;
+  }
+}

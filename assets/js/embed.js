@@ -554,6 +554,7 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
     var _this$props = this.props,
         inputPlaceholder = _this$props.inputPlaceholder,
         safeInputPlaceholder = _this$props.safeInputPlaceholder,
+        classes = _this$props.classes,
         showBars = _this$props.showBars,
         showNormalizer = _this$props.showNormalizer,
         showOutput = _this$props.showOutput,
@@ -562,6 +563,11 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
     this.$element.toggleClass('with-bars', showBars);
     this.$element.toggleClass('with-normalizer', showNormalizer);
     this.$element.toggleClass('with-output', showOutput);
+
+    if (classes) {
+      this.$element.addClass(classes);
+    }
+
     this.$inputStage = $('<div>').addClass(['stage', 'stage-input', 'input', 'box']).appendTo(this.$element);
     this.$drawCanvas = $('<canvas>').addClass(['drawcanvas', 'input-canvas']).appendTo($('<div>').addClass('input-canvas-wrapper').appendTo(this.$inputStage));
     var placeholderText = $('<span>');

@@ -29,6 +29,9 @@
     <h2>With training</h2>
     <div id="with-training"></div>
     <div id="with-training-ui"></div>
+    <h2>With training (large)</h2>
+    <div id="with-training-l"></div>
+    <div id="with-training-ui-l"></div>
     <script src="vendor/jquery/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script type="text/javascript" src="vendor/pep/pep.js"></script>
     <script type="text/javascript" src="vendor/tf/tf.min.js"></script>
@@ -110,6 +113,21 @@
         var trainer = new IMAGINARY.NeuralNumbersTraining(withTraining, $('#with-training-ui')[0])
         await withTraining.init();
         await trainer.init();
+
+        var withTrainingL = new IMAGINARY.NeuralNumbers($('#with-training-l')[0], {
+          modelPath: 'assets/models/my-model.json',
+          placeholder: 'write a number between 0&amp;nbsp;and&amp;nbsp;9',
+          classes: ['large'],
+          showBars: true,
+          verticalBars: true,
+          showNormalizer: false,
+          showOutput: true,
+          showInput: true,
+        });
+
+        var trainerL = new IMAGINARY.NeuralNumbersTraining(withTrainingL, $('#with-training-ui-l')[0])
+        await withTrainingL.init();
+        await trainerL.init();
       })();
     </script>
   </body>

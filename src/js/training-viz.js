@@ -65,7 +65,7 @@ export default class TrainingViz {
         if (this.trainDigitBuffer.active) {
             const destOrigin = this.drawCanvas.width * 0.125;
             const destSize = this.drawCanvas.width * 0.75;
-            this.drawCanvasCtx.imageSmoothingEnabled = false; // no antialiasing
+            // this.drawCanvasCtx.imageSmoothingEnabled = false; // no antialiasing
             this.drawCanvasCtx.drawImage(this.trainDigitBuffer, 0, 0, 28, 28, destOrigin, destOrigin, destSize, destSize);
             this.nnComponent.setClearTimeout();
             this.nnComponent.setClearOnInput();

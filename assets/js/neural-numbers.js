@@ -1216,6 +1216,7 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
     var _this$props = this.props,
         inputPlaceholder = _this$props.inputPlaceholder,
         safeInputPlaceholder = _this$props.safeInputPlaceholder,
+        classes = _this$props.classes,
         showBars = _this$props.showBars,
         showNormalizer = _this$props.showNormalizer,
         showOutput = _this$props.showOutput,
@@ -1224,6 +1225,11 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
     this.$element.toggleClass('with-bars', showBars);
     this.$element.toggleClass('with-normalizer', showNormalizer);
     this.$element.toggleClass('with-output', showOutput);
+
+    if (classes) {
+      this.$element.addClass(classes);
+    }
+
     this.$inputStage = $('<div>').addClass(['stage', 'stage-input', 'input', 'box']).appendTo(this.$element);
     this.$drawCanvas = $('<canvas>').addClass(['drawcanvas', 'input-canvas']).appendTo($('<div>').addClass('input-canvas-wrapper').appendTo(this.$inputStage));
     var placeholderText = $('<span>');
@@ -1496,7 +1502,16 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+/**
+ * A class to make a Neural Numbers component trainable.
+ */
 var TrainingController = /*#__PURE__*/function () {
+  /**
+   * Constructor
+   *
+   * @param {NeuralNumbersComponent} nnComponent
+   *  A Neural Numbers component.
+   */
   function TrainingController(nnComponent) {
     _classCallCheck(this, TrainingController);
 
@@ -1510,6 +1525,13 @@ var TrainingController = /*#__PURE__*/function () {
     this.data = new _MnistData.MnistData();
     this.trainingViz = new _trainingViz["default"](this);
   }
+  /**
+   * Initialize the controller.
+   *
+   * Call this method before using the controller.
+   * @returns {Promise<void>}
+   */
+
 
   _createClass(TrainingController, [{
     key: "init",
@@ -1539,6 +1561,11 @@ var TrainingController = /*#__PURE__*/function () {
 
       return init;
     }()
+    /**
+     * Resets the network to its untrained state.
+     * @protected
+     */
+
   }, {
     key: "rebuildNetwork",
     value: function rebuildNetwork() {
@@ -1546,22 +1573,44 @@ var TrainingController = /*#__PURE__*/function () {
       this.nnComponent.setModel(this.nn.model);
       this.handleModelUpdate(this.nn.model);
     }
+    /**
+     * Connects the Neural Numbers component to its original fully trained model.
+     */
+
   }, {
     key: "useDefaultModel",
     value: function useDefaultModel() {
       this.nnComponent.setModel();
       this.handleModelUpdate(this.nn.model);
     }
+    /**
+     * Connects the Neural Numbers component to a new trainable model.
+     */
+
   }, {
     key: "useTrainableModel",
     value: function useTrainableModel() {
       this.rebuildNetwork();
     }
+    /**
+     * Returns whether the network is currently training.
+     * @returns {boolean}
+     */
+
   }, {
     key: "isTraining",
     value: function isTraining() {
       return this.nn.isTraining();
     }
+    /**
+     * Starts training the network.
+     *
+     * @returns {Promise<void>}
+     * @fires TrainingController.events#start
+     * @fires TrainingController.events#batch
+     * @fires TrainingController.events#accuracy
+     */
+
   }, {
     key: "start",
     value: function () {
@@ -1570,6 +1619,11 @@ var TrainingController = /*#__PURE__*/function () {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                /**
+                 * Emitted when training starts.
+                 *
+                 * @event TrainingController.events#start
+                 */
                 this.events.emit('start');
                 _context2.next = 3;
                 return this.nn.train(this.data);
@@ -1588,6 +1642,13 @@ var TrainingController = /*#__PURE__*/function () {
 
       return start;
     }()
+    /**
+     * Pauses training the network.
+     *
+     * @returns {Promise<void>}
+     * @fires TrainingController.events#pause
+     */
+
   }, {
     key: "pause",
     value: function () {
@@ -1600,6 +1661,11 @@ var TrainingController = /*#__PURE__*/function () {
                 return this.nn.pauseTraining();
 
               case 2:
+                /**
+                 * Emitted when training pauses.
+                 *
+                 * @event TrainingController.events#pause
+                 */
                 this.events.emit('pause');
 
               case 3:
@@ -1616,6 +1682,14 @@ var TrainingController = /*#__PURE__*/function () {
 
       return pause;
     }()
+    /**
+     * Trains the network for a single step.
+     *
+     * @returns {Promise<void>}
+     * @fires TrainingController.events#batch
+     * @fires TrainingController.events#accuracy
+     */
+
   }, {
     key: "step",
     value: function () {
@@ -1641,6 +1715,12 @@ var TrainingController = /*#__PURE__*/function () {
 
       return step;
     }()
+    /**
+     * Resets the network to its untrained state.
+     *
+     * @returns {Promise<void>}
+     */
+
   }, {
     key: "reset",
     value: function () {
@@ -1669,11 +1749,35 @@ var TrainingController = /*#__PURE__*/function () {
 
       return reset;
     }()
+    /**
+     * Handles a batch of training images.
+     * @private
+     * @type {number}
+     * @param {number} imageCount
+     *  The number of images in the batch.
+     */
+
   }, {
     key: "handleBatch",
     value: function handleBatch(imageCount) {
+      /**
+       * Emitted when a batch of training images is processed.
+       *
+       * @event TrainingController.events#batch
+       * @type {number}
+       * @property {number} imageCount
+       *  The number of images in the batch.
+       */
       this.events.emit('batch', imageCount);
     }
+    /**
+     * Handles a training step.
+     * @private
+     * @param trainXs
+     * @param trainYs
+     * @returns {Promise<void>}
+     */
+
   }, {
     key: "handleTraining",
     value: function () {
@@ -1699,6 +1803,13 @@ var TrainingController = /*#__PURE__*/function () {
 
       return handleTraining;
     }()
+    /**
+     * Handles a model update.
+     * @private
+     * @param model
+     * @returns {Promise<void>}
+     */
+
   }, {
     key: "handleModelUpdate",
     value: function () {
@@ -1713,6 +1824,15 @@ var TrainingController = /*#__PURE__*/function () {
 
               case 2:
                 accuracy = _context7.sent;
+
+                /**
+                 * Emitted when the accuracy of the model is estimated.
+                 *
+                 * @event TrainingController.events#accuracy
+                 * @type {number}
+                 * @property {number} accuracy
+                 *  The estimated accuracy of the model.
+                 */
                 this.events.emit('accuracy', accuracy);
 
               case 4:
@@ -1896,8 +2016,7 @@ var TrainingViz = /*#__PURE__*/function () {
 
       if (this.trainDigitBuffer.active) {
         var destOrigin = this.drawCanvas.width * 0.125;
-        var destSize = this.drawCanvas.width * 0.75;
-        this.drawCanvasCtx.imageSmoothingEnabled = false; // no antialiasing
+        var destSize = this.drawCanvas.width * 0.75; // this.drawCanvasCtx.imageSmoothingEnabled = false; // no antialiasing
 
         this.drawCanvasCtx.drawImage(this.trainDigitBuffer, 0, 0, 28, 28, destOrigin, destOrigin, destSize, destSize);
         this.nnComponent.setClearTimeout();
