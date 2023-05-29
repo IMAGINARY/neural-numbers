@@ -123,10 +123,15 @@ var MNIST_LABELS_PATH = 'assets/mnist/mnist_labels_uint8';
 
 var MnistData = /*#__PURE__*/function () {
   function MnistData() {
+    var imagePath = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : MNIST_IMAGES_SPRITE_PATH;
+    var labelPath = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : MNIST_LABELS_PATH;
+
     _classCallCheck(this, MnistData);
 
     this.shuffledTrainIndex = 0;
     this.shuffledTestIndex = 0;
+    this.imagePath = imagePath;
+    this.labelPath = labelPath;
   }
 
   _createClass(MnistData, [{
@@ -174,9 +179,9 @@ var MnistData = /*#__PURE__*/function () {
                     resolve();
                   };
 
-                  img.src = MNIST_IMAGES_SPRITE_PATH;
+                  img.src = _this.imagePath;
                 });
-                labelsRequest = fetch(MNIST_LABELS_PATH);
+                labelsRequest = fetch(this.labelPath);
                 _context.next = 7;
                 return Promise.all([imgRequest, labelsRequest]);
 
@@ -1542,14 +1547,16 @@ var TrainingController = /*#__PURE__*/function () {
     this.events = new _events["default"]();
     this.nnComponent = nnComponent;
     this.props = Object.assign({}, {
-      maxTrainingImages: 60000
+      maxTrainingImages: 60000,
+      trainingImagePath: undefined,
+      trainingLabelPath: undefined
     }, props);
     this.nn = new _NeuralNetwork["default"]({
       trainingCallback: this.handleTraining.bind(this),
       batchCallback: this.handleBatch.bind(this),
       modelUpdateAsyncCallback: this.handleModelUpdate.bind(this)
     });
-    this.data = new _MnistData.MnistData();
+    this.data = new _MnistData.MnistData(this.props.trainingImagePath, this.props.trainingLabelPath);
     this.trainingViz = new _trainingViz["default"](this);
   }
   /**
