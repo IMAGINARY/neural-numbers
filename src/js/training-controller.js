@@ -13,9 +13,13 @@ export default class TrainingController {
    * @param {NeuralNumbersComponent} nnComponent
    *  A Neural Numbers component.
    */
-  constructor(nnComponent) {
-    this.nnComponent = nnComponent;
+  constructor(nnComponent, props) {
     this.events = new EventEmitter();
+    this.nnComponent = nnComponent;
+
+    this.props = Object.assign({}, {
+      maxTrainingImages: 60000,
+    }, props);
 
     this.nn = new NeuralNetwork({
       trainingCallback: this.handleTraining.bind(this),
@@ -45,6 +49,12 @@ export default class TrainingController {
     this.nn.init();
     this.nnComponent.setModel(this.nn.model);
     this.handleModelUpdate(this.nn.model);
+    /**
+     * Emitted when the network is reset.
+     *
+     * @event TrainingController.events#reset
+     */
+    this.events.emit('reset');
   }
 
   /**
@@ -79,6 +89,9 @@ export default class TrainingController {
    * @fires TrainingController.events#accuracy
    */
   async start() {
+    if (this.nn.trainedimages >= this.props.maxTrainingImages) {
+      return;
+    }
     /**
      * Emitted when training starts.
      *
@@ -112,6 +125,9 @@ export default class TrainingController {
    * @fires TrainingController.events#accuracy
    */
   async step() {
+    if (this.nn.trainedimages >= this.props.maxTrainingImages) {
+      return;
+    }
     await this.nn.trainSingleStep(this.data);
   }
 
@@ -142,6 +158,15 @@ export default class TrainingController {
      *  The number of images in the batch.
      */
     this.events.emit('batch', imageCount);
+    if (imageCount >= this.props.maxTrainingImages) {
+      /**
+       * Emitted when training is complete.
+       *
+       * @event TrainingController.events#training-complete
+       */
+      this.events.emit('training-complete');
+      this.pause();
+    }
   }
 
   /**

@@ -2,7 +2,7 @@ import TrainingController from "./training-controller";
 
 export default class TrainingComponent {
     constructor(nnComponent, element, props = {}) {
-        this.trainingController = new TrainingController(nnComponent);
+        this.trainingController = new TrainingController(nnComponent, props);
         this.nnComponent = nnComponent;
         this.$element = $(element);
         this.props = Object.assign({}, {
@@ -72,6 +72,8 @@ export default class TrainingComponent {
         this.trainingController.events.on('accuracy', this.handleAccuracy.bind(this));
         this.trainingController.events.on('start', this.handleTrainingStart.bind(this));
         this.trainingController.events.on('pause', this.handleTrainingPause.bind(this));
+        this.trainingController.events.on('training-complete', this.handleTrainingComplete.bind(this));
+        this.trainingController.events.on('reset', this.handleTrainingReset.bind(this));
 
         this.disableButtons();
     }
@@ -91,6 +93,16 @@ export default class TrainingComponent {
         this.$startPauseBtn.attr('disabled', false);
         this.$stepBtn.attr('disabled', false);
         this.$resetBtn.attr('disabled', false);
+    }
+
+    disableTrainingButtons() {
+        this.$startPauseBtn.attr('disabled', true);
+        this.$stepBtn.attr('disabled', true);
+    }
+
+    enableTrainingButtons() {
+        this.$startPauseBtn.attr('disabled', false);
+        this.$stepBtn.attr('disabled', false);
     }
 
     handleStartPauseBtn() {
@@ -128,5 +140,13 @@ export default class TrainingComponent {
         this.$startPauseBtn.text('Start');
         this.$element.removeClass('running');
         this.nnComponent.enableDrawing();
+    }
+
+    handleTrainingComplete() {
+        this.disableTrainingButtons();
+    }
+
+    handleTrainingReset() {
+        this.enableTrainingButtons();
     }
 }

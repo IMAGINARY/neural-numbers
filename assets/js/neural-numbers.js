@@ -1354,7 +1354,7 @@ var TrainingComponent = /*#__PURE__*/function () {
 
     _classCallCheck(this, TrainingComponent);
 
-    this.trainingController = new _trainingController["default"](nnComponent);
+    this.trainingController = new _trainingController["default"](nnComponent, props);
     this.nnComponent = nnComponent;
     this.$element = $(element);
     this.props = Object.assign({}, {
@@ -1378,6 +1378,8 @@ var TrainingComponent = /*#__PURE__*/function () {
     this.trainingController.events.on('accuracy', this.handleAccuracy.bind(this));
     this.trainingController.events.on('start', this.handleTrainingStart.bind(this));
     this.trainingController.events.on('pause', this.handleTrainingPause.bind(this));
+    this.trainingController.events.on('training-complete', this.handleTrainingComplete.bind(this));
+    this.trainingController.events.on('reset', this.handleTrainingReset.bind(this));
     this.disableButtons();
   }
 
@@ -1424,6 +1426,18 @@ var TrainingComponent = /*#__PURE__*/function () {
       this.$resetBtn.attr('disabled', false);
     }
   }, {
+    key: "disableTrainingButtons",
+    value: function disableTrainingButtons() {
+      this.$startPauseBtn.attr('disabled', true);
+      this.$stepBtn.attr('disabled', true);
+    }
+  }, {
+    key: "enableTrainingButtons",
+    value: function enableTrainingButtons() {
+      this.$startPauseBtn.attr('disabled', false);
+      this.$stepBtn.attr('disabled', false);
+    }
+  }, {
     key: "handleStartPauseBtn",
     value: function handleStartPauseBtn() {
       if (this.trainingController.isTraining()) {
@@ -1466,6 +1480,16 @@ var TrainingComponent = /*#__PURE__*/function () {
       this.$startPauseBtn.text('Start');
       this.$element.removeClass('running');
       this.nnComponent.enableDrawing();
+    }
+  }, {
+    key: "handleTrainingComplete",
+    value: function handleTrainingComplete() {
+      this.disableTrainingButtons();
+    }
+  }, {
+    key: "handleTrainingReset",
+    value: function handleTrainingReset() {
+      this.enableTrainingButtons();
     }
   }]);
 
@@ -1512,11 +1536,14 @@ var TrainingController = /*#__PURE__*/function () {
    * @param {NeuralNumbersComponent} nnComponent
    *  A Neural Numbers component.
    */
-  function TrainingController(nnComponent) {
+  function TrainingController(nnComponent, props) {
     _classCallCheck(this, TrainingController);
 
-    this.nnComponent = nnComponent;
     this.events = new _events["default"]();
+    this.nnComponent = nnComponent;
+    this.props = Object.assign({}, {
+      maxTrainingImages: 60000
+    }, props);
     this.nn = new _NeuralNetwork["default"]({
       trainingCallback: this.handleTraining.bind(this),
       batchCallback: this.handleBatch.bind(this),
@@ -1572,6 +1599,13 @@ var TrainingController = /*#__PURE__*/function () {
       this.nn.init();
       this.nnComponent.setModel(this.nn.model);
       this.handleModelUpdate(this.nn.model);
+      /**
+       * Emitted when the network is reset.
+       *
+       * @event TrainingController.events#reset
+       */
+
+      this.events.emit('reset');
     }
     /**
      * Connects the Neural Numbers component to its original fully trained model.
@@ -1619,16 +1653,24 @@ var TrainingController = /*#__PURE__*/function () {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                if (!(this.nn.trainedimages >= this.props.maxTrainingImages)) {
+                  _context2.next = 2;
+                  break;
+                }
+
+                return _context2.abrupt("return");
+
+              case 2:
                 /**
                  * Emitted when training starts.
                  *
                  * @event TrainingController.events#start
                  */
                 this.events.emit('start');
-                _context2.next = 3;
+                _context2.next = 5;
                 return this.nn.train(this.data);
 
-              case 3:
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -1698,10 +1740,18 @@ var TrainingController = /*#__PURE__*/function () {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
-                return this.nn.trainSingleStep(this.data);
+                if (!(this.nn.trainedimages >= this.props.maxTrainingImages)) {
+                  _context4.next = 2;
+                  break;
+                }
+
+                return _context4.abrupt("return");
 
               case 2:
+                _context4.next = 4;
+                return this.nn.trainSingleStep(this.data);
+
+              case 4:
               case "end":
                 return _context4.stop();
             }
@@ -1769,6 +1819,16 @@ var TrainingController = /*#__PURE__*/function () {
        *  The number of images in the batch.
        */
       this.events.emit('batch', imageCount);
+
+      if (imageCount >= this.props.maxTrainingImages) {
+        /**
+         * Emitted when training is complete.
+         *
+         * @event TrainingController.events#training-complete
+         */
+        this.events.emit('training-complete');
+        this.pause();
+      }
     }
     /**
      * Handles a training step.
