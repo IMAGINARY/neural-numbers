@@ -34,9 +34,11 @@ const MNIST_LABELS_PATH =
  * manipulation manually.
  */
 export class MnistData {
-  constructor() {
+  constructor(imagePath = MNIST_IMAGES_SPRITE_PATH, labelPath = MNIST_LABELS_PATH) {
     this.shuffledTrainIndex = 0;
     this.shuffledTestIndex = 0;
+    this.imagePath = imagePath;
+    this.labelPath = labelPath;
   }
 
   async load() {
@@ -77,10 +79,10 @@ export class MnistData {
 
         resolve();
       };
-      img.src = MNIST_IMAGES_SPRITE_PATH;
+      img.src = this.imagePath;
     });
 
-    const labelsRequest = fetch(MNIST_LABELS_PATH);
+    const labelsRequest = fetch(this.labelPath);
     const [imgResponse, labelsResponse] =
         await Promise.all([imgRequest, labelsRequest]);
 

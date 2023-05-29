@@ -19,6 +19,8 @@ export default class TrainingController {
 
     this.props = Object.assign({}, {
       maxTrainingImages: 60000,
+      trainingImagePath: undefined,
+      trainingLabelPath: undefined,
     }, props);
 
     this.nn = new NeuralNetwork({
@@ -26,7 +28,10 @@ export default class TrainingController {
       batchCallback: this.handleBatch.bind(this),
       modelUpdateAsyncCallback: this.handleModelUpdate.bind(this),
     });
-    this.data = new MnistData();
+    this.data = new MnistData(
+      this.props.trainingImagePath,
+      this.props.trainingLabelPath,
+    );
     this.trainingViz = new TrainingViz(this);
   }
 
