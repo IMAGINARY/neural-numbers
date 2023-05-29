@@ -959,7 +959,7 @@ var Paint = /*#__PURE__*/function () {
         return;
       }
 
-      this.inputbox.classList.remove('background');
+      this.hidePlaceholder();
       this.empty = false;
       this.drawcontext.beginPath(); // begin
 
@@ -1079,7 +1079,7 @@ var Paint = /*#__PURE__*/function () {
       this.empty = true;
       this.normalize(100);
       this.predict();
-      this.inputbox.classList.add('background');
+      this.showPlaceholder();
     }
   }, {
     key: "cleanup",
@@ -1091,6 +1091,16 @@ var Paint = /*#__PURE__*/function () {
       if (this.barchart) {
         this.barchart.cleanup();
       }
+    }
+  }, {
+    key: "showPlaceholder",
+    value: function showPlaceholder() {
+      this.inputbox.classList.add('background');
+    }
+  }, {
+    key: "hidePlaceholder",
+    value: function hidePlaceholder() {
+      this.inputbox.classList.remove('background');
     }
   }, {
     key: "disableDrawing",
@@ -1322,6 +1332,16 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
     key: "setClearOnInput",
     value: function setClearOnInput() {
       this.paint.setClearOnInput();
+    }
+  }, {
+    key: "hidePlaceholder",
+    value: function hidePlaceholder() {
+      this.paint.hidePlaceholder();
+    }
+  }, {
+    key: "showPlaceholder",
+    value: function showPlaceholder() {
+      this.paint.showPlaceholder();
     }
   }]);
 
@@ -2086,6 +2106,7 @@ var TrainingViz = /*#__PURE__*/function () {
         var destSize = this.drawCanvas.width * 0.75; // this.drawCanvasCtx.imageSmoothingEnabled = false; // no antialiasing
 
         this.drawCanvasCtx.drawImage(this.trainDigitBuffer, 0, 0, 28, 28, destOrigin, destOrigin, destSize, destSize);
+        this.nnComponent.hidePlaceholder();
         this.nnComponent.setClearTimeout();
         this.nnComponent.setClearOnInput();
       }

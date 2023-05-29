@@ -130,6 +130,14 @@ export default class NeuralNumbersComponent {
   setClearOnInput() {
     this.paint.setClearOnInput();
   }
+
+  hidePlaceholder() {
+    this.paint.hidePlaceholder();
+  }
+
+  showPlaceholder() {
+    this.paint.showPlaceholder();
+  }
 }
 
 NeuralNumbersComponent.PAINT_CLEAR_TIMEOUT = 2.2;

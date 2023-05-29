@@ -175,7 +175,7 @@ export default class Paint {
       this.pos.y = oy;
       return;
     }
-    this.inputbox.classList.remove('background');
+    this.hidePlaceholder();
     this.empty = false;
     this.drawcontext.beginPath(); // begin
     this.drawcontext.lineWidth = LINEWIDTH;
@@ -300,7 +300,7 @@ export default class Paint {
     this.empty = true;
     this.normalize(100);
     this.predict();
-    this.inputbox.classList.add('background');
+    this.showPlaceholder();
   }
 
   cleanup() {
@@ -313,6 +313,14 @@ export default class Paint {
     if (this.barchart) {
       this.barchart.cleanup();
     }
+  }
+
+  showPlaceholder() {
+    this.inputbox.classList.add('background');
+  }
+
+  hidePlaceholder() {
+    this.inputbox.classList.remove('background');
   }
 
   disableDrawing() {

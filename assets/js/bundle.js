@@ -1752,7 +1752,7 @@ var Paint = /*#__PURE__*/function () {
         return;
       }
 
-      this.inputbox.classList.remove('background');
+      this.hidePlaceholder();
       this.empty = false;
       this.drawcontext.beginPath(); // begin
 
@@ -1872,7 +1872,7 @@ var Paint = /*#__PURE__*/function () {
       this.empty = true;
       this.normalize(100);
       this.predict();
-      this.inputbox.classList.add('background');
+      this.showPlaceholder();
     }
   }, {
     key: "cleanup",
@@ -1884,6 +1884,16 @@ var Paint = /*#__PURE__*/function () {
       if (this.barchart) {
         this.barchart.cleanup();
       }
+    }
+  }, {
+    key: "showPlaceholder",
+    value: function showPlaceholder() {
+      this.inputbox.classList.add('background');
+    }
+  }, {
+    key: "hidePlaceholder",
+    value: function hidePlaceholder() {
+      this.inputbox.classList.remove('background');
     }
   }, {
     key: "disableDrawing",
