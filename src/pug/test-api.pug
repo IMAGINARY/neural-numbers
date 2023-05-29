@@ -1,43 +1,50 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
-    <meta property="og:url" content="">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Neural Numbers">
-    <meta property="og:image" content="">
-    <meta name="description" content="Train a neural network with the MNIST-data set">
-    <meta property="og:description" content="Train a neural network with the MNIST-data set">
-    <link rel="icon" type="image/png" href="assets/img/favicon.png">
-    <link rel="stylesheet" href="assets/css/neural-numbers.css" media="all" type="text/css">
-    <title>Neural Numbers component Test</title>
-  </head>
-  <body>
-    <h2>Basic</h2>
-    <div id="basic"></div>
-    <h2>With bars</h2>
-    <div id="withBars"></div>
-    <h2>Vertical bars</h2>
-    <div id="verticalBars"></div>
-    <h2>Normalization</h2>
-    <div id="normalization"></div>
-    <h2>Bad</h2>
-    <div id="bad"></div>
-    <h2>Mediocre</h2>
-    <div id="mediocre"></div>
-    <h2>With training</h2>
-    <div id="with-training"></div>
-    <div id="with-training-ui"></div>
-    <h2>With training (large)</h2>
-    <div id="with-training-l"></div>
-    <div id="with-training-ui-l"></div>
-    <script src="vendor/jquery/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="vendor/pep/pep.js"></script>
-    <script type="text/javascript" src="vendor/tf/tf.min.js"></script>
-    <script type="text/javascript" src="assets/js/dependencies.min.js"></script>
-    <script type="text/javascript" src="assets/js/neural-numbers.min.js"></script>
-    <script>
+doctype html
+html
+  - body = { class: [] };
+  - main = { class: [] };
+  block init
+  head
+    meta(charset="utf-8")
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no')
+    meta(property="og:url", content!=config.siteURL)
+    meta(property="og:type", content="website")
+    meta(property="og:title", content!=config.siteName)
+    meta(property="og:image", content="")
+    meta(name="description", content!=(description || config.siteDescription))
+    meta(property="og:description", content!=(description || config.siteDescription))
+    block meta
+    link(rel="icon", type="image/png", href="assets/img/favicon.png")
+    link(rel='stylesheet', href='assets/css/neural-numbers.css', media='all', type='text/css')
+    block stylesheets
+    title
+      | Neural Numbers component Test
+    block head
+  body(class!=body.class.join(' '))
+    h2 Basic
+    #basic
+    h2 With bars
+    #withBars
+    h2 Vertical bars
+    #verticalBars
+    h2 Normalization
+    #normalization
+    h2 Bad
+    #bad
+    h2 Mediocre
+    #mediocre
+    h2 With training
+    #with-training
+    #with-training-ui
+    h2 With training (large)
+    #with-training-l
+    #with-training-ui-l
+    script(src="vendor/jquery/jquery-3.3.1.slim.min.js", integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo", crossorigin="anonymous")
+    block scripts
+    script(type="text/javascript", src="vendor/pep/pep.js")
+    script(type="text/javascript", src="vendor/tf/tf.min.js")
+    script(type="text/javascript", src="assets/js/dependencies.min.js")
+    script(type="text/javascript", src="assets/js/neural-numbers.min.js")
+    script.
       (async () => {
         var basic = new IMAGINARY.NeuralNumbers($('#basic')[0], {
           modelPath: 'assets/models/my-model.json',
@@ -48,7 +55,7 @@
           showInput: true,
         });
         await basic.init();
-      
+
         var withBars = new IMAGINARY.NeuralNumbers($('#withBars')[0], {
           modelPath: 'assets/models/my-model.json',
           placeholder: 'write a number between 0&amp;nbsp;and&amp;nbsp;9',
@@ -58,7 +65,7 @@
           showInput: true,
         });
         await withBars.init();
-      
+
         var verticalBars = new IMAGINARY.NeuralNumbers($('#verticalBars')[0], {
           modelPath: 'assets/models/my-model.json',
           placeholder: 'write a number between 0&amp;nbsp;and&amp;nbsp;9',
@@ -69,7 +76,7 @@
           showInput: true,
         });
         await verticalBars.init();
-      
+
         var normalization = new IMAGINARY.NeuralNumbers($('#normalization')[0], {
           modelPath: 'assets/models/my-model.json',
           placeholder: 'write a number between 0&amp;nbsp;and&amp;nbsp;9',
@@ -79,7 +86,7 @@
           showInput: true,
         });
         await normalization.init();
-      
+
         var bad = new IMAGINARY.NeuralNumbers($('#bad')[0], {
           modelPath: 'assets/models/my-model-320.json',
           placeholder: 'write a number between 0&amp;nbsp;and&amp;nbsp;9',
@@ -89,7 +96,7 @@
           showInput: true,
         });
         await bad.init();
-      
+
         var mediocre = new IMAGINARY.NeuralNumbers($('#mediocre')[0], {
           modelPath: 'assets/models/my-model-1568.json',
           placeholder: 'write a number between 0&amp;nbsp;and&amp;nbsp;9',
@@ -99,7 +106,7 @@
           showInput: true,
         });
         await mediocre.init();
-      
+
         var withTraining = new IMAGINARY.NeuralNumbers($('#with-training')[0], {
           modelPath: 'assets/models/my-model.json',
           placeholder: 'write a number between 0&amp;nbsp;and&amp;nbsp;9',
@@ -109,11 +116,11 @@
           showOutput: true,
           showInput: true,
         });
-      
+
         var trainer = new IMAGINARY.NeuralNumbersTraining(withTraining, $('#with-training-ui')[0])
         await withTraining.init();
         await trainer.init();
-      
+
         var withTrainingL = new IMAGINARY.NeuralNumbers($('#with-training-l')[0], {
           modelPath: 'assets/models/my-model.json',
           placeholder: 'write a number between 0&amp;nbsp;and&amp;nbsp;9',
@@ -124,12 +131,10 @@
           showOutput: true,
           showInput: true,
         });
-      
+
         var trainerL = new IMAGINARY.NeuralNumbersTraining(withTrainingL,
           $('#with-training-ui-l')[0]);
         await withTrainingL.init();
         await trainerL.init();
       })();
-    </script>
-  </body>
-</html>
+    block closing
