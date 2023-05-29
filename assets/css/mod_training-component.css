@@ -9,7 +9,7 @@
     align-self: center; }
   .neural-numbers-training-component .image-count {
     align-self: center; }
-  .neural-numbers-training-component .progress {
+  .neural-numbers-training-component .training-progress {
     display: flex;
     padding: 0 2rem;
     align-self: center; }

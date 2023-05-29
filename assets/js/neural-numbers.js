@@ -1388,7 +1388,7 @@ var TrainingComponent = /*#__PURE__*/function () {
     }, props);
     this.$element.addClass('neural-numbers-training-component');
     this.$controlsL = $('<div>').addClass(['controls', 'controls-l']).appendTo(this.$element);
-    this.$progress = $('<div>').addClass('progress').appendTo(this.$element);
+    this.$progress = $('<div>').addClass('training-progress').appendTo(this.$element);
     this.$imageCount = $('<div>').addClass('image-count').appendTo(this.$progress);
     this.$imageCountLabel = $('<div>').addClass('image-count-label').html(this.props.imageCountLabelText).appendTo(this.$imageCount);
     this.$imageCountValue = $('<div>').addClass('image-count-value').appendTo(this.$imageCount);

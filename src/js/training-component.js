@@ -17,7 +17,7 @@ export default class TrainingComponent {
             .appendTo(this.$element);
 
         this.$progress = $('<div>')
-            .addClass('progress')
+            .addClass('training-progress')
             .appendTo(this.$element);
 
         this.$imageCount = $('<div>')
