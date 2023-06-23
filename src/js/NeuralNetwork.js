@@ -218,6 +218,10 @@ export default class NeuralNetwork {
     this.pausecbs.push(cb);
   }
 
+  pauseTrainingNow() {
+    this.training = false;
+  }
+
   pauseTraining() {
     return new Promise((resolve) => {
       if (this.training) {

@@ -109,11 +109,10 @@ export default class TrainingController {
   /**
    * Pauses training the network.
    *
-   * @returns {Promise<void>}
    * @fires TrainingController.events#pause
    */
-  async pause() {
-    await this.nn.pauseTraining();
+  pause() {
+    this.nn.pauseTrainingNow();
     /**
      * Emitted when training pauses.
      *

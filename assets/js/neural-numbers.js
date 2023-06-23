@@ -656,6 +656,11 @@ var NeuralNetwork = /*#__PURE__*/function () {
       this.pausecbs.push(cb);
     }
   }, {
+    key: "pauseTrainingNow",
+    value: function pauseTrainingNow() {
+      this.training = false;
+    }
+  }, {
     key: "pauseTraining",
     value: function pauseTraining() {
       var _this3 = this;
@@ -1714,43 +1719,21 @@ var TrainingController = /*#__PURE__*/function () {
     /**
      * Pauses training the network.
      *
-     * @returns {Promise<void>}
      * @fires TrainingController.events#pause
      */
 
   }, {
     key: "pause",
-    value: function () {
-      var _pause = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return this.nn.pauseTraining();
+    value: function pause() {
+      this.nn.pauseTrainingNow();
+      /**
+       * Emitted when training pauses.
+       *
+       * @event TrainingController.events#pause
+       */
 
-              case 2:
-                /**
-                 * Emitted when training pauses.
-                 *
-                 * @event TrainingController.events#pause
-                 */
-                this.events.emit('pause');
-
-              case 3:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      function pause() {
-        return _pause.apply(this, arguments);
-      }
-
-      return pause;
-    }()
+      this.events.emit('pause');
+    }
     /**
      * Trains the network for a single step.
      *
@@ -1762,28 +1745,28 @@ var TrainingController = /*#__PURE__*/function () {
   }, {
     key: "step",
     value: function () {
-      var _step = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      var _step = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 if (!(this.nn.trainedimages >= this.props.maxTrainingImages)) {
-                  _context4.next = 2;
+                  _context3.next = 2;
                   break;
                 }
 
-                return _context4.abrupt("return");
+                return _context3.abrupt("return");
 
               case 2:
-                _context4.next = 4;
+                _context3.next = 4;
                 return this.nn.trainSingleStep(this.data);
 
               case 4:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee3, this);
       }));
 
       function step() {
@@ -1801,12 +1784,12 @@ var TrainingController = /*#__PURE__*/function () {
   }, {
     key: "reset",
     value: function () {
-      var _reset = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      var _reset = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context5.next = 2;
+                _context4.next = 2;
                 return this.nn.pauseTraining();
 
               case 2:
@@ -1814,10 +1797,10 @@ var TrainingController = /*#__PURE__*/function () {
 
               case 3:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee4, this);
       }));
 
       function reset() {
@@ -1868,20 +1851,20 @@ var TrainingController = /*#__PURE__*/function () {
   }, {
     key: "handleTraining",
     value: function () {
-      var _handleTraining = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(trainXs, trainYs) {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      var _handleTraining = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(trainXs, trainYs) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context6.next = 2;
+                _context5.next = 2;
                 return this.trainingViz.setCurrentTraining(trainXs, trainYs);
 
               case 2:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee5, this);
       }));
 
       function handleTraining(_x, _x2) {
@@ -1900,17 +1883,17 @@ var TrainingController = /*#__PURE__*/function () {
   }, {
     key: "handleModelUpdate",
     value: function () {
-      var _handleModelUpdate = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(model) {
+      var _handleModelUpdate = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(model) {
         var accuracy;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context7.next = 2;
+                _context6.next = 2;
                 return this.trainingViz.estimateAccuracy(model);
 
               case 2:
-                accuracy = _context7.sent;
+                accuracy = _context6.sent;
 
                 /**
                  * Emitted when the accuracy of the model is estimated.
@@ -1924,10 +1907,10 @@ var TrainingController = /*#__PURE__*/function () {
 
               case 4:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee6, this);
       }));
 
       function handleModelUpdate(_x3) {
@@ -1980,7 +1963,9 @@ var TrainingViz = /*#__PURE__*/function () {
     this.trainingController = trainingController;
     this.nnComponent = trainingController.nnComponent;
     this.drawCanvas = this.nnComponent.$drawCanvas[0];
-    this.drawCanvasCtx = this.drawCanvas.getContext('2d');
+    this.drawCanvasCtx = this.drawCanvas.getContext('2d', {
+      willReadFrequently: true
+    });
     this.trainDigitBuffer = document.createElement('canvas');
     this.trainDigitBuffer.height = 28;
     this.trainDigitBuffer.width = 28;

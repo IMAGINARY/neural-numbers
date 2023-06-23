@@ -3,7 +3,7 @@ export default class TrainingViz {
         this.trainingController = trainingController;
         this.nnComponent = trainingController.nnComponent;
         this.drawCanvas = this.nnComponent.$drawCanvas[0];
-        this.drawCanvasCtx = this.drawCanvas.getContext('2d');
+        this.drawCanvasCtx = this.drawCanvas.getContext('2d', { willReadFrequently: true });
 
         this.trainDigitBuffer = document.createElement('canvas');
         this.trainDigitBuffer.height = 28;

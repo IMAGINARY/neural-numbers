@@ -1449,6 +1449,11 @@ var NeuralNetwork = /*#__PURE__*/function () {
       this.pausecbs.push(cb);
     }
   }, {
+    key: "pauseTrainingNow",
+    value: function pauseTrainingNow() {
+      this.training = false;
+    }
+  }, {
     key: "pauseTraining",
     value: function pauseTraining() {
       var _this3 = this;
