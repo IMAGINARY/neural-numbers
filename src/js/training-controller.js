@@ -191,7 +191,7 @@ export default class TrainingController {
    * @returns {Promise<void>}
    */
   async handleModelUpdate(model) {
-    const accuracy = await this.trainingViz.estimateAccuracy(model);
+    const accuracy = await this.trainingViz.estimateAccuracy(model, 1000);
     /**
      * Emitted when the accuracy of the model is estimated.
      *

@@ -75,7 +75,7 @@ export default class TrainingViz {
         this.nnComponent.getBarChart().update(this.currentProbabilities, this.currentTarget);
     }
 
-    async estimateAccuracy(model, testDataSize = 100) {
+    async estimateAccuracy(model, testDataSize = 1000) {
         const { data }  = this.trainingController;
         const accuracy = tf.tidy(() => {
             const d = data.nextTestBatch(testDataSize);
