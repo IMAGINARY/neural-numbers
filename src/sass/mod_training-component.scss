@@ -8,7 +8,7 @@ $button-spacing: 0.25rem;
   justify-content: center;
 
   .controls {
-    margin: 0 -$button-spacing;
+    margin: 0 $button-spacing * -1;
     align-self: center;
   }
 

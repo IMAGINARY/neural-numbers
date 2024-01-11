@@ -2111,7 +2111,6 @@ var TrainingViz = /*#__PURE__*/function () {
             switch (_context3.prev = _context3.next) {
               case 0:
                 testDataSize = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : 1000;
-                console.log("Estimating with ".concat(testDataSize, " test data..."));
                 data = this.trainingController.data;
                 accuracy = tf.tidy(function () {
                   var d = data.nextTestBatch(testDataSize);
@@ -2121,20 +2120,20 @@ var TrainingViz = /*#__PURE__*/function () {
                 });
 
                 if (!(testDataSize < 1000 && accuracy > 0.9)) {
-                  _context3.next = 8;
+                  _context3.next = 7;
                   break;
                 }
 
-                _context3.next = 7;
+                _context3.next = 6;
                 return this.estimateAccuracy(model, 1000);
 
-              case 7:
+              case 6:
                 return _context3.abrupt("return", _context3.sent);
 
-              case 8:
+              case 7:
                 return _context3.abrupt("return", accuracy < 0.9 ? Math.round(accuracy * 100) : Math.round(accuracy * 1000) / 10);
 
-              case 9:
+              case 8:
               case "end":
                 return _context3.stop();
             }
