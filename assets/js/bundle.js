@@ -2897,7 +2897,8 @@ var configDefaults = {
     en: 'English'
   },
   defaultLanguage: 'en',
-  modelPath: 'assets/models/my-model.json'
+  modelPath: 'assets/models/my-model.json',
+  showLanguageSwitcher: true
 };
 var defaultConfigUrl = new URL('./config.json', window.location.href);
 var customConfigUrl = getCustomConfigUrl();
@@ -2920,7 +2921,7 @@ fetch(configUrl, {
     var slideShow = new _SlideShow["default"](controller);
     controller.loadData();
 
-    if (Object.entries(config.languages).length > 1) {
+    if (Object.entries(config.languages).length > 1 && config.showLanguageSwitcher !== false) {
       var langSwitcher = new _LangSwitcher["default"](document.querySelector('.footer .utility'), config, function (code) {
         _i18nController["default"].setLanguage(code);
       });

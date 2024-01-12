@@ -23,9 +23,15 @@ The config file in the root directory has the following keys:
   Default language (the app starts and is restarted to this one)
 - modelPath (String, default: 'assets/models/my-model.json')
   Path to the trained NN model file
+- showLanguageSwitcher (Boolean, default: true)
+  Whether to show the language switcher
 
-By default, the file `config.json` will be loaded.
-Alternative config file names can be specified via the URL query string, e.g. `index.html?config=myconfig.json`.
+## Query string arguments
+
+The app supports the following query string arguments:
+
+- **config**=`<path>` (default: 'config.json'): The name of an alternative config file.
+- **lang**=`<langcode>` (default: 'en'): The language to use.
 
 ## Internationalization
 

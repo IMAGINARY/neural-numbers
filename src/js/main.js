@@ -43,6 +43,7 @@ const configDefaults = {
   },
   defaultLanguage: 'en',
   modelPath: 'assets/models/my-model.json',
+  showLanguageSwitcher: true,
 };
 
 
@@ -65,7 +66,7 @@ fetch(configUrl, { cache: 'no-store' })
       const slideShow = new SlideShow(controller);
       controller.loadData();
 
-      if (Object.entries(config.languages).length > 1) {
+      if (Object.entries(config.languages).length > 1 && config.showLanguageSwitcher !== false) {
         const langSwitcher = new LangSwitcher(
           document.querySelector('.footer .utility'),
           config,

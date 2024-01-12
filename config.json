@@ -8,5 +8,6 @@
     "nl": "Nederlands",
     "fr": "Français"
   },
-  "defaultLanguage": "en"
+  "defaultLanguage": "en",
+  "showLanguageSwitcher": true
 }
