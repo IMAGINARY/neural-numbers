@@ -86,7 +86,7 @@ You can configure the component by adding the following attributes to the `<div>
 Include the same dependencies as in the HTML component, and then add the following code to your page:
 
 ```
-const nnComponent = new IMAGINARY.NeuralNumbers(containerElement, { 
+const nnComponent = new IMAGINARY.NeuralNumbers(containerElement, {
   modelPath: 'assets/models/my-model.json',
   placeholder: 'write a number between 0&amp;nbsp;and&amp;nbsp;9',
   showBars: true,
@@ -114,7 +114,7 @@ await nnComponent.init();
 await nnTrainingComponent.init();
 ```
 
-If you want to build your own training UI  you can use the `IMAGINARY.NeuralNumbersTrainingController`
+If you want to build your own training UI you can use the `IMAGINARY.NeuralNumbersTrainingController`
 component instead. See `src/js/training-controller.js` for the API.
 
 ### Properties
@@ -194,7 +194,7 @@ After it runs succesfuly you can compile as needed:
 Created by [Aaron Montag](https://github.com/montaga) for IMAGINARY gGmbH.
 Further adaptations by [Eric Londaits](https://github.com/elondaits).
 Dutch translation by [Jarne Renders](https://github.com/JarneRenders).
-French translation by [Daniel Ramos](https://github.com/danielramosg).
+Spanish and French translations by [Daniel Ramos](https://github.com/danielramosg).
 
 ## License
 
