@@ -31,6 +31,15 @@
   "training-label-adv-activate": "Activar el modo avanzado",
   "training-label-adv-cancel": "Cancelar el modo avanzado",
   "how-work-title": "¿Cómo funciona?",
-  "how-work-learn-more": "Aprender más",
-  "how-work-learn-back": "Volver"
+  "how-work-learn-more": "Leer más",
+  "how-work-learn-back": "Volver",
+  "how-work-what-is-nn-title": "¿Qué es una red neuronal?",
+  "how-work-what-is-nn-teaser": "Una red neuronal es una manera de enseñarle a un ordenador a realizar una tarea.",
+  "how-work-how-learn-title": "¿Cómo aprende una red neuronal?",
+  "how-work-how-learn-teaser": "Intentando responder correctamente una y otra vez. Tras cada respuesta confirmamos si respondió correctamente.",
+  "how-work-training-data-title": "¿Qué son los datos de entrenamiento?",
+  "how-work-training-data-teaser": "Los datos de entrenamiento le dicen a la red si acertó o se equivocó.",
+  "what-is-nn-title": "¿Qué es una red neuronal?",
+  "how-learn-title": "¿Cómo aprende una red neuronal?",
+  "training-data-title": "¿Qué son los datos de entrenamiento?"
 }
