@@ -1710,8 +1710,10 @@ var Paint = /*#__PURE__*/function () {
     key: "setPosition",
     value: function setPosition(e) {
       var rect = this.drawcanvas.getBoundingClientRect();
-      this.pos.x = e.clientX - rect.left;
-      this.pos.y = e.clientY - rect.top;
+      var scaleX = this.drawcanvas.width / rect.width;
+      var scaleY = this.drawcanvas.height / rect.height;
+      this.pos.x = (e.clientX - rect.left) * scaleX;
+      this.pos.y = (e.clientY - rect.top) * scaleY;
       return true;
     }
   }, {
