@@ -1350,6 +1350,11 @@ var NeuralNumbersComponent = /*#__PURE__*/function () {
     value: function showPlaceholder() {
       this.paint.showPlaceholder();
     }
+  }, {
+    key: "clearInput",
+    value: function clearInput() {
+      this.paint.clear();
+    }
   }]);
 
   return NeuralNumbersComponent;
