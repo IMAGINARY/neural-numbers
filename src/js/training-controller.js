@@ -21,6 +21,7 @@ export default class TrainingController {
       maxTrainingImages: 60000,
       trainingImagePath: undefined,
       trainingLabelPath: undefined,
+      trainingAntialiasing: false,
     }, props);
 
     this.nn = new NeuralNetwork({
@@ -32,7 +33,9 @@ export default class TrainingController {
       this.props.trainingImagePath,
       this.props.trainingLabelPath,
     );
-    this.trainingViz = new TrainingViz(this);
+    this.trainingViz = new TrainingViz(this, {
+      antialising: this.props.trainingAntialiasing,
+    });
   }
 
   /**

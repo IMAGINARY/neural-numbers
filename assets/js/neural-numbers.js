@@ -1576,7 +1576,8 @@ var TrainingController = /*#__PURE__*/function () {
     this.props = Object.assign({}, {
       maxTrainingImages: 60000,
       trainingImagePath: undefined,
-      trainingLabelPath: undefined
+      trainingLabelPath: undefined,
+      trainingAntialiasing: false
     }, props);
     this.nn = new _NeuralNetwork["default"]({
       trainingCallback: this.handleTraining.bind(this),
@@ -1584,7 +1585,9 @@ var TrainingController = /*#__PURE__*/function () {
       modelUpdateAsyncCallback: this.handleModelUpdate.bind(this)
     });
     this.data = new _MnistData.MnistData(this.props.trainingImagePath, this.props.trainingLabelPath);
-    this.trainingViz = new _trainingViz["default"](this);
+    this.trainingViz = new _trainingViz["default"](this, {
+      antialising: this.props.trainingAntialiasing
+    });
   }
   /**
    * Initialize the controller.
@@ -1959,9 +1962,12 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var TrainingViz = /*#__PURE__*/function () {
-  function TrainingViz(trainingController) {
+  function TrainingViz(trainingController, props) {
     _classCallCheck(this, TrainingViz);
 
+    this.props = Object.assign({}, {
+      antialising: false
+    }, props);
     this.trainingController = trainingController;
     this.nnComponent = trainingController.nnComponent;
     this.drawCanvas = this.nnComponent.$drawCanvas[0];
@@ -2090,8 +2096,8 @@ var TrainingViz = /*#__PURE__*/function () {
 
       if (this.trainDigitBuffer.active) {
         var destOrigin = this.drawCanvas.width * 0.125;
-        var destSize = this.drawCanvas.width * 0.75; // this.drawCanvasCtx.imageSmoothingEnabled = false; // no antialiasing
-
+        var destSize = this.drawCanvas.width * 0.75;
+        this.drawCanvasCtx.imageSmoothingEnabled = this.props.antialising;
         this.drawCanvasCtx.drawImage(this.trainDigitBuffer, 0, 0, 28, 28, destOrigin, destOrigin, destSize, destSize);
         this.nnComponent.hidePlaceholder();
         this.nnComponent.setClearTimeout();
